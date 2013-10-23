@@ -1,0 +1,305 @@
+<?xml version="1.0"?>
+<StGermainData xmlns="http://www.vpac.org/StGermain/XML_IO_Handler/Jun2003">
+    
+    <!-- === Domain and resolution controls ==================== -->
+    <param name="dim">2</param>
+    
+    <!-- Axis 0: x -->
+    <param name="elementResI">208</param>
+    <param name="minX" units="km">  0</param>
+    <param name="maxX" units="km">200</param>
+    
+    <!-- Axis 1: y -->
+    <param name="elementResJ">112</param>
+    <param name="minY" units="km">-100</param>
+    <param name="maxY" units="km">   5</param>
+    
+    <!-- Axis 2: z -->
+    <param name="elementResK">0</param>
+    <param name="minZ">0</param>
+    <param name="maxZ">0</param>
+    
+    <param name="VerticalAxis">1</param>
+    
+    <!-- For Isostasy -->
+    <param name="airIdx">110</param>
+    <!-- ====================================================== -->
+    
+    
+    <!-- === Model timing and global constants ================ -->
+    <param name="maxTimeSteps">20000</param>
+    <param name="end" units="yr">5e6</param> <!-- How long will the model run for -->
+    <param name="gravity" units="m*s^-2">9.81</param>
+    <!-- ====================================================== -->
+    
+    
+    <!-- === Basic numerical controls ========================= -->
+    <!-- Note: these params are commonly overridden by commandline options -->
+    <param name="particlesPerCell">40</param>
+    
+    <param name="linearTolerance">5e-3</param>
+    <param name="linearMinIterations">10</param>
+    <param name="linearMaxIterations">15000</param>
+    
+    <param name="nonLinearTolerance">5e-3</param>
+    <param name="nonLinearMinIterations">10</param>
+    <param name="nonLinearMaxIterations">500</param>
+    <!-- ====================================================== -->
+    
+    
+    <!-- === Output controls ====================== -->
+    <param name="outputPath">./model</param>
+    <param name="checkpointEvery">10</param>
+    <param name="dumpEvery">10</param>
+    
+    <list name="FieldVariablesToCheckpoint">
+        <param>VelocityField</param>
+        <param>PressureField</param>
+        <param>TemperatureField</param>
+        
+        <param>YieldedField</param>
+        <param>PostFailureWeakeningField</param>
+        <param>PostFailureWeakeningIncField</param>
+        
+        <param>ViscosityField</param>
+        <param>MaterialIndexField</param>
+        
+        <param>recoveredStrainRateInvariantField</param>
+        <param>recoveredPressureField</param>
+        <param>recoveredDeviatoricStressField</param>
+        <param>recoveredDeviatoricStressInvariantField</param>
+        
+        <!-- The following are commented out because they are the raw,
+             unstablisied output from the solver. The "recovered..." 
+             variables should be used for data analsis. 
+        -->     
+            <param>StrainRateInvariantField</param>
+            <param>PressureField</param>
+            <param>StressField</param>
+            <param>StressInvariantField</param>
+        
+        
+    </list>
+    <!-- ========================================= -->
+    
+    
+    <struct name="components" mergeType="merge">
+        <!-- The Ppc Manager-->
+        <struct name="default_ppcManager">
+            <param name="Type">PpcManager</param>
+            <param name="MaterialSwarm"> materialSwarm </param>
+            <param name="IntegrationSwarm"> picIntegrationPoints </param>
+            <param name="Mesh"> linearMesh </param>
+            <param name="Gravity"> gravity </param>
+            
+            <!-- The "Properties" list defines what MaterialExtensions the model has.
+                 Each property must have a name, and every material defined must reference it.
+                 MaterialExtensions also have a number of optional storage and calculation options:
+                    <param name="StoreOnMesh"> True </param>        Store the result on the mesh.
+                    <param name="StoreOnParticles"> True </param>   Store the result on the particles.
+                    <param name="StoreNLOnParticles"> True </param> Re-calculate this property on every non-linear iteration.
+                    <param name="StorePreviousValue"> True </param> Store the previous timestep's value on the particles.
+                    <param name="PassiveProperty"> True </param>    Force the calculation of this property (Required if the property is not part of the stokes-flow/energy equations).
+            -->
+            <list name="Properties">
+                <struct>
+                    <param name="PropertyName"> DensityProperty </param>
+                    <param name="StoreOnParticles"> True </param>
+                    <param name="StoreOnMesh"> True </param>
+                </struct>
+                <struct>
+                    <param name="PropertyName"> DiffusivityProperty </param>
+                </struct>
+                <struct>
+                    <param name="PropertyName"> CpProperty </param>
+                </struct>
+                <struct>
+                    <param name="PropertyName"> ThermalExpansivityProperty </param>
+                </struct>
+                <struct>
+                    <param name="PropertyName"> RadiogenicHeatProductionProperty </param>
+                </struct>
+                <struct>
+                    <param name="PropertyName"> surface_processes </param>
+                    <param name="StoreOnParticles"> True </param>
+                    <param name="StoreOnMesh"> True </param>
+                    <param name="PassiveProperty"> True </param>
+                    <param name="StoreNLOnParticles"> True </param>
+                </struct>
+            </list>
+        </struct>
+        
+        <!-- Allow PPC to access variables -->
+        <struct name="temperature_ppc_wrapper">
+            <param name="Type">Ppc_Variable</param>
+            <param name="FieldVariable">TemperatureField</param>
+        </struct>
+        <struct name="pressure_ppc_wrapper">
+            <param name="Type">Ppc_Variable</param>
+            <param name="FieldVariable">recoveredPressureField</param>
+        </struct>
+        
+        
+        <!-- === Defining fundamental forces ===================== -->
+        
+        <!-- ====== Buoyancy forces ============================== -->
+        <struct name="buoyancyFunc">
+            <!-- buoyancyFunc calculates the force (F = ma) of all the materials in the model domain. 
+                 Every partictle will be processed as such, using it's value for DensityProperty. -->
+            <param name="Type">Ppc_a_Vector</param>
+            <param name="Alpha">DensityProperty</param>
+            <param name="vi">0</param>
+            <param name="vj" units="m*s^-2">-9.81</param>
+            <param name="vk">0</param>
+        </struct>
+        
+        <struct name="buoyancyForceTerm" mergeType="replace">
+            <!-- Hook in our defined buoyancyFunc into the fundamental UW equations,
+                 with buoyancy being defined as a body force (mom_force). -->
+            <param name="Type">VectorAssemblyTerm_NA__F</param>
+            <param name="ForceVector">mom_force</param>
+            <param name="functionLabel">buoyancyFunc</param>
+            <param name="Swarm">picIntegrationPoints</param>
+            <param name="Manager">default_ppcManager</param>
+        </struct>
+        <!-- ===================================================== -->
+        
+        
+        <!-- ====== Thermal Energy =============================== -->
+        <struct type="struct" name="defaultResidualForceTerm" mergeType="replace">
+            <param name="Type">SUPGAdvDiffTermPpc</param>
+            <param name="ForceVector">residual</param>
+            <param name="EnergyEqn">EnergyEqn</param>
+            <param name="Swarm">picIntegrationPoints</param>
+            <param name="VelocityField">VelocityField</param>
+            <param name="PhiField">TemperatureField</param>
+            <param name="DiffusivityLabel">DiffusivityProperty</param>
+        </struct>
+        
+        <struct name="thermalEqn">
+            <!-- This struct allows us to add a energy flux into the system. This
+                 can be via a heat flux boundary condition, radiogenic heating, etc.
+                 If more than one flux is needed, use a Ppc_Operation to add them,
+                 and use that function as the "functionLabel". -->
+            <param name="Type">VectorAssemblyTerm_NA__F</param>
+            <param name="ForceVector">residual</param>
+            <param name="functionLabel">radiogenicHeating</param>
+            <param name="Swarm">picIntegrationPoints</param>
+            <param name="Manager">default_ppcManager</param>
+        </struct>
+        
+        <!-- radiogenicHeating = radiogenic_heat_production / (specific_heat_capacity * density ) -->
+        <struct name="radiogenicHeating">
+            <param name="Type">Ppc_Operation</param>
+            <param name="Operation"> / </param>
+            <list name="Properties">
+                <param>RadiogenicHeatProductionProperty</param>
+                <param>rho_cp</param>
+            </list>
+        </struct>
+        <struct name="rho_cp">
+            <param name="Type">Ppc_Operation</param>
+            <param name="Operation"> * </param>
+            <list name="Properties">
+                <param>DensityProperty</param>
+                <param>CpProperty</param>
+            </list>
+        </struct>
+        <!-- ===================================================== -->
+        
+        
+        <!-- === User-defined fields ========================= -->
+            <!-- Swarm variables are interpolated to the mesh
+                 using SwarmVariableField -->
+        <struct name="YieldedField">
+            <param name="Type">SwarmVariableField</param>
+            <param name="swarmVariable">materialSwarm-HasYielded</param>
+            <param name="Mesh">linearMesh</param>
+            <param name="MaterialSwarm">materialSwarm</param>
+            <param name="Swarm">picIntegrationPoints</param>
+            <param name="Context">context</param>
+        </struct>
+        <struct name="PostFailureWeakeningField">
+            <param name="Type">SwarmVariableField</param>
+            <param name="swarmVariable">materialSwarm-PostFailureWeakening</param>
+            <param name="Mesh">linearMesh</param>
+            <param name="MaterialSwarm">materialSwarm</param>
+            <param name="Swarm">picIntegrationPoints</param>
+            <param name="Context">context</param>
+        </struct>
+        <struct name="PostFailureWeakeningIncField">
+            <param name="Type">SwarmVariableField</param>
+            <param name="swarmVariable">materialSwarm-PostFailureWeakeningIncrement</param>
+            <param name="Mesh">linearMesh</param>
+            <param name="MaterialSwarm">materialSwarm</param>
+            <param name="Swarm">picIntegrationPoints</param>
+            <param name="Context">context</param>
+        </struct>
+        <!-- ================================================= -->
+        
+        
+        <!-- === Scaling options ============================= -->
+            <!-- If any of these coefficients are not equal to 1.0, then you must 
+                 ensure all your values have units assigned.-->
+        <struct name="default_scaling">
+            <param name="Type">Scaling</param>
+            <param name="spaceCoefficient_meters">1.0</param>
+            <param name="timeCoefficient_seconds">1.0</param>
+            <param name="massCoefficient_kilograms">1.0</param>
+            <param name="temperatureCoefficient_kelvin">1.0</param>
+            <param name="electricCurrentCoefficient_amperes">1</param>
+        </struct>
+        <!-- ================================================ -->
+        
+        
+        <!-- === Solver details ============================= -->
+        <struct name="weights" mergeType="replace">
+            <!-- === Most modified ============== -->
+            <param name="maxDeletions">5</param>
+            <param name="maxSplits">100</param>
+            <param name="Inflow">True</param>
+            <!-- ================================ -->
+            <param name="Type">PCDVC</param>
+            <param name="resolutionX">10</param>
+            <param name="resolutionY">10</param>
+            <param name="resolutionZ">10</param>
+            <param name="lowerT">0.6</param>
+            <param name="upperT">25</param>
+            <param name="Threshold">0.8</param>
+            <param name="CentPosRatio">0.01</param>
+            <param name="MaterialPointsSwarm">materialSwarm</param>
+            <param name="splitInInterfaceCells">True</param>
+        </struct>
+        
+        <struct name="uzawa" mergeType="merge">
+            <param name="monitor" mergeType="replace">True</param>
+            <param name="tolerance">@linearTolerance</param>
+            <param name="maxIterations" mergeType="replace">@linearMaxIterations</param>
+            <param name="minIterations" mergeType="replace">@linearMinIterations</param>
+        </struct>
+        
+        <struct name="stokesEqn" mergeType="merge">
+            <param name="nonLinearMinIterations">@nonLinearMinIterations</param>
+        </struct>
+        
+        <!-- ============================================== -->
+        
+        
+        <!-- === Mesh parameters ========================== -->
+        <struct name="linearMeshGenerator" mergeType="merge">
+            <param name="regular" mergeType="replace">True</param>
+            <!-- Forces the mesh to be regular -->
+        </struct>
+        <!-- ============================================== -->
+        
+    </struct>
+    
+    
+    <!-- === Numerical controls (that probably shouldn't be touched) ==== -->
+    <param name="shadowDepth">1</param>             
+    <param name="allowUnbalancing">True</param>    
+    <param name="timeIntegratorOrder"> 1 </param>
+    <!-- ================================================================ -->
+    
+    
+</StGermainData>

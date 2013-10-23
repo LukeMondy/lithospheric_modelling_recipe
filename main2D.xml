@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<StGermainData xmlns="http://www.vpac.org/StGermain/XML_IO_Handler/Jun2003">
+    
+    <include>riftBaseApp.xml</include>
+    
+    <include>riftNumerics.xml</include>
+    
+    <include>riftMaterials.xml</include>
+	    
+    <include>riftInitials.xml</include>
+    
+    <include>riftThermalBoundaries.xml</include>
+    
+    <include>riftVelocityBoundaries.xml</include>
+    
+</StGermainData>

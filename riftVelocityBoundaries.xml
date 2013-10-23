@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<StGermainData xmlns="http://www.vpac.org/StGermain/XML_IO_Handler/Jun2003">
+    
+    <struct name="velocityBCs">
+        <param name="type">CompositeVC</param>
+        <list name="vcList">
+            <struct>
+                <param name="type">WallVC</param>
+                <param name="wall">bottom</param>
+                <list name="variables">
+                    <struct>
+                        <param name="name">vy</param>
+                        <param name="type">func</param>
+                        <param name="value"> lecode_tools_Isostasy </param>
+                    </struct>
+                </list>
+            </struct>
+            <struct>
+                <param name="type">WallVC</param>
+                <param name="wall">left</param>
+                <list name="variables">
+                    <struct>
+                        <param name="name">vx</param>
+                        <param name="type">double</param>
+                        <param name="value" units="cm/yr">-2.0</param>
+                    </struct>
+                </list>
+            </struct>
+            <struct>
+                <param name="type">WallVC</param>
+                <param name="wall">right</param>
+                <list name="variables">
+                    <struct>
+                        <param name="name">vx</param>
+                        <param name="type">double</param>
+                        <param name="value" units="cm/yr">2.0</param>
+                    </struct>
+                </list>
+            </struct>
+        </list>
+    </struct>
+    
+</StGermainData>
+
