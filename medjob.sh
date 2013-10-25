@@ -6,18 +6,8 @@ FULLDIR=./
 xres="208"
 yres="112"
 
-# "airIdx" is used by the Isostasy function. It is an approximation of where the surface is,
-# in mesh coordinates(!). For example, a model is defined to be from 0 to 100 km in X and  
-# from 0 to 50 km in Y. The model has an air layer going from Y = 40 km to Y = 50 km.
-# If the model is run at 1 km resolution (xres = 100, yres = 50), then airIdx must be set to
-# 40 (to match the height of the air/crust transition in mesh coords). 
-# More examples:
-#  - 100.00 m resolution (xres = 1000, yres = 500): airIdx = 400
-#  - 746.27 m resolution (xres =  134, yres =  67): airIdx =  54
-airIdx="105"
-
 # === Data output ===========================================
-JOBDESC="lithrec1-${xres}x${yres}-parameter_set_1"
+JOBDESC="litho-${xres}x${yres}-parameter_set_1"
 outputFreq="1"      # How frequently should UW checkpoint?
 maxTimesteps="10"   # Use a large number for normal runs, use -1 for checking material geometries.
 

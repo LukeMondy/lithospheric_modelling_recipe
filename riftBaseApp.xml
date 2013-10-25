@@ -54,13 +54,13 @@
         <struct>
             <!-- === Frequently modified ======= -->
             <param name="rhoZeroMaterial">astheno</param>
-            <param name="UseAverage">True</param>
+            <param name="UseAverage">False</param>
             <!-- =============================== -->
             <param name="Type"> lecode_tools_Isostasy </param>
             <param name="Context">context</param>
             <param name="mesh">linearMesh</param>
             <param name="VerticalAxis">@VerticalAxis</param>
-            <param name="SurfaceIndex">@airIdx</param>
+            <param name="SurfaceIndex">@elementResJ</param>
             <param name="swarm">picIntegrationPoints</param>
             <param name="velocityField">VelocityField</param>
             <param name="sle">stokesEqn</param>
