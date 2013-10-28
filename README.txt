@@ -1,17 +1,22 @@
-=========================================
-=== The Lithospheric Modelling Recipe ===
-============ For Underworld =============
+=================================
+The Lithospheric Modelling Recipe 
+=================================
+------------------------------------------
+For Underworld (www.underworldproject.org)
+------------------------------------------
 
-Authors: Luke Mondy, Guillaume Duclaux, Patrice Rey, Julian, etc.
+*Authors:* Luke Mondy, Guillaume Duclaux, Patrice Rey, Julian, etc.
 
-=== What is the Lithospheric Modelling Recipe? ===
+Section 1. What is the Lithospheric Modelling Recipe?
+-----------------------------------------------------
 The Lithospheric Modelling Recipe (or LMR) is an Underworld input file, designed to make 
 it easy for geologists and numerical modellers to setup and run robust and reproducible 
 geodynamic models of lithospheric scale processes.
 
 ADD MORE!
 
-=== Ideal workflow ===
+Section 2. Ideal workflow
+-------------------------
 1. Clone the repo as such:
 hg clone https://username@bitbucket.org/lmondy/lithosphericmodellingrecipe lmr-src
 
