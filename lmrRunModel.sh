@@ -23,7 +23,7 @@ nonlinear_maxIterations="500"
 cpus="6"
 
 # === Restarting ============================================
-restarting=true            # Set to be true to enable restart functionality.
+restarting=false            # Set to be true to enable restart functionality.
 restart_timestep="9"     # Set to be the checkpoint number to restart from.
 
 
@@ -32,7 +32,7 @@ restart_timestep="9"     # Set to be the checkpoint number to restart from.
 # ===========================================================
 underworld="/home/luke/Programs/uw-be-4th_July_2013/build/bin/Underworld"   # Point this to your Underworld installtion.
 
-inputfile="${FULLDIR}/result-$JOBDESC/xmls/main2D.xml"
+inputfile="${FULLDIR}/result-$JOBDESC/xmls/lmrMain2D.xml"
 OUTPUTDIR="${FULLDIR}/result-$JOBDESC"
 logfile="${FULLDIR}/log-$JOBDESC.log"
 linear_flags="--linearTolerance=${linear_tolerance} --linearMinIterations=${linear_minIterations} --linearMaxIterations=${linear_maxIterations}"
