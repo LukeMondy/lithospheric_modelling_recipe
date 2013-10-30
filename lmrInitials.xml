@@ -1,13 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <StGermainData xmlns="http://www.vpac.org/StGermain/XML_IO_Handler/Jun2003">
     
-    <struct name="components" mergeType="merge">
-        <struct name="left-wall">
-            <param name="Type">Ppc_Constant</param>
-            <param name="Value" units="cm/yr">1.0</param>
-        </struct>
-    </struct>
-    
     <param name="TemperatureProfile2StartCoord" units="km">   0.0</param>
     <param name="TemperatureProfile2EndCoord"   units="km">-100.0</param> <!-- Avoid using references (such as minY) in this function -->
     <param name="TemperatureProfile2MinTemp" units="K">293.15</param>
