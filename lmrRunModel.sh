@@ -30,7 +30,7 @@ restart_timestep="9"     # Set to be the checkpoint number to restart from.
 
 
 # ===========================================================
-underworld="/home/luke/Programs/uw-be-4th_July_2013/build/bin/Underworld"   # Point this to your Underworld installtion.
+underworld="/home/luke/Programs/uw-be-28th_Oct_2013/build/bin/Underworld"   # Point this to your Underworld installtion.
 
 inputfile="${FULLDIR}/result-$JOBDESC/xmls/lmrMain2D.xml"
 OUTPUTDIR="${FULLDIR}/result-$JOBDESC"

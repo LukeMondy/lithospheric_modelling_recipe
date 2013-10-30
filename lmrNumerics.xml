@@ -280,6 +280,7 @@
         
         <struct name="stokesEqn" mergeType="merge">
             <param name="nonLinearMinIterations">@nonLinearMinIterations</param>
+            <param name="makeConvergenceFile" mergeType="replace">true</param>
         </struct>
         
         <!-- ============================================== -->
