@@ -49,8 +49,8 @@
     
     <!-- === Output controls ====================== -->
     <param name="outputPath">./model</param>
-    <param name="checkpointEvery">10</param>
-    <param name="dumpEvery">10</param>
+    <param name="checkpointEvery">1000</param>
+    <param name="dumpEvery">1000</param>
     
     <list name="FieldVariablesToCheckpoint">
         <param>VelocityField</param>
