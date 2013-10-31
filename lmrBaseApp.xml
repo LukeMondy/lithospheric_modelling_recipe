@@ -2,8 +2,9 @@
 <StGermainData xmlns="http://www.vpac.org/StGermain/XML_IO_Handler/Jun2003">
     
     <list name="import" mergeType="merge">
-        <param> ImportersToolbox </param>
-        <param> lecode_tools     </param>
+        <param> ImportersToolbox    </param>
+        <param> lecode_tools        </param>
+        <param> earthbyte_additions </param>
     </list>
     
     <!-- === Included base files (Order is important!) ================== -->

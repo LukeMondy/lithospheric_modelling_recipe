@@ -6,6 +6,8 @@
     <include>lmrNumerics.xml</include>
     
     <include>lmrMaterials.xml</include>
+    
+    <include>lmrPassiveTracers.xml</include>
 	    
     <include>lmrInitials.xml</include>
     
