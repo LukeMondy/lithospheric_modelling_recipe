@@ -10,7 +10,8 @@
             <param name="MaxTemp" units="K">1200.00</param>
             <param name="LinearCoefficient">4.3e-3</param> 
             <param name="ExponentialCoefficient1">920.0 </param> 
-            <param name="ExponentialCoefficient2">3.5e-5</param> 
+            <param name="ExponentialCoefficient2">3.5e-5</param>
+			<param name="axis"> 1 </param>
         </struct>
     </struct>
     
