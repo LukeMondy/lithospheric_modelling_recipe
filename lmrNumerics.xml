@@ -89,6 +89,7 @@
             <param name="Type">PpcManager</param>
             <param name="MaterialSwarm"> materialSwarm </param>
             <param name="IntegrationSwarm"> picIntegrationPoints </param>
+            <param name="Scaling">default_scaling</param>
             <param name="Mesh"> linearMesh </param>
             <param name="Gravity"> gravity </param>
             
