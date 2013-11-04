@@ -9,18 +9,18 @@ yres="112"
 
 # === Data output ===========================================
 JOBDESC="litho-${xres}x${yres}-parameter_set_1"
-maxTimesteps="100000"   # Use a large number for normal runs, use -1 for checking material geometries.
+maxTimesteps="10"   # Use a large number for normal runs, use -1 for checking material geometries.
 
 # Underworld can either output at every X number of timesteps, or it can output after a certain
 # time increment has been reached. To use the former, set use_timer_checkpoint to false, to use
 # the latter, set it to true.
-use_timer_checkpoint=true
+use_timer_checkpoint=false
 if $use_timer_checkpoint ; then
     # UW will checkpoint after every this many seconds (note: it does not limit the timestep length)
     seconds_to_check_point_after="631138519494" # 20,000 years
 else
     # UW will checkpoint after this many timesteps
-    outputFreq="10" 
+    outputFreq="1" 
 fi
 
 

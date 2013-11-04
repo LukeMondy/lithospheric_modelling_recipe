@@ -2,6 +2,7 @@
 <StGermainData xmlns="http://www.vpac.org/StGermain/XML_IO_Handler/Jun2003">
     
     <struct name="components" mergeType="merge">
+        
         <struct name="tempProfile">
             <param name="Type">Ppc_Thermal_Profile</param>
             <param name="StartCoord" units="km">   0.0</param>

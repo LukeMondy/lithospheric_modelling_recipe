@@ -345,15 +345,9 @@
     <!-- === Yielding ================================================================================= -->
 
         <!-- === Strain weakening =========================== -->
-        <struct name="timeIntegrator_aux">
-            <param name="Type">TimeIntegrator</param>
-            <param name="order">timeIntegratorOrder</param>
-            <param name="simultaneous">f</param>
-            <param name="Context">context</param>
-        </struct>
         <struct name="strainWeakening">
             <param name="Type">StrainWeakening</param>
-            <param name="TimeIntegrator">timeIntegrator_aux</param>
+            <param name="TimeIntegrator">timeIntegrator</param>
             <param name="MaterialPointsSwarm">materialSwarm</param>
             <param name="softeningStrain">0.2</param> <!-- Pecentage until fully softened. E.g. 0.2 = 20% strain -->
             <param name="initialDamageFraction">0.0</param>
