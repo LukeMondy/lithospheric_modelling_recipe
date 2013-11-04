@@ -76,16 +76,20 @@
         
         <!-- === Fault ===================================== -->
         <struct name="faultShape">
-            <param name="Type">Box</param>
-            <param name="startX">minX</param>
-            <param name="endX">maxX</param>
-            <param name="startY" units="km">-11</param>
-            <param name="endY" units="km">-9</param>
+            <param name="Type">PolygonShape</param>
             <param name="startZ">minZ</param>
             <param name="endZ">maxZ</param>
-            <param name="alpha">45</param>
-            <param name="beta">0</param>
-            <param name="gamma">0</param>
+            
+            <list name="vertices">
+                <asciidata>
+                    <columnDefinition name = "x" type="double" units="km"/>
+                    <columnDefinition name = "y" type="double" units="km"/>
+                    93.23  -20
+                    95.23  -20
+                    106.77 0
+                    104.77 0
+                </asciidata>
+            </list>
         </struct>
 
         <!-- === Lower Crust =============================== -->
@@ -276,42 +280,91 @@
         
     <!-- === Viscosities ============================================================================== -->
 
+        <!-- === Isoviscous rheologies ========================================= -->
         <struct name="airViscosity">
             <param name="Type">MaterialViscosity</param>
-            <param name="eta0" units="Pa*s">1e+20</param>
+            <param name="eta0" units="Pa*s">1e+19</param>
         </struct>
         
+        <struct name="faultViscosity">
+            <param name="Type">MaterialViscosity</param>
+            <param name="eta0" units="Pa*s">5e+20</param>
+        </struct>
+        
+        <!-- === Temperature dependent rheologies ============================== -->
         <struct name="sedimentViscosity">
             <param name="Type">FrankKamenetskii</param>
             <param name="TemperatureField">TemperatureField</param>
             <param name="eta0" units="Pa*s">5.35e22</param>
             <param name="theta">0.00632</param>
         </struct>
-
-        <struct name="upperCrustViscosity">
-            <param name="Type">FrankKamenetskii</param>
-            <param name="TemperatureField">TemperatureField</param>
-            <param name="eta0" units="Pa*s">5.35e23</param>
-            <param name="theta">0.00632</param>
-        </struct>
         
-        <struct name="faultViscosity">
-            <param name="Type">MaterialViscosity</param>
-            <param name="eta0" units="Pa*s">1e+20</param>
+        <!-- === Strain-rate/temperature dependent rheologies ================== -->
+            <!-- NOTE: Underworld uses this equation for ViscousCreep:
+            visc = 0.5 * pow( A, -1.0/ n ) * pow( eII, 1.0/n -1.0 ) * exp( (E + P*V) / ( n * R * T)
+                where:
+                A is PreExponentialFactor,
+                n is StressExponent,
+                eII is strain-rate,
+                E is ActivationEnergy,
+                P is Pressure
+                V is ActivationVolume,
+                R is the gas constant,
+                T is temperature
+            -->
+        
+        <struct name="upperCrustViscosity">
+        <!-- Wet quartzite: Goetze, Philosophical Transactions of theRoyal Society of London, 1978-->
+            <param name="Type">ViscousCreep</param>
+            <param name="StrainRateInvariantField">recoveredStrainRateInvariantField</param>
+            <param name="TemperatureField">TemperatureField</param>
+            <param name="PressureField">recoveredPressureField</param>
+            
+            <param name="StressExponent">3</param>
+            <param name="PreExponentialFactor" units="(MPa)^-3*s^-1">5e-06</param>
+            <param name="DefaultStrainRateInvariant" units="s^-1">1.0e-15</param>
+            
+            <param name="ActivationEnergy" units="J/mol">190000</param>
+            <param name="ActivationVolume">0.0</param>
+            
+            <param name="minViscosity" units="Pa*s">1e19</param> 
+            <param name="maxViscosity" units="Pa*s">5e23</param> 
         </struct>
 
         <struct name="lowerCrustViscosity">
-            <param name="Type">FrankKamenetskii</param>
+        <!-- Mafic granulite: Wang et al., EPSL 2012-->
+            <param name="Type">ViscousCreep</param>
+            <param name="StrainRateInvariantField">recoveredStrainRateInvariantField</param>
             <param name="TemperatureField">TemperatureField</param>
-            <param name="eta0" units="Pa*s">5.35e22</param>
-            <param name="theta">0.00632</param>
+            <param name="PressureField">recoveredPressureField</param>
+            
+            <param name="StressExponent">3.2</param>
+            <param name="PreExponentialFactor" units="(MPa)^-3.2*s^-1">10e-2</param>
+            <param name="DefaultStrainRateInvariant" units="s^-1">1.0e-15</param>
+            
+            <param name="ActivationEnergy" units="J/mol">244000</param>
+            <param name="ActivationVolume">0.0</param>
+            
+            <param name="minViscosity" units="Pa*s">5e18</param> 
+            <param name="maxViscosity" units="Pa*s">5e23</param> 
         </struct>
 		
         <struct name="mantleViscosity">
-            <param name="Type">FrankKamenetskii</param>
+         <!-- Wet Dunite : Brace and Kohlstedt, JGR 1980-->
+            <param name="Type">ViscousCreep</param>
+            <param name="StrainRateInvariantField">recoveredStrainRateInvariantField</param>
             <param name="TemperatureField">TemperatureField</param>
-            <param name="eta0" units="Pa*s">1e23</param>
-            <param name="theta">0.00632</param>
+            <param name="PressureField">recoveredPressureField</param>
+            
+            <param name="StressExponent">3</param>
+            <param name="PreExponentialFactor" units="(MPa)^-3*s^-1">7.0e4</param>
+            <param name="DefaultStrainRateInvariant" units="s^-1">1.0e-15</param>
+            
+            <param name="ActivationEnergy" units="J/mol">520000</param>
+            <param name="ActivationVolume">0.0</param>
+            
+            <param name="minViscosity" units="Pa*s">5e18</param> 
+            <param name="maxViscosity" units="Pa*s">5e23</param> 
         </struct>
         
         <!-- Wet Dunite : Brace and Kohlstedt, JGR 1980: PreExponentialFactor*100 => weaker-->
@@ -530,6 +583,23 @@
                    material. If we defined them the other way around ("crust" first, "air" second), 
                    the model domain would be entirely "air", because it will overprint the crust. 
         -->
+        <struct name="air">
+            <param name="Type">RheologyMaterial</param>
+            <param name="Shape">airShape</param>
+            <param name="DensityProperty" units="kg*m^-3">3</param>
+            <!-- To increase timestep length, set air Diffusivity to be lower -->
+            <param name="DiffusivityProperty" units="W/m^3">2.2e-5</param>
+            <param name="CpProperty">global_cp</param>
+            <param name="ThermalExpansivityProperty">0</param>
+            <param name="RadiogenicHeatProductionProperty">no_heatproduction</param>
+            <param name="surface_processes">sedimentation_threshold</param>
+            
+            <list name="Rheology">
+                <param>airViscosity</param>
+            </list>
+        </struct>
+        
+        
         <struct name="sediment">
             <param name="Type">RheologyMaterial</param>
             <param name="Shape">uppercrustShape</param> <!-- Taking advantage of the overprinting by defining this first -->
@@ -598,22 +668,6 @@
         </struct>
         
         
-        <struct name="air">
-            <param name="Type">RheologyMaterial</param>
-            <param name="Shape">airShape</param>
-            <param name="DensityProperty" units="kg*m^-3">3</param>
-            <param name="DiffusivityProperty" units="W/m^3">2.2e-5</param>
-            <param name="CpProperty">global_cp</param>
-            <param name="ThermalExpansivityProperty">0</param>
-            <param name="RadiogenicHeatProductionProperty">no_heatproduction</param>
-            <param name="surface_processes">sedimentation_threshold</param>
-            
-            <list name="Rheology">
-                <param>airViscosity</param>
-            </list>
-        </struct>
-
-
         <struct name="lowercrust">
             <param name="Type">RheologyMaterial</param>
             <param name="Shape">lowercrustShape</param>

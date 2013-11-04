@@ -8,8 +8,8 @@ yres="112"
 
 
 # === Data output ===========================================
-JOBDESC="litho-${xres}x${yres}-parameter_set_1"
-maxTimesteps="10"   # Use a large number for normal runs, use -1 for checking material geometries.
+JOBDESC="litho-${xres}x${yres}-param_set_1"
+maxTimesteps="100000"   # Use a large number for normal runs, use -1 for checking material geometries.
 
 # Underworld can either output at every X number of timesteps, or it can output after a certain
 # time increment has been reached. To use the former, set use_timer_checkpoint to false, to use
@@ -20,15 +20,15 @@ if $use_timer_checkpoint ; then
     seconds_to_check_point_after="631138519494" # 20,000 years
 else
     # UW will checkpoint after this many timesteps
-    outputFreq="1" 
+    outputFreq="10" 
 fi
 
 
 # === Model precision =======================================
        linear_tolerance="5e-4"      # Tolerance - the lower the better, but takes longer or may fail.
     nonlinear_tolerance="5e-3"
-   linear_minIterations="10"        # Min iterations ensures the model does not settle on an incorrect solution.
-nonlinear_minIterations="2"
+   linear_minIterations="15"        # Min iterations ensures the model does not settle on an incorrect solution.
+nonlinear_minIterations="3"
    linear_maxIterations="15000"     # Max iterations controls how long the model will attempt to converge before failing.
 nonlinear_maxIterations="500"
 

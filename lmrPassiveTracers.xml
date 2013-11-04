@@ -32,7 +32,7 @@
             </list>
         </struct>
         
-        <struct name="passiveTracerLayout">
+        <struct name="user_passiveTracerLayout">
             <param name="Type">UnionParticleLayout</param>
             <list name="ParticleLayoutList">
                 <param>surfaceTracerLayout</param>	
@@ -44,27 +44,27 @@
         
         
         <!-- === Numerical implementation ======================================================= -->
-        <struct name="passiveSwarmMovementHandler">
+        <struct name="user_passiveSwarmMovementHandler">
             <param name="Type">ParticleMovementHandler</param>
         </struct>
-        <struct name="ElementCellLayoutTracer">
+        <struct name="user_ElementCellLayoutTracer">
             <param name="Type">ElementCellLayout</param>
             <param name="Mesh">linearMesh</param>
         </struct>
-        <struct name="passiveTracerSwarm">
+        <struct name="user_passiveTracerSwarm">
             <param name="Type">MaterialPointsSwarm</param>
-            <param name="CellLayout">ElementCellLayoutTracer</param>
-            <param name="ParticleLayout">passiveTracerLayout</param>
+            <param name="CellLayout">user_ElementCellLayoutTracer</param>
+            <param name="ParticleLayout">user_passiveTracerLayout</param>
             <param name="FiniteElement_Mesh">linearMesh</param>
             <param name="FeMesh">elementMesh</param>
             <list name="ParticleCommHandlers">
-                <param>passiveSwarmMovementHandler</param>
+                <param>user_passiveSwarmMovementHandler</param>
             </list>
         </struct>
         
         <struct name="passiveTracerAdvect">
             <param name="Type">SwarmAdvector</param>
-            <param name="Swarm">passiveTracerSwarm</param>
+            <param name="Swarm">user_passiveTracerSwarm</param>
             <param name="TimeIntegrator">timeIntegrator</param>
             <param name="VelocityField">VelocityField</param>
         </struct>
@@ -74,31 +74,23 @@
         
         <!-- === Output controls ================================================================ -->        
         <!-- NOTE: "Output controls" must come *after* the "Numerical implementation" XML -->
-        <struct name="passiveTracer_PTSROutput">
+
+        <struct name="passiveswarmOutputs">
             <!-- Generates 1 file per tracer. Each file contains the timesteps
-                 and data for just that one tracer. -->
-            <param name="Type">PressureTemperatureStrainRateOutput</param>
-            <param name="Swarm">passiveTracerSwarm</param>
-            <param name="PressureField">recoveredPressureField</param>
-            <param name="TemperatureField">TemperatureField</param>
-            <param name="StrainRateField">recoveredStrainRateInvariantField</param>
-            <param name="columnWidth">15</param>
-            <param name="decimalLength">8</param>
-            <param name="borderString">|</param>
-        </struct>
-        
-        <struct name="swarmRawOutputs">
-            <!-- Generates 1 file per timestep. Each file contains the data for
-                 all particles for that one timestep. -->
+                 and data for that tracer. NOTE: filename is as such:
+                 particle<cpu>.<localCPUid>.<struct name>.dat -->
             <param name="Type">Underworld_SwarmOutput</param>
-            <param name="Swarm">passiveTracerSwarm</param>
+            <param name="Swarm">user_passiveTracerSwarm</param>
+            <param name="mode">PARTICLE_TRACE</param>
             <list name="FeVariables">
-                <param>recoveredStressField</param>
-                <param>recoveredDeviatoricStressField</param>
-                <param>recoveredStrainRateField</param>
+                <param>recoveredPressureField</param>
+                <param>TemperatureField</param>
+                <param>recoveredStrainRateInvariantField</param>
+                <param>recoveredDeviatoricStressInvariantField</param>
                 <param>VorticityField</param>
             </list>
         </struct>
+        
         <!-- ==================================================================================== -->
         
     </struct>
