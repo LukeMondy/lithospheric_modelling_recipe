@@ -603,7 +603,7 @@
         <struct name="sediment">
             <param name="Type">RheologyMaterial</param>
             <param name="Shape">uppercrustShape</param> <!-- Taking advantage of the overprinting by defining this first -->
-            <param name="DensityProperty">sediment_density</param>
+            <param name="DensityProperty" units="kg*m^-3">2400</param>
             <param name="DiffusivityProperty">global_diffusivity</param>
             <param name="CpProperty">global_cp</param>
             <param name="ThermalExpansivityProperty">global_expansivity</param>
@@ -621,7 +621,7 @@
         <struct name="uppercrust">
             <param name="Type">RheologyMaterial</param>
             <param name="Shape">uppercrustShape</param>
-            <param name="DensityProperty">uppercrust_density</param>
+            <param name="DensityProperty" units="kg*m^-3">2400</param>
             <param name="DiffusivityProperty">global_diffusivity</param>
             <param name="CpProperty">global_cp</param>
             <param name="ThermalExpansivityProperty">global_expansivity</param>
@@ -637,7 +637,7 @@
         <struct name="uppercrustMarkers">
             <param name="Type">RheologyMaterial</param>
             <param name="Shape">uppercrustMarkersShape</param>
-            <param name="DensityProperty">uppercrust_density</param>
+            <param name="DensityProperty" units="kg*m^-3">2400</param>
             <param name="DiffusivityProperty">global_diffusivity</param>
             <param name="CpProperty">global_cp</param>
             <param name="ThermalExpansivityProperty">global_expansivity</param>
@@ -671,7 +671,7 @@
         <struct name="lowercrust">
             <param name="Type">RheologyMaterial</param>
             <param name="Shape">lowercrustShape</param>
-            <param name="DensityProperty">lowercrust_density</param>
+            <param name="DensityProperty" units="kg*m^-3">2400</param>
             <param name="DiffusivityProperty">global_diffusivity</param>
             <param name="CpProperty">global_cp</param>
             <param name="ThermalExpansivityProperty">global_expansivity</param>
@@ -687,7 +687,7 @@
         <struct name="lowercrustMarkers">
             <param name="Type">RheologyMaterial</param>
             <param name="Shape">lowercrustMarkersShape</param>
-            <param name="DensityProperty">lowercrust_density</param>
+            <param name="DensityProperty" units="kg*m^-3">2400</param>
             <param name="DiffusivityProperty">global_diffusivity</param>
             <param name="CpProperty">global_cp</param>
             <param name="ThermalExpansivityProperty">global_expansivity</param>
@@ -705,7 +705,7 @@
         <struct name="mantle">
             <param name="Type">RheologyMaterial</param>
             <param name="Shape">mantleShape</param>
-            <param name="DensityProperty">mantle_density</param>
+            <param name="DensityProperty" units="kg*m^-3">2400</param>
             <param name="DiffusivityProperty">global_diffusivity</param>
             <param name="CpProperty">global_cp</param>
             <param name="ThermalExpansivityProperty">global_expansivity</param>
@@ -723,7 +723,7 @@
         <struct name="astheno">
             <param name="Type">RheologyMaterial</param>
             <param name="Shape">asthenoShape</param>
-            <param name="DensityProperty">astheno_density</param>
+            <param name="DensityProperty" units="kg*m^-3">2400</param>
             <param name="DiffusivityProperty">global_diffusivity</param>
             <param name="CpProperty">global_cp</param>
             <param name="ThermalExpansivityProperty">global_expansivity</param>

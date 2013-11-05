@@ -2,7 +2,6 @@
 <StGermainData xmlns="http://www.vpac.org/StGermain/XML_IO_Handler/Jun2003">
     
     <struct name="components" mergeType="merge">
-        
         <struct name="tempProfile">
             <param name="Type">Ppc_Thermal_Profile</param>
             <param name="StartCoord" units="km">   0.0</param>
@@ -12,7 +11,7 @@
             <param name="LinearCoefficient">4.3e-3</param> 
             <param name="ExponentialCoefficient1">920.0 </param> 
             <param name="ExponentialCoefficient2">3.5e-5</param>
-			<param name="axis"> 1 </param>
+			<param name="axis"> @VerticalAxis </param>
         </struct>
     </struct>
     

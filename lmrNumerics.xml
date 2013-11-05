@@ -6,8 +6,8 @@
     
     <!-- Axis 0: x -->
     <param name="elementResI">208</param>
-    <param name="minX" units="km">  0</param>
-    <param name="maxX" units="km">200</param>
+    <param name="minX" units="km">-100</param>
+    <param name="maxX" units="km"> 300</param>
     
     <!-- Axis 1: y -->
     <param name="elementResJ">112</param>
@@ -20,9 +20,6 @@
     <param name="maxZ">0</param>
     
     <param name="VerticalAxis">1</param>
-    
-    <!-- For Isostasy -->
-    <param name="airIdx">110</param>
     <!-- ====================================================== -->
     
     

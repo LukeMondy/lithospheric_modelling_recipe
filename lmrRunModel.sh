@@ -1,9 +1,9 @@
 #!/bin/bash
 
-FULLDIR=./
+FULLDIR=`pwd`
 
 # === Model resolution ======================================
-xres="208"
+xres="416"
 yres="112"
 
 
@@ -20,7 +20,7 @@ if $use_timer_checkpoint ; then
     seconds_to_check_point_after="631138519494" # 20,000 years
 else
     # UW will checkpoint after this many timesteps
-    outputFreq="10" 
+    outputFreq="1" 
 fi
 
 
@@ -38,7 +38,7 @@ cpus="6"
 
 # === Restarting ============================================
 restarting=false            # Set to be true to enable restart functionality.
-restart_timestep="9"     # Set to be the checkpoint number to restart from.
+restart_timestep="370"     # Set to be the checkpoint number to restart from.
 
 
 # === Underworld binary file ================================
