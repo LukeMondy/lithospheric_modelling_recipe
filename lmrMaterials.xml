@@ -366,9 +366,9 @@
             <param name="minViscosity" units="Pa*s">5e18</param> 
             <param name="maxViscosity" units="Pa*s">5e23</param> 
         </struct>
-        
-        <!-- Wet Dunite : Brace and Kohlstedt, JGR 1980: PreExponentialFactor*100 => weaker-->
+            
         <struct name="asthenoViscosity">
+            <!-- Wet Dunite : Brace and Kohlstedt, JGR 1980: PreExponentialFactor*100 => weaker-->
             <param name="Type">ViscousCreep</param>
             <param name="StrainRateInvariantField">recoveredStrainRateInvariantField</param>
             <param name="TemperatureField">TemperatureField</param>
@@ -498,7 +498,7 @@
         
         <struct name="global_cp">
             <param name="Type">Ppc_Constant</param>
-            <param name="Value" units="J*K^-1*kg^-1">1000</param>
+            <param name="Value" units="J/(K*kg)">1000</param>
         </struct>
         
         <struct name="global_expansivity">
@@ -587,8 +587,8 @@
             <param name="Type">RheologyMaterial</param>
             <param name="Shape">airShape</param>
             <param name="DensityProperty" units="kg*m^-3">3</param>
-            <!-- To increase timestep length, set air Diffusivity to be lower -->
-            <param name="DiffusivityProperty" units="W/m^3">2.2e-5</param>
+            <!-- To increase timestep length, set air Diffusivity to be smaller -->
+            <param name="DiffusivityProperty" units="W/m^3">1e-5</param>
             <param name="CpProperty">global_cp</param>
             <param name="ThermalExpansivityProperty">0</param>
             <param name="RadiogenicHeatProductionProperty">no_heatproduction</param>
