@@ -283,6 +283,42 @@
         
         <!-- ============================================== -->
         
+		<!-- === Implementation of flux BCs =============== -->
+        <struct name="borderCellLayout">
+            <param name="Type">SingleCellLayout</param>
+        </struct>
+        <struct name="borderParticleLayout">
+            <param name="Type">GaussBorderParticleLayout</param>
+        </struct>
+        <struct name="borderGaussSwarm">
+            <param name="Type">IntegrationPointsSwarm</param>
+            <param name="CellLayout">borderCellLayout</param>
+            <param name="ParticleLayout">borderParticleLayout</param>
+            <param name="FeMesh">elementMesh</param>
+            <param name="TimeIntegrator">timeIntegrator</param>
+            <param name="IntegrationPointMapper">borderGaussMapper</param>
+        </struct>
+        <struct name="borderGaussMapper">
+            <param name="Type">GaussMapper</param>
+            <param name="IntegrationPointsSwarm">borderGaussSwarm</param>
+            <param name="MaterialPointsSwarm">borderGaussMaterialSwarm</param>
+        </struct>
+        <struct name="borderBackgroundLayout">
+            <param name="Type">BackgroundParticleLayout</param>
+        </struct>
+        <struct name="borderGaussMSwarmMovementHandler">
+            <param name="Type">ParticleMovementHandler</param>
+        </struct>
+        <struct name="borderGaussMaterialSwarm">
+            <param name="Type">MaterialPointsSwarm</param>
+            <param name="CellLayout">borderCellLayout</param>
+            <param name="ParticleLayout">borderBackgroundLayout</param>
+            <param name="FeMesh">elementMesh</param>
+            <list name="ParticleCommHandlers">
+                <param>borderGaussMSwarmMovementHandler</param>
+            </list>
+        </struct>
+        <!-- ============================================== -->
         
         <!-- === Mesh parameters ========================== -->
         <struct name="linearMeshGenerator" mergeType="merge">
