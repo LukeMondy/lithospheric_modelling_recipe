@@ -41,6 +41,8 @@
     <param name="nonLinearTolerance">5e-3</param>
     <param name="nonLinearMinIterations">10</param>
     <param name="nonLinearMaxIterations">500</param>
+    
+    <param name="courantFactor"> 0.5 </param>
     <!-- ====================================================== -->
     
     
