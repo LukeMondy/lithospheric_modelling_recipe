@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<StGermainData xmlns="http://www.vpac.org/StGermain/XML_IO_Handler/Jun2003">
+
+    <param name="erosionHeight"       units="km"> 2 </param>
+    <param name="sedimentationHeight" units="km"> -2 </param>
+
+
+    <struct name="components" mergeType="merge">
+        <struct name="default_ppcManager" mergeType="merge">
+            <list name="Properties" mergeType="merge">
+                <!-- NOTE: If your auxilary property has a dependence on something Underworld
+                           calculates (e.g., pressure, strain-rate), and you have non-linear
+                           rheologies (e.g., you use yielding, or strain-dependent viscosities),
+                           then your property must have StoreNLOnParticle = True. 
+                           To see more information, see lmrNumerics.xml -->
+                <struct>
+                    <param name="PropertyName"> surface_processes </param>
+                    <param name="PassiveProperty"> True </param>
+                    <param name="StoreNLOnParticles"> True </param>
+                </struct>
+            </list>            
+        </struct>
+        
+        
+        <!-- ========= Surface processes ========= -->
+        <struct name="erosion_height">
+            <param name="Type">Ppc_Constant</param>
+            <param name="Value">erosionHeight</param>
+        </struct>
+        <struct name="sedimentation_height">
+            <param name="Type">Ppc_Constant</param>
+            <param name="Value">sedimentationHeight</param>
+        </struct>
+
+        <struct name="elevation">
+            <param name="Type">Ppc_Coord</param>
+            <param name="Axis">1</param>
+        </struct>
+        <struct name="erosion_threshold">
+            <!-- This condition applies to all rock materials -->
+            <param name="Type"> Ppc_Material_Condition </param>
+            <param name="Condition"> g </param>
+            <param name="Field"> elevation </param>
+            <param name="ValueToCompare"> erosion_height </param>
+            <param name="MaterialIfTrue"> air </param>
+        </struct>
+        <struct name="sedimentation_threshold">
+            <!-- This condition applies to only air material -->
+            <param name="Type"> Ppc_Material_Condition </param>
+            <param name="Condition"> l </param>
+            <param name="Field"> elevation </param>
+            <param name="ValueToCompare"> sedimentation_height </param>
+            <param name="MaterialIfTrue"> sediment </param>
+        </struct>
+        
+    </struct>
+</StGermainData>

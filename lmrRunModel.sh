@@ -3,8 +3,8 @@
 FULLDIR=`pwd`
 
 # === Model resolution ======================================
-xres="208"
-yres="112"
+xres="208"  # 2 km resolution for fast run.
+yres="80"
 
 
 # === Data output ===========================================
@@ -28,7 +28,7 @@ fi
        linear_tolerance="5e-4"      # Tolerance - the lower the better, but takes longer or may fail.
     nonlinear_tolerance="5e-3"
    linear_minIterations="15"        # Min iterations ensures the model does not settle on an incorrect solution.
-nonlinear_minIterations="3"
+nonlinear_minIterations="5"
    linear_maxIterations="15000"     # Max iterations controls how long the model will attempt to converge before failing.
 nonlinear_maxIterations="500"
 

@@ -9,22 +9,17 @@
     <param name="topUpperCrust" units="km">0</param>
     <param name="botUpperCrust" units="km">-20</param>
     
-    <param name="erosionHeight" units="km">2</param>
-    <param name="sedimentationHeight" units="km">-2</param>
-    
     <param name="topLowerCrust" units="km">-20</param>
     <param name="midLowerCrust" units="km">-30</param>
     <param name="botLowerCrust" units="km">-40</param>
     
     <param name="topMantle" units="km">-40</param>
-    <param name="botMantle" units="km">-95</param>
+    <param name="botMantle" units="km">-140</param>
     <!-- ======================================================== -->
     
 
     <struct name="components" mergeType="merge">
-        
     <!-- ==== Geometries ============================================================================== -->
-        
         <!-- === Air layer =============================== -->
         <struct name="airShape">
             <param name="Type">Box</param>
@@ -35,6 +30,26 @@
             <param name="startZ">minZ</param>
             <param name="endZ">maxZ</param>
         </struct>
+        
+        
+        <!-- === Fault ===================================== -->
+        <struct name="faultShape">
+            <param name="Type">PolygonShape</param>
+            <param name="startZ">minZ</param>
+            <param name="endZ">maxZ</param>
+            
+            <list name="vertices">
+                <asciidata>
+                    <columnDefinition name = "x" type="double" units="km"/>
+                    <columnDefinition name = "y" type="double" units="km"/>
+                    93.23  -20
+                    95.23  -20
+                    106.77 0
+                    104.77 0
+                </asciidata>
+            </list>
+        </struct>
+        
         
         <!-- === Upper Crust ============================= -->
         <struct name="uppercrustShape">
@@ -74,23 +89,6 @@
             </list>
         </struct>
         
-        <!-- === Fault ===================================== -->
-        <struct name="faultShape">
-            <param name="Type">PolygonShape</param>
-            <param name="startZ">minZ</param>
-            <param name="endZ">maxZ</param>
-            
-            <list name="vertices">
-                <asciidata>
-                    <columnDefinition name = "x" type="double" units="km"/>
-                    <columnDefinition name = "y" type="double" units="km"/>
-                    93.23  -20
-                    95.23  -20
-                    106.77 0
-                    104.77 0
-                </asciidata>
-            </list>
-        </struct>
 
         <!-- === Lower Crust =============================== -->
         <struct name="lowercrustShape">
@@ -253,6 +251,7 @@
             </list>
         </struct>
 
+
         <!-- === Mantle ===================================== -->
         <struct name="mantleShape">
             <param name="Type">Box</param>
@@ -263,6 +262,7 @@
             <param name="startZ">minZ</param>
             <param name="endZ">maxZ</param>
         </struct>
+        
         
         <!-- === Asthenosphere ============================== -->
         <struct name="asthenoShape">
@@ -278,300 +278,22 @@
     <!-- ============================================================================================== -->
         
         
-    <!-- === Viscosities ============================================================================== -->
-
-        <!-- === Isoviscous rheologies ========================================= -->
-        <struct name="airViscosity">
-            <param name="Type">MaterialViscosity</param>
-            <param name="eta0" units="Pa*s">1e+19</param>
-        </struct>
         
-        <struct name="faultViscosity">
-            <param name="Type">MaterialViscosity</param>
-            <param name="eta0" units="Pa*s">5e+20</param>
-        </struct>
-        
-        <!-- === Temperature dependent rheologies ============================== -->
-        <struct name="sedimentViscosity">
-            <param name="Type">FrankKamenetskii</param>
-            <param name="TemperatureField">TemperatureField</param>
-            <param name="eta0" units="Pa*s">5.35e22</param>
-            <param name="theta">0.00632</param>
-        </struct>
-        
-        <!-- === Strain-rate/temperature dependent rheologies ================== -->
-            <!-- NOTE: Underworld uses this equation for ViscousCreep:
-            visc = 0.5 * pow( A, -1.0/ n ) * pow( eII, 1.0/n -1.0 ) * exp( (E + P*V) / ( n * R * T)
-                where:
-                A is PreExponentialFactor,
-                n is StressExponent,
-                eII is strain-rate,
-                E is ActivationEnergy,
-                P is Pressure
-                V is ActivationVolume,
-                R is the gas constant,
-                T is temperature
-            -->
-        
-        <struct name="upperCrustViscosity">
-        <!-- Wet quartzite: Goetze, Philosophical Transactions of theRoyal Society of London, 1978-->
-            <param name="Type">ViscousCreep</param>
-            <param name="StrainRateInvariantField">recoveredStrainRateInvariantField</param>
-            <param name="TemperatureField">TemperatureField</param>
-            <param name="PressureField">recoveredPressureField</param>
-            
-            <param name="StressExponent">3</param>
-            <param name="PreExponentialFactor" units="(MPa)^-3*s^-1">5e-06</param>
-            <param name="DefaultStrainRateInvariant" units="s^-1">1.0e-15</param>
-            
-            <param name="ActivationEnergy" units="J/mol">190000</param>
-            <param name="ActivationVolume">0.0</param>
-            
-            <param name="minViscosity" units="Pa*s">1e19</param> 
-            <param name="maxViscosity" units="Pa*s">5e23</param> 
-        </struct>
-
-        <struct name="lowerCrustViscosity">
-        <!-- Mafic granulite: Wang et al., EPSL 2012-->
-            <param name="Type">ViscousCreep</param>
-            <param name="StrainRateInvariantField">recoveredStrainRateInvariantField</param>
-            <param name="TemperatureField">TemperatureField</param>
-            <param name="PressureField">recoveredPressureField</param>
-            
-            <param name="StressExponent">3.2</param>
-            <param name="PreExponentialFactor" units="(MPa)^-3.2*s^-1">10e-2</param>
-            <param name="DefaultStrainRateInvariant" units="s^-1">1.0e-15</param>
-            
-            <param name="ActivationEnergy" units="J/mol">244000</param>
-            <param name="ActivationVolume">0.0</param>
-            
-            <param name="minViscosity" units="Pa*s">5e18</param> 
-            <param name="maxViscosity" units="Pa*s">5e23</param> 
-        </struct>
-		
-        <struct name="mantleViscosity">
-         <!-- Wet Dunite : Brace and Kohlstedt, JGR 1980-->
-            <param name="Type">ViscousCreep</param>
-            <param name="StrainRateInvariantField">recoveredStrainRateInvariantField</param>
-            <param name="TemperatureField">TemperatureField</param>
-            <param name="PressureField">recoveredPressureField</param>
-            
-            <param name="StressExponent">3</param>
-            <param name="PreExponentialFactor" units="(MPa)^-3*s^-1">7.0e4</param>
-            <param name="DefaultStrainRateInvariant" units="s^-1">1.0e-15</param>
-            
-            <param name="ActivationEnergy" units="J/mol">520000</param>
-            <param name="ActivationVolume">0.0</param>
-            
-            <param name="minViscosity" units="Pa*s">5e18</param> 
-            <param name="maxViscosity" units="Pa*s">5e23</param> 
-        </struct>
-            
-        <struct name="asthenoViscosity">
-            <!-- Wet Dunite : Brace and Kohlstedt, JGR 1980: PreExponentialFactor*100 => weaker-->
-            <param name="Type">ViscousCreep</param>
-            <param name="StrainRateInvariantField">recoveredStrainRateInvariantField</param>
-            <param name="TemperatureField">TemperatureField</param>
-            <param name="PressureField">recoveredPressureField</param>
-            
-            <param name="StressExponent">3</param>
-            <param name="PreExponentialFactor" units="(MPa)^-3*s^-1">7.0e6</param>
-            <param name="DefaultStrainRateInvariant" units="s^-1">1.0e-15</param>
-            
-            <param name="ActivationEnergy" units="J/mol">520000</param>
-            <param name="ActivationVolume">0.0</param>
-            
-            <param name="minViscosity" units="Pa*s">5e18</param> 
-            <param name="maxViscosity" units="Pa*s">5e23</param> 
-        </struct>        
-        
+   
+        <!-- === Viscosity limiter =================================== -->    
         <struct name="viscosityLimiter">
+            <!-- NOTE: If your model is not converging nicely, it can be helpful to
+                       reduce the viscosity gradients in your model. The viscosity
+                       limiter allows you to artificially limit the min and max viscosity
+                       allowed in your model, making it easier to solve. -->
             <param name="Type">ViscosityLimiter</param>
             <param name="maxViscosity" units="Pa*s">1e24</param>
             <param name="minViscosity" units="Pa*s">1e19</param>
         </struct>
-
-
-    <!-- ============================================================================================== -->
     
-    
-    <!-- === Yielding ================================================================================= -->
 
-        <!-- === Strain weakening =========================== -->
-        <struct name="strainWeakening">
-            <param name="Type">StrainWeakening</param>
-            <param name="TimeIntegrator">timeIntegrator</param>
-            <param name="MaterialPointsSwarm">materialSwarm</param>
-            <param name="softeningStrain">0.2</param> <!-- Pecentage until fully softened. E.g. 0.2 = 20% strain -->
-            <param name="initialDamageFraction">0.0</param>
-            <param name="initialDamageWavenumber">2e-6</param>
-            <param name="initialDamageFactor">0.7</param>
-            <param name="healingRate">0</param>
-        </struct>
-        <!-- ================================================ -->
-        
-        <struct name="uppercrustyielding">
-            <param name="Type">DruckerPrager</param>
-            <param name="PressureField">recoveredPressureField</param>
-            <param name="MaterialPointsSwarm">materialSwarm</param>
-            <param name="StrainRateField">recoveredStrainRateField</param>
-            <param name="StrainWeakening">strainWeakening</param>
-            
-            <param name="cohesion" units="MPa">80</param>
-            <param name="cohesionAfterSoftening" units="MPa">16</param>
-            <param name="frictionCoefficient">0.4</param>
-            <param name="frictionCoefficientAfterSoftening">0.04</param>
-            <param name="minimumViscosity" units="Pa*s">1e+19</param>
-        </struct>
-        
-        <struct name="lowercrustYielding">
-            <param name="Type">DruckerPrager</param>
-            <param name="PressureField">recoveredPressureField</param>
-            <param name="MaterialPointsSwarm">materialSwarm</param>
-            <param name="StrainRateField">recoveredStrainRateField</param>
-            <param name="StrainWeakening">strainWeakening</param>
-            
-            <param name="cohesion" units="MPa">40</param>
-            <param name="cohesionAfterSoftening" units="MPa">4</param>
-            <param name="frictionCoefficient">0.2</param>
-            <param name="frictionCoefficientAfterSoftening">0.02</param>
-            <param name="minimumViscosity" units="Pa*s">1e+19</param>
-        </struct>
-        
-        <struct name="mantleYielding">
-            <param name="Type">DruckerPrager</param>
-            <param name="PressureField">recoveredPressureField</param>
-            <param name="MaterialPointsSwarm">materialSwarm</param>
-            <param name="StrainRateField">recoveredStrainRateField</param>
-            <param name="StrainWeakening">strainWeakening</param>
-            
-            <param name="cohesion" units="MPa">80</param>
-            <param name="cohesionAfterSoftening" units="MPa">8</param>
-            <param name="frictionCoefficient">0.2</param>
-            <param name="frictionCoefficientAfterSoftening">0.02</param>
-            <param name="minimumViscosity" units="Pa*s">1e+19</param>
-        </struct>
 
-    <!-- ============================================================================================== -->
-    
-    
-    <!-- === Global definitions and functions ========================================================= -->
 
-        <!-- ========= Surface processes ========= -->
-        <struct name="erosion_height">
-            <param name="Type">Ppc_Constant</param>
-            <param name="Value">erosionHeight</param>
-        </struct>
-        <struct name="sedimentation_height">
-            <param name="Type">Ppc_Constant</param>
-            <param name="Value">sedimentationHeight</param>
-        </struct>
-        
-        <struct name="elevation">
-            <param name="Type">Ppc_Coord</param>
-            <param name="Axis">1</param>
-        </struct>  
-        <struct name="erosion_threshold">
-            <!-- This condition applies to all rock materials -->
-            <param name="Type"> Ppc_Material_Condition </param>
-            <param name="Condition"> g </param> 
-            <param name="Field"> elevation </param>
-            <param name="ValueToCompare"> erosion_height </param>
-            <param name="MaterialIfTrue"> air </param>
-        </struct>  
-        <struct name="sedimentation_threshold">
-            <!-- This condition applies to only air material -->
-            <param name="Type"> Ppc_Material_Condition </param>
-            <param name="Condition"> l </param> 
-            <param name="Field"> elevation </param>
-            <param name="ValueToCompare"> sedimentation_height </param>
-            <param name="MaterialIfTrue"> sediment </param>
-        </struct>
-        
-        <!-- ============================================ -->
-
-        <!-- === Shared rock properties ================= -->
-        <struct name="global_diffusivity">
-            <param name="Type">Ppc_Constant</param>
-            <param name="Value" units="m*m/s">1e-6</param>
-        </struct>
-        
-        <struct name="global_cp">
-            <param name="Type">Ppc_Constant</param>
-            <param name="Value" units="J/(K*kg)">1000</param>
-        </struct>
-        
-        <struct name="global_expansivity">
-            <param name="Type">Ppc_Constant</param>
-            <param name="Value">3e-5</param>
-        </struct>
-        
-        <!-- ============================================ -->
-        
-        <!-- === Material densities ===================== -->
-        <struct name="sediment_density">
-            <!-- The LinearDensity function calculates:
-                 rho = rhoRef(1-alpha*deltaT) -->
-            <param name="Type">Ppc_LinearDensity</param>
-            <param name="ReferenceDensity" units="kg*m^-3">2700</param>
-            <param name="ReferenceTemperature" units="K">293.15</param>
-            <param name="ThermalExpansivity"> global_expansivity </param>
-            <param name="Temperature"> temperature_ppc_wrapper </param>
-        </struct>
-        
-        <struct name="uppercrust_density">
-            <param name="Type">Ppc_LinearDensity</param>
-            <param name="ReferenceDensity" units="kg*m^-3">2800</param>
-            <param name="ReferenceTemperature" units="K">293.15</param>
-            <param name="ThermalExpansivity"> global_expansivity </param>
-            <param name="Temperature"> temperature_ppc_wrapper </param>
-        </struct>
-        
-        <struct name="lowercrust_density">
-            <param name="Type">Ppc_LinearDensity</param>
-            <param name="ReferenceDensity" units="kg*m^-3">2900</param>
-            <param name="ReferenceTemperature" units="K">293.15</param>
-            <param name="ThermalExpansivity"> global_expansivity </param>
-            <param name="Temperature"> temperature_ppc_wrapper </param>
-        </struct>
-        
-        <struct name="mantle_density">
-            <param name="Type">Ppc_LinearDensity</param>
-            <param name="ReferenceDensity" units="kg*m^-3">3300</param>
-            <param name="ReferenceTemperature" units="K">293.15</param>
-            <param name="ThermalExpansivity"> global_expansivity </param>
-            <param name="Temperature"> temperature_ppc_wrapper </param>
-        </struct>
-        
-        <struct name="astheno_density">
-            <param name="Type">Ppc_LinearDensity</param>
-            <param name="ReferenceDensity" units="kg*m^-3">3360</param>
-            <param name="ReferenceTemperature" units="K">293.15</param>
-            <param name="ThermalExpansivity"> global_expansivity </param>
-            <param name="Temperature"> temperature_ppc_wrapper </param>
-        </struct>
-        <!-- ============================================ -->
-        
-        <!-- === Material thermal properties ============ -->
-        <struct name="uppercrust_heatproduction">
-            <param name="Type">Ppc_Constant</param>
-            <!-- The value is the actual heat production - not divided by rho*cp! -->
-            <param name="Value" units="W/(m*m*m)">1.8e-6</param>
-        </struct>
-        
-        <struct name="lowercrust_heatproduction">
-            <param name="Type">Ppc_Constant</param>
-            <param name="Value" units="W/(m*m*m)">7e-7</param>
-        </struct>
-        
-        <struct name="no_heatproduction">
-            <param name="Type">Ppc_Constant</param>
-            <param name="Value" units="W/(m*m*m)">0.0</param>
-        </struct>
-        <!-- ============================================ -->
-
-    <!-- ============================================================================================== -->
-    
     
     <!-- === Material definitions ===================================================================== -->
         
@@ -581,39 +303,64 @@
                    For example, we could define an "air" material first which covers the entire 
                    domain. We can then define a "crust" material second, which will overprint the air 
                    material. If we defined them the other way around ("crust" first, "air" second), 
-                   the model domain would be entirely "air", because it will overprint the crust. 
-        -->
+                   the model domain would be entirely "air", because it will overprint the crust.  -->
+        
+        
         <struct name="air">
-            <param name="Type">RheologyMaterial</param>
-            <param name="Shape">airShape</param>
-            <param name="DensityProperty" units="kg*m^-3">3</param>
+            <!-- NOTE: air is a special case, because it does NOT share a lot of common properties
+                       such as thermal expansivity or diffusivity, and it certainly does not melt.
+                       In this case, we simply supply constant values for the thermal stuff, and
+                       to stop calculating melt functions, we replace the functions with zero. -->
+            <param name="Type"> RheologyMaterial </param>
+            <param name="Shape"> airShape </param>
+            <param name="DensityProperty" units="kg*m^-3"> 3 </param>
+            
             <!-- To increase timestep length, set air Diffusivity to be smaller -->
-            <param name="DiffusivityProperty" units="W/m^3">1e-5</param>
-            <param name="CpProperty">global_cp</param>
-            <param name="ThermalExpansivityProperty">0</param>
-            <param name="RadiogenicHeatProductionProperty">no_heatproduction</param>
-            <param name="surface_processes">sedimentation_threshold</param>
+            <param name="DiffusivityProperty" units="W/m^3"> 1e-5 </param>
+            <param name="CpProperty"> global_cp </param>
+            <param name="ThermalExpansivityProperty"> 0 </param>
+            <param name="RadiogenicHeatProductionProperty"> radiogenic_no_heating </param>
+            
+            <param name="LatentHeatFusionProperty" units="kJ*kg^-1"> 0.0 </param>
+            <param name="MeltFractionProperty"> 0 </param>
+            <param name="MeltExpansionProperty"> 0 </param>
+            <param name="solidusProperty"> 0 </param>
+            <param name="liquidusProperty"> 0 </param>
+            
+            <param name="surface_processes"> sedimentation_threshold </param>
             
             <list name="Rheology">
-                <param>airViscosity</param>
+                <!-- Viscous law   --> <param> viscIso_air_1e19 </param>
+                <!-- Brittle law   -->
+                <!-- Melt modifier -->
+                <!-- Visc limiter  -->
             </list>
         </struct>
         
         
         <struct name="sediment">
-            <param name="Type">RheologyMaterial</param>
-            <param name="Shape">uppercrustShape</param> <!-- Taking advantage of the overprinting by defining this first -->
-            <param name="DensityProperty">sediment_density</param>
-            <param name="DiffusivityProperty">global_diffusivity</param>
-            <param name="CpProperty">global_cp</param>
-            <param name="ThermalExpansivityProperty">global_expansivity</param>
-            <param name="RadiogenicHeatProductionProperty">uppercrust_heatproduction</param>
-            <param name="surface_processes">erosion_threshold</param>
+            <param name="Type"> RheologyMaterial </param>
+            <param name="Shape"> uppercrustShape </param> <!-- Taking advantage of the overprinting by defining this first -->
+            <param name="DensityProperty"> densMelt_sediment </param>
+            
+            <param name="DiffusivityProperty"> global_diffusivity </param>
+            <param name="CpProperty"> global_cp </param>
+            <param name="ThermalExpansivityProperty"> global_expansivity </param>
+            <param name="RadiogenicHeatProductionProperty"> radiogenic_upper_crust </param>
+            
+            <param name="LatentHeatFusionProperty" units="kJ*kg^-1">250.0</param>
+            <param name="MeltFractionProperty"> melt_fraction </param>
+            <param name="MeltExpansionProperty"> melt_crustal_density_decrease </param>
+            <param name="solidusProperty"> melt_crustal_solidus </param>
+            <param name="liquidusProperty"> melt_crustal_liquidus </param>
+            
+            <param name="surface_processes"> erosion_threshold </param>
             
             <list name="Rheology">
-                <param>sedimentViscosity</param>
-                <param>uppercrustyielding</param>
-                <param>viscosityLimiter</param>
+                <!-- Viscous law   --> <param> viscSRTdislocation_wet_quartzite_Goetze1978 </param>
+                <!-- Brittle law   --> <param> yield_upper_crust_Rey2010 </param>
+                <!-- Melt modifier --> <param> viscMelt_crustal_Hirth2003 </param>
+                <!-- Visc limiter  --> <param> viscosityLimiter </param>
             </list>
         </struct>
         
@@ -621,33 +368,51 @@
         <struct name="uppercrust">
             <param name="Type">RheologyMaterial</param>
             <param name="Shape">uppercrustShape</param>
-            <param name="DensityProperty">uppercrust_density</param>
-            <param name="DiffusivityProperty">global_diffusivity</param>
-            <param name="CpProperty">global_cp</param>
-            <param name="ThermalExpansivityProperty">global_expansivity</param>
-            <param name="RadiogenicHeatProductionProperty">uppercrust_heatproduction</param>
-            <param name="surface_processes">erosion_threshold</param>
+            <param name="DensityProperty">densMelt_continental_upper_crust</param>
+            
+            <param name="DiffusivityProperty"> global_diffusivity </param>
+            <param name="CpProperty"> global_cp </param>
+            <param name="ThermalExpansivityProperty"> global_expansivity </param>
+            <param name="RadiogenicHeatProductionProperty"> radiogenic_upper_crust </param>
+            
+            <param name="LatentHeatFusionProperty" units="kJ*kg^-1">250.0</param>
+            <param name="MeltFractionProperty"> melt_fraction </param>
+            <param name="MeltExpansionProperty"> melt_crustal_density_decrease </param>
+            <param name="solidusProperty"> melt_crustal_solidus </param>
+            <param name="liquidusProperty"> melt_crustal_liquidus </param>
+            
+            <param name="surface_processes"> erosion_threshold </param>
             
             <list name="Rheology">
-                <param>upperCrustViscosity</param>
-                <param>uppercrustyielding</param>
-                <param>viscosityLimiter</param>
+                <!-- Viscous law   --> <param> viscSRTdislocation_wet_quartzite_Goetze1978 </param>
+                <!-- Brittle law   --> <param> yield_upper_crust_Rey2010 </param>
+                <!-- Melt modifier --> <param> viscMelt_crustal_Hirth2003 </param>
+                <!-- Visc limiter  --> <param> viscosityLimiter </param>
             </list>
         </struct>
         <struct name="uppercrustMarkers">
             <param name="Type">RheologyMaterial</param>
             <param name="Shape">uppercrustMarkersShape</param>
-            <param name="DensityProperty">uppercrust_density</param>
-            <param name="DiffusivityProperty">global_diffusivity</param>
-            <param name="CpProperty">global_cp</param>
-            <param name="ThermalExpansivityProperty">global_expansivity</param>
-            <param name="RadiogenicHeatProductionProperty">uppercrust_heatproduction</param>
-            <param name="surface_processes">erosion_threshold</param>
+            <param name="DensityProperty">densMelt_continental_upper_crust</param>
+            
+            <param name="DiffusivityProperty"> global_diffusivity </param>
+            <param name="CpProperty"> global_cp </param>
+            <param name="ThermalExpansivityProperty"> global_expansivity </param>
+            <param name="RadiogenicHeatProductionProperty"> radiogenic_upper_crust </param>
+            
+            <param name="LatentHeatFusionProperty" units="kJ*kg^-1">250.0</param>
+            <param name="MeltFractionProperty"> melt_fraction </param>
+            <param name="MeltExpansionProperty"> melt_crustal_density_decrease </param>
+            <param name="solidusProperty"> melt_crustal_solidus </param>
+            <param name="liquidusProperty"> melt_crustal_liquidus </param>
+            
+            <param name="surface_processes"> erosion_threshold </param>
             
             <list name="Rheology">
-                <param>upperCrustViscosity</param>
-                <param>uppercrustyielding</param>
-                <param>viscosityLimiter</param>
+                <!-- Viscous law   --> <param> viscSRTdislocation_wet_quartzite_Goetze1978 </param>
+                <!-- Brittle law   --> <param> yield_upper_crust_Rey2010 </param>
+                <!-- Melt modifier --> <param> viscMelt_crustal_Hirth2003 </param>
+                <!-- Visc limiter  --> <param> viscosityLimiter </param>
             </list>
         </struct>
         
@@ -655,15 +420,26 @@
         <struct name="fault">
             <param name="Type">RheologyMaterial</param>
             <param name="Shape">faultShape</param>
-            <param name="DensityProperty" units="kg*m^-3">2700</param>
-            <param name="DiffusivityProperty">global_diffusivity</param>
-            <param name="CpProperty">global_cp</param>
-            <param name="ThermalExpansivityProperty">global_expansivity</param>
-            <param name="RadiogenicHeatProductionProperty">uppercrust_heatproduction</param>
-            <param name="surface_processes">erosion_threshold</param>
-			
+            <param name="DensityProperty">densMelt_continental_upper_crust</param>
+            
+            <param name="DiffusivityProperty"> global_diffusivity </param>
+            <param name="CpProperty"> global_cp </param>
+            <param name="ThermalExpansivityProperty"> global_expansivity </param>
+            <param name="RadiogenicHeatProductionProperty"> radiogenic_upper_crust </param>
+            
+            <param name="LatentHeatFusionProperty" units="kJ*kg^-1">250.0</param>
+            <param name="MeltFractionProperty"> melt_fraction </param>
+            <param name="MeltExpansionProperty"> melt_crustal_density_decrease </param>
+            <param name="solidusProperty"> melt_crustal_solidus </param>
+            <param name="liquidusProperty"> melt_crustal_liquidus </param>
+            
+            <param name="surface_processes"> erosion_threshold </param>
+            
             <list name="Rheology">
-                <param>faultViscosity</param>
+                <!-- Viscous law   --> <param> viscSRTdislocation_wet_quartzite_Goetze1978 </param>
+                <!-- Brittle law   --> <param> yield_weak_faulted </param>
+                <!-- Melt modifier --> <param> viscMelt_crustal_Hirth2003 </param>
+                <!-- Visc limiter  --> <param> viscosityLimiter </param>
             </list>
         </struct>
         
@@ -671,33 +447,51 @@
         <struct name="lowercrust">
             <param name="Type">RheologyMaterial</param>
             <param name="Shape">lowercrustShape</param>
-            <param name="DensityProperty">lowercrust_density</param>
-            <param name="DiffusivityProperty">global_diffusivity</param>
-            <param name="CpProperty">global_cp</param>
-            <param name="ThermalExpansivityProperty">global_expansivity</param>
-            <param name="RadiogenicHeatProductionProperty">lowercrust_heatproduction</param>
-            <param name="surface_processes">erosion_threshold</param>
-			
+            <param name="DensityProperty">densMelt_continental_lower_crust</param>
+            
+            <param name="DiffusivityProperty"> global_diffusivity </param>
+            <param name="CpProperty"> global_cp </param>
+            <param name="ThermalExpansivityProperty"> global_expansivity </param>
+            <param name="RadiogenicHeatProductionProperty"> radiogenic_lower_crust </param>
+            
+            <param name="LatentHeatFusionProperty" units="kJ*kg^-1">250.0</param>
+            <param name="MeltFractionProperty"> melt_fraction </param>
+            <param name="MeltExpansionProperty"> melt_crustal_density_decrease </param>
+            <param name="solidusProperty"> melt_crustal_solidus </param>
+            <param name="liquidusProperty"> melt_crustal_liquidus </param>
+            
+            <param name="surface_processes"> erosion_threshold </param>
+            
             <list name="Rheology">
-                <param>lowerCrustViscosity</param>
-                <param>lowercrustYielding</param>
-                <param>viscosityLimiter</param>
+                <!-- Viscous law   --> <param> viscSRTdislocation_mafic_granulite_Wang2012 </param>
+                <!-- Brittle law   --> <param> yield_lower_crust_Rey2010 </param>
+                <!-- Melt modifier --> <param> viscMelt_crustal_Hirth2003 </param>
+                <!-- Visc limiter  --> <param> viscosityLimiter </param>
             </list>
         </struct>
         <struct name="lowercrustMarkers">
             <param name="Type">RheologyMaterial</param>
             <param name="Shape">lowercrustMarkersShape</param>
-            <param name="DensityProperty">lowercrust_density</param>
-            <param name="DiffusivityProperty">global_diffusivity</param>
-            <param name="CpProperty">global_cp</param>
-            <param name="ThermalExpansivityProperty">global_expansivity</param>
-            <param name="RadiogenicHeatProductionProperty">lowercrust_heatproduction</param>
-            <param name="surface_processes">erosion_threshold</param>
+            <param name="DensityProperty">densMelt_continental_lower_crust</param>
+            
+            <param name="DiffusivityProperty"> global_diffusivity </param>
+            <param name="CpProperty"> global_cp </param>
+            <param name="ThermalExpansivityProperty"> global_expansivity </param>
+            <param name="RadiogenicHeatProductionProperty"> radiogenic_lower_crust </param>
+            
+            <param name="LatentHeatFusionProperty" units="kJ*kg^-1">250.0</param>
+            <param name="MeltFractionProperty"> melt_fraction </param>
+            <param name="MeltExpansionProperty"> melt_crustal_density_decrease </param>
+            <param name="solidusProperty"> melt_crustal_solidus </param>
+            <param name="liquidusProperty"> melt_crustal_liquidus </param>
+            
+            <param name="surface_processes"> erosion_threshold </param>
             
             <list name="Rheology">
-                <param>lowerCrustViscosity</param>
-                <param>lowercrustYielding</param>
-                <param>viscosityLimiter</param>
+                <!-- Viscous law   --> <param> viscSRTdislocation_mafic_granulite_Wang2012 </param>
+                <!-- Brittle law   --> <param> yield_lower_crust_Rey2010 </param>
+                <!-- Melt modifier --> <param> viscMelt_crustal_Hirth2003 </param>
+                <!-- Visc limiter  --> <param> viscosityLimiter </param>
             </list>
         </struct>
 		
@@ -705,17 +499,26 @@
         <struct name="mantle">
             <param name="Type">RheologyMaterial</param>
             <param name="Shape">mantleShape</param>
-            <param name="DensityProperty">mantle_density</param>
-            <param name="DiffusivityProperty">global_diffusivity</param>
-            <param name="CpProperty">global_cp</param>
-            <param name="ThermalExpansivityProperty">global_expansivity</param>
-            <param name="RadiogenicHeatProductionProperty">no_heatproduction</param>
-            <param name="surface_processes">erosion_threshold</param>
+            <param name="DensityProperty">densMelt_continental_litho_mantle</param>
+            
+            <param name="DiffusivityProperty"> global_diffusivity </param>
+            <param name="CpProperty"> global_cp </param>
+            <param name="ThermalExpansivityProperty"> global_expansivity </param>
+            <param name="RadiogenicHeatProductionProperty"> radiogenic_lithospheric_mantle </param>
+            
+            <param name="LatentHeatFusionProperty" units="kJ*kg^-1">250.0</param>
+            <param name="MeltFractionProperty"> melt_fraction </param>
+            <param name="MeltExpansionProperty"> melt_mantle_density_decrease </param>
+            <param name="solidusProperty"> melt_mantle_solidus </param>
+            <param name="liquidusProperty"> melt_mantle_liquidus </param>
+            
+            <param name="surface_processes"> erosion_threshold </param>
             
             <list name="Rheology">
-                <param>mantleViscosity</param>
-                <param>mantleYielding</param>
-                <param>viscosityLimiter</param>
+                <!-- Viscous law   --> <param> viscSRTdislocation_wet_dunite_Brace1980 </param>
+                <!-- Brittle law   --> <param> yield_litho_mantle_Rey2010 </param>
+                <!-- Melt modifier --> <param> viscMelt_mantle_Hirth2003 </param>
+                <!-- Visc limiter  --> <param> viscosityLimiter </param>
             </list>
         </struct>
         
@@ -723,14 +526,27 @@
         <struct name="astheno">
             <param name="Type">RheologyMaterial</param>
             <param name="Shape">asthenoShape</param>
-            <param name="DensityProperty">astheno_density</param>
-            <param name="DiffusivityProperty">global_diffusivity</param>
-            <param name="CpProperty">global_cp</param>
-            <param name="ThermalExpansivityProperty">global_expansivity</param>
-            <param name="RadiogenicHeatProductionProperty">no_heatproduction</param>
-            <param name="surface_processes">erosion_threshold</param>
-			
-            <param name="Rheology">asthenoViscosity</param>
+            <param name="DensityProperty">densMelt_asthenosphere</param>
+            
+            <param name="DiffusivityProperty"> global_diffusivity </param>
+            <param name="CpProperty"> global_cp </param>
+            <param name="ThermalExpansivityProperty"> global_expansivity </param>
+            <param name="RadiogenicHeatProductionProperty"> radiogenic_no_heating </param>
+            
+            <param name="LatentHeatFusionProperty" units="kJ*kg^-1">250.0</param>
+            <param name="MeltFractionProperty"> melt_fraction </param>
+            <param name="MeltExpansionProperty"> melt_mantle_density_decrease </param>
+            <param name="solidusProperty"> melt_mantle_solidus </param>
+            <param name="liquidusProperty"> melt_mantle_liquidus </param>
+            
+            <param name="surface_processes"> erosion_threshold </param>
+            
+            <list name="Rheology">
+                <!-- Viscous law   --> <param> viscSRTdislocation_wet_dunite_weakened_Brace1980 </param>
+                <!-- Brittle law   --> 
+                <!-- Melt modifier --> <param> viscMelt_mantle_Hirth2003 </param>
+                <!-- Visc limiter  --> <param> viscosityLimiter </param>
+            </list>
         </struct>
     </struct>
 

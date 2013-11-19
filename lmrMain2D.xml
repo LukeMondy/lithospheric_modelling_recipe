@@ -5,6 +5,10 @@
     
     <include>lmrNumerics.xml</include>
     
+    <include>lmrRheologyLibrary.xml</include>
+    
+    <include>lmrAuxilary.xml</include>
+    
     <include>lmrMaterials.xml</include>
     
     <include>lmrPassiveTracers.xml</include>
