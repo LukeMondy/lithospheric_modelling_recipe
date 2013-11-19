@@ -95,11 +95,11 @@
             <!-- The "Properties" list defines what MaterialExtensions the model has.
                  Each property must have a name, and every material defined must reference it.
                  MaterialExtensions also have a number of optional storage and calculation options:
-                    <param name="StoreOnMesh"> True </param>        Store the result on the mesh.
-                    <param name="StoreOnParticles"> True </param>   Store the result on the particles.
-                    <param name="StoreNLOnParticles"> True </param> Re-calculate this property on every non-linear iteration.
-                    <param name="StorePreviousValue"> True </param> Store the previous timestep's value on the particles.
-                    <param name="PassiveProperty"> True </param>    Force the calculation of this property (Required if the property is not part of the stokes-flow/energy equations).
+                    <param name="StoreOnMesh"> True </param>            Store the result on the mesh.
+                    <param name="StoreOnParticles"> True </param>       Store the result on the particles.
+                    <param name="StoreNLOnParticles"> True </param>     Re-calculate this property on every non-linear iteration.
+                    <param name="StorePreviousValue"> True </param>     Store the previous timestep's value on the particles.
+                    <param name="PassiveProperty"> True </param>        Force the calculation of this property (Required if the property is not part of the stokes-flow/energy equations).
                  NOTE: If you have any dependence in your variables on parameters that need to be calculated, e.g., pressure, ensure
                        you enable StoreNLOnParticle - this means the calculation will use the 'best' result of the non-linear solver.
             -->
@@ -142,10 +142,14 @@
                 <struct>
                     <param name="PropertyName"> liquidusProperty </param>
                     <param name="StoreOnMesh"> True </param>
+                    <param name="StoreNLOnParticles"> True </param>
                 </struct>
+                <!-- NOTE: Since both the liquidus and the solidus have a pressure
+                           dependency, they must use the StoreNLOnParticles option. -->
                 <struct>
                     <param name="PropertyName"> solidusProperty </param>
                     <param name="StoreOnMesh"> True </param>
+                    <param name="StoreNLOnParticles"> True </param> 
                 </struct>
                 <!-- ====================================== -->
             </list>
