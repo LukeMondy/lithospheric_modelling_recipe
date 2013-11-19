@@ -22,7 +22,7 @@
                     <struct>
                         <param name="name">temperature</param>
                         <param name="type">double</param>
-                        <param name="value" units="K"> 1200 </param>
+                        <param name="value" units="K"> 1573.15 </param>
                     </struct>
                 </list>
             </struct>

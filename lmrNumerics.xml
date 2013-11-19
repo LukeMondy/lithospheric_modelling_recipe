@@ -67,15 +67,10 @@
         <param>recoveredPressureField</param>
         <param>recoveredDeviatoricStressField</param>
         <param>recoveredDeviatoricStressInvariantField</param>
-        
-        <!-- The following are commented out because they are the raw,
-             unstablisied output from the solver. The "recovered..." 
-             variables should be used for data analsis. 
-        -->     
-            <param>StrainRateInvariantField</param>
-            <param>PressureField</param>
-            <param>StressField</param>
-            <param>StressInvariantField</param>
+         
+        <param>StrainRateInvariantField</param>
+        <param>StressField</param>
+        <param>StressInvariantField</param>
         
         
     </list>

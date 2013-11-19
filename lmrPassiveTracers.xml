@@ -8,26 +8,26 @@
         <struct name="surfaceTracerLayout">
             <!-- Generates a line of passive tracers across the surface -->
             <param name="Type">LineParticleLayout</param>
-            <param name="totalInitialParticles">201</param> <!-- 1 tracer per kilometre -->
+            <param name="totalInitialParticles">@elementResI</param> <!-- 1 tracer per element -->
             <list name="vertices">
                 <asciidata>
                     <columnDefinition name = "x" type="double" units="km"/>
                     <columnDefinition name = "y" type="double" units="km"/>
-                    0   0 
-                    200 0
+                    @minX   0 
+                    @maxX   0
                 </asciidata>
             </list>
         </struct>
         
         <struct name="mohoTracerLayout">               
             <param name="Type">LineParticleLayout</param>
-            <param name="totalInitialParticles">201</param>
+            <param name="totalInitialParticles">@elementResI</param>
             <list name="vertices">
                 <asciidata>
                     <columnDefinition name = "x" type="double" units="km"/>
                     <columnDefinition name = "y" type="double" units="km"/>
-                    0   -40
-                    200 -40
+                    @minX   -40
+                    @minX   -40
                 </asciidata>
             </list>
         </struct>
@@ -87,7 +87,6 @@
                 <param>TemperatureField</param>
                 <param>recoveredStrainRateInvariantField</param>
                 <param>recoveredDeviatoricStressInvariantField</param>
-                <param>VorticityField</param>
             </list>
         </struct>
         
