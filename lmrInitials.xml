@@ -5,12 +5,12 @@
         <struct name="tempProfile">
             <param name="Type">Ppc_Thermal_Profile</param>
             <param name="StartCoord" units="km">   0.0</param>
-            <param name="EndCoord"   units="km">-100.0</param>
+            <param name="EndCoord"   units="km"> -140.0</param>
             <param name="MinTemp" units="K"> 293.15</param>
-            <param name="MaxTemp" units="K">1200.00</param>
-            <param name="LinearCoefficient">4.3e-3</param> 
-            <param name="ExponentialCoefficient1">920.0 </param> 
-            <param name="ExponentialCoefficient2">3.5e-5</param>
+            <param name="MaxTemp" units="K">1573.15</param>
+            <param name="LinearCoefficient">0.00465139</param> 
+            <param name="ExponentialCoefficient1">774.73 </param> 
+            <param name="ExponentialCoefficient2">1.23996e-5</param>
 			<param name="axis"> @VerticalAxis </param>
         </struct>
     </struct>
