@@ -37,8 +37,8 @@ cpus="6"
 
 
 # === Restarting ============================================
-restarting=false            # Set to be true to enable restart functionality.
-restart_timestep="370"     # Set to be the checkpoint number to restart from.
+restarting=true            # Set to be true to enable restart functionality.
+restart_timestep="5120"     # Set to be the checkpoint number to restart from.
 
 
 # === Underworld binary file ================================
@@ -53,7 +53,7 @@ inputfile="${FULLDIR}/result-$JOBDESC/xmls/lmrMain2D.xml"
 OUTPUTDIR="${FULLDIR}/result-$JOBDESC"
 logfile="${FULLDIR}/log-$JOBDESC.log"
 linear_flags="--linearTolerance=${linear_tolerance} --linearMinIterations=${linear_minIterations} --linearMaxIterations=${linear_maxIterations}"
-nonlin_flags="--nonLinearTolerance=${nonlinear_tolerance} --nonLinearMinIterations=${nonlinear_minIterations} --linearMaxIterations=${nonlinear_maxIterations}"
+nonlin_flags="--nonLinearTolerance=${nonlinear_tolerance} --nonLinearMinIterations=${nonlinear_minIterations} --nonlinearMaxIterations=${nonlinear_maxIterations}"
 resolution="--elementResI=${xres} --elementResJ=${yres}"
 mumps_flags="-Uzawa_velSolver_pc_factor_mat_solver_package mumps -mat_mumps_icntl_14 200 -Uzawa_velSolver_ksp_type preonly -Uzawa_velSolver_pc_type lu"
 debug_mumps="-ksp_converged_reason -ksp_monitor_true_residual -Uzawa_velSolver_ksp_view"
