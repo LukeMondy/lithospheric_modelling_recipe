@@ -37,8 +37,8 @@ cpus="6"
 
 
 # === Restarting ============================================
-restarting=true            # Set to be true to enable restart functionality.
-restart_timestep="5120"     # Set to be the checkpoint number to restart from.
+restarting=false            # Set to be true to enable restart functionality.
+restart_timestep="100"     # Set to be the checkpoint number to restart from.
 
 
 # === Underworld binary file ================================
