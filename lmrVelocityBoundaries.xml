@@ -1,6 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <StGermainData xmlns="http://www.vpac.org/StGermain/XML_IO_Handler/Jun2003">
     
+    <list name="plugins" mergeType="merge">
+    <!-- === Isostasy functionality ========================== -->
+        <struct>
+            <!-- === Frequently modified ======= -->
+            <param name="rhoZeroMaterial">astheno</param>
+            <param name="UseAverage">False</param>
+            <!-- =============================== -->
+            <param name="Type"> lecode_tools_Isostasy </param>
+            <param name="Context">context</param>
+            <param name="mesh">linearMesh</param>
+            <param name="VerticalAxis">@VerticalAxis</param>
+            <param name="SurfaceIndex">@elementResJ</param>
+            <param name="swarm">picIntegrationPoints</param>
+            <param name="velocityField">VelocityField</param>
+            <param name="sle">stokesEqn</param>
+            <param name="Manager">default_ppcManager</param>
+            <param name="DensityLabel">DensityProperty</param>
+            <param name="MaxIterations">-1</param>
+        </struct>
+    </list>
+    
+    <struct name="components" mergeType="merge">
+        <struct name="current_time">
+            <!-- returns current timestep time in seconds -->
+            <param name="type"> Ppc_Current_Time </param>
+        </struct>
+        <struct name="left-wall-VC">
+            <param name="type"> Ppc_Switch </param>
+            <param name="field"> current_time </param>
+            <param name="Interpolate"> l </param>
+            <list name="CaseList">
+                <struct>
+                    <param name="Case" units="Myr"> 0 </param>
+                    <param name="Value" units="cm/yr"> 0 </param>
+                </struct>
+                <struct>
+                    <param name="Case" units="Myr"> 1 </param>
+                    <param name="Value" units="cm/yr"> -2.0 </param>
+                </struct>
+            </list>
+        </struct>
+    </struct>
+    
     <struct name="velocityBCs">
         <param name="type">CompositeVC</param>
         <list name="vcList">
@@ -21,8 +64,8 @@
                 <list name="variables">
                     <struct>
                         <param name="name">vx</param>
-                        <param name="type">double</param>
-                        <param name="value" units="cm/yr">-2.0</param>
+                        <param name="type">func</param>
+                        <param name="value">left-wall-VC</param>
                     </struct>
                 </list>
             </struct>
@@ -41,4 +84,5 @@
     </struct>
     
 </StGermainData>
+
 
