@@ -25,11 +25,11 @@
     <struct name="components" mergeType="merge">
         <struct name="current_time">
             <!-- returns current timestep time in seconds -->
-            <param name="type"> Ppc_Current_Time </param>
+            <param name="Type"> Ppc_Current_Time </param>
         </struct>
         <struct name="left-wall-VC">
-            <param name="type"> Ppc_Switch </param>
-            <param name="field"> current_time </param>
+            <param name="Type"> Ppc_Switch </param>
+            <param name="Field"> current_time </param>
             <param name="Interpolate"> l </param>
             <list name="CaseList">
                 <struct>
