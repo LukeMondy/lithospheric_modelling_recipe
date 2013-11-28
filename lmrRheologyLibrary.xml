@@ -226,18 +226,21 @@
                    by rho*cp in the lmrNumerics.xml, to calculate the energy added into
                    the system. -->
         <struct name="radiogenic_upper_crust">
+            <!-- Derived from Hasterok and Chapman, EPSL, 2011 -->
             <param name="Type">Ppc_Constant</param>            
-            <param name="Value" units="W/(m*m*m)">1.8e-6</param>
+            <param name="Value" units="W/(m*m*m)">1.0e-6</param>
         </struct>
         
         <struct name="radiogenic_lower_crust">
+            <!-- Derived from Hasterok and Chapman, EPSL, 2011 --><!-- Derived from Hasterok and Chapman, EPSL, 2011 -->
             <param name="Type">Ppc_Constant</param>
-            <param name="Value" units="W/(m*m*m)">7e-7</param>
+            <param name="Value" units="W/(m*m*m)">0.4e-6</param>
         </struct>
         
         <struct name="radiogenic_lithospheric_mantle">
+            <!-- Derived from Hasterok and Chapman, EPSL, 2011 --><!-- Derived from Hasterok and Chapman, EPSL, 2011 -->
             <param name="Type">Ppc_Constant</param>
-            <param name="Value" units="W/(m*m*m)">1e-10</param>
+            <param name="Value" units="W/(m*m*m)">0.02e-6</param>
         </struct>
         
         <struct name="radiogenic_no_heating">

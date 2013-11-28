@@ -60,7 +60,7 @@
             <param name="Type">Ppc_Operation</param>
             <param name="Operation"> * </param>
             <list name="Properties">
-                <param>astheno_density</param>
+                <param>DensityProperty</param>
                 <param>CpProperty</param>
             </list>
         </struct>
