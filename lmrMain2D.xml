@@ -7,7 +7,7 @@
     
     <include>lmrRheologyLibrary.xml</include>
     
-    <include>lmrAuxilary.xml</include>
+    <include>lmrAuxiliary.xml</include>
     
     <include>lmrMaterials.xml</include>
     

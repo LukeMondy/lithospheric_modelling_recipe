@@ -8,7 +8,7 @@
     <struct name="components" mergeType="merge">
         <struct name="default_ppcManager" mergeType="merge">
             <list name="Properties" mergeType="merge">
-                <!-- NOTE: If your auxilary property has a dependence on something Underworld
+                <!-- NOTE: If your auxiliary property has a dependence on something Underworld
                            calculates (e.g., pressure, strain-rate), and you have non-linear
                            rheologies (e.g., you use yielding, or strain-dependent viscosities),
                            then your property must have StoreNLOnParticle = True. 
