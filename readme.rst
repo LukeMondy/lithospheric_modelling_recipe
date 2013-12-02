@@ -51,3 +51,6 @@ Section 2. Ideal workflow
 
 This workflow essentially preserves the original lmr repo, so changes you may implement in one model are not inadvertently copied across to other models. It also means it is very easy to get updates as the lmr is improved and optimised.
 
+Section 3. The Wiki
+-------------------------
+Please visit the wiki for information on a much more indepth look into the LMR, what some of the components do, some additional examples that can be implemented, and guides on good modelling practices and methods. The wiki can be found `here <https://bitbucket.org/lmondy/lithosphericmodellingrecipe/wiki>`_
