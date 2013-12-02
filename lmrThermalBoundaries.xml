@@ -15,6 +15,7 @@
                     </struct>
                 </list>
             </struct>
+            <!--
             <struct>
                 <param name="type"> WallVC </param>
                 <param name="wall"> bottom </param>
@@ -26,7 +27,7 @@
                     </struct>
                 </list>
             </struct>
-			<!--
+			
 			Thermal BCs can be applied to any wall, or shapes (using MeshShapeVC type)
 			-->
         </list>
@@ -38,14 +39,14 @@
 		<struct name="basal_heat_flow">
 			<!-- Avg heat flow from Rudnick and Nyblade (1999) -->
             <param name="Type">Ppc_Constant</param>
-            <param name="Value" units="mW/(m*m)">18</param>
+            <param name="Value" units="mW/(m*m)">25</param>
         </struct>
-		<!--
+		
 		<struct name="heat_flux_vector">
             <param name="Type">Ppc_a_Vector</param>
             <param name="Alpha">basal_heat_flux</param>
             <param name="vi">0</param>
-            <param name="vj">-1</param>
+            <param name="vj">1</param>
             <param name="vk">0</param>
         </struct>
         <struct name="basal_heat_flux">
@@ -60,18 +61,18 @@
             <param name="Type">Ppc_Operation</param>
             <param name="Operation"> * </param>
             <list name="Properties">
-                <param>DensityProperty</param>
+                <param>3360</param>
                 <param>CpProperty</param>
             </list>
         </struct>
 		<struct name="thermalFluxBC">
-			<param name="wall">bottom</param>
+			<param name="Surface">bottom</param>
             <param name="functionLabel">heat_flux_vector</param>
             <param name="Type">VectorSurfaceAssemblyTerm_NA__Fi__ni</param>
             <param name="ForceVector">residual</param>
             <param name="Swarm">borderGaussSwarm</param>
         </struct>
-        -->
+        
     </struct>
     
     

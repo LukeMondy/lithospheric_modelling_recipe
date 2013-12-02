@@ -2,12 +2,12 @@
 <StGermainData xmlns="http://www.vpac.org/StGermain/XML_IO_Handler/Jun2003">
     
     <list name="plugins" mergeType="merge">
-    <!-- === Isostasy functionality ========================== -->
+     <!--=== Isostasy functionality ========================== -->
         <struct>
-            <!-- === Frequently modified ======= -->
+            <!-- === Commonly modified ================== -->
             <param name="rhoZeroMaterial">astheno</param>
             <param name="UseAverage">False</param>
-            <!-- =============================== -->
+            <!-- ======================================== -->
             <param name="Type"> lecode_tools_Isostasy </param>
             <param name="Context">context</param>
             <param name="mesh">linearMesh</param>
@@ -22,9 +22,9 @@
         </struct>
     </list>
     
+    <!--
     <struct name="components" mergeType="merge">
         <struct name="current_time">
-            <!-- returns current timestep time in seconds -->
             <param name="Type"> Ppc_Current_Time </param>
         </struct>
         <struct name="left-wall-VC">
@@ -43,7 +43,7 @@
             </list>
         </struct>
     </struct>
-    
+    -->
     <struct name="velocityBCs">
         <param name="type">CompositeVC</param>
         <list name="vcList">
@@ -64,8 +64,8 @@
                 <list name="variables">
                     <struct>
                         <param name="name">vx</param>
-                        <param name="type">func</param>
-                        <param name="value">left-wall-VC</param>
+                        <param name="type">double</param>
+                        <param name="value" units="cm/yr">-2.0</param>
                     </struct>
                 </list>
             </struct>

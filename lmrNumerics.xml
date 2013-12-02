@@ -24,8 +24,8 @@
     
     
     <!-- === Model timing and global constants ================ -->
-    <param name="maxTimeSteps">20000</param>
-    <param name="end" units="yr">5e6</param> <!-- How long will the model run for -->
+    <param name="maxTimeSteps">2000000</param>
+    <param name="end" units="yr">1e12</param> 
     <param name="gravity" units="m*s^-2">9.81</param>
     <!-- ====================================================== -->
     
@@ -48,8 +48,9 @@
     
     <!-- === Output controls ====================== -->
     <param name="outputPath">./model</param>
-    <param name="checkpointEvery">1000</param>
-    <param name="dumpEvery">1000</param>
+    <param name="checkpointEvery"> 1000000000 </param>
+    <param name="dumpEvery">       1000000000 </param>
+    <param name="checkpointAtTimeInc" units="yr"> 1e10 </param>
     
     <list name="FieldVariablesToCheckpoint">
         <param>VelocityField</param>

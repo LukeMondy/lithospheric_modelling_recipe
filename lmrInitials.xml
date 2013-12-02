@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <StGermainData xmlns="http://www.vpac.org/StGermain/XML_IO_Handler/Jun2003">
     
-    <struct name="components" mergeType="merge">
-        <struct name="tempProfile">
-            <param name="Type">Ppc_Thermal_Profile</param>
-            <param name="StartCoord" units="km">   0.0</param>
-            <param name="EndCoord"   units="km"> -140.0</param>
-            <param name="MinTemp" units="K"> 293.15</param>
-            <param name="MaxTemp" units="K">1573.15</param>
-            <param name="LinearCoefficient">0.00465139</param> 
-            <param name="ExponentialCoefficient1">774.73 </param> 
-            <param name="ExponentialCoefficient2">1.23996e-5</param>
-			<param name="axis"> @VerticalAxis </param>
+    
+    <list name="plugins" mergeType="merge">
+        <!-- If you have thermally equilibrated your model, you need to tell Underworld where
+             to find the thermal information using the following struct -->
+        <struct>
+            <param name="Type">Underworld_HDF5ConditionFunction</param>
+            <param name="FeVariableHDF5Filename"> !!PATH_TO_TEMP_FILE!! </param>
+            <param name="MeshHDF5Filename"> !!PATH_TO_MESH_FILE!! </param>
+            <param name="TargetFeVariable"> TemperatureField </param>
         </struct>
-    </struct>
+    </list>
+    
+    <!-- If you do NOT want to use a thermally equilibrated model, you can use a user-defined 
+         geotherm. Look inside lmrThermalEquilibration.xml for an example. 
+         If you just want a model with a thermal anomaly in it, it is recommended to thermally
+         equilibrate your model, then apply a temperature shape over the top (an example is 
+         shown below). -->
     
     <struct name="temperatureICs">
         <param name="type">CompositeVC</param>
@@ -26,7 +30,7 @@
                     <struct>
                         <param name="name"> temperature </param>
                         <param name="type"> func </param>
-                        <param name="value"> tempProfile </param>
+                        <param name="value"> HDF5ConditionFunction </param>
                     </struct>
                 </list>
             </struct>
