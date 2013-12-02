@@ -10,7 +10,7 @@ yres="80"
 
 
 # === Data output ===========================================
-JOBDESC="litho-${xres}x${yres}-hasterokHeatProd-25mWtest"
+JOBDESC="litho-${xres}x${yres}-reference_solution"
 max_timesteps="100000"   # Use a large number for normal runs, use -1 for checking material geometries.
 max_time="5e6"           # Model will stop after 5 million years
 use_log_file=true        # If true, command-line output goes to $JOBDESC.log
@@ -25,7 +25,7 @@ checkpoint_after_x_timesteps="1000000"
 
 # === Restarting ============================================
 restarting=false            # Set to be true to enable restart functionality.
-restart_timestep="39289"     # Set to be the checkpoint number to restart from.
+restart_timestep="1000"     # Set to be the checkpoint number to restart from.
 
 
 
@@ -48,7 +48,7 @@ nonlinear_maxIterations="500"
 #   recommended to this at least once, and then use the resulting outputs as your model initial
 #   conditions.
 path_to_thermal_initial_condition="${FULLDIR}/initial_condition"    # This MUST be set.
-run_thermal_equilibration=false
+run_thermal_equilibration=true  # After running once, set to false
 
 thermal_equilibration_max_time="1000e6"                 # Run thermal equilibration for 1000 myr
 thermal_equilibration_checkpoint_after_x_years="10e6"   # Checkpoint every 10 myr when doing thermal equilibration
