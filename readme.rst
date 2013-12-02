@@ -36,7 +36,7 @@ Section 2. Ideal workflow
 
 6. The model needs to be thermally equilibrated to achieve a steady-state geotherm. This is controlled by the run_thermal_equilibration=true flag in the lmrRunJob.sh file. Since it is already set to be true, you just need to make sure all the thermal_equilibration parameters are to your liking, and then run the model by typing:
    ``./lmrRunJob.sh``
-   Ensuring your models are thermally equilibrated is almost always a good idea - it is discussed more `here <https://bitbucket.org/lmondy/lithosphericmodellingrecipe/wiki/Thermal%20Equilibration>`.
+   Ensuring your models are thermally equilibrated is almost always a good idea - it is discussed more `here <https://bitbucket.org/lmondy/lithosphericmodellingrecipe/wiki/Thermal%20Equilibration>`_.
 
 7. Once the thermal equilibration is done, open the lmrRunJob.sh file again, and set run_thermal_equilibration to false. You can now run the actual model by typing:
    ``./lmrRunJob.sh``
