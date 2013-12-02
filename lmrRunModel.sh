@@ -13,7 +13,7 @@ yres="80"
 JOBDESC="litho-${xres}x${yres}-reference_solution"
 max_timesteps="100000"   # Use a large number for normal runs, use -1 for checking material geometries.
 max_time="5e6"           # Model will stop after 5 million years
-use_log_file=true        # If true, command-line output goes to $JOBDESC.log
+use_log_file=false        # If true, command-line output goes to $JOBDESC.log
 
 # Underworld will output a checkpoint either after x many years, or x many checkpoints.
 # It will choose whichever comes first, so make the one you don't want very large.
