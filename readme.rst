@@ -12,7 +12,7 @@
 	Julian,
 	etc
 
-:Version: 1.0
+:Version: 2.0
 
 Section 1. What is the Lithospheric Modelling Recipe?
 -----------------------------------------------------
@@ -34,10 +34,12 @@ Section 2. Ideal workflow
 
 5. Modify the lmr*.xml files in the new directory, adjusting them to represent the problem you are investigating.
 
-6. Modify the lmrRunJob.sh file with the appropriate resolution and output parameters.
-
-7. Run the job by typing: 
+6. The model needs to be thermally equilibrated to achieve a steady-state geotherm. This is controlled by the run_thermal_equilibration=true flag in the lmrRunJob.sh file. Since it is already set to be true, you just need to make sure all the thermal_equilibration parameters are to your liking, and then run the model by typing:
    ``./lmrRunJob.sh``
+
+7. Once the thermal equilibration is done, open the lmrRunJob.sh file again, and set run_thermal_equilibration to false. Then run the job by typing:
+   ``./lmrRunJob.sh``
+
 
 This workflow essentially preserves the original lmr repo, so changes you may implement in one model are not inadvertently copied across to other models. It also means it is very easy to get updates as the lmr is improved and optimised.
 
