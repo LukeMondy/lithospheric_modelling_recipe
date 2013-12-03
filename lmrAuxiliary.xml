@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <StGermainData xmlns="http://www.vpac.org/StGermain/XML_IO_Handler/Jun2003">
 
-    <param name="erosionHeight"       units="km"> 2 </param>
-    <param name="sedimentationHeight" units="km"> -2 </param>
-
-
     <struct name="components" mergeType="merge">
         <struct name="default_ppcManager" mergeType="merge">
             <list name="Properties" mergeType="merge">
@@ -16,7 +12,12 @@
                 <struct>
                     <param name="PropertyName"> surface_processes </param>
                     <param name="PassiveProperty"> True </param>
-                    <param name="StoreNLOnParticles"> True </param>
+                    <param name="StoreNLOnParticles"> False </param>
+                    <!-- Surface processes is unique, in that you can decide when you 
+                         want to apply them - before or after the solve for stokes flow.
+                         Setting StoreNLOnParticles to true means it applies after.
+                         Setting StoreNLOnParticles to false means it applies before.
+                         -->
                 </struct>
             </list>            
         </struct>
@@ -25,11 +26,11 @@
         <!-- ========= Surface processes ========= -->
         <struct name="erosion_height">
             <param name="Type">Ppc_Constant</param>
-            <param name="Value">erosionHeight</param>
+            <param name="Value" units="km"> 2 </param>
         </struct>
         <struct name="sedimentation_height">
             <param name="Type">Ppc_Constant</param>
-            <param name="Value">sedimentationHeight</param>
+            <param name="Value" units="km"> -2 </param>
         </struct>
 
         <struct name="elevation">
