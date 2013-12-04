@@ -47,8 +47,8 @@ nonlinear_maxIterations="500"
 #   thermally equilibrate for >1 billion years without much computational cost. It is highly
 #   recommended to this at least once, and then use the resulting outputs as your model initial
 #   conditions.
-path_to_thermal_initial_condition="${FULLDIR}/initial_condition"    # This MUST be set.
 run_thermal_equilibration=true  # After running once, set to false
+path_to_thermal_initial_condition="${FULLDIR}/initial_condition"    # This MUST be set.
 
 thermal_equilibration_max_time="1000e6"                 # Run thermal equilibration for 1000 myr
 thermal_equilibration_checkpoint_after_x_years="10e6"   # Checkpoint every 10 myr when doing thermal equilibration
