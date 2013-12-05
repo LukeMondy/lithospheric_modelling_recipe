@@ -82,7 +82,7 @@ if $run_thermal_equilibration ; then
     
     resolution="--elementResI=${thermal_equilibration_xres} --elementResJ=${thermal_equilibration_yres}"
     nonlin_flags="--nonLinearTolerance=${nonlinear_tolerance} --nonLinearMinIterations=${nonlinear_minIterations} --nonLinearMaxIterations=1"
-    checkpoint_flags="--checkpointAtTimeInc=${thermal_equilibration_checkpoint_after_x_years}"
+    checkpoint_flags="--checkpointAtTimeInc=${thermal_equilibration_checkpoint_after_x_years} --dumpEvery=250"
     other_flags="--end=${thermal_equilibration_max_time} --outputPath=${OUTPUTDIR} --maxTimeSteps=${max_timesteps}"
 else
     # Running actual model
