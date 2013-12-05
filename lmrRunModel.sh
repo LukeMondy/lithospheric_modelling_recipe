@@ -60,14 +60,14 @@ automatically_update_lmrInitials_xml=true
 
 
 # === Parallelism ===========================================
-cpus="2"
+cpus="6"
 
 
 
 
 
 # === Underworld binary file ================================
-underworld="/home/litho/Programs/uw-src/build/bin/Underworld"   # Point this to your Underworld installtion.
+underworld="/home/luke/Programs/unmodified-uw/build/bin/Underworld"   # Point this to your Underworld installtion.
 
 
 
@@ -173,11 +173,15 @@ if $run_thermal_equilibration ; then
 		fi
 	else
 		echo ""
-		echo "======================================================================"
-		echo "==== ERROR: lmrRunJob.sh couldn't find any thermal equilibration steps!"
-		echo "            Either only timestep 0 or no timesteps were found. Run the"
-		echo "            equilibration phase for longer, reduce the equilibration "
-		echo "            timestep length, or turn off equilibration checkpoint cleanup"
+		echo "=========================================================================="
+		echo "=== ERROR: lmrRunJob.sh couldn't find any thermal equilibration steps!"
+		echo "           This is most likely because the thermal equilibration has either"
+		echo "           only outputted the first timestep (t=0), or hasn't outputted anything"
+		echo "           Some ways to try fixing this:"
+		echo "               - Run the equilibration phase for longer,"
+		echo "               - Reduce the equilibration timestep length,"
+		echo "               - Turn off equilibration checkpoint cleanup."
+		echo ""
 	fi
 fi
 
