@@ -11,13 +11,7 @@
                            To see more information, see lmrNumerics.xml -->
                 <struct>
                     <param name="PropertyName"> surface_processes </param>
-                    <param name="PassiveProperty"> True </param>
-                    <param name="StoreNLOnParticles"> False </param>
-                    <!-- Surface processes is unique, in that you can decide when you 
-                         want to apply them - before or after the solve for stokes flow.
-                         Setting StoreNLOnParticles to true means it applies after.
-                         Setting StoreNLOnParticles to false means it applies before.
-                         -->
+                    <param name="PassiveProperty"> True </param>                    
                 </struct>
             </list>            
         </struct>

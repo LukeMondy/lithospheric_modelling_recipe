@@ -27,7 +27,7 @@
                     <columnDefinition name = "x" type="double" units="km"/>
                     <columnDefinition name = "y" type="double" units="km"/>
                     @minX   -40
-                    @minX   -40
+                    @maxX   -40
                 </asciidata>
             </list>
         </struct>
