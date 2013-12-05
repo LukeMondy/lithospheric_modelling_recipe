@@ -60,14 +60,14 @@ automatically_update_lmrInitials_xml=true
 
 
 # === Parallelism ===========================================
-cpus="6"
+cpus="2"
 
 
 
 
 
 # === Underworld binary file ================================
-underworld="/home/luke/Programs/unmodified-uw/build/bin/Underworld"   # Point this to your Underworld installtion.
+underworld="/home/litho/Programs/uw-src/build/bin/Underworld"   # Point this to your Underworld installtion.
 
 
 
@@ -149,27 +149,36 @@ if $run_thermal_equilibration ; then
     # from there.
     restart_timestep=`ls ${path_to_thermal_initial_condition}/TemperatureField* | tail -n 1 | sed -r 's/.*TemperatureField.([0-9]*)\..*/\1/g'`
     restart_timestep=$(echo $restart_timestep | sed 's/^0*//') 
-	echo ""
-    echo "======================================================================"
-    echo "==== Restarting on a single CPU to interpolate to ${xres}x${yres} ===="
-    echo "     Restart timestep: $restart_timestep"
-    sleep 10
-    resolution="--elementResI=${xres} --elementResJ=${yres}"
-    checkpoint_flags="--dumpEvery=1 --checkpointEvery=1"
-    other_flags="--end=${thermal_equilibration_max_time} --outputPath=${path_to_thermal_initial_condition} --maxTimeSteps=1"
-    uw_flags="--restartTimestep=${restart_timestep} --interpolateRestart=1 $resolution $linear_flags $nonlin_flags $other_flags $checkpoint_flags $mumps_flags"
-    if $use_log_file ; then
-        $underworld $uw_flags $inputfile &>> $logfile
-    else
-        $underworld $uw_flags $inputfile
-    fi
-    
-    if ! $preserve_thermal_equilibration_checkpoints ; then
-        # Delete all but the last checkpoint.
-        echo "Cleaning up thermal equilibration checkpoints"
-        last_step=$(( $restart_timestep + 1 ))
-        find ${path_to_thermal_initial_condition} -type f -not -name "*${last_step}*" | xargs rm
-    fi
+    if [[ "$restart_timestep" != '' ]] ; then
+		echo ""
+		echo "======================================================================"
+		echo "==== Restarting on a single CPU to interpolate to ${xres}x${yres} ===="
+		echo "     Restart timestep: $restart_timestep"
+		sleep 10
+		resolution="--elementResI=${xres} --elementResJ=${yres}"
+		checkpoint_flags="--dumpEvery=1 --checkpointEvery=1"
+		other_flags="--end=${thermal_equilibration_max_time} --outputPath=${path_to_thermal_initial_condition} --maxTimeSteps=1"
+		uw_flags="--restartTimestep=${restart_timestep} --interpolateRestart=1 $resolution $linear_flags $nonlin_flags $other_flags $checkpoint_flags $mumps_flags"
+		if $use_log_file ; then
+		    $underworld $uw_flags $inputfile &>> $logfile
+		else
+		    $underworld $uw_flags $inputfile
+		fi
+		
+		if ! $preserve_thermal_equilibration_checkpoints ; then
+		    # Delete all but the last checkpoint.
+		    echo "Cleaning up thermal equilibration checkpoints"
+		    last_step=$(( $restart_timestep + 1 ))
+		    find ${path_to_thermal_initial_condition} -type f -not -name "*${last_step}*" | xargs rm
+		fi
+	else
+		echo ""
+		echo "======================================================================"
+		echo "==== ERROR: lmrRunJob.sh couldn't find any thermal equilibration steps!"
+		echo "            Either only timestep 0 or no timesteps were found. Run the"
+		echo "            equilibration phase for longer, reduce the equilibration "
+		echo "            timestep length, or turn off equilibration checkpoint cleanup"
+	fi
 fi
 
 
