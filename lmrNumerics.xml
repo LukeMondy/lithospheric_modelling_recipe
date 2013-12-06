@@ -1,57 +1,29 @@
 <?xml version="1.0"?>
 <StGermainData xmlns="http://www.vpac.org/StGermain/XML_IO_Handler/Jun2003">
     
-    <!-- === Domain and resolution controls ==================== -->
-    <param name="dim">2</param>
-    
+    <!-- === Domain size ======================================= -->
     <!-- Axis 0: x -->
-    <param name="elementResI">208</param>
     <param name="minX" units="km"> -100</param>
     <param name="maxX" units="km">  300</param>
     
     <!-- Axis 1: y -->
-    <param name="elementResJ">112</param>
     <param name="minY" units="km">-155</param>
     <param name="maxY" units="km">   5</param>
     
     <!-- Axis 2: z -->
-    <param name="elementResK">0</param>
-    <param name="minZ">0</param>
-    <param name="maxZ">0</param>
-    
-    <param name="VerticalAxis">1</param>
+    <param name="minZ" units="km"> -100</param>
+    <param name="maxZ" units="km">  300</param>
     <!-- ====================================================== -->
+        
     
-    
-    <!-- === Model timing and global constants ================ -->
-    <param name="maxTimeSteps">2000000</param>
-    <param name="end" units="yr">1e12</param> 
+    <!-- === Basic numerical controls ========================= -->
+    <param name="particlesPerCell">40</param>
+    <param name="courantFactor"> 0.5 </param>
     <param name="gravity" units="m*s^-2">9.81</param>
     <!-- ====================================================== -->
     
     
-    <!-- === Basic numerical controls ========================= -->
-    <!-- Note: these params are commonly overridden by commandline options -->
-    <param name="particlesPerCell">40</param>
-    
-    <param name="linearTolerance">5e-3</param>
-    <param name="linearMinIterations">10</param>
-    <param name="linearMaxIterations">15000</param>
-    
-    <param name="nonLinearTolerance">5e-3</param>
-    <param name="nonLinearMinIterations">10</param>
-    <param name="nonLinearMaxIterations">500</param>
-    
-    <param name="courantFactor"> 0.5 </param>
-    <!-- ====================================================== -->
-    
-    
     <!-- === Output controls ====================== -->
-    <param name="outputPath">./model</param>
-    <param name="checkpointEvery"> 1000000000 </param>
-    <param name="dumpEvery">       1000000000 </param>
-    <param name="checkpointAtTimeInc" units="yr"> 1e10 </param>
-    
     <list name="FieldVariablesToCheckpoint">
         <param>VelocityField</param>
         <param>PressureField</param>
@@ -91,6 +63,13 @@
 	</struct>
     <!-- ========================================= -->
     
+    
+    
+    
+    
+    
+    
+    <!-- === The nitty-gritty numerics (best to leave alone if unsure) ========== -->
     
     <struct name="components" mergeType="merge">
         <!-- The Ppc Manager-->
@@ -386,11 +365,47 @@
     </struct>
     
     
+    
+    <!-- === Mesh parameters ======================= -->
+    <param name="VerticalAxis">1</param>
+    
+    <!-- These values are always overwritten -->
+    <param name="dim">2</param>
+    <param name="elementResI">208</param> 
+    <param name="elementResJ">112</param>
+    <param name="elementResK">0</param>
+    <!-- =========================================== -->
+    
+    <!-- === Numerical tolerance values ============ -->
+    <!-- These values are always overwritten -->
+    <param name="linearTolerance">5e-3</param>
+    <param name="linearMinIterations">10</param>
+    <param name="linearMaxIterations">15000</param>
+    
+    <param name="nonLinearTolerance">5e-3</param>
+    <param name="nonLinearMinIterations">10</param>
+    <param name="nonLinearMaxIterations">500</param>
+    <!-- =========================================== -->
+    
+    
     <!-- === Numerical controls (that probably shouldn't be touched) ==== -->
     <param name="shadowDepth">1</param>             
     <param name="allowUnbalancing">True</param>    
     <param name="timeIntegratorOrder"> 1 </param>
     <!-- ================================================================ -->
+    
+    <!-- === Output controls ====================== -->
+    <!-- These values are always overwritten -->
+    <param name="outputPath">./model</param>
+    <param name="checkpointEvery"> 1000000000 </param>
+    <param name="dumpEvery">       1000000000 </param>
+    <param name="checkpointAtTimeInc" units="yr"> 1e10 </param>
+    
+    <!-- === Model timing  ======================== -->
+    <!-- These values are always overwritten -->
+    <param name="maxTimeSteps">2000000</param>
+    <param name="end" units="yr">1e12</param> 
+    <!-- =========================================== -->
     
     
 </StGermainData>

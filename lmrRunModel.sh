@@ -3,17 +3,18 @@
 FULLDIR=`pwd`
 
 # === Model resolution ======================================
-xres="208"  # 2 km resolution for fast run.
+xres="208"
 yres="80"
+zres="0"    # For 3D, set this to be more than 0.
 
 
 
 
 # === Data output ===========================================
-JOBDESC="litho-${xres}x${yres}-reference_solution"
+job_description="reference-solution"
 max_timesteps="100000"   # Use a large number for normal runs, use -1 for checking material geometries.
 max_time="5e6"           # Model will stop after 5 million years
-use_log_file=false        # If true, command-line output goes to $JOBDESC.log
+use_log_file=false        # If true, command-line output goes to $job_description.log
 
 # Underworld will output a checkpoint either after x many years, or x many checkpoints.
 # It will choose whichever comes first, so make the one you don't want very large.
@@ -47,15 +48,17 @@ nonlinear_maxIterations="500"
 #   thermally equilibrate for >1 billion years without much computational cost. It is highly
 #   recommended to this at least once, and then use the resulting outputs as your model initial
 #   conditions.
-run_thermal_equilibration=true  # After running once, set to false
-path_to_thermal_initial_condition="${FULLDIR}/initial_condition"    # This MUST be set.
+run_thermal_equilibration=false  # After running once, set to false
+path_to_thermal_initial_condition="${FULLDIR}/initial-condition"    # This MUST be set.
 
 thermal_equilibration_max_time="1000e6"                 # Run thermal equilibration for 1000 myr
 thermal_equilibration_checkpoint_after_x_years="10e6"   # Checkpoint every 10 myr when doing thermal equilibration
 thermal_equilibration_xres="2"                          # Using a lower resolution when doing thermal equilibration will make it run significantly faster.
 thermal_equilibration_yres="40"                         # The lower resolution, the more jagged the resulting geotherm. If your model is laterally homogeneous, then x can be very low (e.g., 2).
+thermal_equilibration_zres="2"
 preserve_thermal_equilibration_checkpoints=false        # When false, all but the last checkpoint of thermal equilibration will be preserved.
-automatically_update_lmrInitials_xml=true
+automatically_update_lmrInitials_xml=true               # lmrInitials.xml has some placeholder text for where the initial condition results need to be specified.
+                                                        # Setting this to be true means it will be automatically set to the correct place.
 
 
 
@@ -73,24 +76,34 @@ underworld="/home/luke/Programs/unmodified-uw/build/bin/Underworld"   # Point th
 
 
 
+
 # === Messy details (no need to modify) =====================
+dims="2"
+text_res="${xres}x${yres}"
+if [[ "$zres" -gt "0" ]] ; then
+    dims="3"
+    text_res="${text_res}x${zres}"
+fi
+job_description="${text_res}_${job_description}"
+path_to_thermal_initial_condition="${path_to_thermal_initial_condition}_${job_description}"
+
 if $run_thermal_equilibration ; then
     # Running thermal equilibration
-    inputfile="${path_to_thermal_initial_condition}/xmls/lmrMain2D.xml ${path_to_thermal_initial_condition}/xmls/lmrThermalEquilibration.xml"
+    inputfile="${path_to_thermal_initial_condition}/xmls/lmrMain.xml ${path_to_thermal_initial_condition}/xmls/lmrThermalEquilibration.xml"
     OUTPUTDIR="${path_to_thermal_initial_condition}"
-    logfile="${FULLDIR}/log-$JOBDESC-thermalEquilibration.log"
+    logfile="${FULLDIR}/log-${job_description}-thermalEquilibration.log"
     
-    resolution="--elementResI=${thermal_equilibration_xres} --elementResJ=${thermal_equilibration_yres}"
+    resolution="--dim=${dims} --elementResI=${thermal_equilibration_xres} --elementResJ=${thermal_equilibration_yres} --elementResK=${thermal_equilibration_zres}"
     nonlin_flags="--nonLinearTolerance=${nonlinear_tolerance} --nonLinearMinIterations=${nonlinear_minIterations} --nonLinearMaxIterations=1"
     checkpoint_flags="--checkpointAtTimeInc=${thermal_equilibration_checkpoint_after_x_years} --dumpEvery=250"
     other_flags="--end=${thermal_equilibration_max_time} --outputPath=${OUTPUTDIR} --maxTimeSteps=${max_timesteps}"
 else
     # Running actual model
-    inputfile="${FULLDIR}/result-$JOBDESC/xmls/lmrMain2D.xml"
-    OUTPUTDIR="${FULLDIR}/result-$JOBDESC"
-    logfile="${FULLDIR}/log-$JOBDESC.log"
+    inputfile="${FULLDIR}/result-${job_description}/xmls/lmrMain.xml"
+    OUTPUTDIR="${FULLDIR}/result-${job_description}"
+    logfile="${FULLDIR}/log-${job_description}.log"
     
-    resolution="--elementResI=${xres} --elementResJ=${yres}"
+    resolution="--dim=${dims} --elementResI=${xres} --elementResJ=${yres} --elementResK=${zres}"
     nonlin_flags="--nonLinearTolerance=${nonlinear_tolerance} --nonLinearMinIterations=${nonlinear_minIterations} --nonLinearMaxIterations=${nonlinear_maxIterations}"
     other_flags="--end=${max_time} --outputPath=${OUTPUTDIR} --maxTimeSteps=${max_timesteps}"
 
@@ -101,14 +114,42 @@ linear_flags="--linearTolerance=${linear_tolerance} --linearMinIterations=${line
 mumps_flags="-Uzawa_velSolver_pc_factor_mat_solver_package mumps -mat_mumps_icntl_14 200 -Uzawa_velSolver_ksp_type preonly -Uzawa_velSolver_pc_type lu"
 debug_mumps="-ksp_converged_reason -ksp_monitor_true_residual -Uzawa_velSolver_ksp_view"
 
+function mglevel_test {
+    n=$1; count=0; rem=0
+    until [ "$rem" -ne 0 ] ; do let "rem = $n % 2"; let "n /= 2"; let "count += 1"; done
+    echo $count
+}
 
-uw_flags="$resolution $linear_flags $nonlin_flags $other_flags $checkpoint_flags $mumps_flags"
+if [[ "${dims}" -eq "2" ]] ; then
+    solver_flags="${mumps_flags}"
+else
+    mg_levelx=$( mglevel_test ${xres} )
+    mg_levely=$( mglevel_test ${yres} )
+    mg_levelz=$( mglevel_test ${zres} )
+
+    mg_level=$mg_levelx
+    if [[ "$mg_levely" -lt "$mg_level" ]] ; then
+        mg_level=$mg_levely    
+    fi
+    if [[ "$mg_levelz" -lt "$mg_level" ]] ; then
+        mg_level=$mg_levelz 
+    fi
+
+    multigrid_flags="--mgLevels=${mg_level} -A11_ksp_type fgmres -mg_levels_pc_type sor -A11_pc_mg_smoothup 4 -A11_pc_mg_smoothdown 4 -mg_levels_ksp_type minres -mg_levels_ksp_max_it 3 -mg_levels_pc_type sor -mg_levels_ksp_convergence_test skip -mg_coarse_pc_factor_mat_solver_package superlu_dist -mg_accelerating_smoothing_view true -mg_smooths_max 100 -mg_smooths_to_start 1 -mg_smoothing_increment 1 -mg_target_cycles_10fold_reduction 1"
+
+    solver_flags="${multigrid_flags}"
+    if ! $run_thermal_equilibration ; then
+        inputfile="${inputfile} ${FULLDIR}/result-${job_description}/xmls/lmrSolvers.xml"
+    fi
+fi
+
+uw_flags="$resolution $linear_flags $nonlin_flags $other_flags $checkpoint_flags $solver_flags"
 
 if $restarting ; then
     uw_flags="--restartTimestep=${restart_timestep} ${uw_flags}"
     echo ""
     echo "======================================================================"
-    echo "=== Restarting job: ${JOBDESC} ==="
+    echo "=== Restarting job: ${job_description} ==="
     echo "    Are you sure? (Waiting 5 seconds, press ctrl-c to abort)"
     sleep 5;
 else
@@ -152,13 +193,13 @@ if $run_thermal_equilibration ; then
     if [[ "$restart_timestep" != '' ]] ; then
 		echo ""
 		echo "======================================================================"
-		echo "==== Restarting on a single CPU to interpolate to ${xres}x${yres} ===="
+		echo "==== Restarting on a single CPU to interpolate to ${text_res}"
 		echo "     Restart timestep: $restart_timestep"
 		sleep 10
-		resolution="--elementResI=${xres} --elementResJ=${yres}"
+		resolution="--dim=${dims} --elementResI=${xres} --elementResJ=${yres} --elementResK=${zres}"
 		checkpoint_flags="--dumpEvery=1 --checkpointEvery=1"
 		other_flags="--end=${thermal_equilibration_max_time} --outputPath=${path_to_thermal_initial_condition} --maxTimeSteps=1"
-		uw_flags="--restartTimestep=${restart_timestep} --interpolateRestart=1 $resolution $linear_flags $nonlin_flags $other_flags $checkpoint_flags $mumps_flags"
+		uw_flags="--restartTimestep=${restart_timestep} --interpolateRestart=1 $resolution $linear_flags $nonlin_flags $other_flags $checkpoint_flags $solver_flags"
 		if $use_log_file ; then
 		    $underworld $uw_flags $inputfile &>> $logfile
 		else
