@@ -107,7 +107,7 @@ else
     nonlin_flags="--nonLinearTolerance=${nonlinear_tolerance} --nonLinearMinIterations=${nonlinear_minIterations} --nonLinearMaxIterations=${nonlinear_maxIterations}"
     other_flags="--end=${max_time} --outputPath=${OUTPUTDIR} --maxTimeSteps=${max_timesteps}"
 
-    checkpoint_flags="--checkpointAtTimeInc=${checkpoint_after_x_years} --dumpEvery=${checkpoint_after_x_timesteps} --checkpointEvery=${checkpoint_after_x_timesteps}"
+    checkpoint_flags="--checkpointAtTimeInc=${checkpoint_after_x_years} --dumpEvery=1 --checkpointEvery=${checkpoint_after_x_timesteps}"
 fi
 
 linear_flags="--linearTolerance=${linear_tolerance} --linearMinIterations=${linear_minIterations} --linearMaxIterations=${linear_maxIterations}"
