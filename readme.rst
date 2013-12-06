@@ -28,7 +28,7 @@ Section 2. Ideal workflow
    
    ``hg clone https://username@bitbucket.org/lmondy/lithosphericmodellingrecipe lmr-src``
 
-3. In the lmr-src directory, open lmrRunJob.sh and update the 'underworld' variable to point to your Underworld installation.
+3. In the lmr-src directory, open lmrRunModel.sh and update the 'underworld' variable to point to your Underworld installation.
 
 4. Copy the lmr-src directory, calling the new folder something relevant to your problem. For example:
    
@@ -36,13 +36,13 @@ Section 2. Ideal workflow
 
 5. Modify the lmr*.xml files in the new directory, adjusting them to represent the problem you are investigating.
 
-6. The model needs to be thermally equilibrated to achieve a steady-state geotherm. This is controlled by the run_thermal_equilibration=true flag in the lmrRunJob.sh file. Since it is already set to be true, you just need to make sure all the thermal_equilibration parameters are to your liking, and then run the model by typing:
+6. The model needs to be thermally equilibrated to achieve a steady-state geotherm. This is controlled by the run_thermal_equilibration=true flag in the lmrRunModel.sh file. Since it is already set to be true, you just need to make sure all the thermal_equilibration parameters are to your liking, and then run the model by typing:
    
    ``./lmrRunModel.sh``
    
    Ensuring your models are thermally equilibrated is almost always a good idea - it is discussed more `here <https://bitbucket.org/lmondy/lithosphericmodellingrecipe/wiki/Thermal%20Equilibration>`_.
 
-7. Once the thermal equilibration is done, open the lmrRunJob.sh file again, and set run_thermal_equilibration to false. You can now run the actual model by typing:
+7. Once the thermal equilibration is done, open the lmrRunModel.sh file again, and set run_thermal_equilibration to false. You can now run the actual model by typing:
    
    ``./lmrRunModel.sh``
 
