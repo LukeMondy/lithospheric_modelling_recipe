@@ -11,20 +11,20 @@
     <!-- ====== Reduce input XML clutter ======================= -->
     <include>Underworld/_standardJargon.xml             </include>
     
+    <!-- ====== FEM type (Q1P0) ================================ -->
+    <include>StgFEM/ConstantMesh.xml                    </include>
+	<include>StgFEM/LinearMesh.xml                      </include> 
+	
     <!-- ====== Solver components ============================== -->
     <include>StgFEM/VelocityField.xml                   </include>
     <include>StgFEM/PressureField.xml                   </include>
     <include>StgFEM/TemperatureField.xml                </include>
     <include>StgFEM/TempAdvDiff.xml                     </include>
-    <include>StgFEM/TimeIntegrator.xml                  </include>
     <include>PICellerator/AllowOutflow.xml              </include>
+	<include>Underworld/GaussSwarm.xml                  </include>
+	<include>StgFEM/TimeIntegrator.xml                  </include>
     <include>PICellerator/MaterialPointSwarm.xml        </include>
-    <include>Underworld/GaussSwarm.xml                  </include>
     <include>Underworld/StokesFlowUzawaPIC.xml          </include>
-    
-    <!-- ====== FEM type (Q1P0) ================================ -->
-    <include>StgFEM/LinearMesh.xml                      </include> 
-    <include>StgFEM/ConstantMesh.xml                    </include>
     
     <!-- ====== Stabilisation function (for Q1P0 ) ============= -->
     <include>Underworld/REP_Setup.xml                   </include>

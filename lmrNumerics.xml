@@ -30,8 +30,8 @@
         <param>TemperatureField</param>
         
         <param>YieldedField</param>
-        <param>PostFailureWeakeningField</param>
-        <param>PostFailureWeakeningIncField</param>
+        <param>TotalPlasticStrainField</param>
+        <param>PlasticStrainIncrementField</param>
         
         <param>ViscosityField</param>
         <param>MaterialIndexField</param>
@@ -64,12 +64,105 @@
     
     
     
-    
-    
-    
-    <!-- === The nitty-gritty numerics (best to leave alone if unsure) ========== -->
-    
     <struct name="components" mergeType="merge">
+        <!-- === Defining fundamental forces ========================================== -->
+        
+        <!-- ====== Buoyancy forces ============================== -->
+        <struct name="buoyancyFunc">
+            <!-- buoyancyFunc calculates the force (F = ma) of all the materials in the model domain. 
+                 Every particle will be processed as such, using it's value for DensityProperty. -->
+            <param name="Type">Ppc_a_Vector</param>
+            <param name="Alpha">DensityProperty</param>
+            <param name="vi">0</param>
+            <param name="vj" units="m*s^-2">-9.81</param>
+            <param name="vk">0</param>
+        </struct>
+        
+        <struct name="buoyancyForceTerm" mergeType="replace">
+            <!-- Hook in our defined buoyancyFunc into the fundamental UW equations,
+                 with buoyancy being defined as a body force (mom_force). -->
+            <param name="Type">VectorAssemblyTerm_NA__F</param>
+            <param name="ForceVector">mom_force</param>
+            <param name="functionLabel">buoyancyFunc</param>
+            <param name="Swarm">picIntegrationPoints</param>
+            <param name="Manager">default_ppcManager</param>
+        </struct>
+        <!-- ===================================================== -->
+        
+        
+        <!-- ====== Thermal Energy =============================== -->   
+        <struct name="sourceTerms_thermalEqn">
+            <param name="Type">Ppc_Operation</param>
+            <param name="Operation"> + </param>
+            <list name="Properties">
+                <!-- Add or remove sources of thermal energy via this operation.
+                     NOTE: having just a single term is OK. -->
+                <param>radiogenicHeating</param>
+                <param>meltFractionHeating</param>
+            </list>
+        </struct>
+        
+		
+        <!-- radiogenicHeating = radiogenic_heat_production / (specific_heat_capacity * density ) -->
+        <struct name="radiogenicHeating">
+            <param name="Type">Ppc_Operation</param>
+            <param name="Operation"> / </param>
+            <list name="Properties">
+                <param>RadiogenicHeatProductionProperty</param>
+                <param>rho_cp</param>
+            </list>
+        </struct>
+        <struct name="rho_cp">
+            <param name="Type">Ppc_Operation</param>
+            <param name="Operation"> * </param>
+            <list name="Properties">
+                <param>DensityProperty</param>
+                <param>CpProperty</param>
+            </list>
+        </struct>
+		
+        
+        <!-- meltFractionHeating = -1 * latent_heat_fusion * delta_melt_fraction / (specific_heat_capacity * delta_time ) -->
+        <struct name="meltFractionHeating">
+            <param name="Type">Ppc_MeltHeating</param>
+            <param name="CpLabel">CpProperty</param>
+            <param name="LatentHeatFusionLabel">LatentHeatFusionProperty</param>
+            <param name="MeltFractionLabel">MeltFractionProperty</param>
+        </struct> 
+		
+		
+		<struct name="thermalEqn">
+            <!-- This struct allows additional energy sources into the system, for
+				 example: a heat flux boundary, radiogenic heating, etc. 
+				 The sources of energy are incorporated via the sourceTerms_thermalEqn 
+				 struct defined above.-->                 
+            <param name="Type">VectorAssemblyTerm_NA__F</param>
+            <param name="ForceVector">residual</param>
+            <param name="functionLabel">sourceTerms_thermalEqn</param>
+            <param name="Swarm">picIntegrationPoints</param>
+            <param name="Manager">default_ppcManager</param>
+        </struct>
+		<struct name="defaultResidualForceTerm" mergeType="replace">
+			<!-- This struct ensures advection/diffusion is solved (not just diffusion). -->
+            <param name="Type">SUPGAdvDiffTermPpc</param>
+            <param name="ForceVector">residual</param>
+            <param name="EnergyEqn">EnergyEqn</param>
+            <param name="Swarm">picIntegrationPoints</param>
+            <param name="VelocityField">VelocityField</param>
+            <param name="PhiField">TemperatureField</param>
+            <param name="DiffusivityLabel">DiffusivityProperty</param>
+        </struct>
+        <!-- ===================================================== -->
+        
+		<!-- === End of fundamental forces definitions ========================================== -->
+		
+		
+		
+		
+		
+		
+		
+		<!-- === The nitty-gritty numerics (best to leave alone if unsure) ========== -->
         <!-- The Ppc Manager-->
         <struct name="default_ppcManager">
             <param name="Type">PpcManager</param>
@@ -151,93 +244,8 @@
             <param name="Type">Ppc_Variable</param>
             <param name="FieldVariable">recoveredPressureField</param>
         </struct>
-        
-        
-        <!-- === Defining fundamental forces ===================== -->
-        
-        <!-- ====== Buoyancy forces ============================== -->
-        <struct name="buoyancyFunc">
-            <!-- buoyancyFunc calculates the force (F = ma) of all the materials in the model domain. 
-                 Every partictle will be processed as such, using it's value for DensityProperty. -->
-            <param name="Type">Ppc_a_Vector</param>
-            <param name="Alpha">DensityProperty</param>
-            <param name="vi">0</param>
-            <param name="vj" units="m*s^-2">-9.81</param>
-            <param name="vk">0</param>
-        </struct>
-        
-        <struct name="buoyancyForceTerm" mergeType="replace">
-            <!-- Hook in our defined buoyancyFunc into the fundamental UW equations,
-                 with buoyancy being defined as a body force (mom_force). -->
-            <param name="Type">VectorAssemblyTerm_NA__F</param>
-            <param name="ForceVector">mom_force</param>
-            <param name="functionLabel">buoyancyFunc</param>
-            <param name="Swarm">picIntegrationPoints</param>
-            <param name="Manager">default_ppcManager</param>
-        </struct>
-        <!-- ===================================================== -->
-        
-        
-        <!-- ====== Thermal Energy =============================== -->
-        <struct type="struct" name="defaultResidualForceTerm" mergeType="replace">
-            <param name="Type">SUPGAdvDiffTermPpc</param>
-            <param name="ForceVector">residual</param>
-            <param name="EnergyEqn">EnergyEqn</param>
-            <param name="Swarm">picIntegrationPoints</param>
-            <param name="VelocityField">VelocityField</param>
-            <param name="PhiField">TemperatureField</param>
-            <param name="DiffusivityLabel">DiffusivityProperty</param>
-        </struct>
-        
-        <struct name="thermalEqn">
-            <!-- This struct allows us to add a energy flux into the system. This
-                 can be via a heat flux boundary condition, radiogenic heating, etc. -->                 
-            <param name="Type">VectorAssemblyTerm_NA__F</param>
-            <param name="ForceVector">residual</param>
-            <param name="functionLabel">sourceTerms_thermalEqn</param>
-            <param name="Swarm">picIntegrationPoints</param>
-            <param name="Manager">default_ppcManager</param>
-        </struct>
-        
-        <struct name="sourceTerms_thermalEqn">
-            <param name="Type">Ppc_Operation</param>
-            <param name="Operation"> + </param>
-            <list name="Properties">
-                <!-- Add or remove sources of thermal energy via this operation.
-                     NOTE: having just a single term is OK. -->
-                <param>radiogenicHeating</param>
-                <param>meltFractionHeating</param>
-            </list>
-        </struct>
-        
-        <!-- radiogenicHeating = radiogenic_heat_production / (specific_heat_capacity * density ) -->
-        <struct name="radiogenicHeating">
-            <param name="Type">Ppc_Operation</param>
-            <param name="Operation"> / </param>
-            <list name="Properties">
-                <param>RadiogenicHeatProductionProperty</param>
-                <param>rho_cp</param>
-            </list>
-        </struct>
-        <struct name="rho_cp">
-            <param name="Type">Ppc_Operation</param>
-            <param name="Operation"> * </param>
-            <list name="Properties">
-                <param>DensityProperty</param>
-                <param>CpProperty</param>
-            </list>
-        </struct>
-        
-        <!-- meltFractionHeating = -1 * latent_heat_fusion * delta_melt_fraction / (specific_heat_capacity * delta_time ) -->
-        <struct name="meltFractionHeating">
-            <param name="Type">Ppc_MeltHeating</param>
-            <param name="CpLabel">CpProperty</param>
-            <param name="LatentHeatFusionLabel">LatentHeatFusionProperty</param>
-            <param name="MeltFractionLabel">MeltFractionProperty</param>
-        </struct> 
-        <!-- ===================================================== -->
-        
-        
+		
+		
         <!-- === User-defined fields ============================= -->
             <!-- Swarm variables are interpolated to the mesh
                  using SwarmVariableField -->
@@ -249,7 +257,7 @@
             <param name="Swarm">picIntegrationPoints</param>
             <param name="Context">context</param>
         </struct>
-        <struct name="PostFailureWeakeningField">
+        <struct name="TotalPlasticStrainField">
             <param name="Type">SwarmVariableField</param>
             <param name="swarmVariable">materialSwarm-PostFailureWeakening</param>
             <param name="Mesh">linearMesh</param>
@@ -257,7 +265,7 @@
             <param name="Swarm">picIntegrationPoints</param>
             <param name="Context">context</param>
         </struct>
-        <struct name="PostFailureWeakeningIncField">
+        <struct name="PlasticStrainIncrementField">
             <param name="Type">SwarmVariableField</param>
             <param name="swarmVariable">materialSwarm-PostFailureWeakeningIncrement</param>
             <param name="Mesh">linearMesh</param>
@@ -303,13 +311,13 @@
         
         <struct name="uzawa" mergeType="merge">
             <param name="monitor" mergeType="replace">True</param>
-            <param name="tolerance">@linearTolerance</param>
+            <param name="tolerance" mergeType="replace">@linearTolerance</param>
             <param name="maxIterations" mergeType="replace">@linearMaxIterations</param>
             <param name="minIterations" mergeType="replace">@linearMinIterations</param>
         </struct>
         
         <struct name="stokesEqn" mergeType="merge">
-            <param name="nonLinearMinIterations">@nonLinearMinIterations</param>
+            <param name="nonLinearMinIterations" mergeType="replace">@nonLinearMinIterations</param>
             <param name="makeConvergenceFile" mergeType="replace">true</param>
         </struct>
         
@@ -406,4 +414,4 @@
     <!-- =========================================== -->
     
     
-</StGermainData>
+</StGermainDa
