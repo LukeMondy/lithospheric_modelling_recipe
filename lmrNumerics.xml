@@ -24,7 +24,7 @@
     
     
     <!-- === Output controls ====================== -->
-    <list name="FieldVariablesToCheckpoint">
+    <list name="FieldVariablesToCheckpoint" mergeType="merge">
         <param>VelocityField</param>
         <param>PressureField</param>
         <param>TemperatureField</param>
@@ -43,9 +43,7 @@
          
         <param>StrainRateInvariantField</param>
         <param>StressField</param>
-        <param>StressInvariantField</param>
-        
-        
+        <param>StressInvariantField</param>    
     </list>
     
     <!-- === Basic Visualisation === -->
