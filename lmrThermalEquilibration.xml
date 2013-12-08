@@ -14,6 +14,16 @@
             <param name="ExponentialCoefficient2">1.23996e-5</param>
             <param name="axis"> @VerticalAxis </param>
         </struct>
+        
+		<struct name="window" mergeType="merge">
+			<list name="Viewport" mergeType="replace">
+			    <param>TemperatureVP</param>
+			</list> 
+		</struct>
+		
+		<struct name="passiveswarmOutputs" mergeType="replace">
+			<param name="Type"> DummyComponent </param>
+		</struct>
     </struct>
     
     <list name="plugins" mergeType="replace">
@@ -34,6 +44,13 @@
     
     <param name="PureDiffusion_TimeSteps">2000000</param>
     
+    <list name="FieldVariablesToCheckpoint" mergeType="replace">
+		<param>VelocityField</param>
+        <param>PressureField</param>
+        <param>TemperatureField</param>
+        <param>TemperatureField-phiDotField</param>
+	</list>
+	
     <struct name="velocityBCs" mergeType="replace">
         <param name="type">CompositeVC</param>
         <list name="vcList">
@@ -67,6 +84,7 @@
         </list>
     </struct>
 
+	
 
 
     

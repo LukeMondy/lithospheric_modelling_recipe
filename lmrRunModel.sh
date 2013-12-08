@@ -16,7 +16,7 @@ max_timesteps="100000"   # Use a large number for normal runs, use -1 for checki
 max_time="5e6"           # Model will stop after 5 million years
 use_log_file=false        # If true, command-line output goes to $job_description.log
 
-# Underworld will output a checkpoint either after x many years, or x many checkpoints.
+# Underworld will output a checkpoint either after x many years, or after x many checkpoints.
 # It will choose whichever comes first, so make the one you don't want very large.
 checkpoint_after_x_years="50000"
 checkpoint_after_x_timesteps="1000000"
@@ -25,8 +25,8 @@ checkpoint_after_x_timesteps="1000000"
 
 
 # === Restarting ============================================
-restarting=false            # Set to be true to enable restart functionality.
-restart_timestep="1000"     # Set to be the checkpoint number to restart from.
+restarting=true            # Set to be true to enable restart functionality.
+restart_timestep="104"     # Set to be the checkpoint number to restart from.
 
 
 
@@ -63,14 +63,14 @@ automatically_update_lmrInitials_xml=true               # lmrInitials.xml has so
 
 
 # === Parallelism ===========================================
-cpus="6"
+cpus="4"
 
 
 
 
 
 # === Underworld binary file ================================
-underworld="/home/luke/Programs/unmodified-uw/build/bin/Underworld"   # Point this to your Underworld installtion.
+underworld="/home/litho/Programs/uw-src/build/bin/Underworld"   # Point this to your Underworld installtion.
 
 
 
@@ -107,7 +107,7 @@ else
     nonlin_flags="--nonLinearTolerance=${nonlinear_tolerance} --nonLinearMinIterations=${nonlinear_minIterations} --nonLinearMaxIterations=${nonlinear_maxIterations}"
     other_flags="--end=${max_time} --outputPath=${OUTPUTDIR} --maxTimeSteps=${max_timesteps}"
 
-    checkpoint_flags="--checkpointAtTimeInc=${checkpoint_after_x_years} --dumpEvery=${checkpoint_after_x_timesteps} --checkpointEvery=${checkpoint_after_x_timesteps}"
+    checkpoint_flags="--checkpointAtTimeInc=${checkpoint_after_x_years} --dumpEvery=1 --checkpointEvery=${checkpoint_after_x_timesteps}"
 fi
 
 linear_flags="--linearTolerance=${linear_tolerance} --linearMinIterations=${linear_minIterations} --linearMaxIterations=${linear_maxIterations}"
@@ -195,7 +195,7 @@ if $run_thermal_equilibration ; then
 		echo "======================================================================"
 		echo "==== Restarting on a single CPU to interpolate to ${text_res}"
 		echo "     Restart timestep: $restart_timestep"
-		sleep 10
+		sleep 5
 		resolution="--dim=${dims} --elementResI=${xres} --elementResJ=${yres} --elementResK=${zres}"
 		checkpoint_flags="--dumpEvery=1 --checkpointEvery=1"
 		other_flags="--end=${thermal_equilibration_max_time} --outputPath=${path_to_thermal_initial_condition} --maxTimeSteps=1"
