@@ -25,7 +25,7 @@ checkpoint_after_x_timesteps="1000000"
 
 
 # === Restarting ============================================
-restarting=true            # Set to be true to enable restart functionality.
+restarting=false            # Set to be true to enable restart functionality.
 restart_timestep="104"     # Set to be the checkpoint number to restart from.
 
 
