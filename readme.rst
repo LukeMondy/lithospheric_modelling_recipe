@@ -9,9 +9,9 @@
 	Luke Mondy (1), 
 	Guillaume Duclaux (2), 
 	Patrice Rey (1), 
-	John Mansour (3),
-    Julian Giordani (3),
-	Louis Moresi (3).
+	John Mansour (3), 
+    Julian Giordani (3), 
+	Louis Moresi (3)
     
     1. The EarthByte Group, School of Geosciences, The University of Sydney, NSW 2006, Australia.
     2. Earth Sciences Centre, 11 Julius Avenue, North Ryde, NSW 2113
