@@ -149,7 +149,7 @@ if $restarting ; then
     uw_flags="--restartTimestep=${restart_timestep} ${uw_flags}"
     echo ""
     echo "======================================================================"
-    echo "=== Restarting job: ${job_description} ==="
+    echo "=== Restarting job \"result-${job_description}\" at timestep ${restart_timestep}"
     echo "    Are you sure? (Waiting 5 seconds, press ctrl-c to abort)"
     sleep 5;
 else
