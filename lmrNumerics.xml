@@ -1,29 +1,17 @@
 <?xml version="1.0"?>
 <StGermainData xmlns="http://www.vpac.org/StGermain/XML_IO_Handler/Jun2003">
     
-    <!-- === Domain size ======================================= -->
-    <!-- Axis 0: x -->
-    <param name="minX" units="km"> -100</param>
-    <param name="maxX" units="km">  300</param>
-    
-    <!-- Axis 1: y -->
-    <param name="minY" units="km">-155</param>
-    <param name="maxY" units="km">   5</param>
-    
-    <!-- Axis 2: z -->
-    <param name="minZ" units="km"> -100</param>
-    <param name="maxZ" units="km">  300</param>
-    <!-- ====================================================== -->
-        
+    <param name="gravity" units="m*s^-2"> 9.81 </param>    
     
     <!-- === Basic numerical controls ========================= -->
-    <param name="particlesPerCell">40</param>
+    <param name="particlesPerCell"> 40 </param>
     <param name="courantFactor"> 0.5 </param>
-    <param name="gravity" units="m*s^-2">9.81</param>
     <!-- ====================================================== -->
     
     
-    <!-- === Output controls ====================== -->
+    
+    
+    <!-- === Output controls ================================== -->
     <list name="FieldVariablesToCheckpoint" mergeType="merge">
         <param>VelocityField</param>
         <param>PressureField</param>
@@ -47,25 +35,27 @@
     </list>
     
     <!-- === Basic Visualisation === -->
-	<include>Underworld/Viewports/ParticleMaterialVP.xml</include>
-	<include>Underworld/Viewports/REPStrainRateVP.xml</include>
-	<include>Underworld/Viewports/TemperatureVP.xml</include>
-	<include>gLucifer/window.xml</include>
-	<struct name="components" mergeType="merge">
-		<struct name="window" mergeType="merge">
-			<list name="Viewport">
-			    <param>TemperatureVP recoveredStrainRateInvariantVP</param>
-			    <param>ParticleMaterialVP </param>
-			</list> 
-		</struct>
-	</struct>
-    <!-- ========================================= -->
+    <include>Underworld/Viewports/ParticleMaterialVP.xml</include>
+    <include>Underworld/Viewports/REPStrainRateVP.xml</include>
+    <include>Underworld/Viewports/TemperatureVP.xml</include>
+    <include>gLucifer/window.xml</include>
+    <struct name="components" mergeType="merge">
+        <struct name="window" mergeType="merge">
+            <list name="Viewport">
+                <param>TemperatureVP recoveredStrainRateInvariantVP</param>
+                <param>ParticleMaterialVP </param>
+            </list> 
+        </struct>
+    </struct>
+    <!-- =========================== -->
+    <!-- ====================================================== -->
+    
     
     
     
     
     <struct name="components" mergeType="merge">
-        <!-- === Defining fundamental forces ========================================== -->
+    <!-- === Defining fundamental forces ========================================== -->
         
         <!-- ====== Buoyancy forces ============================== -->
         <struct name="buoyancyFunc">
@@ -87,7 +77,7 @@
             <param name="Swarm">picIntegrationPoints</param>
             <param name="Manager">default_ppcManager</param>
         </struct>
-        <!-- ===================================================== -->
+        <!-- ====== End of Buoyancy forces ======================= -->
         
         
         <!-- ====== Thermal Energy =============================== -->   
@@ -103,7 +93,7 @@
         </struct>
         
 		
-        <!-- radiogenicHeating = radiogenic_heat_production / (specific_heat_capacity * density ) -->
+        <!-- radiogenicHeating = radiogenic_heat_production / (heat_capacity * density ) -->
         <struct name="radiogenicHeating">
             <param name="Type">Ppc_Operation</param>
             <param name="Operation"> / </param>
@@ -122,14 +112,17 @@
         </struct>
 		
         
-        <!-- meltFractionHeating = -1 * latent_heat_fusion * delta_melt_fraction / (specific_heat_capacity * delta_time ) -->
+        <!-- meltFractionHeating = -1 * latent_heat_fusion * delta_melt_fraction / (heat_capacity * delta_time ) -->
         <struct name="meltFractionHeating">
             <param name="Type">Ppc_MeltHeating</param>
             <param name="CpLabel">CpProperty</param>
             <param name="LatentHeatFusionLabel">LatentHeatFusionProperty</param>
             <param name="MeltFractionLabel">MeltFractionProperty</param>
         </struct> 
-		
+        
+		<!-- NOTE: The radiogenic heat was defined using an equation built in XML Ppc_Operations. meltFractionHeating
+		           can be done the same way, but a) it takes up a lot of space, and b) a Ppc function (Ppc_MeltHeating)
+		           has already been built into Underworld to do this for us. -->
 		
 		<struct name="thermalEqn">
             <!-- This struct allows additional energy sources into the system, for
@@ -152,9 +145,9 @@
             <param name="PhiField">TemperatureField</param>
             <param name="DiffusivityLabel">DiffusivityProperty</param>
         </struct>
-        <!-- ===================================================== -->
+        <!-- ====== End of Thermal Energy ======================== -->
         
-		<!-- === End of fundamental forces definitions ========================================== -->
+	<!-- === End of fundamental forces definitions ========================================== -->
 		
 		
 		
@@ -162,7 +155,15 @@
 		
 		
 		
-		<!-- === The nitty-gritty numerics (best to leave alone if unsure) ========== -->
+		
+		
+		
+		
+		
+		
+		
+	<!-- === The nitty-gritty numerics (best to leave alone if unsure) ====================== -->
+        
         <!-- The Ppc Manager-->
         <struct name="default_ppcManager">
             <param name="Type">PpcManager</param>
@@ -370,11 +371,24 @@
         
     </struct>
     
-    
+    <!-- === Numerical controls (that probably shouldn't be touched) ==== -->
+    <param name="shadowDepth">1</param>             
+    <param name="allowUnbalancing">True</param>    
+    <param name="timeIntegratorOrder"> 1 </param>
+    <!-- ================================================================ -->
     
     <!-- === Mesh parameters ======================= -->
     <param name="VerticalAxis">1</param>
+    <!-- =========================================== -->
     
+    
+    
+    
+    
+    <!-- NOTE: All of the following values are ALWAYS overwritten by lmrRunModel.sh
+               They have been relegated to the bottom of this file because they are
+               should never have to be directly modified by any user. -->
+    <!-- === Mesh parameters ======================= -->
     <!-- These values are always overwritten -->
     <param name="dim">2</param>
     <param name="elementResI">208</param> 
@@ -393,12 +407,6 @@
     <param name="nonLinearMaxIterations">500</param>
     <!-- =========================================== -->
     
-    
-    <!-- === Numerical controls (that probably shouldn't be touched) ==== -->
-    <param name="shadowDepth">1</param>             
-    <param name="allowUnbalancing">True</param>    
-    <param name="timeIntegratorOrder"> 1 </param>
-    <!-- ================================================================ -->
     
     <!-- === Output controls ====================== -->
     <!-- These values are always overwritten -->

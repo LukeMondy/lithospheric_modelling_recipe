@@ -21,12 +21,13 @@ use_log_file=false        # If true, command-line output goes to $job_descriptio
 checkpoint_after_x_years="50000"
 checkpoint_after_x_timesteps="1000000"
 
+print_pictures_during_modelrun=true
 
 
 
 # === Restarting ============================================
 restarting=false            # Set to be true to enable restart functionality.
-restart_timestep="104"     # Set to be the checkpoint number to restart from.
+restart_timestep="26"     # Set to be the checkpoint number to restart from.
 
 
 
@@ -48,29 +49,29 @@ nonlinear_maxIterations="500"
 #   thermally equilibrate for >1 billion years without much computational cost. It is highly
 #   recommended to this at least once, and then use the resulting outputs as your model initial
 #   conditions.
-run_thermal_equilibration=true  # After running once, set to false
-path_to_thermal_initial_condition="${FULLDIR}/initial-condition"    # This MUST be set.
+run_thermal_equilibration=true                         # After running once, set to false
+path_to_thermal_initial_condition="${FULLDIR}/initial-condition"    # This must always be set.
 
-thermal_equilibration_max_time="1000e6"                 # Run thermal equilibration for 1000 myr
-thermal_equilibration_checkpoint_after_x_years="10e6"   # Checkpoint every 10 myr when doing thermal equilibration
-thermal_equilibration_xres="2"                          # Using a lower resolution when doing thermal equilibration will make it run significantly faster.
-thermal_equilibration_yres="40"                         # The lower resolution, the more jagged the resulting geotherm. If your model is laterally homogeneous, then x can be very low (e.g., 2).
-thermal_equilibration_zres="2"
-preserve_thermal_equilibration_checkpoints=false        # When false, all but the last checkpoint of thermal equilibration will be preserved.
-automatically_update_lmrInitials_xml=true               # lmrInitials.xml has some placeholder text for where the initial condition results need to be specified.
-                                                        # Setting this to be true means it will be automatically set to the correct place.
+thermal_equilibration_max_time="1000e6"                 # - Run thermal equilibration for 1000 myr
+thermal_equilibration_checkpoint_after_x_years="10e6"   # - Checkpoint every 10 myr when doing thermal equilibration
+thermal_equilibration_xres="2"                          # - Using a lower resolution when doing thermal equilibration will make it run significantly faster.
+thermal_equilibration_yres="40"                         #   The lower resolution, the more jagged the resulting geotherm. If your model is laterally homogeneous,
+thermal_equilibration_zres="2"                          #   then x and z can be very low (e.g., 2).
+thermal_equilibration_preserve_checkpoints=false        # - When false, all but the last checkpoint of thermal equilibration will be preserved.
+automatically_update_lmrInitials_xml=true               # - lmrInitials.xml has some placeholder text for where the initial condition results need to be specified.
+                                                        #   Setting this to be true means it will be automatically set to the correct place.
 
 
 
 # === Parallelism ===========================================
-cpus="4"
+cpus="6"
 
 
 
 
 
 # === Underworld binary file ================================
-underworld="/home/litho/Programs/uw-src/build/bin/Underworld"   # Point this to your Underworld installtion.
+underworld="/home/luke/Programs/unmodified-uw/build/bin/Underworld"   # Point this to your Underworld installation.
 
 
 
@@ -115,6 +116,8 @@ mumps_flags="-Uzawa_velSolver_pc_factor_mat_solver_package mumps -mat_mumps_icnt
 debug_mumps="-ksp_converged_reason -ksp_monitor_true_residual -Uzawa_velSolver_ksp_view"
 
 function mglevel_test {
+    # Test to see how many times the input number can 
+    # be divided by two while remaining an integer.
     n=$1; count=0; rem=0
     until [ "$rem" -ne 0 ] ; do let "rem = $n % 2"; let "n /= 2"; let "count += 1"; done
     echo $count
@@ -128,6 +131,7 @@ else
     mg_levelz=$( mglevel_test ${zres} )
 
     mg_level=$mg_levelx
+    # Find the smallest mg level
     if [[ "$mg_levely" -lt "$mg_level" ]] ; then
         mg_level=$mg_levely    
     fi
@@ -139,11 +143,18 @@ else
 
     solver_flags="${multigrid_flags}"
     if ! $run_thermal_equilibration ; then
+        # If the model is actually running, ensure it has the solvers it needs
         inputfile="${inputfile} ${FULLDIR}/result-${job_description}/xmls/lmrSolvers.xml"
     fi
 fi
 
-uw_flags="$resolution $linear_flags $nonlin_flags $other_flags $checkpoint_flags $solver_flags"
+glucifer_flags=""
+if ! $print_pictures_during_modelrun ; then
+    glucifer_flags="--components.window.Type=DummyComponent"
+fi
+
+
+uw_flags="$resolution $linear_flags $nonlin_flags $other_flags $checkpoint_flags $solver_flags $glucifer_flags"
 
 if $restarting ; then
     uw_flags="--restartTimestep=${restart_timestep} ${uw_flags}"
@@ -199,14 +210,14 @@ if $run_thermal_equilibration ; then
 		resolution="--dim=${dims} --elementResI=${xres} --elementResJ=${yres} --elementResK=${zres}"
 		checkpoint_flags="--dumpEvery=1 --checkpointEvery=1"
 		other_flags="--end=${thermal_equilibration_max_time} --outputPath=${path_to_thermal_initial_condition} --maxTimeSteps=1"
-		uw_flags="--restartTimestep=${restart_timestep} --interpolateRestart=1 $resolution $linear_flags $nonlin_flags $other_flags $checkpoint_flags $solver_flags"
+		uw_flags="--restartTimestep=${restart_timestep} --interpolateRestart=1 $resolution $linear_flags $nonlin_flags $other_flags $checkpoint_flags $solver_flags $glucifer_flags"
 		if $use_log_file ; then
 		    $underworld $uw_flags $inputfile &>> $logfile
 		else
 		    $underworld $uw_flags $inputfile
 		fi
 		
-		if ! $preserve_thermal_equilibration_checkpoints ; then
+		if ! $thermal_equilibration_preserve_checkpoints ; then
 		    # Delete all but the last checkpoint.
 		    echo "Cleaning up thermal equilibration checkpoints"
 		    last_step=$(( $restart_timestep + 1 ))

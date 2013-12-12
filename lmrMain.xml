@@ -1,22 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <StGermainData xmlns="http://www.vpac.org/StGermain/XML_IO_Handler/Jun2003">
+     
+    <list name="import" mergeType="merge">
+        <param> ImportersToolbox    </param>
+        <param> lecode_tools        </param>
+        <param> earthbyte_additions </param>
+    </list>
     
-    <include>lmrBaseApp.xml</include>
+    <!-- === Included Underworld base files (Order is important!) ====== -->
     
-    <include>lmrNumerics.xml</include>
+        <!-- ====== Reduce input XML clutter ======================= -->
+        <include>Underworld/_standardJargon.xml             </include>
+        
+        <!-- ====== FEM type (Q1P0) ================================ -->
+        <include>StgFEM/ConstantMesh.xml                    </include>
+        <include>StgFEM/LinearMesh.xml                      </include> 
+        
+        <!-- ====== Solver components ============================== -->
+        <include>StgFEM/VelocityField.xml                   </include>
+        <include>StgFEM/PressureField.xml                   </include>
+        <include>StgFEM/TemperatureField.xml                </include>
+        <include>StgFEM/TempAdvDiff.xml                     </include>
+        <include>PICellerator/AllowOutflow.xml              </include>
+        <include>Underworld/GaussSwarm.xml                  </include>
+        <include>StgFEM/TimeIntegrator.xml                  </include>
+        <include>PICellerator/MaterialPointSwarm.xml        </include>
+        <include>Underworld/StokesFlowUzawaPIC.xml          </include>
+        
+        <!-- ====== Stabilisation function (for Q1P0 ) ============= -->
+        <include>Underworld/REP_Setup.xml                   </include>
+        
+        <!-- ====== Generate fields for output ===================== -->
+        <include>Underworld/MaterialIndexField.xml          </include>
+        <include>Underworld/ViscosityField.xml              </include>
+        <include>Underworld/StressField2D.xml               </include>'
     
-    <include>lmrRheologyLibrary.xml</include>
+    <!-- =============================================================== -->
+        
+        
+        
+    <!-- === Included LMR files ======================================== -->
+        
+        <include> lmrNumerics.xml           </include>
+        
+        <include> lmrRheologyLibrary.xml    </include>
+        
+        <include> lmrAuxiliary.xml          </include>  <!-- Remove if not required -->
+        
+        <include> lmrMaterials.xml          </include>
+        
+        <include> lmrPassiveTracers.xml     </include>  <!-- Remove if not required -->
+    	
+        <include> lmrInitials.xml           </include>
+        
+        <include> lmrThermalBoundaries.xml  </include>
+        
+        <include> lmrVelocityBoundaries.xml </include>
     
-    <include>lmrAuxiliary.xml</include>
+        <!-- NOTE: Other lmr files, such as lmrThermalEquilibration and lmrSolvers
+                   are added on the fly by lmrRunModel.sh when needed. They do not
+                   need to specified in here. -->
     
-    <include>lmrMaterials.xml</include>
-    
-    <include>lmrPassiveTracers.xml</include>
-	    
-    <include>lmrInitials.xml</include>
-    
-    <include>lmrThermalBoundaries.xml</include>
-    
-    <include>lmrVelocityBoundaries.xml</include>
+    <!-- =============================================================== -->
     
 </StGermainData>
