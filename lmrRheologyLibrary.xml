@@ -110,6 +110,48 @@
             <param name="MeltDensityChange"> MeltExpansionProperty </param>
             <param name="MeltFraction"> MeltFractionProperty </param>
         </struct>
+		
+		<struct name="densTemp_oceanic_crust">
+            <param name="Type">Ppc_LinearDensity</param>
+            <param name="ReferenceDensity" units="kg*m^-3">2900</param>
+            
+            <param name="Temperature"> temperature_ppc_wrapper </param>            
+            <param name="ReferenceTemperature" units="K">293.15</param>
+            <param name="ThermalExpansivity"> global_expansivity </param>
+        </struct>
+        
+        <struct name="densMelt_oceanic_crustt">
+            <param name="Type">Ppc_LinearDensityMelt</param>
+            <param name="ReferenceDensity" units="kg*m^-3">2900</param>
+            
+            <param name="Temperature"> temperature_ppc_wrapper </param>
+            <param name="ReferenceTemperature" units="K">293.15</param>
+            <param name="ThermalExpansivity"> global_expansivity </param>
+            
+            <param name="MeltDensityChange"> MeltExpansionProperty </param>
+            <param name="MeltFraction"> MeltFractionProperty </param>
+        </struct>
+		
+		<struct name="densTemp_heavy_oceanic_crust">
+            <param name="Type">Ppc_LinearDensity</param>
+            <param name="ReferenceDensity" units="kg*m^-3">3200</param>
+            
+            <param name="Temperature"> temperature_ppc_wrapper </param>            
+            <param name="ReferenceTemperature" units="K">293.15</param>
+            <param name="ThermalExpansivity"> global_expansivity </param>
+        </struct>
+        
+        <struct name="densMelt_heavy_oceanic_crustt">
+            <param name="Type">Ppc_LinearDensityMelt</param>
+            <param name="ReferenceDensity" units="kg*m^-3">3200</param>
+            
+            <param name="Temperature"> temperature_ppc_wrapper </param>
+            <param name="ReferenceTemperature" units="K">293.15</param>
+            <param name="ThermalExpansivity"> global_expansivity </param>
+            
+            <param name="MeltDensityChange"> MeltExpansionProperty </param>
+            <param name="MeltFraction"> MeltFractionProperty </param>
+        </struct>
         <!-- ================================ -->
         
         
