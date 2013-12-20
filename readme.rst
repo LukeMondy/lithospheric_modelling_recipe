@@ -16,7 +16,7 @@
 
 :Version: 1.0
 
-.. image:: https://www.dropbox.com/s/p0mt8hxzvqd8u1m/nice-header-pic.png
+.. image:: http://i.imgur.com/ZWjQKoTl.png
 
 Section 1. What is the Lithospheric Modelling Recipe?
 -----------------------------------------------------
