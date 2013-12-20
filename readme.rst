@@ -16,6 +16,8 @@
 
 :Version: 1.0
 
+.. image:: https://www.dropbox.com/s/p0mt8hxzvqd8u1m/nice-header-pic.png
+
 Section 1. What is the Lithospheric Modelling Recipe?
 -----------------------------------------------------
 The Lithospheric Modelling Recipe (or LMR) is an Underworld input file, designed to make it easy for geologists and numerical modellers to setup and run robust and reproducible geodynamic models of lithospheric scale processes.
