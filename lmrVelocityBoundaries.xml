@@ -1,68 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <StGermainData xmlns="http://www.vpac.org/StGermain/XML_IO_Handler/Jun2003">
-    
-   
-    
+
     <struct name="velocityBCs">
-        <param name="type">CompositeVC</param>
+        <param name="type"> CompositeVC </param>
         <list name="vcList">
             <struct>
-                <param name="type">WallVC</param>
-                <param name="wall">left</param>
+                <param name="type"> WallVC </param>
+                <param name="wall"> left </param>
                 <list name="variables">
                     <struct>
-                        <param name="name">vx</param>
-                        <param name="type">double</param>
-                        <param name="value" units="cm/yr">-2.0</param>
+                        <param name="name"> vx </param>
+                        <param name="type"> double </param>
+                        <param name="value" units="cm/yr"> -2.0 </param>
                     </struct>
                 </list>
             </struct>
 
             <struct>
-                <param name="type">WallVC</param>
-                <param name="wall">right</param>
+                <param name="type"> WallVC </param>
+                <param name="wall"> right </param>
                 <list name="variables">
                     <struct>
-                        <param name="name">vx</param>
-                        <param name="type">double</param>
-                        <param name="value" units="cm/yr">2.0</param>
+                        <param name="name"> vx </param>
+                        <param name="type"> double </param>
+                        <param name="value" units="cm/yr"> 2.0 </param>
                     </struct>
                 </list>
             </struct>
             
             <!-- NOTE: The 'front' and 'back' walls are only activated when in 
-                       3D. The definitions below are for no outflow -->
+                  3D. The definitions below are for free-slip, no outflow. -->
             <struct>
-                <param name="type">WallVC</param>
-                <param name="wall">front</param>
+                <param name="type"> WallVC </param>
+                <param name="wall"> front </param>
                 <list name="variables">
                     <struct>
-                        <param name="name">vz</param>
-                        <param name="type">double</param>
-                        <param name="value" units="cm/yr">0.0</param>
+                        <param name="name"> vz </param>
+                        <param name="type"> double </param>
+                        <param name="value" units="cm/yr"> 0.0 </param>
                     </struct>
                 </list>
             </struct>
             
             <struct>
-                <param name="type">WallVC</param>
-                <param name="wall">back</param>
+                <param name="type"> WallVC </param>
+                <param name="wall"> back </param>
                 <list name="variables">
                     <struct>
-                        <param name="name">vz</param>
-                        <param name="type">double</param>
-                        <param name="value" units="cm/yr">0.0</param>
+                        <param name="name"> vz </param>
+                        <param name="type"> double </param>
+                        <param name="value" units="cm/yr"> 0.0 </param>
                     </struct>
                 </list>
             </struct>
 
             <struct>
-                <param name="type">WallVC</param>
-                <param name="wall">bottom</param>
+                <param name="type"> WallVC </param>
+                <param name="wall"> bottom </param>
                 <list name="variables">
                     <struct>
-                        <param name="name">vy</param>
-                        <param name="type">func</param>
+                        <param name="name"> vy </param>
+                        <param name="type"> func </param>
                         <param name="value"> lecode_tools_Isostasy </param>
                     </struct>
                 </list>
@@ -74,9 +72,10 @@
     <!-- === Example Ppc function for wallVC ============= -->
     <!-- The following structs define a time dependent wall VC, where between
          t=0 and t=1myr, the wall velocity increases from 0 to -2.0 cm/yr.
-         To use this function, change the left wallVC "type" to be "func", and
-         change the "value" to be "left-wall-VC" (and get rid of any units). -->
-    <!--     
+         
+         To use this function, change the left wallVC "type" to be "func", and 
+         set the "value" to be "left-wall-VC" (and get rid of any units). -->
+         
     <struct name="components" mergeType="merge">
         <struct name="current_time" mergeType="replace">
             <param name="Type"> Ppc_Current_Time </param>
@@ -99,30 +98,105 @@
         </struct>
         
     </struct>
-    -->
     
     
-     <list name="plugins" mergeType="merge">
-     <!--=== Isostasy functionality ========================== -->
-        <struct>
-            <!-- === Commonly modified ================== -->
-            <param name="rhoZeroMaterial">astheno</param>
-            <param name="UseAverage">False</param>
-            <!-- ======================================== -->
-            <param name="Type"> lecode_tools_Isostasy </param>
-            <param name="Context">context</param>
-            <param name="mesh">linearMesh</param>
-            <param name="VerticalAxis">@VerticalAxis</param>
-            <param name="SurfaceIndex">@elementResJ</param>
-            <param name="swarm">picIntegrationPoints</param>
-            <param name="velocityField">VelocityField</param>
-            <param name="sle">stokesEqn</param>
-            <param name="Manager">default_ppcManager</param>
-            <param name="DensityLabel">DensityProperty</param>
-            <param name="MaxIterations">-1</param>
-        </struct>
-    </list>
     
+    
+    <!--=== Moving mesh ==================================== -->
+    <!-- This section of XML controls whether the model domain moves with the
+         boundary conditions applied. By default this is turned on, and you will
+         notice that the left and right walls of the model move with the boundary
+         conditions applied to them.
+         If the code is turned off (commented out), then the material will flow
+         through the left and right walls, but the walls will stay fixed.
+         
+         Using a moving mesh is good, because no material is lost out the sides
+         of the model. However, given enough movement, the mesh looses it's ideal
+         square shape, and can lead to errors. 
+         Furthermore, complex spatial velocity boundary conditions can cause the 
+         moving mesh to fail. In those cases, it is best to turn off moving mesh
+         (by just deleting or commenting out the code between "Moving Mesh" and 
+         "End of Moving Mesh".
+    -->     
+    <struct name="EulerDeform">
+    	<list name="systems">
+    		<struct>
+    			<!-- === Commonly modified ================== -->
+    		    <!-- Walls that are set to "False" will move with the 
+    			     velocity BC. Walls set to "True" will remain fixed. -->
+    			<param name="staticTop">    True  </param>
+    			<param name="staticBottom"> True  </param>
+    			
+    			<param name="staticLeft">   False </param>
+    			<param name="staticRight">  False </param>
+    			
+    			<param name="staticFront">  True  </param>
+    			<param name="staticBack">   True  </param>
+    			
+    			<param name="wrapTop"> False </param>
+    			<!-- ======================================== -->
+    			
+    			<!-- === Technical implementation =========== -->
+    			<param name="mesh"> velocityMesh </param>
+    			<param name="remesher"> velocityRemesher </param>
+    			<param name="velocityField"> VelocityField </param>
+    			<list name="fields">
+    				<struct>
+    					<param name="field"> VelocityField </param>
+    					<param name="variable"> velocity </param>
+    				</struct>
+    			</list>
+    		</struct>
+		</list>
+    </struct>
+    <!-- === Technical implementation =========== -->
+    <struct name="components" mergeType="merge">
+    	<struct name="velocityRemesher">
+    		<param name="Type"> RegularRemesherCmpt </param>
+    		<param name="mesh"> velocityMesh </param>
+    		<list name="remeshDims">
+    			<param> 0 </param>
+    			<param> 1 </param>
+    			<param> 2 </param>
+			</list>
+		</struct>
+    </struct>
+    
+    <list name="plugins" mergeType="merge">
+    	<struct>
+    		<param name="Type"> Underworld_EulerDeform </param>
+    		<param name="Context"> context </param>
+    	</struct>
+    <list>
+    <!-- ======================================== -->
+    
+    <!--=== End of Moving Mesh ============================== -->
+    
+    
+    
+    
+    
+    <!--=== Isostasy functionality ========================== -->
+	<list name="plugins" mergeType="merge">
+		<struct>
+			<!-- === Commonly modified ================== -->
+			<param name="rhoZeroMaterial">astheno</param>
+			<param name="UseAverage">False</param>
+			<!-- ======================================== -->
+			<param name="Type"> lecode_tools_Isostasy </param>
+			<param name="Context">context</param>
+			<param name="mesh">linearMesh</param>
+			<param name="VerticalAxis">@VerticalAxis</param>
+			<param name="SurfaceIndex">@elementResJ</param>
+			<param name="swarm">picIntegrationPoints</param>
+			<param name="velocityField">VelocityField</param>
+			<param name="sle">stokesEqn</param>
+			<param name="Manager">default_ppcManager</param>
+			<param name="DensityLabel">DensityProperty</param>
+			<param name="MaxIterations">-1</param>
+		</struct>
+	</list>
+    <!--===================================================== -->
     
 </StGermainData>
 
