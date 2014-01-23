@@ -2,77 +2,83 @@
 <StGermainData xmlns="http://www.vpac.org/StGermain/XML_IO_Handler/Jun2003">
     
     <struct name="temperatureBCs">
-        <param name="type">CompositeVC</param>
+        <param name="type"> CompositeVC </param>
         <list name="vcList">
             <struct>
                 <param name="type"> WallVC </param>
                 <param name="wall"> top </param>
                 <list name="variables">
                     <struct>
-                        <param name="name">temperature</param>
-                        <param name="type">double</param>
+                        <param name="name"> temperature </param>
+                        <param name="type"> double </param>
                         <param name="value" units="K"> 293.15 </param>
                     </struct>
                 </list>
             </struct>
-            <!--
+            
             <struct>
                 <param name="type"> WallVC </param>
                 <param name="wall"> bottom </param>
                 <list name="variables">
                     <struct>
-                        <param name="name">temperature</param>
-                        <param name="type">double</param>
+                        <param name="name"> temperature </param>
+                        <param name="type"> double </param>
                         <param name="value" units="K"> 1573.15 </param>
                     </struct>
                 </list>
             </struct>
 			
-			Thermal BCs can be applied to any wall, or shapes (using MeshShapeVC type)
-			-->
         </list>
     </struct>
 	
 	<struct name="components" mergeType="merge">
-		<!-- Heat flux boundary condition -->
-	
+		<!-- === Heat flux boundary condition ============================== -->
+		<!-- A heat flux BC can be applied to a wall, rather than a fixed 
+			 temperature. To do so, comment out the bottom wallVC defined above,
+			 and un-comment the following "thermalFluxBC" struct. The XML code
+			 following that defines the vector of flux, and the calculations that
+			 go into it.
+		-->
+		
+		<!--
+		<struct name="thermalFluxBC">
+			<param name="Surface"> bottom </param>
+            <param name="functionLabel"> heat_flux_vector </param>
+            <param name="Type"> VectorSurfaceAssemblyTerm_NA__Fi__ni </param>
+            <param name="ForceVector"> residual </param>
+            <param name="Swarm"> borderGaussSwarm </param>
+        </struct>
+        -->
 		<struct name="basal_heat_flow">
 			<!-- Avg heat flow from Rudnick and Nyblade (1999) -->
-            <param name="Type">Ppc_Constant</param>
-            <param name="Value" units="mW/(m*m)">25</param>
+            <param name="Type"> Ppc_Constant </param>
+            <param name="Value" units="mW/(m*m)"> 25 </param>
         </struct>
 		
 		<struct name="heat_flux_vector">
-            <param name="Type">Ppc_a_Vector</param>
-            <param name="Alpha">basal_heat_flux</param>
-            <param name="vi">0</param>
-            <param name="vj">1</param>
-            <param name="vk">0</param>
+            <param name="Type"> Ppc_a_Vector </param>
+            <param name="Alpha"> basal_heat_flux </param>
+            <param name="vi"> 0 </param>
+            <param name="vj"> 1 </param>
+            <param name="vk"> 0 </param>
         </struct>
         <struct name="basal_heat_flux">
-            <param name="Type">Ppc_Operation</param>
+            <param name="Type"> Ppc_Operation </param>
             <param name="Operation"> / </param>
             <list name="Properties">
-                <param>basal_heat_flow</param>
-                <param>basal_rho_cp</param>
+                <param> basal_heat_flow </param>
+                <param> basal_rho_cp </param>
             </list>
         </struct>
         <struct name="basal_rho_cp">
-            <param name="Type">Ppc_Operation</param>
+            <param name="Type"> Ppc_Operation </param>
             <param name="Operation"> * </param>
             <list name="Properties">
-                <param>3360</param>
-                <param>CpProperty</param>
+                <param> 3360 </param>	<!-- Note this is an approximation -->
+                <param> CpProperty </param>
             </list>
         </struct>
-		<struct name="thermalFluxBC">
-			<param name="Surface">bottom</param>
-            <param name="functionLabel">heat_flux_vector</param>
-            <param name="Type">VectorSurfaceAssemblyTerm_NA__Fi__ni</param>
-            <param name="ForceVector">residual</param>
-            <param name="Swarm">borderGaussSwarm</param>
-        </struct>
-        
+        <!-- === End of Heat flux boundary condition ======================= -->
     </struct>
     
     
