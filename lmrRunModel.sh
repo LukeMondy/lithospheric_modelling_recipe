@@ -12,7 +12,7 @@ zres="0"    # For 3D, set this to be more than 0.
 
 # === Data output ===========================================
 job_description="reference-solution"
-max_timesteps="100000"   # Use a large number for normal runs, use -1 for checking material geometries.
+max_timesteps="-1"   # Use a large number for normal runs, use -1 for checking material geometries.
 max_time="5e6"           # Model will stop after 5 million years
 use_log_file=false        # If true, command-line output goes to $job_description.log
 
@@ -49,7 +49,7 @@ nonlinear_maxIterations="500"
 #   thermally equilibrate for >1 billion years without much computational cost. It is highly
 #   recommended to this at least once, and then use the resulting outputs as your model initial
 #   conditions.
-run_thermal_equilibration=true                         # After running once, set to false
+run_thermal_equilibration=false                         # After running once, set to false
 path_to_thermal_initial_condition="${FULLDIR}/initial-condition"    # This must always be set.
 
 thermal_equilibration_max_time="1000e6"                 # - Run thermal equilibration for 1000 myr
@@ -64,14 +64,14 @@ automatically_update_lmrInitials_xml=true               # - lmrInitials.xml has 
 
 
 # === Parallelism ===========================================
-cpus="6"
+cpus="2"
 
 
 
 
 
 # === Underworld binary file ================================
-underworld="/home/luke/Programs/unmodified-uw/build/bin/Underworld"   # Point this to your Underworld installation.
+underworld="/home/litho/Programs/uw-src/build/bin/Underworld"   # Point this to your Underworld installation.
 
 
 
