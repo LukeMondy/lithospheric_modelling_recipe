@@ -7,8 +7,8 @@
             <param name="Type">Ppc_Thermal_Profile</param>
             <param name="StartCoord" units="km">   0.0</param>
             <param name="EndCoord"   units="km"> -145.0</param>
-            <param name="MinTemp" units="K"> 293.15</param>
-            <param name="MaxTemp" units="K">1573.15</param>
+            <param name="MinTemp" units="K"> 293.15 </param>
+            <param name="MaxTemp" units="K"> 1573.15 </param>
             <param name="LinearCoefficient">0.00465139</param> 
             <param name="ExponentialCoefficient1">774.73 </param> 
             <param name="ExponentialCoefficient2">1.23996e-5</param>
