@@ -113,162 +113,186 @@
 
         <!-- === Lower Crust =============================== -->
         <struct name="lowercrustShape">
-            <param name="Type">Box</param>
-            <param name="startX">minX</param>
-            <param name="endX">maxX</param>
-            <param name="startY">botLowerCrust</param>
-            <param name="endY">topLowerCrust</param>
-            <param name="startZ">minZ</param>
-            <param name="endZ">maxZ</param>
+            <param name="Type"> Box </param>
+            <param name="startX"> minX </param>
+            <param name="endX"> maxX </param>
+            <param name="startY"> botLowerCrust </param>
+            <param name="endY"> topLowerCrust </param>
+            <param name="startZ"> minZ </param>
+            <param name="endZ"> maxZ </param>
         </struct>
+		
+		<struct name="lowercrustMarker0">
+			<param name="Type"> Box </param>
+			<param name="startX"> -100000 </param>
+			<param name="endX"> -90000 </param>
+			<param name="startY"> botLowerCrust </param>
+			<param name="endY"> topLowerCrust </param>
+			<param name="startZ"> minZ </param>
+			<param name="endZ"> maxZ </param>
+		</struct>
+		
 
-        <struct name="lowercrustMarker1">
-            <param name="Type">Box</param>
-            <param name="startX">20000</param>
-            <param name="endX">30000</param>
-            <param name="startY">botLowerCrust</param>
-            <param name="endY">topLowerCrust</param>
-            <param name="startZ">minZ</param>
-            <param name="endZ">maxZ</param>
-        </struct>
-        <struct name="lowercrustMarker1a">
-            <param name="Type">Superellipsoid</param>
-            <param name="CentreX" units="km">10</param>
-            <param name="CentreY">midLowerCrust</param>
-            <param name="CentreZ" units="km">0.0</param>
-            <param name="epsilon1">1.0</param>
-            <param name="epsilon2">1.0</param>
-            <param name="radiusX" units="km">5</param>
-            <param name="radiusY" units="km">5</param>
-            <param name="radiusZ" units="km">5</param>
-        </struct>
-        <struct name="lowercrustMarker2">
-            <param name="Type">Box</param>
-            <param name="startX">50000</param>
-            <param name="endX">60000</param>
-            <param name="startY">botLowerCrust</param>
-            <param name="endY">topLowerCrust</param>
-            <param name="startZ">minZ</param>
-            <param name="endZ">maxZ</param>
-        </struct>
-        <struct name="lowercrustMarker2a">
-            <param name="Type">Superellipsoid</param>
-            <param name="CentreX" units="km">40</param>
-            <param name="CentreY">midLowerCrust</param>
-            <param name="CentreZ" units="km">0.0</param>
-            <param name="epsilon1">1.0</param>
-            <param name="epsilon2">1.0</param>
-            <param name="radiusX" units="km">5</param>
-            <param name="radiusY" units="km">5</param>
-            <param name="radiusZ" units="km">5</param>
-        </struct>
-        <struct name="lowercrustMarker3">
-            <param name="Type">Box</param>
-            <param name="startX">80000</param>
-            <param name="endX">90000</param>
-            <param name="startY">botLowerCrust</param>
-            <param name="endY">topLowerCrust</param>
-            <param name="startZ">minZ</param>
-            <param name="endZ">maxZ</param>
-        </struct>
-        <struct name="lowercrustMarker3a">
-            <param name="Type">Superellipsoid</param>
-            <param name="CentreX" units="km">70</param>
-            <param name="CentreY">midLowerCrust</param>
-            <param name="CentreZ" units="km">0.0</param>
-            <param name="epsilon1">1.0</param>
-            <param name="epsilon2">1.0</param>
-            <param name="radiusX" units="km">5</param>
-            <param name="radiusY" units="km">5</param>
-            <param name="radiusZ" units="km">5</param>
-        </struct>
-        <struct name="lowercrustMarker4">
-            <param name="Type">Box</param>
-            <param name="startX">110000</param>
-            <param name="endX">120000</param>
-            <param name="startY">botLowerCrust</param>
-            <param name="endY">topLowerCrust</param>
-            <param name="startZ">minZ</param>
-            <param name="endZ">maxZ</param>
-        </struct>
-        <struct name="lowercrustMarker4a">
-            <param name="Type">Superellipsoid</param>
-            <param name="CentreX" units="km">100</param>
-            <param name="CentreY">midLowerCrust</param>
-            <param name="CentreZ" units="km">0.0</param>
-            <param name="epsilon1">1.0</param>
-            <param name="epsilon2">1.0</param>
-            <param name="radiusX" units="km">5</param>
-            <param name="radiusY" units="km">5</param>
-            <param name="radiusZ" units="km">5</param>
-        </struct>
-        <struct name="lowercrustMarker5">
-            <param name="Type">Box</param>
-            <param name="startX">140000</param>
-            <param name="endX">150000</param>
-            <param name="startY">botLowerCrust</param>
-            <param name="endY">topLowerCrust</param>
-            <param name="startZ">minZ</param>
-            <param name="endZ">maxZ</param>
-        </struct>
-        <struct name="lowercrustMarker5a">
-            <param name="Type">Superellipsoid</param>
-            <param name="CentreX" units="km">130</param>
-            <param name="CentreY">midLowerCrust</param>
-            <param name="CentreZ" units="km">0.0</param>
-            <param name="epsilon1">1.0</param>
-            <param name="epsilon2">1.0</param>
-            <param name="radiusX" units="km">5</param>
-            <param name="radiusY" units="km">5</param>
-            <param name="radiusZ" units="km">5</param>
-        </struct>
-        <struct name="lowercrustMarker6">
-            <param name="Type">Box</param>
-            <param name="startX">170000</param>
-            <param name="endX">180000</param>
-            <param name="startY">botLowerCrust</param>
-            <param name="endY">topLowerCrust</param>
-            <param name="startZ">minZ</param>
-            <param name="endZ">maxZ</param>
-        </struct>
-        <struct name="lowercrustMarker6a">
-            <param name="Type">Superellipsoid</param>
-            <param name="CentreX" units="km">160</param>
-            <param name="CentreY">midLowerCrust</param>
-            <param name="CentreZ" units="km">0.0</param>
-            <param name="epsilon1">1.0</param>
-            <param name="epsilon2">1.0</param>
-            <param name="radiusX" units="km">5</param>
-            <param name="radiusY" units="km">5</param>
-            <param name="radiusZ" units="km">5</param>
-        </struct>
-        <struct name="lowercrustMarker7a">
-            <param name="Type">Superellipsoid</param>
-            <param name="CentreX" units="km">190</param>
-            <param name="CentreY">midLowerCrust</param>
-            <param name="CentreZ" units="km">0.0</param>
-            <param name="epsilon1">1.0</param>
-            <param name="epsilon2">1.0</param>
-            <param name="radiusX" units="km">5</param>
-            <param name="radiusY" units="km">5</param>
-            <param name="radiusZ" units="km">5</param>
-        </struct>
+		<struct name="lowercrustMarker1">
+			<param name="Type">Box</param>
+			<param name="startX">-70000</param>
+			<param name="endX">-60000</param>
+			<param name="startY">botLowerCrust</param>
+			<param name="endY">topLowerCrust</param>
+			<param name="startZ">minZ</param>
+			<param name="endZ">maxZ</param>
+		</struct>
+		
+
+		<struct name="lowercrustMarker2">
+			<param name="Type">Box</param>
+			<param name="startX">-40000</param>
+			<param name="endX">-30000</param>
+			<param name="startY">botLowerCrust</param>
+			<param name="endY">topLowerCrust</param>
+			<param name="startZ">minZ</param>
+			<param name="endZ">maxZ</param>
+		</struct>
+		
+
+		<struct name="lowercrustMarker3">
+			<param name="Type">Box</param>
+			<param name="startX">-10000</param>
+			<param name="endX">0</param>
+			<param name="startY">botLowerCrust</param>
+			<param name="endY">topLowerCrust</param>
+			<param name="startZ">minZ</param>
+			<param name="endZ">maxZ</param>
+		</struct>
+		
+
+		<struct name="lowercrustMarker4">
+			<param name="Type">Box</param>
+			<param name="startX">20000</param>
+			<param name="endX">30000</param>
+			<param name="startY">botLowerCrust</param>
+			<param name="endY">topLowerCrust</param>
+			<param name="startZ">minZ</param>
+			<param name="endZ">maxZ</param>
+		</struct>
+		
+
+		<struct name="lowercrustMarker5">
+			<param name="Type">Box</param>
+			<param name="startX">50000</param>
+			<param name="endX">60000</param>
+			<param name="startY">botLowerCrust</param>
+			<param name="endY">topLowerCrust</param>
+			<param name="startZ">minZ</param>
+			<param name="endZ">maxZ</param>
+		</struct>
+		
+
+		<struct name="lowercrustMarker6">
+			<param name="Type">Box</param>
+			<param name="startX">80000</param>
+			<param name="endX">90000</param>
+			<param name="startY">botLowerCrust</param>
+			<param name="endY">topLowerCrust</param>
+			<param name="startZ">minZ</param>
+			<param name="endZ">maxZ</param>
+		</struct>
+		
+
+		<struct name="lowercrustMarker7">
+			<param name="Type">Box</param>
+			<param name="startX">110000</param>
+			<param name="endX">120000</param>
+			<param name="startY">botLowerCrust</param>
+			<param name="endY">topLowerCrust</param>
+			<param name="startZ">minZ</param>
+			<param name="endZ">maxZ</param>
+		</struct>
+		
+
+		<struct name="lowercrustMarker8">
+			<param name="Type">Box</param>
+			<param name="startX">140000</param>
+			<param name="endX">150000</param>
+			<param name="startY">botLowerCrust</param>
+			<param name="endY">topLowerCrust</param>
+			<param name="startZ">minZ</param>
+			<param name="endZ">maxZ</param>
+		</struct>
+		
+
+		<struct name="lowercrustMarker9">
+			<param name="Type">Box</param>
+			<param name="startX">170000</param>
+			<param name="endX">180000</param>
+			<param name="startY">botLowerCrust</param>
+			<param name="endY">topLowerCrust</param>
+			<param name="startZ">minZ</param>
+			<param name="endZ">maxZ</param>
+		</struct>
+		
+
+		<struct name="lowercrustMarker10">
+			<param name="Type">Box</param>
+			<param name="startX">200000</param>
+			<param name="endX">210000</param>
+			<param name="startY">botLowerCrust</param>
+			<param name="endY">topLowerCrust</param>
+			<param name="startZ">minZ</param>
+			<param name="endZ">maxZ</param>
+		</struct>
+		
+
+		<struct name="lowercrustMarker11">
+			<param name="Type">Box</param>
+			<param name="startX">230000</param>
+			<param name="endX">240000</param>
+			<param name="startY">botLowerCrust</param>
+			<param name="endY">topLowerCrust</param>
+			<param name="startZ">minZ</param>
+			<param name="endZ">maxZ</param>
+		</struct>
+		
+
+		<struct name="lowercrustMarker12">
+			<param name="Type">Box</param>
+			<param name="startX">260000</param>
+			<param name="endX">270000</param>
+			<param name="startY">botLowerCrust</param>
+			<param name="endY">topLowerCrust</param>
+			<param name="startZ">minZ</param>
+			<param name="endZ">maxZ</param>
+		</struct>
+		
+
+		<struct name="lowercrustMarker13">
+			<param name="Type">Box</param>
+			<param name="startX">290000</param>
+			<param name="endX">300000</param>
+			<param name="startY">botLowerCrust</param>
+			<param name="endY">topLowerCrust</param>
+			<param name="startZ">minZ</param>
+			<param name="endZ">maxZ</param>
+		</struct>
+		
+        
         <struct name="lowercrustMarkersShape">
             <param name="Type">Union</param>
             <list name="shapes">
-                <param>lowercrustMarker1</param>
+                <param>lowercrustMarker0</param>
+            	<param>lowercrustMarker1</param>
                 <param>lowercrustMarker2</param>
                 <param>lowercrustMarker3</param>
                 <param>lowercrustMarker4</param>
                 <param>lowercrustMarker5</param>
                 <param>lowercrustMarker6</param>
-                <param>lowercrustMarker1a</param>
-                <param>lowercrustMarker2a</param>
-                <param>lowercrustMarker3a</param>
-                <param>lowercrustMarker4a</param>
-                <param>lowercrustMarker5a</param>
-                <param>lowercrustMarker6a</param>
-                <param>lowercrustMarker7a</param>
+                <param>lowercrustMarker7</param>
+                <param>lowercrustMarker8</param>
+                <param>lowercrustMarker9</param>
+                <param>lowercrustMarker10</param>
+                <param>lowercrustMarker11</param>
+                <param>lowercrustMarker12</param>
+                <param>lowercrustMarker13</param>
             </list>
         </struct>
 
@@ -282,6 +306,35 @@
             <param name="endY">topMantle</param>
             <param name="startZ">minZ</param>
             <param name="endZ">maxZ</param>
+        </struct>
+        
+        
+        
+        <struct name="mantleMarker1">
+            <param name="Type">Box</param>
+            <param name="startX">minX</param>
+            <param name="endX">maxX</param>
+            <param name="startY" units="km">-74</param>
+            <param name="endY" units="km">-72</param>
+            <param name="startZ">minZ</param>
+            <param name="endZ">maxZ</param>
+        </struct>
+        <struct name="mantleMarker2">
+            <param name="Type">Box</param>
+            <param name="startX">minX</param>
+            <param name="endX">maxX</param>
+            <param name="startY" units="km">-105</param>
+            <param name="endY" units="km">-103</param>
+            <param name="startZ">minZ</param>
+            <param name="endZ">maxZ</param>
+        </struct>
+        
+        <struct name="mantleMarkersShape">
+            <param name="Type">Union</param>
+            <list name="shapes">
+                <param>mantleMarker1</param>
+                <param>mantleMarker2</param>
+            </list>
         </struct>
         
         
@@ -544,6 +597,31 @@
             </list>
         </struct>
         
+        <struct name="mantleMarkers">
+            <param name="Type">RheologyMaterial</param>
+            <param name="Shape">mantleMarkersShape</param>
+            <param name="DensityProperty">densMelt_continental_litho_mantle</param>
+            
+            <param name="DiffusivityProperty"> global_diffusivity </param>
+            <param name="CpProperty"> global_cp </param>
+            <param name="ThermalExpansivityProperty"> global_expansivity </param>
+            <param name="RadiogenicHeatProductionProperty"> radiogenic_lithospheric_mantle </param>
+            
+            <param name="LatentHeatFusionProperty" units="kJ*kg^-1">250.0</param>
+            <param name="MeltFractionProperty"> melt_fraction </param>
+            <param name="MeltExpansionProperty"> melt_mantle_density_decrease </param>
+            <param name="solidusProperty"> melt_mantle_solidus </param>
+            <param name="liquidusProperty"> melt_mantle_liquidus </param>
+            
+            <param name="surface_processes"> erosion_threshold </param>
+            
+            <list name="Rheology">
+                <!-- Viscous law   --> <param> viscSRTdislocation_wet_dunite_Brace1980 </param>
+                <!-- Brittle law   --> <param> yield_litho_mantle_Rey2010 </param>
+                <!-- Melt modifier --> <param> viscMelt_mantle_Hirth2003 </param>
+                <!-- Visc limiter  --> <param> viscosityLimiter </param>
+            </list>
+        </struct>
         
         <struct name="astheno">
             <param name="Type">RheologyMaterial</param>
