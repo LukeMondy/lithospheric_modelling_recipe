@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <StGermainData xmlns="http://www.vpac.org/StGermain/XML_IO_Handler/Jun2003">
-    
-   
-    
+     
     <struct name="velocityBCs">
         <param name="type">CompositeVC</param>
         <list name="vcList">
@@ -13,7 +11,7 @@
                     <struct>
                         <param name="name">vx</param>
                         <param name="type">double</param>
-                        <param name="value" units="cm/yr">-2.0</param>
+                        <param name="value" units="cm/yr"> -2.0 </param>
                     </struct>
                 </list>
             </struct>
@@ -25,7 +23,7 @@
                     <struct>
                         <param name="name">vx</param>
                         <param name="type">double</param>
-                        <param name="value" units="cm/yr">2.0</param>
+                        <param name="value" units="cm/yr"> 2.0 </param>
                     </struct>
                 </list>
             </struct>
@@ -39,7 +37,7 @@
                     <struct>
                         <param name="name">vz</param>
                         <param name="type">double</param>
-                        <param name="value" units="cm/yr">0.0</param>
+                        <param name="value" units="cm/yr"> 0.0 </param>
                     </struct>
                 </list>
             </struct>
@@ -51,7 +49,7 @@
                     <struct>
                         <param name="name">vz</param>
                         <param name="type">double</param>
-                        <param name="value" units="cm/yr">0.0</param>
+                        <param name="value" units="cm/yr"> 0.0 </param>
                     </struct>
                 </list>
             </struct>
