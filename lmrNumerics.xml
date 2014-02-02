@@ -371,6 +371,22 @@
         
     </struct>
     
+    <list name="plugins" mergeType="merge">
+    	<struct>
+    		<!-- The pressure calibration plugin is used to ensure
+    			 Underworld uses real-world pressure values (appr-
+    			 oximately). Stokes flow only has a pressure grad-
+    			 iant term, so the calibration plugin is used to 
+    			 ensure it is properly offset. 
+    			 The plugin calculates the average pressure across
+    			 the top of the model, and removes that value from
+    			 everywhere in the model. -->
+    		<param name="Type"> Underworld_PressureCalibration </param>
+    		<param name="Context"> context </param>
+    		<param name="UsingTopPressure"> True </param>
+    	</struct>
+    </list>
+    
     <!-- === Numerical controls (that probably shouldn't be touched) ==== -->
     <param name="shadowDepth">1</param>             
     <param name="allowUnbalancing">True</param>    
