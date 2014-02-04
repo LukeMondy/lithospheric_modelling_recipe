@@ -7,7 +7,7 @@
     <param name="maxX" units="km">  300</param>
     
     <!-- Axis 1: y -->
-    <param name="minY" units="km">-155</param>
+    <param name="minY" units="km">-165</param>
     <param name="maxY" units="km">   5</param>
     
     <!-- Axis 2: z -->
