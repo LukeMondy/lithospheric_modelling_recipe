@@ -2,42 +2,24 @@
 <lmr:LMRStarterKit xmlns:lmr="https://bitbucket.org/lmondy/lithosphericmodellingrecipe" 
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
     xsi:schemaLocation="file:/home/luke/Development/Python/lmrRunModel/LMR.xsd">
-    
-    <Underworld_Execution>
-        <Underworld_binary> /home/luke/Programs/unmodified-uw/build/bin/Underworld </Underworld_binary>
-        <CPUs> 1 </CPUs>
-    </Underworld_Execution>
+
     
     <Model_Resolution>
-        <x> 50 </x>
-        <y> 50 </y>
-        <z> 0 </z>
+        <x> 448 </x>
+        <y> 192 </y>
+        <z> 448 </z>
     </Model_Resolution>
-
-    <Model_Precision>
-        <linear_solver>
-            <tolerance> 5e-4 </tolerance>
-            <min_iterations> 10 </min_iterations>
-            <max_iterations> 500 </max_iterations>
-        </linear_solver>
-
-        <nonlinear_solver>
-            <tolerance> 5e-3 </tolerance>
-            <min_iterations> 10 </min_iterations>
-            <max_iterations> 500 </max_iterations>
-        </nonlinear_solver>
-    </Model_Precision>
     
     <Output_Controls>
-        <description> description0 </description>
+        <description> reference_model </description>
         <experiment_duration_options>
             <maximum_steps> 0 </maximum_steps>
             <maximum_time> 1.0E7 </maximum_time>
         </experiment_duration_options>
         
         <checkpointing_options>
-            <years> 0 </years>
-            <timesteps> 50 </timesteps>
+            <years> 50000 </years>
+            <timesteps> 100000 </timesteps>
         </checkpointing_options>
         
         <output_pictures> false </output_pictures>
@@ -45,30 +27,58 @@
     </Output_Controls>
     
     <Thermal_Equilibration>
-        <run_thermal_equilibration_phase> true </run_thermal_equilibration_phase>
+        <run_thermal_equilibration_phase> false </run_thermal_equilibration_phase>
         
-        <output_options>
-            <thermal_equilibration_description> ${FULLDIR}/initial-condition </thermal_equilibration_description>
-            <preserve_thermal_equilibration_checkpoints> false </preserve_thermal_equilibration_checkpoints>
-            <update_xml_information> true </update_xml_information>
-        
+        <update_xml_information> true </update_xml_information>
+        <preserve_thermal_equilibration_checkpoints> false </preserve_thermal_equilibration_checkpoints>
 
-            <duration_options>
+        <output_controls>
+            <description> laterally_homog </description>
+            
+            <thermal_model_resolution>
+                <x> 2 </x>
+                <y> 40 </y>
+                <z> 2 </z>
+            </thermal_model_resolution>
+
+            <experiment_duration_options>
                 <maximum_steps> 10000000 </maximum_steps>
                 <maximum_time> 1.0E9 </maximum_time>
-            </duration_options>
+            </experiment_duration_options>
 
-            <Model_Resolution>
-                <x> 50 </x>
-                <y> 50 </y>
-                <z> 0 </z>
-            </Model_Resolution>
-        </output_options>   
+            <checkpointing_options>
+                <years> 1.0E7 </years>
+                <timesteps> 100000000 </timesteps>
+            </checkpointing_options>
+
+            <output_pictures> false </output_pictures>
+            
+        </output_controls>   
     </Thermal_Equilibration>
+
 
     <Restarting_Controls>
         <restart> false </restart>
         <restart_from_step> 50 </restart_from_step>
     </Restarting_Controls>
+
+    <Model_Precision>
+        <linear_solver>
+            <tolerance> 5e-4 </tolerance>
+            <min_iterations> 10 </min_iterations>
+            <max_iterations> 15000 </max_iterations>
+        </linear_solver>
+
+        <nonLinear_solver>
+            <tolerance> 5e-3 </tolerance>
+            <min_iterations> 10 </min_iterations>
+            <max_iterations> 500 </max_iterations>
+        </nonLinear_solver>
+    </Model_Precision>
+
+    <Underworld_Execution>
+        <Underworld_binary> /home/luke/Programs/unmodified-uw/build/bin/Underworld </Underworld_binary>
+        <CPUs> 1 </CPUs>
+    </Underworld_Execution>
 
 </lmr:LMRStarterKit>
