@@ -23,9 +23,10 @@ Then it should work.
 
 
 from __future__ import division
-import sys, textwrap
+import os, shutil, sys, textwrap
 from lxml import etree as ElementTree
 from xml.parsers.expat import  ErrorString
+from subprocess import call
 
 def load_xml(input_xml = 'lmrStart.xml', xsd_location = 'LMR.xsd'):
     """
@@ -109,7 +110,7 @@ def process_xml(raw_dict):
 
     # <Model_Resolution>
     model_dict["resolution"] = {dim: int(raw_dict["Model_Resolution"][dim]) for dim in raw_dict["Model_Resolution"].keys()}
-    command_dict["resolution"] = "--elementResI={x} --elemntResJ={y} --elementResK={z}"
+    command_dict["resolution"] = "--elementResI={resolution[x]} --elementResJ={resolution[y]} --elementResK={resolution[z]}"
 
     model_dict["dims"] = 2 if model_dict["resolution"]["z"] <= 0 else 3
     command_dict["dims"] = "--dim={dims}"
@@ -117,7 +118,7 @@ def process_xml(raw_dict):
 
     # <Output_Controls>
     def process_output_controls(output_controls, model_dict, command_dict, thermal=False):
-        text_res = "x".join(map(str, model_dict["resolution"].values()))
+        text_res = "x".join(map(str, (model_dict["resolution"]["x"], model_dict["resolution"]["y"], model_dict["resolution"]["z"])))
         model_dict["description"] = {"text_res": text_res,
                                      "human_desc": output_controls["description"]}
 
@@ -143,13 +144,12 @@ def process_xml(raw_dict):
         else:
             model_dict["resolution"] = {dim: int(output_controls["thermal_model_resolution"][dim]) for dim in output_controls["thermal_model_resolution"].keys()}
 
-
     output_controls = raw_dict["Output_Controls"]
     process_output_controls(output_controls, model_dict, command_dict)
 
     model_dict["output_path"] = "result_" + "_".join(model_dict["description"].values())
     command_dict["output_path"] = "--outputPath={output_path}"
-    model_dict["input_xmls"] = ["lmrMain.xml"]
+    model_dict["input_xmls"] = "{output_path}/xmls/lmrMain.xml"
     command_dict["input_xmls"] = "{input_xmls}"
 
     model_dict["logfile"] = "log_" + model_dict["output_path"]
@@ -168,7 +168,7 @@ def process_xml(raw_dict):
         process_output_controls(output_controls, model_dict, command_dict, thermal=True)
 
         model_dict["output_path"] = "initial-condition_" + "_".join(model_dict["description"].values())
-        model_dict["input_xmls"] = ["lmrMain.xml", "lmrThermalEquilibration.xml"]
+        model_dict["input_xmls"] += " {output_path}/xmls/lmrThermalEquilibration.xml"
         model_dict["logfile"] = "log_" + model_dict["output_path"]
     # </Thermal_Equilibration>
 
@@ -218,18 +218,54 @@ def prepare_job(model_dict, command_dict):
                                       multigrid_test(model_dict["resolution"]["y"]),
                                       multigrid_test(model_dict["resolution"]["z"]))
 
+        command_dict["solver"] = "--mgLevels={mg_levels} -A11_ksp_type fgmres -mg_levels_pc_type sor -A11_pc_mg_smoothup 4 -A11_pc_mg_smoothdown 4 -mg_levels_ksp_type minres -mg_levels_ksp_max_it 3 -mg_levels_pc_type sor -mg_levels_ksp_convergence_test skip -mg_coarse_pc_factor_mat_solver_package superlu_dist -mg_accelerating_smoothing_view true -mg_smooths_max 100 -mg_smooths_to_start 1 -mg_smoothing_increment 1 -mg_target_cycles_10fold_reduction 1"
+
+        model_dict["input_xmls"] += " {output_path}/xmls/lmrSolvers.xml"
 
 
+    # Make the output folders ready for UW.
+    output_dir = model_dict["output_path"]
+    if not os.path.isdir( output_dir ):
+        os.mkdir( output_dir )
 
-    return command_dict
+    xmls_dir = os.path.join( output_dir, "xmls" )
+    if not os.path.isdir( xmls_dir ):
+        os.mkdir( xmls_dir )
+
+    for files in os.listdir("./"):
+        if files.endswith(".xml"):
+            shutil.copy(files, xmls_dir)
+
+    model_dict["input_xmls"] = model_dict["input_xmls"].format(output_path=model_dict["output_path"])
+    return model_dict, command_dict
 
 
-def run_model(command_dict):
+def run_model(model_dict, command_dict):
     # === To Do ====
-    # - Make or check the ouptut directory exists
     # - Remember, command_dict["write_to_log"] may need to go at the end.
-    # - Maybe check if 2 or 3 dim when writing the --element stuff
-    pass
+
+    first = command_dict["cpus"]
+    del(command_dict["cpus"])
+
+    second = command_dict["uwbinary"]
+    del(command_dict["uwbinary"])
+
+    third = command_dict["input_xmls"]
+    del(command_dict["input_xmls"])
+
+    prioritised = " ".join((first, second, third))
+
+    remainder = " ".join(command_dict.values())
+
+    together = " ".join((prioritised, remainder))
+
+    command = together.format(**model_dict)
+    print "\n=================\nCommand to be run (all on one line):\n%s" % textwrap.fill(command)
+    
+    print "\n=================\nRunning Underworld model...\n\n"
+    model_run_status = call(command, shell=True)
+    if model_run_status != 0:
+        sys.exit("\n\nUnderworld did not exit nicely - have a look at its output to try and determine the problem.")
 
 
 def main():
@@ -237,18 +273,12 @@ def main():
 
     model_dict, command_dict = process_xml(raw_dict)
 
-    command_dict = prepare_job(model_dict, command_dict)
+    model_dict, command_dict = prepare_job(model_dict, command_dict)
 
-    print "Commands!"
-    print "\n".join(map(str, command_dict.values()))
-    print "\nModel_dict\n-",
-    print "\n- ".join(map(str, model_dict.items()))
-
-    run_model(command_dict)
+    run_model(model_dict, command_dict)
 
 
 
 if __name__ == '__main__':
     main()
-
 

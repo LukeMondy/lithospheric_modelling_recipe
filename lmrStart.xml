@@ -5,9 +5,9 @@
 
     
     <Model_Resolution>
-        <x> 448 </x>
-        <y> 192 </y>
-        <z> 448 </z>
+        <x> 208 </x>
+        <y> 85 </y>
+        <z> 0 </z>
     </Model_Resolution>
     
     <Output_Controls>
@@ -27,7 +27,7 @@
     </Output_Controls>
     
     <Thermal_Equilibration>
-        <run_thermal_equilibration_phase> false </run_thermal_equilibration_phase>
+        <run_thermal_equilibration_phase> true </run_thermal_equilibration_phase>
         
         <update_xml_information> true </update_xml_information>
         <preserve_thermal_equilibration_checkpoints> false </preserve_thermal_equilibration_checkpoints>
@@ -78,7 +78,7 @@
 
     <Underworld_Execution>
         <Underworld_binary> /home/luke/Programs/unmodified-uw/build/bin/Underworld </Underworld_binary>
-        <CPUs> 1 </CPUs>
+        <CPUs> 2 </CPUs>
     </Underworld_Execution>
 
 </lmr:LMRStarterKit>
