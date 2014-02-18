@@ -21,12 +21,31 @@ Then it should work.
 
 """
 
-
+# Standard Python Libraries
 from __future__ import division
 import os, shutil, sys, textwrap
-from lxml import etree as ElementTree
-from xml.parsers.expat import  ErrorString
 from subprocess import call
+from itertools import chain
+import glob
+
+# H5py - http://www.h5py.org/
+try:
+    import h5py
+except ImportError:
+    sys.exit("=== ERROR ===\nThe LMR needs to use the Python library h5py. You can obtain it from http://www.h5py.org/, or from your package manager.")
+
+# Python lXML - http://lxml.de/
+try:
+    from lxml import etree as ElementTree
+except ImportError:
+    sys.exit("=== ERROR ===\nThe LMR needs to use the Python library lxml. You can obtain it from http://lxml.de/, or from your package manager.")
+
+# NumPy and SciPy - http://www.scipy.org/
+try:
+    import numpy as np
+    import scipy.ndimage as ndimage
+except ImportError:
+    sys.exit("=== ERROR ===\nThe LMR needs to use the Python libraries NumPy and SciPy. You can obtain them from http://www.scipy.org/, or from your package manager.")
 
 def load_xml(input_xml = 'lmrStart.xml', xsd_location = 'LMR.xsd'):
     """
@@ -142,6 +161,7 @@ def process_xml(raw_dict):
             if model_dict["write_to_log"] == True:
                 command_dict["write_to_log"] = "&> {logfile}"
         else:
+            model_dict["main_model_resolution"] = model_dict["resolution"]
             model_dict["resolution"] = {dim: int(output_controls["thermal_model_resolution"][dim]) for dim in output_controls["thermal_model_resolution"].keys()}
 
     output_controls = raw_dict["Output_Controls"]
@@ -160,8 +180,9 @@ def process_xml(raw_dict):
     thermal_equilib = raw_dict["Thermal_Equilibration"]
 
     model_dict["run_thermal_equilibration"] = xmlbool(thermal_equilib["run_thermal_equilibration_phase"])
+    model_dict["update_xml_information"] = xmlbool(thermal_equilib["update_xml_information"])
+    
     if model_dict["run_thermal_equilibration"]:
-        model_dict["update_xml_information"] = xmlbool(thermal_equilib["update_xml_information"])
         model_dict["preserve_thermal_equilibration_checkpoints"] = xmlbool(thermal_equilib["preserve_thermal_equilibration_checkpoints"])
 
         output_controls = thermal_equilib["output_controls"]
@@ -260,12 +281,200 @@ def run_model(model_dict, command_dict):
     together = " ".join((prioritised, remainder))
 
     command = together.format(**model_dict)
-    print "\n=================\nCommand to be run (all on one line):\n%s" % textwrap.fill(command)
+    #print "\n=================\nCommand to be run (all on one line):\n%s" % textwrap.fill(command)
     
-    print "\n=================\nRunning Underworld model...\n\n"
-    model_run_status = call(command, shell=True)
+    #print "\n=================\nRunning Underworld model...\n\n"
+    model_run_status = 0#call(command, shell=True)
     if model_run_status != 0:
         sys.exit("\n\nUnderworld did not exit nicely - have a look at its output to try and determine the problem.")
+
+
+def find_last_thermal_timestep(model_dict):
+    thermal_results_dir = model_dict["output_path"]
+    # Look for temp files, which are in the format of: TemperatureField.00000.h5
+    last_ts = max([ int(f.split('/')[-1].split('.')[1]) for f in glob.glob("%s/TemperatureField*" % thermal_results_dir)])
+    return last_ts
+
+
+def interpolate_to_full_resolution(model_dict, last_ts):
+
+    def longlist2array(longlist):
+        """
+        Faster implementation of np.array(longlist)
+        Source: http://stackoverflow.com/questions/17973507/why-is-converting-a-long-2d-list-to-numpy-array-so-slow
+        """
+        flat = np.fromiter(chain.from_iterable(longlist), np.array(longlist[0][0]).dtype, -1) # Without intermediate list:)
+        return flat.reshape((len(longlist), -1))
+    
+    
+    new_x_res = int(model_dict["main_model_resolution"]["x"])
+    new_y_res = int(model_dict["main_model_resolution"]["y"])
+    new_z_res = int(model_dict["main_model_resolution"]["z"])
+
+    # === File loading ====================
+    init_data_path = model_dict["output_path"]
+    temp_file = "TemperatureField.%05.d.h5" % last_ts
+    mesh_file = "Mesh.linearMesh.%05.d.h5" % last_ts
+    out_data_path = init_data_path
+
+    out_temp_file = "TemperatureField.%05.d.h5" % (last_ts + 1)
+    out_mesh_file = "Mesh.linearMesh.%05.d.h5" % (last_ts + 1)
+
+    data_attributes = {}
+
+    try:
+        with h5py.File("%s/%s" % (init_data_path, temp_file), "r") as temp:
+            np_temp = np.array(temp['data'][...], dtype=np.float32) # This may need to be float64
+    except IOError as err:
+        sys.exit("Unable to open the TemperatureField file from the thermal equilibration phase. lmrRunModel looked for the file:\n%s/%s\n\nThe hdf5 reader said this:\n%s\n" % (init_data_path, temp_file, err))
+    
+    try:
+        with h5py.File("%s/%s" % (init_data_path, mesh_file), "r") as mesh:    
+            np_min = mesh['min'][...]
+            np_max = mesh['max'][...]
+
+            np_vert = np.array(mesh['vertices'][...], dtype=np.float64)
+
+            for key in mesh.attrs:
+                data_attributes[key] = mesh.attrs[key]  # Make-shift deepcopy
+    except IOError as err:
+        sys.exit("Unable to open the Mesh.linearMesh file from the thermal equilibration phase. lmrRunModel looked for the file:\n%s/%s\n\nThe hdf5 reader said this:\n%s\n" % (init_data_path, mesh_file, err))
+    # === End of File loading =============
+
+    # === Grid stats ======================
+    dims = data_attributes["dimensions"]
+
+    xdim = (np_min[0], np_max[0])
+    ydim = (np_min[1], np_max[1])
+    if dims == 3:
+        zdim = (np_min[2], np_max[2])
+
+    nx = data_attributes["mesh resolution"][0] + 1
+    ny = data_attributes["mesh resolution"][1] + 1
+    if dims == 3:
+        nz = data_attributes["mesh resolution"][2] + 1
+    # === End of Grid stats ===============
+
+    # === Interpolation ===================
+    new_x_res += 1
+    new_y_res += 1
+    if dims == 3:
+        new_z_res += 1
+
+    # ====== Temperature =============
+    if dims == 2:
+        temp_grid = np_temp.reshape( (ny, nx) )
+    else:
+        temp_grid = np_temp.reshape( (nz, ny, nx) )
+
+    x_zoom_factor = new_x_res / nx
+    y_zoom_factor = new_y_res / ny
+    zoom_factors = [x_zoom_factor, y_zoom_factor]
+    if dims == 3:
+        z_zoom_factor = new_z_res / nz
+        zoom_factors.append(z_zoom_factor)
+    zoom_factors = tuple(reversed(zoom_factors))
+
+    temp_zoomed_grid = ndimage.zoom(temp_grid, zoom_factors)
+    temp_zoomed_lin = np.ravel(temp_zoomed_grid)[:, None]    # Need empty dim for writing back
+
+    data_points = temp_zoomed_lin.shape[0]
+    mesh_dim = temp_zoomed_grid.shape
+    # ====== End of Temperature ======
+
+    # ====== Mesh ====================
+    # ========= Vertices =============
+    vert_x = np.linspace(np_min[0], np_max[0], new_x_res).astype(np.float64)
+    vert_y = np.linspace(np_min[1], np_max[1], new_y_res).astype(np.float64)
+    
+    if dims == 3:
+        vert_z = np.linspace(np_min[2], np_max[2], new_z_res).astype(np.float64)
+    vertices = []
+    vert_append = vertices.append
+    if dims == 2:
+        for y in vert_y:
+            for x in vert_x:
+                vert_append((x, y))
+    else:
+        for z in vert_z:
+            for y in vert_y:
+                for x in vert_x:
+                    vert_append((x, y, z))
+    np_vertices = longlist2array(vertices)
+    # ========= End of Vertices ======
+
+    # ========= Connectivity =========
+    """
+    Element defined:   3D
+         2D          8 --- 7
+       4 --- 3      /|    /|
+       |     |     4 --- 3 6
+       1 --- 2     |     |/
+                   1 --- 2
+    """
+    elements = []
+    elem_append = elements.append
+
+    if dims == 2:
+        for y in xrange(new_y_res-1):
+            nxy = new_x_res * y
+            nxyPone = nxy + 1
+            nxyOne = new_x_res * (y + 1)
+            nxyOnePone = nxyOne + 1
+            for x in xrange(new_x_res-1):
+                elem_append( (x+nxy, x+nxyPone, x+nxyOnePone, x+nxyOne) )
+    else:
+        for z in xrange(new_z_res-1):
+            nxnyz = new_x_res * new_y_res * z
+            for y in xrange(new_y_res-1):
+                nxy = new_x_res * y
+                nxyPone = nxy + 1
+                nxyOne = new_x_res * (y + 1)
+                nxyOnePone = nxyOne + 1
+                for x in xrange(new_x_res-1):
+                    elem_append( (x+nxy,               x+nxyPone, 
+                                  x+nxyOnePone,          x+nxyOne, 
+                                 (x+nxy)*nxnyz,      ((x+nxy)*nxnyz)+1, 
+                                ((x+nxyOne)*nxnyz)+1, (x+nxyOne)*nxnyz))    
+    np_elements = longlist2array(elements)
+    # ========= End of Connectivity ==
+    # ====== End of Mesh =============
+    # === End of Interpolation ============
+
+
+    # === File writing ====================
+    res = [ new_x_res-1, new_y_res-1 ] if dims == 2 else [ new_x_res-1, new_y_res-1, new_z_res-1 ]
+
+    try:
+        with h5py.File("%s/%s" % (out_data_path, out_temp_file), "w") as out_temp:
+            temp_dataset = out_temp.create_dataset("data", (data_points,1), dtype=np.float32)
+            temp_dataset[...] = temp_zoomed_lin
+            
+            for key in ("dimensions", "checkpoint file version"):
+                out_temp.attrs[key] = data_attributes[key]
+            out_temp.attrs["mesh resolution"] = np.array( res )
+    except IOError as err:
+        sys.exit("Unable to write to the new TemperatureField file after interpolating from the thermal equilibration phase. lmrRunModel tried to write to file:\n%s/%s\n\nThe hdf5 reader said this:\n%s\n" % (out_data_path, out_temp_file, err))
+
+    try:
+        with h5py.File("%s/%s" % (out_data_path, out_mesh_file), "w") as out_mesh:
+            max_dataset = out_temp.create_dataset("max", (dims,), dtype=np.float32)
+            max_dataset[...] = np_max
+            min_dataset = out_temp.create_dataset("min", (dims,), dtype=np.float32)
+            min_dataset[...] = np_min
+            vertices_dataset = out_temp.create_dataset("vertices", (data_points,dims), dtype=np.float64)
+            vertices_dataset[...] = np_vertices
+            connectivity_dataset = out_temp.create_dataset("connectivity", (np_elements.shape[0],2**dims), dtype=np.int32)
+            connectivity_dataset[...] = np_elements
+
+            for key in ("dimensions", "checkpoint file version"):
+                out_mesh.attrs[key] = data_attributes[key]
+            out_mesh.attrs["mesh resolution"] = np.array( res )
+    except IOError as err:
+        sys.exit("Unable to write to the new Mesh.linearMesh file after interpolating from the thermal equilibration phase. lmrRunModel tried to write to file:\n%s/%s\n\nThe hdf5 reader said this:\n%s\n" % (out_data_path, out_temp_file, err))
+
+    # === End of File writing =============
+
 
 
 def main():
@@ -277,6 +486,13 @@ def main():
 
     run_model(model_dict, command_dict)
 
+    if model_dict["run_thermal_equilibration"] == True:
+        last_ts = find_last_thermal_timestep(model_dict)
+        interpolate_to_full_resolution(model_dict, last_ts)
+        if model_dict["preserve_thermal_equilibration_checkpoints"] == False:
+            filelist = [ f for f in os.listdir(model_dict["output_path"]) if str(last_ts+1) not in f and "xmls" not in f ]
+            for f in filelist:
+                os.remove("%s/%s" % (model_dict["output_path"], f))
 
 
 if __name__ == '__main__':

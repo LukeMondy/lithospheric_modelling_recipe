@@ -2,8 +2,7 @@
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
     xmlns:lmr="https://bitbucket.org/lmondy/lithosphericmodellingrecipe" targetNamespace="https://bitbucket.org/lmondy/lithosphericmodellingrecipe">
     <xsd:annotation>
-        <xsd:documentation>This schema aims to document and assist the validation of input files for
-            the LMR starter-kit.</xsd:documentation>
+        <xsd:documentation>This schema aims to document and assist the validation of input files for the LMR starter-kit.</xsd:documentation>
     </xsd:annotation>
 
     <xsd:element name="LMRStarterKit">
@@ -130,19 +129,13 @@
                             <xsd:element name="update_xml_information"
                                 type="xsd:boolean" default="true">
                                 <xsd:annotation>
-                                    <xsd:documentation> This parameters enables the
-                                      automatic update of the thermal equilibration
-                                      results location in the lmrInitials.xml input
-                                      file. Thus the next phase starts with a thermally
-                                      equilibrated geotherm. </xsd:documentation>
+                                    <xsd:documentation> This parameters enables the automatic update of the thermal equilibration results location in the lmrInitials.xml input file. Thus the next phase starts with a thermally equilibrated geotherm. </xsd:documentation>
                                 </xsd:annotation>
                             </xsd:element>
                             <xsd:element name="preserve_thermal_equilibration_checkpoints"
                                 type="xsd:boolean" default="false">
                                 <xsd:annotation>
-                                    <xsd:documentation>When false, all but the last
-                                      checkpoint of thermal equilibration will be
-                                      preserved.</xsd:documentation>
+                                    <xsd:documentation>When false, all but the last checkpoint of thermal equilibration will be preserved.</xsd:documentation>
                                 </xsd:annotation>
                             </xsd:element>
                             <xsd:element name="output_controls">
@@ -150,44 +143,29 @@
                                     <xsd:sequence>
                                         <xsd:element name="description" type="xsd:string">
                                             <xsd:annotation>
-                                                <xsd:documentation>Defines a subset of the name to be used for
-                                                    the experiment output</xsd:documentation>
+                                                <xsd:documentation>Defines a subset of the name to be used for the experiment output</xsd:documentation>
                                             </xsd:annotation>
                                         </xsd:element>
                                         <xsd:element name="thermal_model_resolution">
                                             <xsd:annotation>
-                                                <xsd:documentation>This section controls the resolution of the model box in 
-                                                    the X, Y and Z directions when running the thermal equilibration phase.
-                                                    Note that Y is the vertical direction. 
-                                                    Thermal diffusion has a characteristic time scale, based on the size of
-                                                    the cells being used to calculate it. Because the model is static, is fair
-                                                    to use very coarse resolutions to speed up this process. However, it is 
-                                                    generally best to use a decent resolution any axis that has thermal grad-
-                                                    ients - for example, Y almost always will be increasing in temp. Generally
-                                                    if your model is laterally homogenous in temperature, a resolution like
-                                                    2x40x2 works quite well.
-                                                    </xsd:documentation>
+                                                <xsd:documentation>This section controls the resolution of the model box in the X, Y and Z directions when running the thermal equilibration phase. Note that Y is the vertical direction. Thermal diffusion has a characteristic time scale, based on the size of the cells being used to calculate it. Because the model is static, is fair to use very coarse resolutions to speed up this process. However, it is generally best to use a decent resolution any axis that has thermal gradients - for example, Y almost always will be increasing in temp. Generally if your model is laterally homogenous in temperature, a resolution like 2x40x2 works quite well.</xsd:documentation>
                                             </xsd:annotation>
                                             <xsd:complexType>
                                                 <xsd:sequence>
                                                     <xsd:element name="x" type="xsd:positiveInteger">
                                                         <xsd:annotation>
-                                                            <xsd:documentation>Number of cells along the X axis. This is the
-                                                                horizontal axis in Underworld.</xsd:documentation>
+                                                            <xsd:documentation>Number of cells along the X axis. This is the horizontal axis in Underworld.</xsd:documentation>
                                                         </xsd:annotation>
                                                     </xsd:element>
                                                     <xsd:element name="y" type="xsd:positiveInteger">
                                                         <xsd:annotation>
-                                                            <xsd:documentation>Number of cells along the Y axis. This is the
-                                                                vertical axis in Underworld.</xsd:documentation>
+                                                            <xsd:documentation>Number of cells along the Y axis. This is the vertical axis in Underworld.</xsd:documentation>
                                                         </xsd:annotation>
                                                     </xsd:element>
                                                     <xsd:element name="z" type="xsd:nonNegativeInteger"
                                                         default="0">
                                                         <xsd:annotation>
-                                                            <xsd:documentation>Number of cells along the Z axis. This is the 
-                                                                second horizontal axis in Underworld, defining the depth 
-                                                                dimension in 3D experiments.</xsd:documentation>
+                                                            <xsd:documentation>Number of cells along the Z axis. This is the second horizontal axis in Underworld, defining the depth  dimension in 3D experiments.</xsd:documentation>
                                                         </xsd:annotation>
                                                     </xsd:element>
                                                 </xsd:sequence>
@@ -198,17 +176,13 @@
                                                 <xsd:sequence>
                                                     <xsd:element name="maximum_steps" type="xsd:integer">
                                                         <xsd:annotation>
-                                                            <xsd:documentation>Use a  very large number for thermal
-                                                              runs.</xsd:documentation>
+                                                            <xsd:documentation>Use a  very large number for thermal runs.</xsd:documentation>
                                                         </xsd:annotation>
                                                     </xsd:element>
                                                     <xsd:element name="maximum_time" type="xsd:double"
                                                         default="10e9">
                                                         <xsd:annotation>
-                                                            <xsd:documentation>The experiment will stop after
-                                                              reaching this time. maximum_time is defined in
-                                                              years. For thermal equilibration, 1 billion years
-                                                              is a common time.
+                                                            <xsd:documentation>The experiment will stop after reaching this time. maximum_time is defined in years. For thermal equilibration, 1 billion years is a common time.
                                                           </xsd:documentation>
                                                         </xsd:annotation>
                                                     </xsd:element>
@@ -217,11 +191,7 @@
                                         </xsd:element>
                                         <xsd:element name="checkpointing_options">
                                             <xsd:annotation>
-                                                <xsd:documentation>Underworld will output a checkpoint (h5
-                                                    files) either after it reaches a defined number of years, or
-                                                    after a number of timesteps. It will choose whichever comes
-                                                    first, so make the one you don't want very
-                                                    large.</xsd:documentation>
+                                                <xsd:documentation>Underworld will output a checkpoint (h5 files) either after it reaches a defined number of years, or after a number of timesteps. It will choose whichever comes first, so make the one you don't want very large.</xsd:documentation>
                                             </xsd:annotation>
                                             <xsd:complexType>
                                                 <xsd:sequence>
@@ -232,10 +202,7 @@
                                         </xsd:element>
                                         <xsd:element name="output_pictures" type="xsd:boolean" default="false">
                                             <xsd:annotation>
-                                                <xsd:documentation>If true, a png output file with a predefined
-                                                    vuew will be created every ??? LUKE WE MIGHT NEED AN OUTPUT
-                                                    EVERY TO CONTROL THE GRANULARITY OF THESE PNG
-                                                    OUTPUTS</xsd:documentation>
+                                                <xsd:documentation>If true, a png output file with a predefined vuew will be created every ??? LUKE WE MIGHT NEED AN OUTPUT EVERY TO CONTROL THE GRANULARITY OF THESE PNG OUTPUTS</xsd:documentation>
                                             </xsd:annotation>
                                         </xsd:element>
                                     </xsd:sequence>
@@ -247,21 +214,18 @@
 
                 <xsd:element maxOccurs="1" minOccurs="1" name="Restarting_Controls">
                     <xsd:annotation>
-                        <xsd:documentation>This section enables to restart an experiment from a
-                            defined time step</xsd:documentation>
+                        <xsd:documentation>This section enables to restart an experiment from a defined time step</xsd:documentation>
                     </xsd:annotation>
                     <xsd:complexType>
                         <xsd:sequence>
                             <xsd:element name="restart" type="xsd:boolean" default="false">
                                 <xsd:annotation>
-                                    <xsd:documentation>Set to be true to enable restart
-                                        functionality.</xsd:documentation>
+                                    <xsd:documentation>Set to be true to enable restart functionality.</xsd:documentation>
                                 </xsd:annotation>
                             </xsd:element>
                             <xsd:element name="restart_from_step" type="xsd:positiveInteger">
                                 <xsd:annotation>
-                                    <xsd:documentation>Set to be the checkpoint number to restart
-                                        from.</xsd:documentation>
+                                    <xsd:documentation>Set to be the checkpoint number to restart from.</xsd:documentation>
                                 </xsd:annotation>
                             </xsd:element>
                         </xsd:sequence>
@@ -270,14 +234,7 @@
             
                 <xsd:element maxOccurs="1" minOccurs="1" name="Model_Precision">
                     <xsd:annotation>
-                        <xsd:documentation>This section controls the precision of the solvers. There
-                            two solvers to control - the linear solver, and the non-linear. The linear
-                            solver is solving stokes-flow (finding pressure and velocity). The non-linear
-                            solver sits on top of this, and forces the linear solver to solve again, in the
-                            case that there are strain-rate dependent viscosities. 
-                            This is required because the linear solver solves with viscosity at a given strain-
-                            rate. Once it has a solution for P and V, the viscosity solution is now out of date,
-                            so the non-linear solver forces another linear solve. This continues until the model
+                        <xsd:documentation>This section controls the precision of the solvers. There two solvers to control - the linear solver, and the non-linear. The linear solver is solving stokes-flow (finding pressure and velocity). The non-linear solver sits on top of this, and forces the linear solver to solve again, in the case that there are strain-rate dependent viscosities. This is required because the linear solver solves with viscosity at a given strain-rate. Once it has a solution for P and V, the viscosity solution is now out of date, so the non-linear solver forces another linear solve. This continues until the model
                             converges. </xsd:documentation>
                     </xsd:annotation>
                     <xsd:complexType>
@@ -288,28 +245,20 @@
                                         <xsd:element name="tolerance" type="xsd:double"
                                             default="5e-4">
                                             <xsd:annotation>
-                                                <xsd:documentation>The smaller the number, the better the solution
-                                                    for pressure and velocity - however, it will take longer, with
-                                                    sometimes little benifit.</xsd:documentation>
+                                                <xsd:documentation>The smaller the number, the better the solution for pressure and velocity - however, it will take longer, with sometimes little benifit.</xsd:documentation>
                                             </xsd:annotation>
                                         </xsd:element>
                                         <xsd:element name="min_iterations" type="xsd:nonNegativeInteger"
                                             default="10">
                                             <xsd:annotation>
-                                                <xsd:documentation>This forces the solver to keep trying if a 
-                                                    solution is found within this number of iterations. This
-                                                    can be important when using complex rheologies, and some-
-                                                    times the solver has a lucky (but incorrect) guess at the 
+                                                <xsd:documentation>This forces the solver to keep trying if a solution is found within this number of iterations. This can be important when using complex rheologies, and sometimes the solver has a lucky (but incorrect) guess at the 
                                                     beginning.</xsd:documentation>
                                             </xsd:annotation>
                                         </xsd:element>
                                         <xsd:element name="max_iterations" type="xsd:nonNegativeInteger"
                                             default="1000">
                                             <xsd:annotation>
-                                                <xsd:documentation>This parameter can be set very high if 
-                                                    needed, but it essentially acts as an alarm, and forces
-                                                    the model to quit if this many iterations is reached.
-                                                    If it does, it's generally an indication that something
+                                                <xsd:documentation>This parameter can be set very high if needed, but it essentially acts as an alarm, and forces the model to quit if this many iterations is reached. If it does, it's generally an indication that something
                                                     has gone wrong. </xsd:documentation>
                                             </xsd:annotation>
                                         </xsd:element>
@@ -322,31 +271,20 @@
                                         <xsd:element name="tolerance" type="xsd:double"
                                             default="5e-3">
                                             <xsd:annotation>
-                                                <xsd:documentation>The nonLinear tolerance is the acceptable
-                                                    difference between this linear solve's P and T, and the
-                                                    previous linear solve. Generally the smaller the better
-                                                    but it comes at a significant computational cost.
+                                                <xsd:documentation>The nonLinear tolerance is the acceptable difference between this linear solve's P and T, and the previous linear solve. Generally the smaller the better but it comes at a significant computational cost.
                                                 </xsd:documentation>
                                             </xsd:annotation>
                                         </xsd:element>
                                         <xsd:element name="min_iterations" type="xsd:nonNegativeInteger"
                                             default="5">
                                             <xsd:annotation>
-                                                <xsd:documentation>This forces the solver to keep trying if a 
-                                                    solution is found within this number of iterations. This
-                                                    can be important when using complex rheologies, and some-
-                                                    times the solver has a lucky (but incorrect) guess at the 
-                                                    beginning.</xsd:documentation>
+                                                <xsd:documentation>This forces the solver to keep trying if a solution is found within this number of iterations. This can be important when using complex rheologies, and sometimes the solver has a lucky (but incorrect) guess at the beginning.</xsd:documentation>
                                             </xsd:annotation>
                                         </xsd:element>
                                         <xsd:element name="max_iterations" type="xsd:nonNegativeInteger"
                                             default="500">
                                             <xsd:annotation>
-                                                <xsd:documentation>This parameter can be set very high if 
-                                                    needed, but it essentially acts as an alarm, and forces
-                                                    the model to quit if this many iterations is reached.
-                                                    If it does, it's generally an indication that something
-                                                    has gone wrong.</xsd:documentation>
+                                                <xsd:documentation>This parameter can be set very high if needed, but it essentially acts as an alarm, and forces the model to quit if this many iterations is reached. If it does, it's generally an indication that something has gone wrong.</xsd:documentation>
                                             </xsd:annotation>
                                         </xsd:element>
                                     </xsd:sequence>
@@ -358,21 +296,18 @@
 
                 <xsd:element maxOccurs="1" minOccurs="1" name="Underworld_Execution">
                     <xsd:annotation>
-                        <xsd:documentation>Define the location of Underworld binary and the number
-                            of CPUs to be use for the experiment. </xsd:documentation>
+                        <xsd:documentation>Define the location of Underworld binary and the number of CPUs to be use for the experiment. </xsd:documentation>
                     </xsd:annotation>
                     <xsd:complexType>
                         <xsd:sequence>
                             <xsd:element name="Underworld_binary" type="xsd:anyURI" default="/home/luke/Programs/unmodified-uw/build/bin/Underworld">
                                 <xsd:annotation>
-                                    <xsd:documentation>Absolute or relative path to Underworld
-                                        binary. </xsd:documentation>
+                                    <xsd:documentation>Absolute or relative path to Underworld binary. </xsd:documentation>
                                 </xsd:annotation>
                             </xsd:element>
                             <xsd:element name="CPUs" type="xsd:positiveInteger" default="1">
                                 <xsd:annotation>
-                                    <xsd:documentation>Define the number of CPUs available for
-                                        executing Underworld in the experiment. </xsd:documentation>
+                                    <xsd:documentation>Define the number of CPUs available for executing Underworld in the experiment. </xsd:documentation>
                                 </xsd:annotation>
                             </xsd:element>
                         </xsd:sequence>
