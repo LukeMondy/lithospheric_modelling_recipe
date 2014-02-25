@@ -129,6 +129,7 @@ def process_xml(raw_dict):
     command_dict = {}
 
     # <Model_Resolution>
+    model_dict["resolution"] = {}
     for dim in raw_dict["Model_Resolution"].keys():
         model_dict["resolution"][dim] = int(raw_dict["Model_Resolution"][dim])
     command_dict["resolution"] = "--elementResI={resolution[x]} --elementResJ={resolution[y]} --elementResK={resolution[z]}"
@@ -211,7 +212,7 @@ def process_xml(raw_dict):
     uw_exec = raw_dict["Underworld_Execution"]
     model_dict["uwbinary"] = uw_exec["Underworld_binary"]
     command_dict["uwbinary"] = "{uwbinary}"
-    if xmlbool(raw_dict["supercomputer_mpi_format"]) == False
+    if xmlbool(uw_exec["supercomputer_mpi_format"]) == False:
         model_dict["cpus"] = uw_exec["CPUs"]
         command_dict["cpus"] = "mpirun -np {cpus}"
     else:
