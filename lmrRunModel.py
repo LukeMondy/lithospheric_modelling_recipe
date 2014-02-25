@@ -210,8 +210,12 @@ def process_xml(raw_dict):
     uw_exec = raw_dict["Underworld_Execution"]
     model_dict["uwbinary"] = uw_exec["Underworld_binary"]
     command_dict["uwbinary"] = "{uwbinary}"
-    model_dict["cpus"]     = uw_exec["CPUs"]
-    command_dict["cpus"] = "mpirun -np {cpus}"
+    if xmlbool(raw_dict["supercomputer_mpi_format"]) == False
+        model_dict["cpus"] = uw_exec["CPUs"]
+        command_dict["cpus"] = "mpirun -np {cpus}"
+    else:
+        command_dict["cpus"] = "mpirun"
+
     # </Underworld_Execution>
 
     # <Model_Precision>
@@ -286,17 +290,22 @@ def run_model(model_dict, command_dict):
     together = " ".join((prioritised, remainder))
 
     command = together.format(**model_dict).split(" ")
-    
-    if model_dict["write_to_log"]:
-        with open(model_dict["logfile"], "w") as logfile:
-            model_run_status = call(command, shell=False, stdout=logfile, stderr=STDOUT)
-            print model_run_status
-    else:
-        model_run_status = call(command, shell=False)
-        
-    if model_run_status != 0:
-        sys.exit("\n\nUnderworld did not exit nicely - have a look at its output to try and determine the problem.")
 
+    try:
+        
+        if model_dict["write_to_log"]:
+            with open(model_dict["logfile"], "w") as logfile:
+                model_run_status = call(command, shell=False, stdout=logfile, stderr=STDOUT)
+                print model_run_status
+        else:
+            model_run_status = call(command, shell=False)
+            
+        if model_run_status != 0:
+            sys.exit("\n\nUnderworld did not exit nicely - have a look at its output to try and determine the problem.")
+    except KeyboardInterrupt:
+        # This is pretty dangerous...
+        call(["pkill", "Underworld"])
+        sys.exit("\nYou have cancelled the job - all instances of Underworld have been killed.")
 
 def find_last_thermal_timestep(model_dict):
     thermal_results_dir = "initial-condition_{main_model_resolution[x]}x{main_model_resolution[y]}x{main_model_resolution[z]}_{initial_condition_desc}".format(**model_dict)
