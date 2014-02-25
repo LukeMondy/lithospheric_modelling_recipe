@@ -13,14 +13,17 @@
     
     <!-- === Output controls ================================== -->
     <list name="FieldVariablesToCheckpoint" mergeType="merge">
+        <!-- === Must be checkpointed for model restart ====== -->
         <param>VelocityField</param>
         <param>PressureField</param>
         <param>TemperatureField</param>
+        <param>recoveredStrainRateField</param>
+        <param>recoveredStressField</param>
+        <!-- ================================================ -->
         
         <param>YieldedField</param>
         <param>TotalPlasticStrainField</param>
         <param>PlasticStrainIncrementField</param>
-        
         <param>ViscosityField</param>
         <param>MaterialIndexField</param>
         

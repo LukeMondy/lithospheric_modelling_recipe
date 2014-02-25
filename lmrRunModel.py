@@ -24,8 +24,9 @@ Then it should work.
 # Standard Python Libraries
 from __future__ import division
 import os, shutil, sys, textwrap
-from subprocess import call
+from subprocess import call, STDOUT, check_output
 from itertools import chain
+import fileinput
 import glob
 
 # H5py - http://www.h5py.org/
@@ -156,12 +157,13 @@ def process_xml(raw_dict):
         if model_dict["output_pictures"] == False:
             command_dict["output_pictures"] = "--components.window.Type=DummyComponent"
         
+        model_dict["main_model_resolution"] = model_dict["resolution"]
+        
         if thermal == False:
             model_dict["write_to_log"] = xmlbool(output_controls["write_log_file"])        
             if model_dict["write_to_log"] == True:
                 command_dict["write_to_log"] = "&> {logfile}"
-        else:
-            model_dict["main_model_resolution"] = model_dict["resolution"]
+        else:    
             model_dict["resolution"] = {dim: int(output_controls["thermal_model_resolution"][dim]) for dim in output_controls["thermal_model_resolution"].keys()}
 
     output_controls = raw_dict["Output_Controls"]
@@ -172,7 +174,7 @@ def process_xml(raw_dict):
     model_dict["input_xmls"] = "{output_path}/xmls/lmrMain.xml"
     command_dict["input_xmls"] = "{input_xmls}"
 
-    model_dict["logfile"] = "log_" + model_dict["output_path"]
+    model_dict["logfile"] = "log_%s.txt" % model_dict["output_path"]
     # </Output_Controls>
 
 
@@ -190,8 +192,11 @@ def process_xml(raw_dict):
 
         model_dict["output_path"] = "initial-condition_" + "_".join(model_dict["description"].values())
         model_dict["input_xmls"] += " {output_path}/xmls/lmrThermalEquilibration.xml"
-        model_dict["logfile"] = "log_" + model_dict["output_path"]
+        model_dict["logfile"] = "log_%s.txt" % model_dict["output_path"]
     # </Thermal_Equilibration>
+
+    # Thermal EQ or not, we need to know where to look for the initial condition files:
+    model_dict["initial_condition_desc"] = raw_dict["Thermal_Equilibration"]["output_controls"]["description"]
 
     # <Restarting_Controls>
     restarting = raw_dict["Restarting_Controls"]
@@ -249,7 +254,7 @@ def prepare_job(model_dict, command_dict):
     if not os.path.isdir( output_dir ):
         os.mkdir( output_dir )
 
-    xmls_dir = os.path.join( output_dir, "xmls" )
+    xmls_dir = os.path.join( output_dir, "xmls/" )
     if not os.path.isdir( xmls_dir ):
         os.mkdir( xmls_dir )
 
@@ -273,27 +278,53 @@ def run_model(model_dict, command_dict):
 
     third = command_dict["input_xmls"]
     del(command_dict["input_xmls"])
-
+    
     prioritised = " ".join((first, second, third))
 
     remainder = " ".join(command_dict.values())
 
     together = " ".join((prioritised, remainder))
 
-    command = together.format(**model_dict)
-    #print "\n=================\nCommand to be run (all on one line):\n%s" % textwrap.fill(command)
+    command = together.format(**model_dict).split(" ")
     
-    #print "\n=================\nRunning Underworld model...\n\n"
-    model_run_status = 0#call(command, shell=True)
+    if model_dict["write_to_log"]:
+        with open(model_dict["logfile"], "w") as logfile:
+            model_run_status = call(command, shell=False, stdout=logfile, stderr=STDOUT)
+            print model_run_status
+    else:
+        model_run_status = call(command, shell=False)
+        
     if model_run_status != 0:
         sys.exit("\n\nUnderworld did not exit nicely - have a look at its output to try and determine the problem.")
 
 
 def find_last_thermal_timestep(model_dict):
-    thermal_results_dir = model_dict["output_path"]
+    thermal_results_dir = "initial-condition_{main_model_resolution[x]}x{main_model_resolution[y]}x{main_model_resolution[z]}_{initial_condition_desc}".format(**model_dict)
     # Look for temp files, which are in the format of: TemperatureField.00000.h5
-    last_ts = max([ int(f.split('/')[-1].split('.')[1]) for f in glob.glob("%s/TemperatureField*" % thermal_results_dir)])
+    try:
+        last_ts = max([ int(f.split('/')[-1].split('.')[1]) for f in glob.glob("%s/TemperatureField*" % thermal_results_dir)])
+    except:
+        if not os.path.isdir( thermal_results_dir ):
+            sys.exit("The initial condition folder '%s' does not exist. You must run the thermal equilibration phase first." %  thermal_results_dir)
+        else:
+            sys.exit("Unable to find any files starting with 'TemperatureField.<some number>.h5' in the folder '%s'. You may need to re-run the thermal equilibration phase, or run it for longer." % thermal_results_dir)
     return last_ts
+
+def modify_initialcondition_xml(last_ts, model_dict):
+    prefix = "initial-condition_{main_model_resolution[x]}x{main_model_resolution[y]}x{main_model_resolution[z]}_{initial_condition_desc}".format(**model_dict)
+    new_temp_file = "%s/TemperatureField.%05d.h5" % (prefix, last_ts)
+    new_mesh_file = "%s/Mesh.linearMesh.%05d.h5" % (prefix, last_ts)
+    
+    try:
+        for line in fileinput.input("{output_path}/xmls/lmrInitials.xml".format(**model_dict), inplace=True):
+            if "!!PATH_TO_TEMP_FILE!!" in line:
+                print line.replace("!!PATH_TO_TEMP_FILE!!", new_temp_file),
+            elif "!!PATH_TO_MESH_FILE!!" in line:
+                print line.replace("!!PATH_TO_MESH_FILE!!", new_mesh_file),
+            else:
+                print line,
+    except IOError as err:
+        sys.exit("Problem opening lmrInitials.xml to update the HDF5 initial condition.")
 
 
 def interpolate_to_full_resolution(model_dict, last_ts):
@@ -484,16 +515,24 @@ def main():
 
     model_dict, command_dict = prepare_job(model_dict, command_dict)
 
-    run_model(model_dict, command_dict)
+    if model_dict["run_thermal_equilibration"] == False:
+        last_ts = find_last_thermal_timestep(model_dict)
+        if model_dict["update_xml_information"] == True:
+            modify_initialcondition_xml(last_ts, model_dict)
 
+    run_model(model_dict, command_dict)
+    
     if model_dict["run_thermal_equilibration"] == True:
         last_ts = find_last_thermal_timestep(model_dict)
+        print "\nInterpolating last thermal equilibration checkpoint to {x}x{y}x{z}...".format(**model_dict["main_model_resolution"])
         interpolate_to_full_resolution(model_dict, last_ts)
+        print "Done."
         if model_dict["preserve_thermal_equilibration_checkpoints"] == False:
             filelist = [ f for f in os.listdir(model_dict["output_path"]) if str(last_ts+1) not in f and "xmls" not in f ]
             for f in filelist:
                 os.remove("%s/%s" % (model_dict["output_path"], f))
-
+    
+    
 
 if __name__ == '__main__':
     main()
