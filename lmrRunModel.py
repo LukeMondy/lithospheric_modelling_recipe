@@ -129,7 +129,8 @@ def process_xml(raw_dict):
     command_dict = {}
 
     # <Model_Resolution>
-    model_dict["resolution"] = {dim: int(raw_dict["Model_Resolution"][dim]) for dim in raw_dict["Model_Resolution"].keys()}
+    for dim in raw_dict["Model_Resolution"].keys():
+        model_dict["resolution"][dim] = int(raw_dict["Model_Resolution"][dim])
     command_dict["resolution"] = "--elementResI={resolution[x]} --elementResJ={resolution[y]} --elementResK={resolution[z]}"
 
     model_dict["dims"] = 2 if model_dict["resolution"]["z"] <= 0 else 3
@@ -250,6 +251,7 @@ def prepare_job(model_dict, command_dict):
 
         command_dict["solver"] = "--mgLevels={mg_levels} -A11_ksp_type fgmres -mg_levels_pc_type sor -A11_pc_mg_smoothup 4 -A11_pc_mg_smoothdown 4 -mg_levels_ksp_type minres -mg_levels_ksp_max_it 3 -mg_levels_pc_type sor -mg_levels_ksp_convergence_test skip -mg_coarse_pc_factor_mat_solver_package superlu_dist -mg_accelerating_smoothing_view true -mg_smooths_max 100 -mg_smooths_to_start 1 -mg_smoothing_increment 1 -mg_target_cycles_10fold_reduction 1"
 
+        uw_bin = os.path.model_dict["uwbinary"]
         model_dict["input_xmls"] += " {output_path}/xmls/lmrSolvers.xml"
 
 
