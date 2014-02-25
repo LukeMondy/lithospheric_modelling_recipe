@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<lmr:LMRStarterKit xmlns:lmr="https://bitbucket.org/lmondy/lithosphericmodellingrecipe" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="file:/home/luke/Development/Python/lmrRunModel/LMR.xsd">
+
+    
+    <Model_Resolution>
+        <x> 208 </x>
+        <y> 85 </y>
+        <z> 0 </z>
+    </Model_Resolution>
+    
+    <Output_Controls>
+        <description> reference_model </description>
+        <experiment_duration_options>
+            <maximum_steps> 1000000 </maximum_steps>
+            <maximum_time> 1.0E7 </maximum_time>
+        </experiment_duration_options>
+        
+        <checkpointing_options>
+            <years> 50000 </years>
+            <timesteps> 100000 </timesteps>
+        </checkpointing_options>
+        
+        <output_pictures> false </output_pictures>
+        <write_log_file> true </write_log_file>
+    </Output_Controls>
+    
+    <Thermal_Equilibration>
+        <run_thermal_equilibration_phase> false </run_thermal_equilibration_phase>
+        
+        <update_xml_information> true </update_xml_information>
+        <preserve_thermal_equilibration_checkpoints> false </preserve_thermal_equilibration_checkpoints>
+
+        <output_controls>
+            <description> laterally_homog </description>
+            
+            <thermal_model_resolution>
+                <x> 2 </x>
+                <y> 40 </y>
+                <z> 2 </z>
+            </thermal_model_resolution>
+
+            <experiment_duration_options>
+                <maximum_steps> 400 </maximum_steps>
+                <maximum_time> 1.0E9 </maximum_time>
+            </experiment_duration_options>
+
+            <checkpointing_options>
+                <years> 1.0E7 </years>
+                <timesteps> 100000000 </timesteps>
+            </checkpointing_options>
+
+            <output_pictures> false </output_pictures>
+            
+        </output_controls>   
+    </Thermal_Equilibration>
+
+
+    <Restarting_Controls>
+        <restart> false </restart>
+        <restart_from_step> 50 </restart_from_step>
+    </Restarting_Controls>
+
+    <Model_Precision>
+        <linear_solver>
+            <tolerance> 5e-4 </tolerance>
+            <min_iterations> 10 </min_iterations>
+            <max_iterations> 15000 </max_iterations>
+        </linear_solver>
+
+        <nonLinear_solver>
+            <tolerance> 5e-3 </tolerance>
+            <min_iterations> 10 </min_iterations>
+            <max_iterations> 500 </max_iterations>
+        </nonLinear_solver>
+    </Model_Precision>
+
+    <Underworld_Execution>
+        <Underworld_binary> /home/litho/Programs/uw-src/build/bin/Underworld </Underworld_binary>
+        <CPUs> 2 </CPUs>
+    </Underworld_Execution>
+
+</lmr:LMRStarterKit>
