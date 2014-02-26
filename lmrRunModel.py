@@ -1,35 +1,11 @@
-#!/usr/bin/python
-
-"""
-Written by Luke Mondy (luke.s.mondy@gmail.com)
-
-This script reads in lmrStart.xml and interprets it for the LMR.
-
-If you are just trying to use the LMR, you should have no need to modify this 
-file. 
-
-To run the LMR, simply run:
-$ ./lmrRunModel.py
-
-If an error comes up saying something like:
-$ bash: ./lmrRunModel.py: Permission denied
-
-then you will need to run this first:
-chmod +x lmrRunModel.py
-
-Then it should work.
-
-"""
 
 # Standard Python Libraries
 from __future__ import division
-import os, shutil, sys, textwrap
-from subprocess import call, STDOUT, check_output
+import os, shutil, sys, textwrap, subprocess, fileinput, glob, copy
 from itertools import chain
-import fileinput
-import glob
 
-# H5py - http://www.h5py.org/
+
+# h5py - http://www.h5py.org/
 try:
     import h5py
 except ImportError:
@@ -153,15 +129,14 @@ def process_xml(raw_dict):
         command_dict["checkpoint_every_x_years"] = "--checkpointAtTimeInc={checkpoint_every_x_years}"
         model_dict["checkpoint_every_x_steps"] = int(output_controls["checkpointing_options"]["timesteps"])
         command_dict["checkpoint_every_x_steps"] = "--checkpointEvery={checkpoint_every_x_steps}"
-        
+
         model_dict["output_pictures"] = xmlbool(output_controls["output_pictures"])
         command_dict["output_pictures"] = "--dumpEvery=10" if thermal == False else "--dumpEvery=250"
         if model_dict["output_pictures"] == False:
             command_dict["output_pictures"] = "--components.window.Type=DummyComponent"
         
-        model_dict["main_model_resolution"] = model_dict["resolution"]
-        
         if thermal == False:
+            model_dict["main_model_resolution"] = copy.deepcopy(model_dict["resolution"])
             model_dict["write_to_log"] = xmlbool(output_controls["write_log_file"])        
         else:
             for dim in output_controls["thermal_model_resolution"].keys():
@@ -169,13 +144,14 @@ def process_xml(raw_dict):
 
     output_controls = raw_dict["Output_Controls"]
     process_output_controls(output_controls, model_dict, command_dict)
+    
 
-    model_dict["output_path"] = "result_" + "_".join(model_dict["description"].values())
+    model_dict["output_path"] = "%s/result_%s" % (os.getcwd(), "_".join(model_dict["description"].values()))
     command_dict["output_path"] = "--outputPath={output_path}"
     model_dict["input_xmls"] = "{output_path}/xmls/lmrMain.xml"
     command_dict["input_xmls"] = "{input_xmls}"
 
-    model_dict["logfile"] = "log_%s.txt" % model_dict["output_path"]
+    model_dict["logfile"] = "log_result_%s.txt" % "_".join(model_dict["description"].values())
     # </Output_Controls>
 
 
@@ -191,9 +167,9 @@ def process_xml(raw_dict):
         output_controls = thermal_equilib["output_controls"]
         process_output_controls(output_controls, model_dict, command_dict, thermal=True)
 
-        model_dict["output_path"] = "initial-condition_" + "_".join(model_dict["description"].values())
+        model_dict["output_path"] = "%s/initial-condition_%s" % (os.getcwd(), "_".join(model_dict["description"].values()))
         model_dict["input_xmls"] += " {output_path}/xmls/lmrThermalEquilibration.xml"
-        model_dict["logfile"] = "log_%s.txt" % model_dict["output_path"]
+        model_dict["logfile"] = "log_initial-condition_%s.txt" % "_".join(model_dict["description"].values())
     # </Thermal_Equilibration>
 
     # Thermal EQ or not, we need to know where to look for the initial condition files:
@@ -216,7 +192,6 @@ def process_xml(raw_dict):
         command_dict["cpus"] = "mpirun -np {cpus}"
     else:
         command_dict["cpus"] = "mpirun"
-
     # </Underworld_Execution>
 
     # <Model_Precision>
@@ -249,9 +224,8 @@ def prepare_job(model_dict, command_dict):
                                       multigrid_test(model_dict["resolution"]["y"]),
                                       multigrid_test(model_dict["resolution"]["z"]))
 
-        command_dict["solver"] = "--mgLevels={mg_levels} -A11_ksp_type fgmres -mg_levels_pc_type sor -A11_pc_mg_smoothup 4 -A11_pc_mg_smoothdown 4 -mg_levels_ksp_type minres -mg_levels_ksp_max_it 3 -mg_levels_pc_type sor -mg_levels_ksp_convergence_test skip -mg_coarse_pc_factor_mat_solver_package superlu_dist -mg_accelerating_smoothing_view true -mg_smooths_max 100 -mg_smooths_to_start 1 -mg_smoothing_increment 1 -mg_target_cycles_10fold_reduction 1"
+        command_dict["solver"] = "--mgLevels={mg_levels} -A11_ksp_converged_reason -A11_ksp_type fgmres -A11_mg_coarse_ksp_max_it 50 -A11_mg_coarse_ksp_rtol 1e-2 -A11_mg_coarse_ksp_type cg -A11_mg_levels_ksp_convergence_test skip -A11_mg_levels_ksp_max_its 3 -A11_mg_levels_ksp_type minres -A11_mg_levels_pc_sub_type cholesky -A11_mg_levels_pc_type sor -A11_pc_mg_cycle_type v -A11_pc_mg_multiplicative_cycles 1 -A11_pc_mg_smoothdown 5 -A11_pc_mg_smoothup 5 -A11_pc_mg_type multiplicative -mg_accelerating_smoothing true -mg_accelerating_smoothing_view true -mg_coarse_ksp_max_it 100 -mg_coarse_ksp_rtol 1.0e-4 -mg_coarse_ksp_type cg -mg_coarse_pc_factor_mat_solver_package superlu_dist -mg_coarse_pc_type sor -mg_coarse_sub_pc_type cholesky -mg_levels_ksp_convergence_test skip -mg_levels_ksp_max_it 3 -mg_levels_ksp_type minres -mg_levels_pc_type sor -mg_smoothing_increment 3 -mg_smooths_max 100 -mg_smooths_to_start 5 -mg_target_cycles_10fold_reduction 5 -pc_mg_smoothdown 5 -pc_mg_smoothup 5" 
 
-        uw_bin = os.path.model_dict["uwbinary"]
         model_dict["input_xmls"] += " {output_path}/xmls/lmrSolvers.xml"
 
 
@@ -273,8 +247,6 @@ def prepare_job(model_dict, command_dict):
 
 
 def run_model(model_dict, command_dict):
-    # === To Do ====
-    # - Remember, command_dict["write_to_log"] may need to go at the end.
 
     first = command_dict["cpus"]
     del(command_dict["cpus"])
@@ -285,22 +257,21 @@ def run_model(model_dict, command_dict):
     third = command_dict["input_xmls"]
     del(command_dict["input_xmls"])
     
+    # Some commmands NEED to come first (mpirun, for example)
     prioritised = " ".join((first, second, third))
 
     remainder = " ".join(command_dict.values())
 
     together = " ".join((prioritised, remainder))
-
+    
     command = together.format(**model_dict).split(" ")
-
+    
     try:
-        
         if model_dict["write_to_log"]:
             with open(model_dict["logfile"], "w") as logfile:
-                model_run_status = call(command, shell=False, stdout=logfile, stderr=STDOUT)
-                print model_run_status
+                model_run_status = subprocess.call(command, shell=False, stdout=logfile, stderr=subprocess.STDOUT)
         else:
-            model_run_status = call(command, shell=False)
+            model_run_status = subprocess.call(command, shell=False)
             
         if model_run_status != 0:
             sys.exit("\n\nUnderworld did not exit nicely - have a look at its output to try and determine the problem.")
@@ -308,6 +279,7 @@ def run_model(model_dict, command_dict):
         # This is pretty dangerous...
         call(["pkill", "Underworld"])
         sys.exit("\nYou have cancelled the job - all instances of Underworld have been killed.")
+
 
 def find_last_thermal_timestep(model_dict):
     thermal_results_dir = "initial-condition_{main_model_resolution[x]}x{main_model_resolution[y]}x{main_model_resolution[z]}_{initial_condition_desc}".format(**model_dict)
@@ -320,6 +292,7 @@ def find_last_thermal_timestep(model_dict):
         else:
             sys.exit("Unable to find any files starting with 'TemperatureField.<some number>.h5' in the folder '%s'. You may need to re-run the thermal equilibration phase, or run it for longer." % thermal_results_dir)
     return last_ts
+
 
 def modify_initialcondition_xml(last_ts, model_dict):
     prefix = "initial-condition_{main_model_resolution[x]}x{main_model_resolution[y]}x{main_model_resolution[z]}_{initial_condition_desc}".format(**model_dict)
@@ -489,8 +462,7 @@ def interpolate_to_full_resolution(model_dict, last_ts):
 
     try:
         with h5py.File("%s/%s" % (out_data_path, out_temp_file), "w") as out_temp:
-            temp_dataset = out_temp.create_dataset("data", (data_points,1), dtype=np.float32)
-            temp_dataset[...] = temp_zoomed_lin
+            temp_dataset = out_temp.create_dataset("data", data=temp_zoomed_lin)
             
             for key in ("dimensions", "checkpoint file version"):
                 out_temp.attrs[key] = data_attributes[key]
@@ -500,14 +472,10 @@ def interpolate_to_full_resolution(model_dict, last_ts):
 
     try:
         with h5py.File("%s/%s" % (out_data_path, out_mesh_file), "w") as out_mesh:
-            max_dataset = out_temp.create_dataset("max", (dims,), dtype=np.float32)
-            max_dataset[...] = np_max
-            min_dataset = out_temp.create_dataset("min", (dims,), dtype=np.float32)
-            min_dataset[...] = np_min
-            vertices_dataset = out_temp.create_dataset("vertices", (data_points,dims), dtype=np.float64)
-            vertices_dataset[...] = np_vertices
-            connectivity_dataset = out_temp.create_dataset("connectivity", (np_elements.shape[0],2**dims), dtype=np.int32)
-            connectivity_dataset[...] = np_elements
+            max_dataset = out_mesh.create_dataset("max", data=np_max)
+            min_dataset = out_mesh.create_dataset("min", data=np_min)
+            vertices_dataset = out_mesh.create_dataset("vertices", data=np_vertices)
+            connectivity_dataset = out_mesh.create_dataset("connectivity", data=np_elements)
 
             for key in ("dimensions", "checkpoint file version"):
                 out_mesh.attrs[key] = data_attributes[key]
@@ -516,7 +484,6 @@ def interpolate_to_full_resolution(model_dict, last_ts):
         sys.exit("Unable to write to the new Mesh.linearMesh file after interpolating from the thermal equilibration phase. lmrRunModel tried to write to file:\n%s/%s\n\nThe hdf5 reader said this:\n%s\n" % (out_data_path, out_temp_file, err))
 
     # === End of File writing =============
-
 
 
 def main():
@@ -547,4 +514,5 @@ def main():
 
 if __name__ == '__main__':
     main()
+
 
