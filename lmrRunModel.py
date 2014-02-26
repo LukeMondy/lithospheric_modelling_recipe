@@ -163,10 +163,9 @@ def process_xml(raw_dict):
         
         if thermal == False:
             model_dict["write_to_log"] = xmlbool(output_controls["write_log_file"])        
-            if model_dict["write_to_log"] == True:
-                command_dict["write_to_log"] = "&> {logfile}"
-        else:    
-            model_dict["resolution"] = {dim: int(output_controls["thermal_model_resolution"][dim]) for dim in output_controls["thermal_model_resolution"].keys()}
+        else:
+            for dim in output_controls["thermal_model_resolution"].keys():
+                model_dict["resolution"][dim] = int(output_controls["thermal_model_resolution"][dim])
 
     output_controls = raw_dict["Output_Controls"]
     process_output_controls(output_controls, model_dict, command_dict)
