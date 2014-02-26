@@ -648,6 +648,35 @@
                 <!-- Visc limiter  --> <param> viscosityLimiter </param>
             </list>
         </struct>
+        
+        <!-- IMPORTANT NOTE: If you are using the Isostasy function (which is ON by default)
+             then a few rules apply:
+             - There can only be ONE material across the entire base of the model.
+             - You must let the Isostasy function know which material that is. To
+               do so, goto the bottom of the lmrVelocityBoundaries.xml file, and 
+               put the material name into the "rhoZeroMaterial" param.
+               
+             For example, say you have a model that does NOT include the asthenosphere:
+             ___________________________________________
+             |                                         |
+             |            Upper Crust                  |             
+             |_________________________________________|
+             |                                         |
+             |            Lower Crust                  |             
+             |_________________________________________|
+             |                                         |
+             |            Litho Mantle                 |
+             |                                         |
+             |                                         |                                       
+             |_________________________________________|
+             
+             Then you will need to go to lmrVelocityBoundaries.xml, and change
+             the rhoZeroMaterial param from:
+             <param name="rhoZeroMaterial">astheno</param>
+             to:
+             <param name="rhoZeroMaterial">mantle</param>
+        -->
+        
     </struct>
 
 </StGermainData>

@@ -13,7 +13,7 @@
     
     <!-- === Output controls ================================== -->
     <list name="FieldVariablesToCheckpoint" mergeType="merge">
-        <!-- === Must be checkpointed for model restart ====== -->
+        <!-- === Must be checkpointed for model restart ===== -->
         <param>VelocityField</param>
         <param>PressureField</param>
         <param>TemperatureField</param>
@@ -22,8 +22,8 @@
         <!-- ================================================ -->
         
         <param>YieldedField</param>
-        <param>TotalPlasticStrainField</param>
-        <param>PlasticStrainIncrementField</param>
+        <param>TotalBrittleStrainField</param>
+        <param>BrittleStrainIncrementField</param>
         <param>ViscosityField</param>
         <param>MaterialIndexField</param>
         
@@ -261,7 +261,7 @@
             <param name="Swarm">picIntegrationPoints</param>
             <param name="Context">context</param>
         </struct>
-        <struct name="TotalPlasticStrainField">
+        <struct name="TotalBrittleStrainField">
             <param name="Type">SwarmVariableField</param>
             <param name="swarmVariable">materialSwarm-PostFailureWeakening</param>
             <param name="Mesh">linearMesh</param>
@@ -269,7 +269,7 @@
             <param name="Swarm">picIntegrationPoints</param>
             <param name="Context">context</param>
         </struct>
-        <struct name="PlasticStrainIncrementField">
+        <struct name="BrittleStrainIncrementField">
             <param name="Type">SwarmVariableField</param>
             <param name="swarmVariable">materialSwarm-PostFailureWeakeningIncrement</param>
             <param name="Mesh">linearMesh</param>
@@ -404,7 +404,7 @@
     
     
     
-    <!-- NOTE: All of the following values are ALWAYS overwritten by lmrRunModel.sh
+    <!-- NOTE: All of the following values are ALWAYS overwritten by lmrRunModel.py
                They have been relegated to the bottom of this file because they are
                should never have to be directly modified by any user. -->
     <!-- === Mesh parameters ======================= -->

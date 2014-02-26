@@ -17,7 +17,7 @@
         </struct>
         
         
-        <!-- ========= Surface processes ========= -->
+        <!-- === Surface processes ================================================ -->
         <struct name="erosion_height">
             <param name="Type">Ppc_Constant</param>
             <param name="Value" units="km"> 2 </param>
@@ -47,6 +47,6 @@
             <param name="ValueToCompare"> sedimentation_height </param>
             <param name="MaterialIfTrue"> sediment </param>
         </struct>
-        
+        <!-- === End of Surface processes ========================================= -->
     </struct>
 </StGermainData>
