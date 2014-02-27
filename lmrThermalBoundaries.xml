@@ -32,30 +32,30 @@
     </struct>
 	
 	<struct name="components" mergeType="merge">
-		<!-- === Heat flux boundary condition ============================== -->
-		<!-- A heat flux BC can be applied to a wall, rather than a fixed 
-			 temperature. To do so, comment out the bottom wallVC defined above,
-			 and un-comment the following "thermalFluxBC" struct. The XML code
-			 following that defines the vector of flux, and the calculations that
-			 go into it.
-		-->
+	<!-- === Heat flux boundary condition ============================== -->
+	<!-- A heat flux BC can be applied to a wall, rather than a fixed 
+		 temperature. To do so, comment out the bottom wallVC defined above,
+		 and un-comment the following "thermalFluxBC" struct. The XML code
+		 following that defines the vector of flux, and the calculations that
+		 go into it.
+	-->
 		
-		<!--
-		<struct name="thermalFluxBC">
-			<param name="Surface"> bottom </param>
+	<!--
+	<struct name="thermalFluxBC">
+	    <param name="Surface"> bottom </param>
             <param name="functionLabel"> heat_flux_vector </param>
             <param name="Type"> VectorSurfaceAssemblyTerm_NA__Fi__ni </param>
             <param name="ForceVector"> residual </param>
             <param name="Swarm"> borderGaussSwarm </param>
         </struct>
         -->
-		<struct name="basal_heat_flow">
-			<!-- Avg heat flow from Rudnick and Nyblade (1999) -->
+	<struct name="basal_heat_flow">
+	    <!-- Avg heat flow from Rudnick and Nyblade (1999) -->
             <param name="Type"> Ppc_Constant </param>
             <param name="Value" units="mW/(m*m)"> 25 </param>
         </struct>
 		
-		<struct name="heat_flux_vector">
+	<struct name="heat_flux_vector">
             <param name="Type"> Ppc_a_Vector </param>
             <param name="Alpha"> basal_heat_flux </param>
             <param name="vi"> 0 </param>

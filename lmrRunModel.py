@@ -491,6 +491,10 @@ def main():
 
     model_dict, command_dict = process_xml(raw_dict)
 
+    if model_dict["write_to_log"] == True:
+        log_file = open(model_dict["logfile"], "a")
+        sys.stdout = log_file
+
     model_dict, command_dict = prepare_job(model_dict, command_dict)
 
     if model_dict["run_thermal_equilibration"] == False:
@@ -510,6 +514,8 @@ def main():
             for f in filelist:
                 os.remove("%s/%s" % (model_dict["output_path"], f))
     
+    if model_dict["write_to_log"] == True:
+        log_file.close()
     
 
 if __name__ == '__main__':
