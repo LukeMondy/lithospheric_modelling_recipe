@@ -192,7 +192,7 @@
                                     <xsd:documentation>Set to be true to enable restart functionality.</xsd:documentation>
                                 </xsd:annotation>
                             </xsd:element>
-                            <xsd:element maxOccurs="1" minOccurs="1" name="restart_from_step" type="xsd:positiveInteger">
+                            <xsd:element maxOccurs="1" minOccurs="1" name="restart_from_step" type="xsd:nonNegativeInteger">
                                 <xsd:annotation>
                                     <xsd:documentation>Set to be the checkpoint number to restart from.</xsd:documentation>
                                 </xsd:annotation>
