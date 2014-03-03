@@ -270,6 +270,7 @@ def run_model(model_dict, command_dict):
         if model_dict["write_to_log"]:
             with open(model_dict["logfile"], "w") as logfile:
                 model_run_status = subprocess.call(command, shell=False, stdout=logfile, stderr=subprocess.STDOUT)
+                print model_run_status
         else:
             model_run_status = subprocess.call(command, shell=False)
             
