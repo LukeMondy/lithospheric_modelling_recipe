@@ -8,7 +8,7 @@
     
     <!-- Axis 1: y -->
     <param name="minY" units="km">-165</param>
-    <param name="maxY" units="km">   5</param>
+    <param name="maxY" units="km">  50</param>
     
     <!-- Axis 2: z -->
     <param name="minZ" units="km"> -100</param>
@@ -21,7 +21,7 @@
     <!-- These variables are simple defined to make it easier to quickly
          change things like crustal thickness. More can be made by using 
          the same format, or they can be ignored. -->
-    <param name="topAir" units="km">5</param>
+    <param name="topAir" units="km">50</param>
     <param name="botAir" units="km">0</param>
     
     <param name="topUpperCrust" units="km">0</param>
