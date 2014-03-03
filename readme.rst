@@ -56,7 +56,7 @@ Section 2. Ideal workflow
 8. When the model finishes, you can visualise the model output by opening Paraview, clicking File -> Open, navigating to the output directory, double-clicking on XDMF.temporalFields.xmf, and finally clicking Apply. You can then view the different fields by using the dropdown boxes towards to the top-left of the screen.
 
 
-This workflow essentially preserves the original files, so changes you may implement in one model are not inadvertently copied across to other models. It also means it is very easy to get updates as the lmr is improved and optimised.
+This workflow preserves the original files, so changes you may implement in one model are not inadvertently copied across to other models. It also means it is very easy to get updates as the lmr is improved and optimised.
 
 Section 3. The Wiki
 -------------------------
