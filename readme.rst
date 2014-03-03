@@ -51,7 +51,7 @@ Section 2. Ideal workflow
 
 7. Once the thermal equilibration is done, open the lmrStart.xml file again, and set the <run_thermal_equilibration_phase> parameter to false. You can now run the full thermo-mechanical model by typing the same command as before:
    
-   ``./python ./lmrRunModel.py``
+   ``python ./lmrRunModel.py``
 
 8. When the model finishes, you can visualise the model output by opening Paraview, clicking File -> Open, navigating to the output directory, double-clicking on XDMF.temporalFields.xmf, and finally clicking Apply. You can then view the different fields by using the dropdown boxes towards to the top-left of the screen.
 
