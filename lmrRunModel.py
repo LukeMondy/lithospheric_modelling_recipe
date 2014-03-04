@@ -268,15 +268,17 @@ def run_model(model_dict, command_dict):
     try:
         if model_dict["write_to_log"]:
             with open(model_dict["logfile"], "w") as logfile:
-                model_run_status = subprocess.call(command, shell=False, stdout=logfile, stderr=subprocess.STDOUT)
+                model_run = subprocess.Popen(command, shell=False, stdout=logfile, stderr=subprocess.STDOUT)
         else:
-            model_run_status = subprocess.call(command, shell=False)
-            
-        if model_run_status != 0:
+            model_run = subprocess.Popen(command, shell=False)
+        
+        model_run.wait()
+        
+        if model_run.returncode != 0:
             sys.exit("\n\nUnderworld did not exit nicely - have a look at its output to try and determine the problem.")
     except KeyboardInterrupt:
         # This is pretty dangerous...
-        call(["pkill", "Underworld"])
+        model_run.terminate()
         sys.exit("\nYou have cancelled the job - all instances of Underworld have been killed.")
 
 

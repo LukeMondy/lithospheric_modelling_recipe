@@ -5,8 +5,8 @@
 
     
     <Model_Resolution>
-        <x> 416 </x>
-        <y> 170 </y>
+        <x> 208 </x>
+        <y> 85 </y>
         <z> 0 </z>
     </Model_Resolution>
     
@@ -23,7 +23,7 @@
         </checkpointing_options>
         
         <output_pictures> false </output_pictures>
-        <write_log_file> true </write_log_file>
+        <write_log_file> false </write_log_file>
     </Output_Controls>
     
     <Thermal_Equilibration>
@@ -42,7 +42,7 @@
             </thermal_model_resolution>
 
             <experiment_duration_options>
-                <maximum_steps> 4000000000 </maximum_steps>
+                <maximum_steps> 400 </maximum_steps>
                 <maximum_time> 1.0E9 </maximum_time>
             </experiment_duration_options>
 
@@ -77,9 +77,9 @@
     </Model_Precision>
 
     <Underworld_Execution>
-        <Underworld_binary> /home/562/lsm562/short/unmod-uw-be/build/bin/Underworld </Underworld_binary>
-        <CPUs> 16 </CPUs>
-        <supercomputer_mpi_format> true </supercomputer_mpi_format>
+        <Underworld_binary> /home/litho/Programs/uw-src/build/bin/Underworld </Underworld_binary>
+        <CPUs> 2 </CPUs>
+        <supercomputer_mpi_format> false </supercomputer_mpi_format>
     </Underworld_Execution>
 
 </lmr:LMRStarterKit>
