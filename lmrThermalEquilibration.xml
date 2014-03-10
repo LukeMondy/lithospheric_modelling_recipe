@@ -47,25 +47,25 @@
     
     <!-- === Optimisations for thermal equilibration phase ======================== -->
     <struct name="components" mergeType="merge">
-		<struct name="window" mergeType="merge">
-			<list name="Viewport" mergeType="replace">
-			    <param>TemperatureVP</param>
-			</list> 
-		</struct>
-		
-		<struct name="passiveswarmOutputs" mergeType="replace">
-			<param name="Type"> DummyComponent </param>
-		</struct>
+        <struct name="window" mergeType="merge">
+            <list name="Viewport" mergeType="replace">
+                <param>TemperatureVP</param>
+            </list> 
+        </struct>
+        
+        <struct name="passiveswarmOutputs" mergeType="replace">
+            <param name="Type"> DummyComponent </param>
+        </struct>
     </struct>
     
 
     <list name="FieldVariablesToCheckpoint" mergeType="replace">
-		<param>VelocityField</param>
+        <param>VelocityField</param>
         <param>PressureField</param>
         <param>TemperatureField</param>
         <param>TemperatureField-phiDotField</param>
-	</list>
-	
+    </list>
+    
     <struct name="velocityBCs" mergeType="replace">
         <param name="type">CompositeVC</param>
         <list name="vcList">
@@ -102,7 +102,7 @@
     <param name="PureDiffusion_TimeSteps">200000000</param>
     
     <!-- === End of ptimisations for thermal equilibration phase ================== -->
-	
+    
 
 
     

@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <lmr:LMRStarterKit xmlns:lmr="https://bitbucket.org/lmondy/lithosphericmodellingrecipe" 
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-    xsi:schemaLocation="file:/home/luke/Development/Python/lmrRunModel/LMR.xsd">
+    xsi:schemaLocation="file:./LMR.xsd">
 
     
     <Model_Resolution>
         <x> 208 </x>
-        <y> 85 </y>
+        <y> 96 </y>
         <z> 0 </z>
     </Model_Resolution>
     

@@ -119,54 +119,54 @@
          "End of Moving Mesh".
     -->     
     <struct name="EulerDeform">
-    	<list name="systems">
-    		<struct>
-    			<!-- === Commonly modified ================== -->
-    		    <!-- Walls that are set to "False" will move with the 
-    			     velocity BC. Walls set to "True" will remain fixed. -->
-    			<param name="staticTop">    True  </param>
-    			<param name="staticBottom"> True  </param>
-    			
-    			<param name="staticLeft">   False </param>
-    			<param name="staticRight">  False </param>
-    			
-    			<param name="staticFront">  True  </param>
-    			<param name="staticBack">   True  </param>
-    			
-    			<param name="wrapTop"> False </param>
-    			<!-- ======================================== -->
-    			
-    			<!-- === Technical implementation =========== -->
-    			<param name="mesh"> velocityMesh </param>
-    			<param name="remesher"> velocityRemesher </param>
-    			<param name="velocityField"> VelocityField </param>
-    			<list name="fields">
-    				<struct>
-    					<param name="field"> VelocityField </param>
-    					<param name="variable"> velocity </param>
-    				</struct>
-    			</list>
-    		</struct>
-		</list>
+        <list name="systems">
+            <struct>
+                <!-- === Commonly modified ================== -->
+                <!-- Walls that are set to "False" will move with the 
+                     velocity BC. Walls set to "True" will remain fixed. -->
+                <param name="staticTop">    True  </param>
+                <param name="staticBottom"> True  </param>
+                
+                <param name="staticLeft">   False </param>
+                <param name="staticRight">  False </param>
+                
+                <param name="staticFront">  True  </param>
+                <param name="staticBack">   True  </param>
+                
+                <param name="wrapTop"> False </param>
+                <!-- ======================================== -->
+                
+                <!-- === Technical implementation =========== -->
+                <param name="mesh"> velocityMesh </param>
+                <param name="remesher"> velocityRemesher </param>
+                <param name="velocityField"> VelocityField </param>
+                <list name="fields">
+                    <struct>
+                        <param name="field"> VelocityField </param>
+                        <param name="variable"> velocity </param>
+                    </struct>
+                </list>
+            </struct>
+        </list>
     </struct>
     <!-- === Technical implementation =========== -->
     <struct name="components" mergeType="merge">
-    	<struct name="velocityRemesher">
-    		<param name="Type"> RegularRemesherCmpt </param>
-    		<param name="mesh"> velocityMesh </param>
-    		<list name="remeshDims">
-    			<param> 0 </param>
-    			<param> 1 </param>
-    			<param> 2 </param>
-			</list>
-		</struct>
+        <struct name="velocityRemesher">
+            <param name="Type"> RegularRemesherCmpt </param>
+            <param name="mesh"> velocityMesh </param>
+            <list name="remeshDims">
+                <param> 0 </param>
+                <param> 1 </param>
+                <param> 2 </param>
+            </list>
+        </struct>
     </struct>
     
     <list name="plugins" mergeType="merge">
-    	<struct>
-    		<param name="Type"> Underworld_EulerDeform </param>
-    		<param name="Context"> context </param>
-    	</struct>
+        <struct>
+            <param name="Type"> Underworld_EulerDeform </param>
+            <param name="Context"> context </param>
+        </struct>
     </list>
     <!-- ======================================== -->
     
@@ -177,25 +177,25 @@
     
     
     <!--=== Isostasy functionality ========================== -->
-	<list name="plugins" mergeType="merge">
-		<struct>
-			<!-- === Commonly modified ================== -->
-			<param name="rhoZeroMaterial">astheno</param>
-			<param name="UseAverage">False</param>
-			<!-- ======================================== -->
-			<param name="Type"> lecode_tools_Isostasy </param>
-			<param name="Context">context</param>
-			<param name="mesh">linearMesh</param>
-			<param name="VerticalAxis">@VerticalAxis</param>
-			<param name="SurfaceIndex">@elementResJ</param>
-			<param name="swarm">picIntegrationPoints</param>
-			<param name="velocityField">VelocityField</param>
-			<param name="sle">stokesEqn</param>
-			<param name="Manager">default_ppcManager</param>
-			<param name="DensityLabel">DensityProperty</param>
-			<param name="MaxIterations">-1</param>
-		</struct>
-	</list>
+    <list name="plugins" mergeType="merge">
+        <struct>
+            <!-- === Commonly modified ================== -->
+            <param name="rhoZeroMaterial">astheno</param>
+            <param name="UseAverage">False</param>
+            <!-- ======================================== -->
+            <param name="Type"> lecode_tools_Isostasy </param>
+            <param name="Context">context</param>
+            <param name="mesh">linearMesh</param>
+            <param name="VerticalAxis">@VerticalAxis</param>
+            <param name="SurfaceIndex">@elementResJ</param>
+            <param name="swarm">picIntegrationPoints</param>
+            <param name="velocityField">VelocityField</param>
+            <param name="sle">stokesEqn</param>
+            <param name="Manager">default_ppcManager</param>
+            <param name="DensityLabel">DensityProperty</param>
+            <param name="MaxIterations">-1</param>
+        </struct>
+    </list>
     <!--===================================================== -->
     
 </StGermainData>

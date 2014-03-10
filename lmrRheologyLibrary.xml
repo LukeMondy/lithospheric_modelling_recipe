@@ -110,8 +110,8 @@
             <param name="MeltDensityChange"> MeltExpansionProperty </param>
             <param name="MeltFraction"> MeltFractionProperty </param>
         </struct>
-		
-		<struct name="densTemp_oceanic_crust">
+        
+        <struct name="densTemp_oceanic_crust">
             <param name="Type">Ppc_LinearDensity</param>
             <param name="ReferenceDensity" units="kg*m^-3">2900</param>
             
@@ -131,8 +131,8 @@
             <param name="MeltDensityChange"> MeltExpansionProperty </param>
             <param name="MeltFraction"> MeltFractionProperty </param>
         </struct>
-		
-		<struct name="densTemp_heavy_oceanic_crust">
+        
+        <struct name="densTemp_heavy_oceanic_crust">
             <param name="Type">Ppc_LinearDensity</param>
             <param name="ReferenceDensity" units="kg*m^-3">3200</param>
             
@@ -385,14 +385,19 @@
 
 
         <!-- === Isoviscous  ========================================= -->
-        <struct name="viscIso_air_1e19">
+        <struct name="viscIso_air_1e18">
             <param name="Type">MaterialViscosity</param>
-            <param name="eta0" units="Pa*s">1e+19</param>
+            <param name="eta0" units="Pa*s"> 1e+18 </param>
         </struct>
 
         <struct name="viscIso_upper_crust_1e23">
             <param name="Type">MaterialViscosity</param>
-            <param name="eta0" units="Pa*s">1e+23</param>
+            <param name="eta0" units="Pa*s"> 1e+23 </param>
+        </struct>
+
+        <struct name="viscIso_asthenosphere_1e19">
+            <param name="Type">MaterialViscosity</param>
+            <param name="eta0" units="Pa*s"> 1e+19 </param>
         </struct>
         <!-- ========================================================= -->
 
@@ -477,7 +482,7 @@
         </struct>
         
         <struct name="viscSRTdislocation_dry_diabase_Mackwell1998">
-            <!-- Dry diabase : Mackwell	et al.,	JGR 1998 -->
+            <!-- Dry diabase : Mackwell et al., JGR 1998 -->
             <param name="Type">ViscousCreep</param>
             <param name="StrainRateInvariantField">recoveredStrainRateInvariantField</param>
             <param name="TemperatureField">TemperatureField</param>

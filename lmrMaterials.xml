@@ -1,682 +1,654 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<StGermainData xmlns="http://www.vpac.org/StGermain/XML_IO_Handler/Jun2003">
+<StGermainData xmlns="http://www.vpac.org/StGermain/XML_IO_Handler/Jun2003"> 
 
     <!-- === Domain size ======================================= -->
     <!-- Axis 0: x -->
-    <param name="minX" units="km"> -100</param>
-    <param name="maxX" units="km">  300</param>
-    
+    <param name="minX" units="km"> -100 </param>
+    <param name="maxX" units="km">  300 </param>
+
     <!-- Axis 1: y -->
-    <param name="minY" units="km">-165</param>
-    <param name="maxY" units="km">  50</param>
-    
+    <param name="minY" units="km"> -160 </param>
+    <param name="maxY" units="km">  15 </param>
+
     <!-- Axis 2: z -->
-    <param name="minZ" units="km"> -100</param>
-    <param name="maxZ" units="km">  300</param>
+    <param name="minZ" units="km"> -100 </param>
+    <param name="maxZ" units="km">  300 </param>
     <!-- ====================================================== -->
-    
-    
-    
+
+
+
     <!-- === User-defined Variables for ease of use ============ -->
     <!-- These variables are simple defined to make it easier to quickly
-         change things like crustal thickness. More can be made by using 
-         the same format, or they can be ignored. -->
-    <param name="topAir" units="km">50</param>
-    <param name="botAir" units="km">0</param>
-    
-    <param name="topUpperCrust" units="km">0</param>
-    <param name="botUpperCrust" units="km">-20</param>
-    
-    <param name="topLowerCrust" units="km">-20</param>
-    <param name="midLowerCrust" units="km">-30</param>
-    <param name="botLowerCrust" units="km">-40</param>
-    
-    <param name="topMantle" units="km">-40</param>
-    <param name="botMantle" units="km">-140</param>
+     change things like crustal thickness. More can be made by using 
+     the same format, or they can be ignored. -->
+    <param name="topAir" units="km"> 15 </param>
+    <param name="botAir" units="km"> 0 </param>
+
+    <param name="topUpperCrust" units="km"> 0 </param>
+    <param name="botUpperCrust" units="km"> -20 </param>
+
+    <param name="topLowerCrust" units="km"> -20 </param>
+    <param name="midLowerCrust" units="km"> -30 </param>
+    <param name="botLowerCrust" units="km"> -40 </param>
+
+    <param name="topMantle" units="km"> -40 </param>
+    <param name="botMantle" units="km"> -140 </param>
     <!-- ======================================================== -->
-    
 
-    <struct name="components" mergeType="merge">
+
+    <struct name="components" mergeType="merge"> 
     <!-- ==== Geometries ============================================================================== -->
-        <!-- === Air layer =============================== -->
-        <struct name="airShape">
-            <param name="Type">Box</param>
-            <param name="startX">minX</param>
-            <param name="endX">maxX</param>
-            <param name="startY">botAir</param>
-            <param name="endY">topAir</param>
-            <param name="startZ">minZ</param>
-            <param name="endZ">maxZ</param>
-        </struct>
-        
-        
-        <!-- === Fault ===================================== -->
-        <struct name="faultShape">
-            <param name="Type">PolygonShape</param>
-            <param name="startZ">minZ</param>
-            <param name="endZ">maxZ</param>
-            
-            <list name="vertices">
-                <asciidata>
-                    <columnDefinition name = "x" type="double" units="km"/>
-                    <columnDefinition name = "y" type="double" units="km"/>
-                    93.23  -20
-                    95.23  -20
-                    106.77 0
-                    104.77 0
-                </asciidata>
-            </list>
-        </struct>
-        
-        
-        <!-- === Upper Crust ============================= -->
-        <struct name="uppercrustShape">
-            <param name="Type">Box</param>
-            <param name="startX">minX</param>
-            <param name="endX">maxX</param>
-            <param name="startY">botUpperCrust</param>
-            <param name="endY">topUpperCrust</param>
-            <param name="startZ">minZ</param>
-            <param name="endZ">maxZ</param>
-        </struct>
-
-        <struct name="uppercrustMarker1">
-            <param name="Type">Box</param>
-            <param name="startX">minX</param>
-            <param name="endX">maxX</param>
-            <!-- NOTE: The startY and endY params defined below are examples of how
-                       to define a shape without using the User-defined variables
-                       listed towards the top of this file -->
-            <param name="startY" units="km">-8</param>
-            <param name="endY" units="km">-4</param>
-            <param name="startZ">minZ</param>
-            <param name="endZ">maxZ</param>
-        </struct>
-        <struct name="uppercrustMarker2">
-            <param name="Type">Box</param>
-            <param name="startX">minX</param>
-            <param name="endX">maxX</param>
-            <param name="startY" units="km">-16</param>
-            <param name="endY" units="km">-12</param>
-            <param name="startZ">minZ</param>
-            <param name="endZ">maxZ</param>
-        </struct>
-
-        <struct name="uppercrustMarkersShape">
-            <param name="Type">Union</param>
-            <list name="shapes">
-                <param>uppercrustMarker1</param>
-                <param>uppercrustMarker2</param>
-            </list>
-        </struct>
-        
-
-        <!-- === Lower Crust =============================== -->
-        <struct name="lowercrustShape">
-            <param name="Type"> Box </param>
-            <param name="startX"> minX </param>
-            <param name="endX"> maxX </param>
-            <param name="startY"> botLowerCrust </param>
-            <param name="endY"> topLowerCrust </param>
-            <param name="startZ"> minZ </param>
-            <param name="endZ"> maxZ </param>
-        </struct>
-		
-		<struct name="lowercrustMarker0">
-			<param name="Type"> Box </param>
-			<param name="startX"> -100000 </param>
-			<param name="endX"> -90000 </param>
-			<param name="startY"> botLowerCrust </param>
-			<param name="endY"> topLowerCrust </param>
-			<param name="startZ"> minZ </param>
-			<param name="endZ"> maxZ </param>
-		</struct>
-		
-
-		<struct name="lowercrustMarker1">
-			<param name="Type">Box</param>
-			<param name="startX">-70000</param>
-			<param name="endX">-60000</param>
-			<param name="startY">botLowerCrust</param>
-			<param name="endY">topLowerCrust</param>
-			<param name="startZ">minZ</param>
-			<param name="endZ">maxZ</param>
-		</struct>
-		
-
-		<struct name="lowercrustMarker2">
-			<param name="Type">Box</param>
-			<param name="startX">-40000</param>
-			<param name="endX">-30000</param>
-			<param name="startY">botLowerCrust</param>
-			<param name="endY">topLowerCrust</param>
-			<param name="startZ">minZ</param>
-			<param name="endZ">maxZ</param>
-		</struct>
-		
-
-		<struct name="lowercrustMarker3">
-			<param name="Type">Box</param>
-			<param name="startX">-10000</param>
-			<param name="endX">0</param>
-			<param name="startY">botLowerCrust</param>
-			<param name="endY">topLowerCrust</param>
-			<param name="startZ">minZ</param>
-			<param name="endZ">maxZ</param>
-		</struct>
-		
-
-		<struct name="lowercrustMarker4">
-			<param name="Type">Box</param>
-			<param name="startX">20000</param>
-			<param name="endX">30000</param>
-			<param name="startY">botLowerCrust</param>
-			<param name="endY">topLowerCrust</param>
-			<param name="startZ">minZ</param>
-			<param name="endZ">maxZ</param>
-		</struct>
-		
-
-		<struct name="lowercrustMarker5">
-			<param name="Type">Box</param>
-			<param name="startX">50000</param>
-			<param name="endX">60000</param>
-			<param name="startY">botLowerCrust</param>
-			<param name="endY">topLowerCrust</param>
-			<param name="startZ">minZ</param>
-			<param name="endZ">maxZ</param>
-		</struct>
-		
-
-		<struct name="lowercrustMarker6">
-			<param name="Type">Box</param>
-			<param name="startX">80000</param>
-			<param name="endX">90000</param>
-			<param name="startY">botLowerCrust</param>
-			<param name="endY">topLowerCrust</param>
-			<param name="startZ">minZ</param>
-			<param name="endZ">maxZ</param>
-		</struct>
-		
-
-		<struct name="lowercrustMarker7">
-			<param name="Type">Box</param>
-			<param name="startX">110000</param>
-			<param name="endX">120000</param>
-			<param name="startY">botLowerCrust</param>
-			<param name="endY">topLowerCrust</param>
-			<param name="startZ">minZ</param>
-			<param name="endZ">maxZ</param>
-		</struct>
-		
-
-		<struct name="lowercrustMarker8">
-			<param name="Type">Box</param>
-			<param name="startX">140000</param>
-			<param name="endX">150000</param>
-			<param name="startY">botLowerCrust</param>
-			<param name="endY">topLowerCrust</param>
-			<param name="startZ">minZ</param>
-			<param name="endZ">maxZ</param>
-		</struct>
-		
-
-		<struct name="lowercrustMarker9">
-			<param name="Type">Box</param>
-			<param name="startX">170000</param>
-			<param name="endX">180000</param>
-			<param name="startY">botLowerCrust</param>
-			<param name="endY">topLowerCrust</param>
-			<param name="startZ">minZ</param>
-			<param name="endZ">maxZ</param>
-		</struct>
-		
-
-		<struct name="lowercrustMarker10">
-			<param name="Type">Box</param>
-			<param name="startX">200000</param>
-			<param name="endX">210000</param>
-			<param name="startY">botLowerCrust</param>
-			<param name="endY">topLowerCrust</param>
-			<param name="startZ">minZ</param>
-			<param name="endZ">maxZ</param>
-		</struct>
-		
-
-		<struct name="lowercrustMarker11">
-			<param name="Type">Box</param>
-			<param name="startX">230000</param>
-			<param name="endX">240000</param>
-			<param name="startY">botLowerCrust</param>
-			<param name="endY">topLowerCrust</param>
-			<param name="startZ">minZ</param>
-			<param name="endZ">maxZ</param>
-		</struct>
-		
-
-		<struct name="lowercrustMarker12">
-			<param name="Type">Box</param>
-			<param name="startX">260000</param>
-			<param name="endX">270000</param>
-			<param name="startY">botLowerCrust</param>
-			<param name="endY">topLowerCrust</param>
-			<param name="startZ">minZ</param>
-			<param name="endZ">maxZ</param>
-		</struct>
-		
-
-		<struct name="lowercrustMarker13">
-			<param name="Type">Box</param>
-			<param name="startX">290000</param>
-			<param name="endX">300000</param>
-			<param name="startY">botLowerCrust</param>
-			<param name="endY">topLowerCrust</param>
-			<param name="startZ">minZ</param>
-			<param name="endZ">maxZ</param>
-		</struct>
-		
-        
-        <struct name="lowercrustMarkersShape">
-            <param name="Type">Union</param>
-            <list name="shapes">
-                <param>lowercrustMarker0</param>
-            	<param>lowercrustMarker1</param>
-                <param>lowercrustMarker2</param>
-                <param>lowercrustMarker3</param>
-                <param>lowercrustMarker4</param>
-                <param>lowercrustMarker5</param>
-                <param>lowercrustMarker6</param>
-                <param>lowercrustMarker7</param>
-                <param>lowercrustMarker8</param>
-                <param>lowercrustMarker9</param>
-                <param>lowercrustMarker10</param>
-                <param>lowercrustMarker11</param>
-                <param>lowercrustMarker12</param>
-                <param>lowercrustMarker13</param>
-            </list>
-        </struct>
+    <!-- === Air layer =============================== -->
+    <struct name="airShape"> 
+        <param name="Type"> Box </param>
+        <param name="startX"> minX </param>
+        <param name="endX"> maxX </param>
+        <param name="startY"> botAir </param>
+        <param name="endY"> topAir </param>
+        <param name="startZ"> minZ </param>
+        <param name="endZ"> maxZ </param>
+    </struct>
 
 
-        <!-- === Mantle ===================================== -->
-        <struct name="mantleShape">
-            <param name="Type">Box</param>
-            <param name="startX">minX</param>
-            <param name="endX">maxX</param>
-            <param name="startY">botMantle</param>
-            <param name="endY">topMantle</param>
-            <param name="startZ">minZ</param>
-            <param name="endZ">maxZ</param>
-        </struct>
-        
-        
-        
-        <struct name="mantleMarker1">
-            <param name="Type">Box</param>
-            <param name="startX">minX</param>
-            <param name="endX">maxX</param>
-            <param name="startY" units="km">-74</param>
-            <param name="endY" units="km">-72</param>
-            <param name="startZ">minZ</param>
-            <param name="endZ">maxZ</param>
-        </struct>
-        <struct name="mantleMarker2">
-            <param name="Type">Box</param>
-            <param name="startX">minX</param>
-            <param name="endX">maxX</param>
-            <param name="startY" units="km">-105</param>
-            <param name="endY" units="km">-103</param>
-            <param name="startZ">minZ</param>
-            <param name="endZ">maxZ</param>
-        </struct>
-        
-        <struct name="mantleMarkersShape">
-            <param name="Type">Union</param>
-            <list name="shapes">
-                <param>mantleMarker1</param>
-                <param>mantleMarker2</param>
-            </list>
-        </struct>
-        
-        
-        <!-- === Asthenosphere ============================== -->
-        <struct name="asthenoShape">
-            <param name="Type">Box</param>
-            <param name="startX">minX</param>
-            <param name="endX">maxX</param>
-            <param name="startY">minY</param>
-            <param name="endY">botMantle</param>
-            <param name="startZ">minZ</param>
-            <param name="endZ">maxZ</param>
-        </struct>
+    <!-- === Fault ===================================== -->
+    <struct name="faultShape"> 
+        <param name="Type"> PolygonShape </param>
+        <param name="startZ"> minZ </param>
+        <param name="endZ"> maxZ </param>
+
+        <list name="vertices"> 
+            <asciidata>
+                <columnDefinition name = "x" type="double" units="km"/>
+                <columnDefinition name = "y" type="double" units="km"/>
+                 93.23 -20
+                 95.23 -20
+                106.77   0
+                104.77   0
+            </asciidata>
+        </list>
+    </struct>
+
+
+    <!-- === Upper Crust ============================= -->
+    <struct name="uppercrustShape"> 
+        <param name="Type"> Box </param>
+        <param name="startX"> minX </param>
+        <param name="endX"> maxX </param>
+        <param name="startY"> botUpperCrust </param>
+        <param name="endY"> topUpperCrust </param>
+        <param name="startZ"> minZ </param>
+        <param name="endZ"> maxZ </param>
+    </struct>
+
+    <struct name="uppercrustMarker1"> 
+        <param name="Type"> Box </param>
+        <param name="startX"> minX </param>
+        <param name="endX"> maxX </param>
+        <!-- NOTE: The startY and endY params defined below are examples of how
+            to define a shape without using the User-defined variables
+            listed towards the top of this file -->
+        <param name="startY" units="km"> -8 </param>
+        <param name="endY" units="km"> -4 </param>
+        <param name="startZ"> minZ </param>
+        <param name="endZ"> maxZ </param>
+    </struct>
+    <struct name="uppercrustMarker2"> 
+        <param name="Type"> Box </param>
+        <param name="startX"> minX </param>
+        <param name="endX"> maxX </param>
+        <param name="startY" units="km"> -16 </param>
+        <param name="endY" units="km"> -12 </param>
+        <param name="startZ"> minZ </param>
+        <param name="endZ"> maxZ </param>
+    </struct>
+
+    <struct name="uppercrustMarkersShape"> 
+        <param name="Type"> Union </param>
+        <list name="shapes"> 
+            <param>uppercrustMarker1 </param>
+            <param>uppercrustMarker2 </param>
+        </list>
+    </struct>
+
+
+    <!-- === Lower Crust =============================== -->
+    <struct name="lowercrustShape"> 
+        <param name="Type"> Box </param>
+        <param name="startX"> minX </param>
+        <param name="endX"> maxX </param>
+        <param name="startY"> botLowerCrust </param>
+        <param name="endY"> topLowerCrust </param>
+        <param name="startZ"> minZ </param>
+        <param name="endZ"> maxZ </param>
+    </struct>
+
+    <struct name="lowercrustMarker0"> 
+        <param name="Type"> Box </param>
+        <param name="startX" units="km"> -100 </param>
+        <param name="endX" units="km"> -90 </param>
+        <param name="startY"> botLowerCrust </param>
+        <param name="endY"> topLowerCrust </param>
+        <param name="startZ"> minZ </param>
+        <param name="endZ"> maxZ </param>
+    </struct>
+    <struct name="lowercrustMarker1"> 
+        <param name="Type"> Box</param>
+        <param name="startX" units="km"> -70 </param>
+        <param name="endX" units="km"> -60 </param>
+        <param name="startY"> botLowerCrust </param>
+        <param name="endY"> topLowerCrust </param>
+        <param name="startZ"> minZ </param>
+        <param name="endZ"> maxZ </param>
+    </struct>
+    <struct name="lowercrustMarker2"> 
+        <param name="Type"> Box </param>
+        <param name="startX" units="km"> -40 </param>
+        <param name="endX" units="km"> -30 </param>
+        <param name="startY"> botLowerCrust </param>
+        <param name="endY"> topLowerCrust </param>
+        <param name="startZ"> minZ </param>
+        <param name="endZ"> maxZ </param>
+    </struct>
+    <struct name="lowercrustMarker3"> 
+        <param name="Type"> Box </param>
+        <param name="startX" units="km"> -10 </param>
+        <param name="endX" units="km"> 0 </param>
+        <param name="startY"> botLowerCrust</param>
+        <param name="endY"> topLowerCrust </param>
+        <param name="startZ"> minZ </param>
+        <param name="endZ"> maxZ </param>
+    </struct>
+    <struct name="lowercrustMarker4"> 
+        <param name="Type"> Box </param>
+        <param name="startX" units="km"> 20 </param>
+        <param name="endX" units="km"> 30 </param>
+        <param name="startY"> botLowerCrust </param>
+        <param name="endY"> topLowerCrust </param>
+        <param name="startZ"> minZ </param>
+        <param name="endZ"> maxZ </param>
+    </struct>
+    <struct name="lowercrustMarker5"> 
+        <param name="Type"> Box </param>
+        <param name="startX" units="km"> 50 </param>
+        <param name="endX" units="km"> 60 </param>
+        <param name="startY"> botLowerCrust </param>
+        <param name="endY"> topLowerCrust </param>
+        <param name="startZ"> minZ </param>
+        <param name="endZ"> maxZ </param>
+    </struct>
+    <struct name="lowercrustMarker6"> 
+        <param name="Type"> Box </param>
+        <param name="startX" units="km"> 80 </param>
+        <param name="endX" units="km"> 90 </param>
+        <param name="startY"> botLowerCrust </param>
+        <param name="endY"> topLowerCrust </param>
+        <param name="startZ"> minZ </param>
+        <param name="endZ"> maxZ </param>
+    </struct>
+    <struct name="lowercrustMarker7"> 
+        <param name="Type"> Box </param>
+        <param name="startX" units="km"> 110 </param>
+        <param name="endX" units="km"> 120 </param>
+        <param name="startY"> botLowerCrust </param>
+        <param name="endY"> topLowerCrust </param>
+        <param name="startZ"> minZ </param>
+        <param name="endZ"> maxZ </param>
+    </struct>
+    <struct name="lowercrustMarker8"> 
+        <param name="Type"> Box </param>
+        <param name="startX" units="km"> 140 </param>
+        <param name="endX" units="km"> 150 </param>
+        <param name="startY"> botLowerCrust </param>
+        <param name="endY"> topLowerCrust </param>
+        <param name="startZ"> minZ </param>
+        <param name="endZ"> maxZ </param>
+    </struct>
+    <struct name="lowercrustMarker9"> 
+        <param name="Type"> Box </param>
+        <param name="startX" units="km"> 170 </param>
+        <param name="endX" units="km"> 180 </param>
+        <param name="startY"> botLowerCrust </param>
+        <param name="endY"> topLowerCrust </param>
+        <param name="startZ"> minZ </param>
+        <param name="endZ"> maxZ </param>
+    </struct>
+    <struct name="lowercrustMarker10"> 
+        <param name="Type"> Box </param>
+        <param name="startX" units="km"> 200 </param>
+        <param name="endX" units="km"> 210 </param>
+        <param name="startY"> botLowerCrust </param>
+        <param name="endY"> topLowerCrust </param>
+        <param name="startZ"> minZ </param>
+        <param name="endZ"> maxZ </param>
+    </struct>
+    <struct name="lowercrustMarker11"> 
+        <param name="Type"> Box </param>
+        <param name="startX" units="km"> 230 </param>
+        <param name="endX" units="km"> 240 </param>
+        <param name="startY"> botLowerCrust </param>
+        <param name="endY"> topLowerCrust </param>
+        <param name="startZ"> minZ </param>
+        <param name="endZ"> maxZ </param>
+    </struct>
+    <struct name="lowercrustMarker12"> 
+        <param name="Type"> Box </param>
+        <param name="startX" units="km"> 260 </param>
+        <param name="endX" units="km"> 270 </param>
+        <param name="startY"> botLowerCrust </param>
+        <param name="endY"> topLowerCrust </param>
+        <param name="startZ"> minZ </param>
+        <param name="endZ"> maxZ </param>
+    </struct>
+    <struct name="lowercrustMarker13"> 
+        <param name="Type"> Box </param>
+        <param name="startX" units="km"> 290 </param>
+        <param name="endX" units="km"> 300 </param>
+        <param name="startY"> botLowerCrust </param>
+        <param name="endY"> topLowerCrust </param>
+        <param name="startZ"> minZ </param>
+        <param name="endZ"> maxZ </param>
+    </struct>
+
+
+    <struct name="lowercrustMarkersShape"> 
+        <param name="Type"> Union </param>
+        <list name="shapes"> 
+            <param>lowercrustMarker0 </param>
+            <param>lowercrustMarker1 </param>
+            <param>lowercrustMarker2 </param>
+            <param>lowercrustMarker3 </param>
+            <param>lowercrustMarker4 </param>
+            <param>lowercrustMarker5 </param>
+            <param>lowercrustMarker6 </param>
+            <param>lowercrustMarker7 </param>
+            <param>lowercrustMarker8 </param>
+            <param>lowercrustMarker9 </param>
+            <param>lowercrustMarker10 </param>
+            <param>lowercrustMarker11 </param>
+            <param>lowercrustMarker12 </param>
+            <param>lowercrustMarker13 </param>
+        </list>
+    </struct>
+
+
+    <!-- === Mantle ===================================== -->
+    <struct name="mantleShape"> 
+        <param name="Type"> Box </param>
+        <param name="startX"> minX </param>
+        <param name="endX"> maxX </param>
+        <param name="startY"> botMantle </param>
+        <param name="endY"> topMantle </param>
+        <param name="startZ"> minZ </param>
+        <param name="endZ"> maxZ </param>
+    </struct>
+
+    <struct name="mantleMarker1"> 
+        <param name="Type"> Box </param>
+        <param name="startX"> minX </param>
+        <param name="endX"> maxX </param>
+        <param name="startY" units="km"> -74 </param>
+        <param name="endY" units="km"> -72 </param>
+        <param name="startZ"> minZ </param>
+        <param name="endZ"> maxZ </param>
+    </struct>
+    <struct name="mantleMarker2"> 
+        <param name="Type"> Box </param>
+        <param name="startX"> minX </param>
+        <param name="endX"> maxX </param>
+        <param name="startY" units="km"> -105 </param>
+        <param name="endY" units="km"> -103 </param>
+        <param name="startZ"> minZ </param>
+        <param name="endZ"> maxZ </param>
+    </struct>
+
+    <struct name="mantleMarkersShape"> 
+        <param name="Type"> Union </param>
+        <list name="shapes"> 
+            <param>mantleMarker1 </param>
+            <param>mantleMarker2 </param>
+        </list>
+    </struct>
+
+
+    <!-- === Asthenosphere ============================== -->
+    <struct name="asthenoShape"> 
+        <param name="Type"> Box </param>
+        <param name="startX"> minX </param>
+        <param name="endX"> maxX </param>
+        <param name="startY"> minY </param>
+        <param name="endY"> botMantle </param>
+        <param name="startZ"> minZ </param>
+        <param name="endZ"> maxZ </param>
+    </struct>
 
     <!-- ============================================================================================== -->
-        
-        
-        
-   
-        <!-- === Viscosity limiter =================================== -->    
-        <struct name="viscosityLimiter">
-            <!-- NOTE: If your model is not converging nicely, it can be helpful to
-                       reduce the viscosity gradients in your model. The viscosity
-                       limiter allows you to artificially limit the min and max viscosity
-                       allowed in your model, making it easier to solve. -->
-            <param name="Type">ViscosityLimiter</param>
-            <param name="maxViscosity" units="Pa*s">1e24</param>
-            <param name="minViscosity" units="Pa*s">1e19</param>
-        </struct>
-    
 
 
 
-    
+
+    <!-- === Viscosity limiter =================================== -->  
+    <struct name="viscosityLimiter"> 
+        <!-- NOTE: If your model is not converging nicely, it can be helpful to
+            reduce the viscosity gradients in your model. The viscosity
+            limiter allows you to artificially limit the min and max viscosity
+            allowed in your model, making it easier to solve. -->
+        <param name="Type"> ViscosityLimiter </param>
+        <param name="maxViscosity" units="Pa*s"> 1e24 </param>
+        <param name="minViscosity" units="Pa*s"> 1e19 </param>
+    </struct>
+
+
+
+
+
     <!-- === Material definitions ===================================================================== -->
-        
-        <!-- NOTE: Materials are assigned their "materialIndex" by the order in which you define them 
-                   here. Furthermore, materials will overprint each other, which can be useful, but 
-                   also be a trip up.
-                   For example, we could define an "air" material first which covers the entire 
-                   domain. We can then define a "crust" material second, which will overprint the air 
-                   material. If we defined them the other way around ("crust" first, "air" second), 
-                   the model domain would be entirely "air", because it will overprint the crust.  -->
-        
-        
-        <struct name="air">
-            <!-- NOTE: air is a special case, because it does NOT share a lot of common properties
-                       such as thermal expansivity or diffusivity, and it certainly does not melt.
-                       In this case, we simply supply constant values for the thermal stuff, and
-                       to stop calculating melt functions, we replace the functions with zero. -->
-            <param name="Type"> RheologyMaterial </param>
-            <param name="Shape"> airShape </param>
-            <param name="DensityProperty" units="kg*m^-3"> 3 </param>
-            
-            <!-- To increase timestep length, set air Diffusivity to be smaller -->
-            <param name="DiffusivityProperty" units="W/m^3"> 1e-5 </param>
-            <param name="CpProperty"> global_cp </param>
-            <param name="ThermalExpansivityProperty"> 0 </param>
-            <param name="RadiogenicHeatProductionProperty"> radiogenic_no_heating </param>
-            
-            <param name="LatentHeatFusionProperty" units="kJ*kg^-1"> 0.0 </param>
-            <param name="MeltFractionProperty"> 0 </param>
-            <param name="MeltExpansionProperty"> 0 </param>
-            <param name="solidusProperty"> 0 </param>
-            <param name="liquidusProperty"> 0 </param>
-            
-            <param name="surface_processes"> sedimentation_threshold </param>
-            
-            <list name="Rheology">
-                <!-- Viscous law   --> <param> viscIso_air_1e19 </param>
-                <!-- Brittle law   -->
-                <!-- Melt modifier -->
-                <!-- Visc limiter  -->
-            </list>
-        </struct>
-        
-        
-        <struct name="sediment">
-            <param name="Type"> RheologyMaterial </param>
-            <param name="Shape"> uppercrustShape </param> <!-- Taking advantage of the overprinting by defining this first -->
-            <param name="DensityProperty"> densMelt_sediment </param>
-            
-            <param name="DiffusivityProperty"> global_diffusivity </param>
-            <param name="CpProperty"> global_cp </param>
-            <param name="ThermalExpansivityProperty"> global_expansivity </param>
-            <param name="RadiogenicHeatProductionProperty"> radiogenic_upper_crust </param>
-            
-            <param name="LatentHeatFusionProperty" units="kJ*kg^-1">250.0</param>
-            <param name="MeltFractionProperty"> melt_fraction </param>
-            <param name="MeltExpansionProperty"> melt_crustal_density_decrease </param>
-            <param name="solidusProperty"> melt_crustal_solidus </param>
-            <param name="liquidusProperty"> melt_crustal_liquidus </param>
-            
-            <param name="surface_processes"> erosion_threshold </param>
-            
-            <list name="Rheology">
-                <!-- Viscous law   --> <param> viscSRTdislocation_wet_quartzite_Goetze1978 </param>
-                <!-- Brittle law   --> <param> yield_upper_crust_Rey2010 </param>
-                <!-- Melt modifier --> <param> viscMelt_crustal_Hirth2003 </param>
-                <!-- Visc limiter  --> <param> viscosityLimiter </param>
-            </list>
-        </struct>
-        
 
-        <struct name="uppercrust">
-            <param name="Type">RheologyMaterial</param>
-            <param name="Shape">uppercrustShape</param>
-            <param name="DensityProperty">densMelt_continental_upper_crust</param>
-            
-            <param name="DiffusivityProperty"> global_diffusivity </param>
-            <param name="CpProperty"> global_cp </param>
-            <param name="ThermalExpansivityProperty"> global_expansivity </param>
-            <param name="RadiogenicHeatProductionProperty"> radiogenic_upper_crust </param>
-            
-            <param name="LatentHeatFusionProperty" units="kJ*kg^-1">250.0</param>
-            <param name="MeltFractionProperty"> melt_fraction </param>
-            <param name="MeltExpansionProperty"> melt_crustal_density_decrease </param>
-            <param name="solidusProperty"> melt_crustal_solidus </param>
-            <param name="liquidusProperty"> melt_crustal_liquidus </param>
-            
-            <param name="surface_processes"> erosion_threshold </param>
-            
-            <list name="Rheology">
-                <!-- Viscous law   --> <param> viscSRTdislocation_wet_quartzite_Goetze1978 </param>
-                <!-- Brittle law   --> <param> yield_upper_crust_Rey2010 </param>
-                <!-- Melt modifier --> <param> viscMelt_crustal_Hirth2003 </param>
-                <!-- Visc limiter  --> <param> viscosityLimiter </param>
-            </list>
-        </struct>
-        
-        <struct name="uppercrustMarkers">
-            <param name="Type">RheologyMaterial</param>
-            <param name="Shape">uppercrustMarkersShape</param>
-            <param name="DensityProperty">densMelt_continental_upper_crust</param>
-            
-            <param name="DiffusivityProperty"> global_diffusivity </param>
-            <param name="CpProperty"> global_cp </param>
-            <param name="ThermalExpansivityProperty"> global_expansivity </param>
-            <param name="RadiogenicHeatProductionProperty"> radiogenic_upper_crust </param>
-            
-            <param name="LatentHeatFusionProperty" units="kJ*kg^-1">250.0</param>
-            <param name="MeltFractionProperty"> melt_fraction </param>
-            <param name="MeltExpansionProperty"> melt_crustal_density_decrease </param>
-            <param name="solidusProperty"> melt_crustal_solidus </param>
-            <param name="liquidusProperty"> melt_crustal_liquidus </param>
-            
-            <param name="surface_processes"> erosion_threshold </param>
-            
-            <list name="Rheology">
-                <!-- Viscous law   --> <param> viscSRTdislocation_wet_quartzite_Goetze1978 </param>
-                <!-- Brittle law   --> <param> yield_upper_crust_Rey2010 </param>
-                <!-- Melt modifier --> <param> viscMelt_crustal_Hirth2003 </param>
-                <!-- Visc limiter  --> <param> viscosityLimiter </param>
-            </list>
-        </struct>
-        
-        
-        <struct name="fault">
-            <param name="Type">RheologyMaterial</param>
-            <param name="Shape">faultShape</param>
-            <param name="DensityProperty">densMelt_continental_upper_crust</param>
-            
-            <param name="DiffusivityProperty"> global_diffusivity </param>
-            <param name="CpProperty"> global_cp </param>
-            <param name="ThermalExpansivityProperty"> global_expansivity </param>
-            <param name="RadiogenicHeatProductionProperty"> radiogenic_upper_crust </param>
-            
-            <param name="LatentHeatFusionProperty" units="kJ*kg^-1">250.0</param>
-            <param name="MeltFractionProperty"> melt_fraction </param>
-            <param name="MeltExpansionProperty"> melt_crustal_density_decrease </param>
-            <param name="solidusProperty"> melt_crustal_solidus </param>
-            <param name="liquidusProperty"> melt_crustal_liquidus </param>
-            
-            <param name="surface_processes"> erosion_threshold </param>
-            
-            <list name="Rheology">
-                <!-- Viscous law   --> <param> viscSRTdislocation_wet_quartzite_Goetze1978 </param>
-                <!-- Brittle law   --> <param> yield_weak_faulted </param>
-                <!-- Melt modifier --> <param> viscMelt_crustal_Hirth2003 </param>
-                <!-- Visc limiter  --> <param> viscosityLimiter </param>
-            </list>
-        </struct>
-        
-        
-        <struct name="lowercrust">
-            <param name="Type">RheologyMaterial</param>
-            <param name="Shape">lowercrustShape</param>
-            <param name="DensityProperty">densMelt_continental_lower_crust</param>
-            
-            <param name="DiffusivityProperty"> global_diffusivity </param>
-            <param name="CpProperty"> global_cp </param>
-            <param name="ThermalExpansivityProperty"> global_expansivity </param>
-            <param name="RadiogenicHeatProductionProperty"> radiogenic_lower_crust </param>
-            
-            <param name="LatentHeatFusionProperty" units="kJ*kg^-1">250.0</param>
-            <param name="MeltFractionProperty"> melt_fraction </param>
-            <param name="MeltExpansionProperty"> melt_crustal_density_decrease </param>
-            <param name="solidusProperty"> melt_crustal_solidus </param>
-            <param name="liquidusProperty"> melt_crustal_liquidus </param>
-            
-            <param name="surface_processes"> erosion_threshold </param>
-            
-            <list name="Rheology">
-                <!-- Viscous law   --> <param> viscSRTdislocation_mafic_granulite_Wang2012 </param>
-                <!-- Brittle law   --> <param> yield_lower_crust_Rey2010 </param>
-                <!-- Melt modifier --> <param> viscMelt_crustal_Hirth2003 </param>
-                <!-- Visc limiter  --> <param> viscosityLimiter </param>
-            </list>
-        </struct>
-        <struct name="lowercrustMarkers">
-            <param name="Type">RheologyMaterial</param>
-            <param name="Shape">lowercrustMarkersShape</param>
-            <param name="DensityProperty">densMelt_continental_lower_crust</param>
-            
-            <param name="DiffusivityProperty"> global_diffusivity </param>
-            <param name="CpProperty"> global_cp </param>
-            <param name="ThermalExpansivityProperty"> global_expansivity </param>
-            <param name="RadiogenicHeatProductionProperty"> radiogenic_lower_crust </param>
-            
-            <param name="LatentHeatFusionProperty" units="kJ*kg^-1">250.0</param>
-            <param name="MeltFractionProperty"> melt_fraction </param>
-            <param name="MeltExpansionProperty"> melt_crustal_density_decrease </param>
-            <param name="solidusProperty"> melt_crustal_solidus </param>
-            <param name="liquidusProperty"> melt_crustal_liquidus </param>
-            
-            <param name="surface_processes"> erosion_threshold </param>
-            
-            <list name="Rheology">
-                <!-- Viscous law   --> <param> viscSRTdislocation_mafic_granulite_Wang2012 </param>
-                <!-- Brittle law   --> <param> yield_lower_crust_Rey2010 </param>
-                <!-- Melt modifier --> <param> viscMelt_crustal_Hirth2003 </param>
-                <!-- Visc limiter  --> <param> viscosityLimiter </param>
-            </list>
-        </struct>
-		
+    <!-- NOTE: Materials are assigned their "materialIndex" by the order in which you define them 
+          here. Furthermore, materials will overprint each other, which can be useful, but 
+          also be a trip up.
+          For example, we could define an "air" material first which covers the entire 
+          domain. We can then define a "crust" material second, which will overprint the air 
+          material. If we defined them the other way around ("crust" first, "air" second), 
+          the model domain would be entirely "air", because it will overprint the crust. -->
 
-        <struct name="mantle">
-            <param name="Type">RheologyMaterial</param>
-            <param name="Shape">mantleShape</param>
-            <param name="DensityProperty">densMelt_continental_litho_mantle</param>
-            
-            <param name="DiffusivityProperty"> global_diffusivity </param>
-            <param name="CpProperty"> global_cp </param>
-            <param name="ThermalExpansivityProperty"> global_expansivity </param>
-            <param name="RadiogenicHeatProductionProperty"> radiogenic_lithospheric_mantle </param>
-            
-            <param name="LatentHeatFusionProperty" units="kJ*kg^-1">250.0</param>
-            <param name="MeltFractionProperty"> melt_fraction </param>
-            <param name="MeltExpansionProperty"> melt_mantle_density_decrease </param>
-            <param name="solidusProperty"> melt_mantle_solidus </param>
-            <param name="liquidusProperty"> melt_mantle_liquidus </param>
-            
-            <param name="surface_processes"> erosion_threshold </param>
-            
-            <list name="Rheology">
-                <!-- Viscous law   --> <param> viscSRTdislocation_wet_dunite_Brace1980 </param>
-                <!-- Brittle law   --> <param> yield_litho_mantle_Rey2010 </param>
-                <!-- Melt modifier --> <param> viscMelt_mantle_Hirth2003 </param>
-                <!-- Visc limiter  --> <param> viscosityLimiter </param>
-            </list>
-        </struct>
+
+    <struct name="air"> 
+        <!-- NOTE: air is a special case, because it does NOT share a lot of common properties
+            such as thermal expansivity or diffusivity, and it certainly does not melt.
+            In this case, we simply supply constant values for the thermal stuff, and
+            to stop calculating melt functions, we replace the functions with zero. -->
+        <param name="Type"> RheologyMaterial </param>
+        <param name="Shape"> airShape </param>
+        <param name="DensityProperty" units="kg*m^-3"> 1 </param>
+
+        <!-- To increase timestep length, set air Diffusivity to be smaller -->
+        <param name="DiffusivityProperty" units="W/m^3"> 1e-5 </param>
+        <param name="CpProperty" units="J/(K*kg)"> 100 </param>
+        <param name="ThermalExpansivityProperty"> 0 </param>
+        <param name="RadiogenicHeatProductionProperty"> radiogenic_no_heating </param>
+
+        <param name="LatentHeatFusionProperty" units="kJ*kg^-1"> 0.0 </param>
+        <param name="MeltFractionProperty"> 0 </param>
+        <param name="MeltExpansionProperty"> 0 </param>
+        <param name="solidusProperty"> 0 </param>
+        <param name="liquidusProperty"> 0 </param>
+
+        <param name="surface_processes"> sedimentation_threshold </param>
+
+        <list name="Rheology"> 
+        <!-- Viscous law  --> <param> viscIso_air_1e18 </param>
+        <!-- Brittle law  -->
+        <!-- Melt modifier -->
+        <!-- Visc limiter -->
+        </list>
+    </struct>
+
+
+    <struct name="sediment"> 
+        <param name="Type"> RheologyMaterial </param>
+        <param name="Shape"> uppercrustShape </param> <!-- Taking advantage of the overprinting by defining this first -->
+        <param name="DensityProperty"> densMelt_sediment </param>
+
+        <param name="DiffusivityProperty"> global_diffusivity </param>
+        <param name="CpProperty"> global_cp </param>
+        <param name="ThermalExpansivityProperty"> global_expansivity </param>
+        <param name="RadiogenicHeatProductionProperty"> radiogenic_upper_crust </param>
+
+        <param name="LatentHeatFusionProperty" units="kJ*kg^-1"> 250.0</param>
+        <param name="MeltFractionProperty"> melt_fraction </param>
+        <param name="MeltExpansionProperty"> melt_crustal_density_decrease </param>
+        <param name="solidusProperty"> melt_crustal_solidus </param>
+        <param name="liquidusProperty"> melt_crustal_liquidus </param>
+
+        <param name="surface_processes"> erosion_threshold </param>
+
+        <list name="Rheology"> 
+        <!-- Viscous law  --> <param> viscSRTdislocation_wet_quartzite_Goetze1978 </param>
+        <!-- Brittle law  --> <param> yield_upper_crust_Rey2010 </param>
+        <!-- Melt modifier --> <param> viscMelt_crustal_Hirth2003 </param>
+        <!-- Visc limiter --> <param> viscosityLimiter </param>
+        </list>
+    </struct>
+
+
+    <struct name="uppercrust"> 
+        <param name="Type"> RheologyMaterial </param>
+        <param name="Shape"> uppercrustShape </param>
+        <param name="DensityProperty"> densMelt_continental_upper_crust </param>
+
+        <param name="DiffusivityProperty"> global_diffusivity </param>
+        <param name="CpProperty"> global_cp </param>
+        <param name="ThermalExpansivityProperty"> global_expansivity </param>
+        <param name="RadiogenicHeatProductionProperty"> radiogenic_upper_crust </param>
+
+        <param name="LatentHeatFusionProperty" units="kJ*kg^-1"> 250.0</param>
+        <param name="MeltFractionProperty"> melt_fraction </param>
+        <param name="MeltExpansionProperty"> melt_crustal_density_decrease </param>
+        <param name="solidusProperty"> melt_crustal_solidus </param>
+        <param name="liquidusProperty"> melt_crustal_liquidus </param>
+
+        <param name="surface_processes"> erosion_threshold </param>
+
+        <list name="Rheology"> 
+        <!-- Viscous law  --> <param> viscSRTdislocation_wet_quartzite_Goetze1978 </param>
+        <!-- Brittle law  --> <param> yield_upper_crust_Rey2010 </param>
+        <!-- Melt modifier --> <param> viscMelt_crustal_Hirth2003 </param>
+        <!-- Visc limiter --> <param> viscosityLimiter </param>
+        </list>
+    </struct>
+
+    <struct name="uppercrustMarkers"> 
+        <param name="Type"> RheologyMaterial </param>
+        <param name="Shape"> uppercrustMarkersShape </param>
+        <param name="DensityProperty"> densMelt_continental_upper_crust </param>
+
+        <param name="DiffusivityProperty"> global_diffusivity </param>
+        <param name="CpProperty"> global_cp </param>
+        <param name="ThermalExpansivityProperty"> global_expansivity </param>
+        <param name="RadiogenicHeatProductionProperty"> radiogenic_upper_crust </param>
+
+        <param name="LatentHeatFusionProperty" units="kJ*kg^-1"> 250.0</param>
+        <param name="MeltFractionProperty"> melt_fraction </param>
+        <param name="MeltExpansionProperty"> melt_crustal_density_decrease </param>
+        <param name="solidusProperty"> melt_crustal_solidus </param>
+        <param name="liquidusProperty"> melt_crustal_liquidus </param>
+
+        <param name="surface_processes"> erosion_threshold </param>
+
+        <list name="Rheology"> 
+        <!-- Viscous law  --> <param> viscSRTdislocation_wet_quartzite_Goetze1978 </param>
+        <!-- Brittle law  --> <param> yield_upper_crust_Rey2010 </param>
+        <!-- Melt modifier --> <param> viscMelt_crustal_Hirth2003 </param>
+        <!-- Visc limiter --> <param> viscosityLimiter </param>
+        </list>
+    </struct>
+
+
+    <struct name="fault"> 
+        <param name="Type"> RheologyMaterial </param>
+        <param name="Shape"> faultShape </param>
+        <param name="DensityProperty"> densMelt_continental_upper_crust </param>
+
+        <param name="DiffusivityProperty"> global_diffusivity </param>
+        <param name="CpProperty"> global_cp </param>
+        <param name="ThermalExpansivityProperty"> global_expansivity </param>
+        <param name="RadiogenicHeatProductionProperty"> radiogenic_upper_crust </param>
+
+        <param name="LatentHeatFusionProperty" units="kJ*kg^-1"> 250.0</param>
+        <param name="MeltFractionProperty"> melt_fraction </param>
+        <param name="MeltExpansionProperty"> melt_crustal_density_decrease </param>
+        <param name="solidusProperty"> melt_crustal_solidus </param>
+        <param name="liquidusProperty"> melt_crustal_liquidus </param>
+
+        <param name="surface_processes"> erosion_threshold </param>
+
+        <list name="Rheology"> 
+        <!-- Viscous law  --> <param> viscSRTdislocation_wet_quartzite_Goetze1978 </param>
+        <!-- Brittle law  --> <param> yield_weak_faulted </param>
+        <!-- Melt modifier --> <param> viscMelt_crustal_Hirth2003 </param>
+        <!-- Visc limiter --> <param> viscosityLimiter </param>
+        </list>
+    </struct>
+
+
+    <struct name="lowercrust"> 
+        <param name="Type"> RheologyMaterial </param>
+        <param name="Shape"> lowercrustShape </param>
+        <param name="DensityProperty"> densMelt_continental_lower_crust </param>
+
+        <param name="DiffusivityProperty"> global_diffusivity </param>
+        <param name="CpProperty"> global_cp </param>
+        <param name="ThermalExpansivityProperty"> global_expansivity </param>
+        <param name="RadiogenicHeatProductionProperty"> radiogenic_lower_crust </param>
+
+        <param name="LatentHeatFusionProperty" units="kJ*kg^-1"> 250.0</param>
+        <param name="MeltFractionProperty"> melt_fraction </param>
+        <param name="MeltExpansionProperty"> melt_crustal_density_decrease </param>
+        <param name="solidusProperty"> melt_crustal_solidus </param>
+        <param name="liquidusProperty"> melt_crustal_liquidus </param>
+
+        <param name="surface_processes"> erosion_threshold </param>
+
+        <list name="Rheology"> 
+        <!-- Viscous law  --> <param> viscSRTdislocation_mafic_granulite_Wang2012 </param>
+        <!-- Brittle law  --> <param> yield_lower_crust_Rey2010 </param>
+        <!-- Melt modifier --> <param> viscMelt_crustal_Hirth2003 </param>
+        <!-- Visc limiter --> <param> viscosityLimiter </param>
+        </list>
+    </struct>
+    <struct name="lowercrustMarkers"> 
+        <param name="Type"> RheologyMaterial </param>
+        <param name="Shape"> lowercrustMarkersShape </param>
+        <param name="DensityProperty"> densMelt_continental_lower_crust </param>
+
+        <param name="DiffusivityProperty"> global_diffusivity </param>
+        <param name="CpProperty"> global_cp </param>
+        <param name="ThermalExpansivityProperty"> global_expansivity </param>
+        <param name="RadiogenicHeatProductionProperty"> radiogenic_lower_crust </param>
+
+        <param name="LatentHeatFusionProperty" units="kJ*kg^-1"> 250.0</param>
+        <param name="MeltFractionProperty"> melt_fraction </param>
+        <param name="MeltExpansionProperty"> melt_crustal_density_decrease </param>
+        <param name="solidusProperty"> melt_crustal_solidus </param>
+        <param name="liquidusProperty"> melt_crustal_liquidus </param>
+
+        <param name="surface_processes"> erosion_threshold </param>
+
+        <list name="Rheology"> 
+        <!-- Viscous law  --> <param> viscSRTdislocation_mafic_granulite_Wang2012 </param>
+        <!-- Brittle law  --> <param> yield_lower_crust_Rey2010 </param>
+        <!-- Melt modifier --> <param> viscMelt_crustal_Hirth2003 </param>
+        <!-- Visc limiter --> <param> viscosityLimiter </param>
+        </list>
+    </struct>
+
+
+    <struct name="mantle"> 
+        <param name="Type"> RheologyMaterial </param>
+        <param name="Shape"> mantleShape </param>
+        <param name="DensityProperty"> densMelt_continental_litho_mantle </param>
+
+        <param name="DiffusivityProperty"> global_diffusivity </param>
+        <param name="CpProperty"> global_cp </param>
+        <param name="ThermalExpansivityProperty"> global_expansivity </param>
+        <param name="RadiogenicHeatProductionProperty"> radiogenic_lithospheric_mantle </param>
+
+        <param name="LatentHeatFusionProperty" units="kJ*kg^-1"> 250.0</param>
+        <param name="MeltFractionProperty"> melt_fraction </param>
+        <param name="MeltExpansionProperty"> melt_mantle_density_decrease </param>
+        <param name="solidusProperty"> melt_mantle_solidus </param>
+        <param name="liquidusProperty"> melt_mantle_liquidus </param>
+
+        <param name="surface_processes"> erosion_threshold </param>
+
+        <list name="Rheology"> 
+        <!-- Viscous law  --> <param> viscSRTdislocation_wet_dunite_Brace1980 </param>
+        <!-- Brittle law  --> <param> yield_litho_mantle_Rey2010 </param>
+        <!-- Melt modifier --> <param> viscMelt_mantle_Hirth2003 </param>
+        <!-- Visc limiter --> <param> viscosityLimiter </param>
+        </list>
+    </struct>
+
+    <struct name="mantleMarkers"> 
+        <param name="Type"> RheologyMaterial </param>
+        <param name="Shape"> mantleMarkersShape </param>
+        <param name="DensityProperty"> densMelt_continental_litho_mantle </param>
+
+        <param name="DiffusivityProperty"> global_diffusivity </param>
+        <param name="CpProperty"> global_cp </param>
+        <param name="ThermalExpansivityProperty"> global_expansivity </param>
+        <param name="RadiogenicHeatProductionProperty"> radiogenic_lithospheric_mantle </param>
+
+        <param name="LatentHeatFusionProperty" units="kJ*kg^-1"> 250.0</param>
+        <param name="MeltFractionProperty"> melt_fraction </param>
+        <param name="MeltExpansionProperty"> melt_mantle_density_decrease </param>
+        <param name="solidusProperty"> melt_mantle_solidus </param>
+        <param name="liquidusProperty"> melt_mantle_liquidus </param>
+
+        <param name="surface_processes"> erosion_threshold </param>
+
+        <list name="Rheology"> 
+        <!-- Viscous law  --> <param> viscSRTdislocation_wet_dunite_Brace1980 </param>
+        <!-- Brittle law  --> <param> yield_litho_mantle_Rey2010 </param>
+        <!-- Melt modifier --> <param> viscMelt_mantle_Hirth2003 </param>
+        <!-- Visc limiter --> <param> viscosityLimiter </param>
+        </list>
+    </struct>
+
+    <struct name="astheno"> 
+        <param name="Type"> RheologyMaterial </param>
+        <param name="Shape"> asthenoShape </param>
+        <param name="DensityProperty"> densMelt_asthenosphere </param>
+
+        <param name="DiffusivityProperty"> global_diffusivity </param>
+        <param name="CpProperty"> global_cp </param>
+        <param name="ThermalExpansivityProperty"> global_expansivity </param>
+        <param name="RadiogenicHeatProductionProperty"> radiogenic_no_heating </param>
+
+        <param name="LatentHeatFusionProperty" units="kJ*kg^-1"> 250.0</param>
+        <param name="MeltFractionProperty"> melt_fraction </param>
+        <param name="MeltExpansionProperty"> melt_mantle_density_decrease </param>
+        <param name="solidusProperty"> melt_mantle_solidus </param>
+        <param name="liquidusProperty"> melt_mantle_liquidus </param>
+
+        <param name="surface_processes"> erosion_threshold </param>
+
+        <list name="Rheology"> 
+        <!-- Viscous law  --> <param> viscSRTdislocation_wet_dunite_weakened_Brace1980 </param>
+        <!-- Brittle law  --> 
+        <!-- Melt modifier --> <param> viscMelt_mantle_Hirth2003 </param>
+        <!-- Visc limiter --> <param> viscosityLimiter </param>
+        </list>
+    </struct>
+
+    <!-- IMPORTANT NOTE: If you are using the Isostasy function (which is ON by default)
+       then a few rules apply:
+       - There can only be ONE material across the entire base of the model.
+       - You must let the Isostasy function know which material that is. To
+        do so, goto the bottom of the lmrVelocityBoundaries.xml file, and 
+        put the material name into the "rhoZeroMaterial" param.
         
-        <struct name="mantleMarkers">
-            <param name="Type">RheologyMaterial</param>
-            <param name="Shape">mantleMarkersShape</param>
-            <param name="DensityProperty">densMelt_continental_litho_mantle</param>
-            
-            <param name="DiffusivityProperty"> global_diffusivity </param>
-            <param name="CpProperty"> global_cp </param>
-            <param name="ThermalExpansivityProperty"> global_expansivity </param>
-            <param name="RadiogenicHeatProductionProperty"> radiogenic_lithospheric_mantle </param>
-            
-            <param name="LatentHeatFusionProperty" units="kJ*kg^-1">250.0</param>
-            <param name="MeltFractionProperty"> melt_fraction </param>
-            <param name="MeltExpansionProperty"> melt_mantle_density_decrease </param>
-            <param name="solidusProperty"> melt_mantle_solidus </param>
-            <param name="liquidusProperty"> melt_mantle_liquidus </param>
-            
-            <param name="surface_processes"> erosion_threshold </param>
-            
-            <list name="Rheology">
-                <!-- Viscous law   --> <param> viscSRTdislocation_wet_dunite_Brace1980 </param>
-                <!-- Brittle law   --> <param> yield_litho_mantle_Rey2010 </param>
-                <!-- Melt modifier --> <param> viscMelt_mantle_Hirth2003 </param>
-                <!-- Visc limiter  --> <param> viscosityLimiter </param>
-            </list>
-        </struct>
-        
-        <struct name="astheno">
-            <param name="Type">RheologyMaterial</param>
-            <param name="Shape">asthenoShape</param>
-            <param name="DensityProperty">densMelt_asthenosphere</param>
-            
-            <param name="DiffusivityProperty"> global_diffusivity </param>
-            <param name="CpProperty"> global_cp </param>
-            <param name="ThermalExpansivityProperty"> global_expansivity </param>
-            <param name="RadiogenicHeatProductionProperty"> radiogenic_no_heating </param>
-            
-            <param name="LatentHeatFusionProperty" units="kJ*kg^-1">250.0</param>
-            <param name="MeltFractionProperty"> melt_fraction </param>
-            <param name="MeltExpansionProperty"> melt_mantle_density_decrease </param>
-            <param name="solidusProperty"> melt_mantle_solidus </param>
-            <param name="liquidusProperty"> melt_mantle_liquidus </param>
-            
-            <param name="surface_processes"> erosion_threshold </param>
-            
-            <list name="Rheology">
-                <!-- Viscous law   --> <param> viscSRTdislocation_wet_dunite_weakened_Brace1980 </param>
-                <!-- Brittle law   --> 
-                <!-- Melt modifier --> <param> viscMelt_mantle_Hirth2003 </param>
-                <!-- Visc limiter  --> <param> viscosityLimiter </param>
-            </list>
-        </struct>
-        
-        <!-- IMPORTANT NOTE: If you are using the Isostasy function (which is ON by default)
-             then a few rules apply:
-             - There can only be ONE material across the entire base of the model.
-             - You must let the Isostasy function know which material that is. To
-               do so, goto the bottom of the lmrVelocityBoundaries.xml file, and 
-               put the material name into the "rhoZeroMaterial" param.
-               
-             For example, say you have a model that does NOT include the asthenosphere:
-             ___________________________________________
-             |                                         |
-             |            Upper Crust                  |             
-             |_________________________________________|
-             |                                         |
-             |            Lower Crust                  |             
-             |_________________________________________|
-             |                                         |
-             |            Litho Mantle                 |
-             |                                         |
-             |                                         |                                       
-             |_________________________________________|
-             
-             Then you will need to go to lmrVelocityBoundaries.xml, and change
-             the rhoZeroMaterial param from:
-             <param name="rhoZeroMaterial">astheno</param>
-             to:
-             <param name="rhoZeroMaterial">mantle</param>
-        -->
-        
+       For example, say you have a model that does NOT include the asthenosphere:
+       ___________________________________________
+       |                     |
+       |      Upper Crust         |       
+       |_________________________________________|
+       |                     |
+       |      Lower Crust         |       
+       |_________________________________________|
+       |                     |
+       |      Litho Mantle         |
+       |                     |
+       |                     |                    
+       |_________________________________________|
+       
+       Then you will need to go to lmrVelocityBoundaries.xml, and change
+       the rhoZeroMaterial param from:
+       <param name="rhoZeroMaterial"> astheno</param>
+       to:
+       <param name="rhoZeroMaterial"> mantle</param>
+    -->
+
     </struct>
 
 </StGermainData>
