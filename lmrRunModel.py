@@ -543,10 +543,9 @@ def main():
 
     model_dict, command_dict = prepare_job(model_dict, command_dict)
 
-    if model_dict["run_thermal_equilibration"] is False:
+    if model_dict["run_thermal_equilibration"] is False and model_dict["update_xml_information"] is True:
         last_ts = find_last_thermal_timestep(model_dict)
-        if model_dict["update_xml_information"] is True:
-            modify_initialcondition_xml(last_ts, model_dict)
+        modify_initialcondition_xml(last_ts, model_dict)
 
     run_model(model_dict, command_dict)
 
