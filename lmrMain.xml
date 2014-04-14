@@ -28,7 +28,7 @@
         <include>Underworld/StokesFlowUzawaPIC.xml          </include>
         
         <!-- ====== Stabilisation function (for Q1P0 ) ============= -->
-        <include>Underworld/REP_Setup.xml                   </include>
+        <!--include>Underworld/REP_Setup.xml                   </include-->
         
         <!-- ====== Generate fields for output ===================== -->
         <include>Underworld/MaterialIndexField.xml          </include>

@@ -11,9 +11,9 @@
     </Model_Resolution>
     
     <Output_Controls>
-        <description> reference_model </description>
+        <description> reference_model_limitedMelt-crust20-mantle03 </description>
         <experiment_duration_options>
-            <maximum_steps> 1000000 </maximum_steps>
+            <maximum_steps> 10000000 </maximum_steps>
             <maximum_time> 1.0E7 </maximum_time>
         </experiment_duration_options>
         
@@ -23,7 +23,7 @@
         </checkpointing_options>
         
         <output_pictures> false </output_pictures>
-        <write_log_file> false </write_log_file>
+        <write_log_file> true </write_log_file>
     </Output_Controls>
     
     <Thermal_Equilibration>
@@ -37,12 +37,12 @@
             
             <thermal_model_resolution>
                 <x> 4 </x>
-                <y> 45 </y>
+                <y> 48 </y>
                 <z> 4 </z>
             </thermal_model_resolution>
 
             <experiment_duration_options>
-                <maximum_steps> 400 </maximum_steps>
+                <maximum_steps> 4000000000 </maximum_steps>
                 <maximum_time> 1.0E9 </maximum_time>
             </experiment_duration_options>
 
@@ -70,15 +70,15 @@
         </linear_solver>
 
         <nonLinear_solver>
-            <tolerance> 1e-3 </tolerance>
+            <tolerance> 3e-3 </tolerance>
             <min_iterations> 5 </min_iterations>
             <max_iterations> 500 </max_iterations>
         </nonLinear_solver>
     </Model_Precision>
 
     <Underworld_Execution>
-        <Underworld_binary> /home/litho/Programs/uw-src/build/bin/Underworld </Underworld_binary>
-        <CPUs> 2 </CPUs>
+        <Underworld_binary> /home/luke/Programs/unmodified-uw/build/bin/Underworld </Underworld_binary>
+        <CPUs> 6 </CPUs>
         <supercomputer_mpi_format> false </supercomputer_mpi_format>
     </Underworld_Execution>
 

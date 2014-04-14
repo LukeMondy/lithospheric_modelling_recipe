@@ -17,8 +17,8 @@
         <param>VelocityField</param>
         <param>PressureField</param>
         <param>TemperatureField</param>
-        <param>recoveredStrainRateField</param>
-        <param>recoveredStressField</param>
+        <param>StrainRateField</param>
+        <param>StressField</param>
         <!-- ================================================ -->
         
         <param>YieldedField</param>
@@ -26,11 +26,6 @@
         <param>BrittleStrainIncrementField</param>
         <param>ViscosityField</param>
         <param>MaterialIndexField</param>
-        
-        <param>recoveredStrainRateInvariantField</param>
-        <param>recoveredPressureField</param>
-        <param>recoveredDeviatoricStressField</param>
-        <param>recoveredDeviatoricStressInvariantField</param>
          
         <param>StrainRateInvariantField</param>
         <param>StressField</param>
@@ -39,13 +34,12 @@
     
     <!-- === Basic Visualisation === -->
     <include>Underworld/Viewports/ParticleMaterialVP.xml</include>
-    <include>Underworld/Viewports/REPStrainRateVP.xml</include>
     <include>Underworld/Viewports/TemperatureVP.xml</include>
     <include>gLucifer/window.xml</include>
     <struct name="components" mergeType="merge">
         <struct name="window" mergeType="merge">
             <list name="Viewport">
-                <param>TemperatureVP recoveredStrainRateInvariantVP</param>
+                <param>TemperatureVP</param>
                 <param>ParticleMaterialVP </param>
             </list> 
         </struct>
@@ -235,6 +229,11 @@
                     <param name="StoreOnMesh"> True </param>
                     <param name="StoreNLOnParticles"> True </param> 
                 </struct>
+
+                <struct>
+                    <param name="PropertyName"> meltLimitProperty </param>
+                </struct>
+
                 <!-- ====================================== -->
             </list>
         </struct>
@@ -246,7 +245,7 @@
         </struct>
         <struct name="pressure_ppc_wrapper">
             <param name="Type">Ppc_Variable</param>
-            <param name="FieldVariable">recoveredPressureField</param>
+            <param name="FieldVariable">PressureField</param>
         </struct>
 		
 		
@@ -323,7 +322,6 @@
         <struct name="stokesEqn" mergeType="merge">
             <param name="nonLinearMinIterations" mergeType="replace">@nonLinearMinIterations</param>
             <param name="makeConvergenceFile" mergeType="replace">true</param>
-            <param name="killNonConvergent" mergeType="replace"> true </param>
         </struct>
         
         <!-- ============================================== -->

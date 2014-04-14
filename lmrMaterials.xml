@@ -276,7 +276,7 @@
         <param name="Type"> Box </param>
         <param name="startX"> minX </param>
         <param name="endX"> maxX </param>
-        <param name="startY"> botMantle </param>
+        <param name="startY"> minY </param>
         <param name="endY"> topMantle </param>
         <param name="startZ"> minZ </param>
         <param name="endZ"> maxZ </param>
@@ -372,6 +372,7 @@
         <param name="MeltExpansionProperty"> 0 </param>
         <param name="solidusProperty"> 0 </param>
         <param name="liquidusProperty"> 0 </param>
+        <param name="meltLimitProperty"> 0 </param>
 
         <param name="surface_processes"> sedimentation_threshold </param>
 
@@ -399,12 +400,14 @@
         <param name="MeltExpansionProperty"> melt_crustal_density_decrease </param>
         <param name="solidusProperty"> melt_crustal_solidus </param>
         <param name="liquidusProperty"> melt_crustal_liquidus </param>
+        <param name="meltLimitProperty"> 0.2 </param>
 
         <param name="surface_processes"> erosion_threshold </param>
 
         <list name="Rheology"> 
         <!-- Viscous law  --> <param> viscSRTdislocation_wet_quartzite_Goetze1978 </param>
         <!-- Brittle law  --> <param> yield_upper_crust_Rey2010 </param>
+        <!-- Stress limiter -->  <param> yield_litho_mantle_perfectPlastic_Watremez2013 </param>
         <!-- Melt modifier --> <param> viscMelt_crustal_Hirth2003 </param>
         <!-- Visc limiter --> <param> viscosityLimiter </param>
         </list>
@@ -426,12 +429,14 @@
         <param name="MeltExpansionProperty"> melt_crustal_density_decrease </param>
         <param name="solidusProperty"> melt_crustal_solidus </param>
         <param name="liquidusProperty"> melt_crustal_liquidus </param>
+        <param name="meltLimitProperty"> 0.2 </param>
 
         <param name="surface_processes"> erosion_threshold </param>
 
         <list name="Rheology"> 
         <!-- Viscous law  --> <param> viscSRTdislocation_wet_quartzite_Goetze1978 </param>
         <!-- Brittle law  --> <param> yield_upper_crust_Rey2010 </param>
+        <!-- Stress limiter -->  <param> yield_litho_mantle_perfectPlastic_Watremez2013 </param>
         <!-- Melt modifier --> <param> viscMelt_crustal_Hirth2003 </param>
         <!-- Visc limiter --> <param> viscosityLimiter </param>
         </list>
@@ -452,12 +457,14 @@
         <param name="MeltExpansionProperty"> melt_crustal_density_decrease </param>
         <param name="solidusProperty"> melt_crustal_solidus </param>
         <param name="liquidusProperty"> melt_crustal_liquidus </param>
+        <param name="meltLimitProperty"> 0.2 </param>
 
         <param name="surface_processes"> erosion_threshold </param>
 
         <list name="Rheology"> 
         <!-- Viscous law  --> <param> viscSRTdislocation_wet_quartzite_Goetze1978 </param>
         <!-- Brittle law  --> <param> yield_upper_crust_Rey2010 </param>
+        <!-- Stress limiter -->  <param> yield_litho_mantle_perfectPlastic_Watremez2013 </param>
         <!-- Melt modifier --> <param> viscMelt_crustal_Hirth2003 </param>
         <!-- Visc limiter --> <param> viscosityLimiter </param>
         </list>
@@ -479,12 +486,14 @@
         <param name="MeltExpansionProperty"> melt_crustal_density_decrease </param>
         <param name="solidusProperty"> melt_crustal_solidus </param>
         <param name="liquidusProperty"> melt_crustal_liquidus </param>
+        <param name="meltLimitProperty"> 0.2 </param>
 
         <param name="surface_processes"> erosion_threshold </param>
 
         <list name="Rheology"> 
         <!-- Viscous law  --> <param> viscSRTdislocation_wet_quartzite_Goetze1978 </param>
         <!-- Brittle law  --> <param> yield_weak_faulted </param>
+        <!-- Stress limiter -->  <param> yield_litho_mantle_perfectPlastic_Watremez2013 </param>
         <!-- Melt modifier --> <param> viscMelt_crustal_Hirth2003 </param>
         <!-- Visc limiter --> <param> viscosityLimiter </param>
         </list>
@@ -506,12 +515,14 @@
         <param name="MeltExpansionProperty"> melt_crustal_density_decrease </param>
         <param name="solidusProperty"> melt_crustal_solidus </param>
         <param name="liquidusProperty"> melt_crustal_liquidus </param>
+        <param name="meltLimitProperty"> 0.2 </param>
 
         <param name="surface_processes"> erosion_threshold </param>
 
         <list name="Rheology"> 
         <!-- Viscous law  --> <param> viscSRTdislocation_mafic_granulite_Wang2012 </param>
         <!-- Brittle law  --> <param> yield_lower_crust_Rey2010 </param>
+        <!-- Stress limiter -->  <param> yield_litho_mantle_perfectPlastic_Watremez2013 </param>
         <!-- Melt modifier --> <param> viscMelt_crustal_Hirth2003 </param>
         <!-- Visc limiter --> <param> viscosityLimiter </param>
         </list>
@@ -531,18 +542,95 @@
         <param name="MeltExpansionProperty"> melt_crustal_density_decrease </param>
         <param name="solidusProperty"> melt_crustal_solidus </param>
         <param name="liquidusProperty"> melt_crustal_liquidus </param>
+        <param name="meltLimitProperty"> 0.2 </param>
 
         <param name="surface_processes"> erosion_threshold </param>
 
         <list name="Rheology"> 
         <!-- Viscous law  --> <param> viscSRTdislocation_mafic_granulite_Wang2012 </param>
         <!-- Brittle law  --> <param> yield_lower_crust_Rey2010 </param>
+        <!-- Stress limiter -->  <param> yield_litho_mantle_perfectPlastic_Watremez2013 </param>
         <!-- Melt modifier --> <param> viscMelt_crustal_Hirth2003 </param>
         <!-- Visc limiter --> <param> viscosityLimiter </param>
         </list>
     </struct>
 
 
+    <struct name="mantle">
+        <param name="Type">MultiRheologyMaterial</param>
+        <param name="Shape"> mantleShape </param>
+        <param name="DensityProperty"> densMelt_continental_litho_mantle </param>
+
+        <param name="DiffusivityProperty"> global_diffusivity </param>
+        <param name="CpProperty"> global_cp </param>
+        <param name="ThermalExpansivityProperty"> global_expansivity </param>
+        <param name="RadiogenicHeatProductionProperty"> radiogenic_lithospheric_mantle </param>
+
+        <param name="LatentHeatFusionProperty" units="kJ*kg^-1"> 250.0</param>
+        <param name="MeltFractionProperty"> melt_fraction </param>
+        <param name="MeltExpansionProperty"> melt_mantle_density_decrease </param>
+        <param name="solidusProperty"> melt_mantle_solidus </param>
+        <param name="liquidusProperty"> melt_mantle_liquidus </param>
+        <param name="meltLimitProperty"> 0.03 </param>
+
+        <param name="surface_processes"> erosion_threshold </param>
+        
+        <list name="MultiRheologies">
+            <list>
+                <!-- Viscous law  -->   <param> viscSRTdislocation_dry_hk2003 </param>
+                <!-- Brittle law  -->   <param> yield_litho_mantle_Rey2010 </param>
+                <!-- Stress limiter --> <param> yield_litho_mantle_perfectPlastic_Watremez2013 </param> 
+                <!-- Melt modifier -->  <param> viscMelt_mantle_Hirth2003 </param>
+                <!-- Visc limiter -->   <param> viscosityLimiter </param>
+            </list>
+            <list>
+                <!-- Viscous law  -->   <param> viscSRTdiffusion_dry_hk2003 </param>
+                <!-- Brittle law  -->   <param> yield_litho_mantle_Rey2010 </param>
+                <!-- Stress limiter --> <param> yield_litho_mantle_perfectPlastic_Watremez2013 </param>
+                <!-- Melt modifier -->  <param> viscMelt_mantle_Hirth2003 </param>
+                <!-- Visc limiter -->   <param> viscosityLimiter </param>
+            </list>
+        </list>
+    </struct>
+
+    <struct name="mantleMarkers">
+        <param name="Type">MultiRheologyMaterial</param>
+        <param name="Shape"> mantleMarkersShape </param>
+        <param name="DensityProperty"> densMelt_continental_litho_mantle </param>
+
+        <param name="DiffusivityProperty"> global_diffusivity </param>
+        <param name="CpProperty"> global_cp </param>
+        <param name="ThermalExpansivityProperty"> global_expansivity </param>
+        <param name="RadiogenicHeatProductionProperty"> radiogenic_lithospheric_mantle </param>
+
+        <param name="LatentHeatFusionProperty" units="kJ*kg^-1"> 250.0</param>
+        <param name="MeltFractionProperty"> melt_fraction </param>
+        <param name="MeltExpansionProperty"> melt_mantle_density_decrease </param>
+        <param name="solidusProperty"> melt_mantle_solidus </param>
+        <param name="liquidusProperty"> melt_mantle_liquidus </param>
+        <param name="meltLimitProperty"> 0.03 </param>
+
+        <param name="surface_processes"> erosion_threshold </param>
+        
+        <list name="MultiRheologies">
+            <list>
+                <!-- Viscous law  -->   <param> viscSRTdislocation_dry_hk2003 </param>
+                <!-- Brittle law  -->   <param> yield_litho_mantle_Rey2010 </param>
+                <!-- Stress limiter --> <param> yield_litho_mantle_perfectPlastic_Watremez2013 </param> 
+                <!-- Melt modifier -->  <param> viscMelt_mantle_Hirth2003 </param>
+                <!-- Visc limiter -->   <param> viscosityLimiter </param>
+            </list>
+            <list>
+                <!-- Viscous law  -->   <param> viscSRTdiffusion_dry_hk2003 </param>
+                <!-- Brittle law  -->   <param> yield_litho_mantle_Rey2010 </param>
+                <!-- Stress limiter --> <param> yield_litho_mantle_perfectPlastic_Watremez2013 </param>
+                <!-- Melt modifier -->  <param> viscMelt_mantle_Hirth2003 </param>
+                <!-- Visc limiter -->   <param> viscosityLimiter </param>
+            </list>
+        </list>
+    </struct>
+
+    <!--
     <struct name="mantle"> 
         <param name="Type"> RheologyMaterial </param>
         <param name="Shape"> mantleShape </param>
@@ -562,13 +650,13 @@
         <param name="surface_processes"> erosion_threshold </param>
 
         <list name="Rheology"> 
-        <!-- Viscous law  --> <param> viscSRTdislocation_wet_dunite_Brace1980 </param>
-        <!-- Brittle law  --> <param> yield_litho_mantle_Rey2010 </param>
-        <!-- Melt modifier --> <param> viscMelt_mantle_Hirth2003 </param>
-        <!-- Visc limiter --> <param> viscosityLimiter </param>
+            <param> viscSRTdislocation_wet_dunite_Brace1980 </param>
+            <param> yield_litho_mantle_perfectPlastic_Watremez2013 </param>
+             <param> viscMelt_mantle_Hirth2003 </param>
+            <param> viscosityLimiter </param>
         </list>
     </struct>
-
+    
     <struct name="mantleMarkers"> 
         <param name="Type"> RheologyMaterial </param>
         <param name="Shape"> mantleMarkersShape </param>
@@ -588,38 +676,15 @@
         <param name="surface_processes"> erosion_threshold </param>
 
         <list name="Rheology"> 
-        <!-- Viscous law  --> <param> viscSRTdislocation_wet_dunite_Brace1980 </param>
-        <!-- Brittle law  --> <param> yield_litho_mantle_Rey2010 </param>
-        <!-- Melt modifier --> <param> viscMelt_mantle_Hirth2003 </param>
-        <!-- Visc limiter --> <param> viscosityLimiter </param>
+            <param> viscSRTdislocation_wet_dunite_Brace1980 </param>
+            <param> yield_litho_mantle_perfectPlastic_Watremez2013 </param>
+             <param> viscMelt_mantle_Hirth2003 </param>
+            <param> viscosityLimiter </param>
         </list>
     </struct>
+    -->
 
-    <struct name="astheno"> 
-        <param name="Type"> RheologyMaterial </param>
-        <param name="Shape"> asthenoShape </param>
-        <param name="DensityProperty"> densMelt_asthenosphere </param>
-
-        <param name="DiffusivityProperty"> global_diffusivity </param>
-        <param name="CpProperty"> global_cp </param>
-        <param name="ThermalExpansivityProperty"> global_expansivity </param>
-        <param name="RadiogenicHeatProductionProperty"> radiogenic_no_heating </param>
-
-        <param name="LatentHeatFusionProperty" units="kJ*kg^-1"> 250.0</param>
-        <param name="MeltFractionProperty"> melt_fraction </param>
-        <param name="MeltExpansionProperty"> melt_mantle_density_decrease </param>
-        <param name="solidusProperty"> melt_mantle_solidus </param>
-        <param name="liquidusProperty"> melt_mantle_liquidus </param>
-
-        <param name="surface_processes"> erosion_threshold </param>
-
-        <list name="Rheology"> 
-        <!-- Viscous law  --> <param> viscSRTdislocation_wet_dunite_weakened_Brace1980 </param>
-        <!-- Brittle law  --> 
-        <!-- Melt modifier --> <param> viscMelt_mantle_Hirth2003 </param>
-        <!-- Visc limiter --> <param> viscosityLimiter </param>
-        </list>
-    </struct>
+    
 
     <!-- IMPORTANT NOTE: If you are using the Isostasy function (which is ON by default)
        then a few rules apply:

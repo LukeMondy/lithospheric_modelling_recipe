@@ -167,9 +167,15 @@
             <param name="Type"> Underworld_EulerDeform </param>
             <param name="Context"> context </param>
         </struct>
+	<!--struct>
+            <param name="Type"> Underworld_MeshAdvectionCorrection </param>
+            <param name="Context"> context </param>
+        </struct-->
     </list>
     <!-- ======================================== -->
     
+    <!--param name="MeshAdvectionCorrection_UseArtDisplacementField"> True </param-->
+
     <!--=== End of Moving Mesh ============================== -->
     
     
@@ -180,7 +186,7 @@
     <list name="plugins" mergeType="merge">
         <struct>
             <!-- === Commonly modified ================== -->
-            <param name="rhoZeroMaterial">astheno</param>
+            <param name="rhoZeroMaterial">mantle</param>
             <param name="UseAverage">False</param>
             <!-- ======================================== -->
             <param name="Type"> lecode_tools_Isostasy </param>

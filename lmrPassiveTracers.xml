@@ -3,42 +3,281 @@
     
     <struct name="components" mergeType="merge">  
     
+        <!-- === Shapes ==== 
+        <struct name="uppercrustMarker1"> 
+            <param name="Type"> Box </param>
+            <param name="startX"> minX </param>
+            <param name="endX"> maxX </param>
+            <param name="startY" units="km"> -8 </param>
+            <param name="endY" units="km"> -4 </param>
+            <param name="startZ"> minZ </param>
+            <param name="endZ"> maxZ </param>
+        </struct>
+        <struct name="uppercrustMarker2"> 
+            <param name="Type"> Box </param>
+            <param name="startX"> minX </param>
+            <param name="endX"> maxX </param>
+            <param name="startY" units="km"> -16 </param>
+            <param name="endY" units="km"> -12 </param>
+            <param name="startZ"> minZ </param>
+            <param name="endZ"> maxZ </param>
+        </struct>
+
+        <struct name="uppercrust_MarkersShape_pre"> 
+            <param name="Type"> Union </param>
+            <list name="shapes"> 
+                <param> uppercrustMarker1 </param>
+                <param> uppercrustMarker2 </param>
+            </list>
+        </struct>
+
+        <struct name="uppercrust_MarkersShape"> 
+            <param name="Type"> Intersection </param>
+            <list name="shapes"> 
+                <param> uppercrust_MarkersShape_pre </param>
+                <param> !faultShape </param>
+            </list>
+        </struct>
+
+        <struct name="uppercrust_NonMarkersShape"> 
+            <param name="Type"> Intersection </param>
+            <list name="shapes"> 
+                <param> uppercrustShape </param>
+                <param> !uppercrust_MarkersShape </param>
+                <param> !faultShape </param>
+            </list>
+        </struct>
+
+
+
+        <struct name="lowercrustMarker0"> 
+            <param name="Type"> Box </param>
+            <param name="startX" units="km"> -100 </param>
+            <param name="endX" units="km"> -90 </param>
+            <param name="startY"> botLowerCrust </param>
+            <param name="endY"> topLowerCrust </param>
+            <param name="startZ"> minZ </param>
+            <param name="endZ"> maxZ </param>
+        </struct>
+        <struct name="lowercrustMarker1"> 
+            <param name="Type"> Box</param>
+            <param name="startX" units="km"> -70 </param>
+            <param name="endX" units="km"> -60 </param>
+            <param name="startY"> botLowerCrust </param>
+            <param name="endY"> topLowerCrust </param>
+            <param name="startZ"> minZ </param>
+            <param name="endZ"> maxZ </param>
+        </struct>
+        <struct name="lowercrustMarker2"> 
+            <param name="Type"> Box </param>
+            <param name="startX" units="km"> -40 </param>
+            <param name="endX" units="km"> -30 </param>
+            <param name="startY"> botLowerCrust </param>
+            <param name="endY"> topLowerCrust </param>
+            <param name="startZ"> minZ </param>
+            <param name="endZ"> maxZ </param>
+        </struct>
+        <struct name="lowercrustMarker3"> 
+            <param name="Type"> Box </param>
+            <param name="startX" units="km"> -10 </param>
+            <param name="endX" units="km"> 0 </param>
+            <param name="startY"> botLowerCrust</param>
+            <param name="endY"> topLowerCrust </param>
+            <param name="startZ"> minZ </param>
+            <param name="endZ"> maxZ </param>
+        </struct>
+        <struct name="lowercrustMarker4"> 
+            <param name="Type"> Box </param>
+            <param name="startX" units="km"> 20 </param>
+            <param name="endX" units="km"> 30 </param>
+            <param name="startY"> botLowerCrust </param>
+            <param name="endY"> topLowerCrust </param>
+            <param name="startZ"> minZ </param>
+            <param name="endZ"> maxZ </param>
+        </struct>
+        <struct name="lowercrustMarker5"> 
+            <param name="Type"> Box </param>
+            <param name="startX" units="km"> 50 </param>
+            <param name="endX" units="km"> 60 </param>
+            <param name="startY"> botLowerCrust </param>
+            <param name="endY"> topLowerCrust </param>
+            <param name="startZ"> minZ </param>
+            <param name="endZ"> maxZ </param>
+        </struct>
+        <struct name="lowercrustMarker6"> 
+            <param name="Type"> Box </param>
+            <param name="startX" units="km"> 80 </param>
+            <param name="endX" units="km"> 90 </param>
+            <param name="startY"> botLowerCrust </param>
+            <param name="endY"> topLowerCrust </param>
+            <param name="startZ"> minZ </param>
+            <param name="endZ"> maxZ </param>
+        </struct>
+        <struct name="lowercrustMarker7"> 
+            <param name="Type"> Box </param>
+            <param name="startX" units="km"> 110 </param>
+            <param name="endX" units="km"> 120 </param>
+            <param name="startY"> botLowerCrust </param>
+            <param name="endY"> topLowerCrust </param>
+            <param name="startZ"> minZ </param>
+            <param name="endZ"> maxZ </param>
+        </struct>
+        <struct name="lowercrustMarker8"> 
+            <param name="Type"> Box </param>
+            <param name="startX" units="km"> 140 </param>
+            <param name="endX" units="km"> 150 </param>
+            <param name="startY"> botLowerCrust </param>
+            <param name="endY"> topLowerCrust </param>
+            <param name="startZ"> minZ </param>
+            <param name="endZ"> maxZ </param>
+        </struct>
+        <struct name="lowercrustMarker9"> 
+            <param name="Type"> Box </param>
+            <param name="startX" units="km"> 170 </param>
+            <param name="endX" units="km"> 180 </param>
+            <param name="startY"> botLowerCrust </param>
+            <param name="endY"> topLowerCrust </param>
+            <param name="startZ"> minZ </param>
+            <param name="endZ"> maxZ </param>
+        </struct>
+        <struct name="lowercrustMarker10"> 
+            <param name="Type"> Box </param>
+            <param name="startX" units="km"> 200 </param>
+            <param name="endX" units="km"> 210 </param>
+            <param name="startY"> botLowerCrust </param>
+            <param name="endY"> topLowerCrust </param>
+            <param name="startZ"> minZ </param>
+            <param name="endZ"> maxZ </param>
+        </struct>
+        <struct name="lowercrustMarker11"> 
+            <param name="Type"> Box </param>
+            <param name="startX" units="km"> 230 </param>
+            <param name="endX" units="km"> 240 </param>
+            <param name="startY"> botLowerCrust </param>
+            <param name="endY"> topLowerCrust </param>
+            <param name="startZ"> minZ </param>
+            <param name="endZ"> maxZ </param>
+        </struct>
+        <struct name="lowercrustMarker12"> 
+            <param name="Type"> Box </param>
+            <param name="startX" units="km"> 260 </param>
+            <param name="endX" units="km"> 270 </param>
+            <param name="startY"> botLowerCrust </param>
+            <param name="endY"> topLowerCrust </param>
+            <param name="startZ"> minZ </param>
+            <param name="endZ"> maxZ </param>
+        </struct>
+        <struct name="lowercrustMarker13"> 
+            <param name="Type"> Box </param>
+            <param name="startX" units="km"> 290 </param>
+            <param name="endX" units="km"> 300 </param>
+            <param name="startY"> botLowerCrust </param>
+            <param name="endY"> topLowerCrust </param>
+            <param name="startZ"> minZ </param>
+            <param name="endZ"> maxZ </param>
+        </struct>
+
+
+        <struct name="lowercrustMarkersShape"> 
+            <param name="Type"> Union </param>
+            <list name="shapes"> 
+                <param>lowercrustMarker0 </param>
+                <param>lowercrustMarker1 </param>
+                <param>lowercrustMarker2 </param>
+                <param>lowercrustMarker3 </param>
+                <param>lowercrustMarker4 </param>
+                <param>lowercrustMarker5 </param>
+                <param>lowercrustMarker6 </param>
+                <param>lowercrustMarker7 </param>
+                <param>lowercrustMarker8 </param>
+                <param>lowercrustMarker9 </param>
+                <param>lowercrustMarker10 </param>
+                <param>lowercrustMarker11 </param>
+                <param>lowercrustMarker12 </param>
+                <param>lowercrustMarker13 </param>
+            </list>
+        </struct>
+
+        <struct name="lowercrust_NonMarkersShape"> 
+            <param name="Type"> Intersection </param>
+            <list name="shapes"> 
+                <param> lowercrustShape </param>
+                <param> !lowercrustMarkersShape </param>
+            </list>
+        </struct>
+
+
+
+        <struct name="mantleMarker"> 
+            <param name="Type"> Box </param>
+            <param name="startX"> minX </param>
+            <param name="endX"> maxX </param>
+            <param name="startY" units="km"> -80 </param>
+            <param name="endY"> topMantle </param>
+            <param name="startZ"> minZ </param>
+            <param name="endZ"> maxZ </param>
+        </struct>
+       -->
+
+       <struct name="allMarker"> 
+            <param name="Type"> Box </param>
+            <param name="startX"> minX </param>
+            <param name="endX"> maxX </param>
+            <param name="startY" units="km"> -80 </param>
+            <param name="endY"> 0 </param>
+            <param name="startZ"> minZ </param>
+            <param name="endZ"> maxZ </param>
+        </struct>
+
+
+
         <!-- === Passive Tracer geometries ==================================================== -->
         
-        <struct name="surfaceTracerLayout">
-            <!-- Generates a line of passive tracers across the surface -->
-            <param name="Type">LineParticleLayout</param>
-            <param name="totalInitialParticles">@elementResI</param> <!-- 1 tracer per element -->
-            <list name="vertices">
-                <asciidata>
-                    <columnDefinition name = "x" type="double" units="km"/>
-                    <columnDefinition name = "y" type="double" units="km"/>
-                    @minX   0 
-                    @maxX   0
-                </asciidata>
-            </list>
+
+        <!--
+        <struct name="ptl_UpperCrust_markers">
+            <param name="Type">WithinShapeParticleLayout</param>
+            <param name="totalInitialParticles">100000</param>
+            <param name="shape">uppercrust_MarkersShape</param>
         </struct>
-        
-        <struct name="mohoTracerLayout">               
-            <param name="Type">LineParticleLayout</param>
-            <param name="totalInitialParticles">@elementResI</param>
-            <list name="vertices">
-                <asciidata>
-                    <columnDefinition name = "x" type="double" units="km"/>
-                    <columnDefinition name = "y" type="double" units="km"/>
-                    @minX   -40
-                    @maxX   -40
-                </asciidata>
-            </list>
+        <struct name="ptl_UpperCrust">
+            <param name="Type">WithinShapeParticleLayout</param>
+            <param name="totalInitialParticles">150000</param>
+            <param name="shape">uppercrust_NonMarkersShape</param>
         </struct>
-        
-        <struct name="user_passiveTracerLayout">
+
+        <struct name="ptl_LowerCrust_markers">
+            <param name="Type">WithinShapeParticleLayout</param>
+            <param name="totalInitialParticles">100000</param>
+            <param name="shape">lowercrustMarkersShape</param>
+        </struct>
+        <struct name="ptl_LowerCrust">
+            <param name="Type">WithinShapeParticleLayout</param>
+            <param name="totalInitialParticles">150000</param>
+            <param name="shape">lowercrust_NonMarkersShape</param>
+        </struct>
+
+        <struct name="ptl_Mantle">
+            <param name="Type">WithinShapeParticleLayout</param>
+            <param name="totalInitialParticles">300000</param>
+            <param name="shape">mantleMarker</param>
+        </struct>
+        -->
+
+        <struct name="ptl_all">
+            <param name="Type">WithinShapeParticleLayout</param>
+            <param name="totalInitialParticles">3000000</param>
+            <param name="shape">allMarker</param>
+        </struct>
+        <!--
+        <struct name="uppercrust_passiveTracerLayout">
             <param name="Type">UnionParticleLayout</param>
             <list name="ParticleLayoutList">
                 <param>surfaceTracerLayout</param>	
                 <param>mohoTracerLayout</param>
             </list>
         </struct>
+        -->
         <!-- ==================================================================================== -->
         
         
@@ -51,44 +290,121 @@
             <param name="Type">ElementCellLayout</param>
             <param name="Mesh">linearMesh</param>
         </struct>
-        <struct name="user_passiveTracerSwarm">
+        <!--
+        <struct name="UpperCrust_markers_passiveTracerSwarm">
             <param name="Type">MaterialPointsSwarm</param>
             <param name="CellLayout">user_ElementCellLayoutTracer</param>
-            <param name="ParticleLayout">user_passiveTracerLayout</param>
+            <param name="ParticleLayout">ptl_UpperCrust_markers</param>
             <param name="FiniteElement_Mesh">linearMesh</param>
             <param name="FeMesh">elementMesh</param>
             <list name="ParticleCommHandlers">
                 <param>user_passiveSwarmMovementHandler</param>
             </list>
         </struct>
-        
-        <struct name="passiveTracerAdvect">
+        <struct name="passiveTracerAdvect1">
             <param name="Type">SwarmAdvector</param>
-            <param name="Swarm">user_passiveTracerSwarm</param>
+            <param name="Swarm">UpperCrust_markers_passiveTracerSwarm</param>
             <param name="TimeIntegrator">timeIntegrator</param>
             <param name="VelocityField">VelocityField</param>
         </struct>
+
+        <struct name="UpperCrust_passiveTracerSwarm">
+            <param name="Type">MaterialPointsSwarm</param>
+            <param name="CellLayout">user_ElementCellLayoutTracer</param>
+            <param name="ParticleLayout">ptl_UpperCrust</param>
+            <param name="FiniteElement_Mesh">linearMesh</param>
+            <param name="FeMesh">elementMesh</param>
+            <list name="ParticleCommHandlers">
+                <param>user_passiveSwarmMovementHandler</param>
+            </list>
+        </struct>
+        <struct name="passiveTracerAdvect2">
+            <param name="Type">SwarmAdvector</param>
+            <param name="Swarm">UpperCrust_passiveTracerSwarm</param>
+            <param name="TimeIntegrator">timeIntegrator</param>
+            <param name="VelocityField">VelocityField</param>
+        </struct>
+       
+    
+
+        <struct name="LowerCrust_markers_passiveTracerSwarm">
+            <param name="Type">MaterialPointsSwarm</param>
+            <param name="CellLayout">user_ElementCellLayoutTracer</param>
+            <param name="ParticleLayout">ptl_LowerCrust_markers</param>
+            <param name="FiniteElement_Mesh">linearMesh</param>
+            <param name="FeMesh">elementMesh</param>
+            <list name="ParticleCommHandlers">
+                <param>user_passiveSwarmMovementHandler</param>
+            </list>
+        </struct>
+        <struct name="passiveTracerAdvect3">
+            <param name="Type">SwarmAdvector</param>
+            <param name="Swarm">LowerCrust_markers_passiveTracerSwarm</param>
+            <param name="TimeIntegrator">timeIntegrator</param>
+            <param name="VelocityField">VelocityField</param>
+        </struct>
+
+        <struct name="LowerCrust_passiveTracerSwarm">
+            <param name="Type">MaterialPointsSwarm</param>
+            <param name="CellLayout">user_ElementCellLayoutTracer</param>
+            <param name="ParticleLayout">ptl_LowerCrust</param>
+            <param name="FiniteElement_Mesh">linearMesh</param>
+            <param name="FeMesh">elementMesh</param>
+            <list name="ParticleCommHandlers">
+                <param>user_passiveSwarmMovementHandler</param>
+            </list>
+        </struct>
+        <struct name="passiveTracerAdvect4">
+            <param name="Type">SwarmAdvector</param>
+            <param name="Swarm">LowerCrust_passiveTracerSwarm</param>
+            <param name="TimeIntegrator">timeIntegrator</param>
+            <param name="VelocityField">VelocityField</param>
+        </struct>
+
+        <struct name="Mantle_passiveTracerSwarm">
+            <param name="Type">MaterialPointsSwarm</param>
+            <param name="CellLayout">user_ElementCellLayoutTracer</param>
+            <param name="ParticleLayout">ptl_Mantle</param>
+            <param name="FiniteElement_Mesh">linearMesh</param>
+            <param name="FeMesh">elementMesh</param>
+            <list name="ParticleCommHandlers">
+                <param>user_passiveSwarmMovementHandler</param>
+            </list>
+        </struct>
+        <struct name="passiveTracerAdvect5">
+            <param name="Type">SwarmAdvector</param>
+            <param name="Swarm">Mantle_passiveTracerSwarm</param>
+            <param name="TimeIntegrator">timeIntegrator</param>
+            <param name="VelocityField">VelocityField</param>
+        </struct>
+        -->
+
+        <struct name="all_passiveTracerSwarm">
+            <param name="Type">MaterialPointsSwarm</param>
+            <param name="CellLayout">user_ElementCellLayoutTracer</param>
+            <param name="ParticleLayout">ptl_all</param>
+            <param name="FiniteElement_Mesh">linearMesh</param>
+            <param name="FeMesh">elementMesh</param>
+            <list name="ParticleCommHandlers">
+                <param>user_passiveSwarmMovementHandler</param>
+            </list>
+        </struct>
+        <struct name="passiveTracerAdvect">
+            <param name="Type">SwarmAdvector</param>
+            <param name="Swarm">all_passiveTracerSwarm</param>
+            <param name="TimeIntegrator">timeIntegrator</param>
+            <param name="VelocityField">VelocityField</param>
+        </struct>
+        
         <!-- ==================================================================================== -->
         
         
         
         <!-- === Output controls ================================================================ -->        
         <!-- NOTE: "Output controls" must come *after* the "Numerical implementation" XML -->
-
-        <struct name="passiveswarmOutputs">
-            <!-- Generates 1 file per tracer. Each file contains the timesteps
-                 and data for that tracer. NOTE: filename is as such:
-                 particle<cpu>.<localCPUid>.<struct name>.dat -->
-            <param name="Type">Underworld_SwarmOutput</param>
-            <param name="Swarm">user_passiveTracerSwarm</param>
-            <param name="mode">PARTICLE_TRACE</param>
-            <list name="FeVariables">
-                <param>recoveredPressureField</param>
-                <param>TemperatureField</param>
-                <param>recoveredStrainRateInvariantField</param>
-                <param>recoveredDeviatoricStressInvariantField</param>
-            </list>
-        </struct>
+       
+       
+        
         
         <!-- ==================================================================================== -->
         
