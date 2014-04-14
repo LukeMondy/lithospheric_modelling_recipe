@@ -11,7 +11,7 @@
     </Model_Resolution>
     
     <Output_Controls>
-        <description> reference_model_limitedMelt-crust20-mantle03 </description>
+        <description> reference_model </description>
         <experiment_duration_options>
             <maximum_steps> 10000000 </maximum_steps>
             <maximum_time> 1.0E7 </maximum_time>
@@ -70,7 +70,7 @@
         </linear_solver>
 
         <nonLinear_solver>
-            <tolerance> 3e-3 </tolerance>
+            <tolerance> 1e-3 </tolerance>
             <min_iterations> 5 </min_iterations>
             <max_iterations> 500 </max_iterations>
         </nonLinear_solver>

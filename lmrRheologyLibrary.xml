@@ -782,14 +782,13 @@
 
         <struct name="yield_stressLimiter_Watremez2013">
             <!-- Perfect Plastic: Watremex et. al., G^3 2013 -->
-            <param name="Type">DruckerPrager</param>
-            <param name="PressureField">PressureField</param>
-            <param name="MaterialPointsSwarm">materialSwarm</param>
-            <param name="StrainRateField">StrainRateField</param>
+            <param name="Type"> VonMises </param>
+            <param name="MaterialPointsSwarm"> materialSwarm </param>
+            <param name="StrainRateField"> StrainRateField </param>
+            <param name="strainRateSoftening"> False </param>
 
-            <param name="cohesion" units="MPa">150</param>
-            <param name="frictionCoefficient">0</param>
-            <param name="minimumViscosity" units="Pa*s">1e+19</param>
+            <param name="cohesion" units="MPa"> 150 </param>
+            <param name="minimumViscosity" units="Pa*s"> 1e+19 </param>
         </struct>
 
         <!-- === End of Yielding Rheologies ======================================================== -->
