@@ -323,7 +323,7 @@
         <struct name="melt_crustal_solidus">
             <param name="Type"> Ppc_Melt_Polynomial </param>
             <param name="Pressure"> pressure_ppc_wrapper </param>
-            <param name="term0" units="K"> 2850.0 </param>
+            <param name="term0" units="K"> 850.0 </param>
             <param name="term1"> -1.2e-7 </param>
             <param name="term2"> 1.2e-16 </param>
             <param name="term3"> 0.0 </param>
@@ -331,7 +331,7 @@
         <struct name="melt_crustal_liquidus">
             <param name="Type"> Ppc_Melt_Polynomial </param>
             <param name="Pressure"> pressure_ppc_wrapper </param>
-            <param name="term0" units="K"> 2493.0 </param>
+            <param name="term0" units="K"> 1493.0 </param>
             <param name="term1"> -1.2e-7 </param>
             <param name="term2"> 1.6e-16 </param>
             <param name="term3"> 0.0 </param>
@@ -340,7 +340,7 @@
         <struct name="melt_mantle_solidus">
             <param name="Type"> Ppc_Melt_Polynomial </param>
             <param name="Pressure"> pressure_ppc_wrapper </param>
-            <param name="term0" units="K"> 2393.661 </param>
+            <param name="term0" units="K"> 1393.661 </param>
             <param name="term1"> 1.32899e-7 </param>
             <param name="term2"> -5.104e-18 </param>
             <param name="term3"> 0.0 </param>
@@ -348,7 +348,7 @@
         <struct name="melt_mantle_liquidus">
             <param name="Type"> Ppc_Melt_Polynomial </param>
             <param name="Pressure"> pressure_ppc_wrapper </param>
-            <param name="term0" units="K"> 4013.0 </param>
+            <param name="term0" units="K"> 2013.0 </param>
             <param name="term1"> 6.15e-8 </param>
             <param name="term2"> -3.12e-18 </param>
             <param name="term3"> 0.0 </param>
@@ -780,17 +780,15 @@
             <param name="minimumViscosity" units="Pa*s">1e+19</param>
         </struct>
 
-        <struct name="yield_litho_mantle_perfectPlastic_Watremez2013">
-            <!-- Lithospheric mantle : Watremex et. al., G^3 2013 -->
+        <struct name="yield_stressLimiter_Watremez2013">
+            <!-- Perfect Plastic: Watremex et. al., G^3 2013 -->
             <param name="Type">DruckerPrager</param>
             <param name="PressureField">PressureField</param>
             <param name="MaterialPointsSwarm">materialSwarm</param>
             <param name="StrainRateField">StrainRateField</param>
 
             <param name="cohesion" units="MPa">150</param>
-            <param name="cohesionAfterSoftening" units="MPa">300</param>
             <param name="frictionCoefficient">0</param>
-            <param name="frictionCoefficientAfterSoftening">0</param>
             <param name="minimumViscosity" units="Pa*s">1e+19</param>
         </struct>
 
