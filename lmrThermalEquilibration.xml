@@ -56,6 +56,12 @@
         <struct name="passiveswarmOutputs" mergeType="replace">
             <param name="Type"> DummyComponent </param>
         </struct>
+        <struct name="all_passiveTracerSwarm" mergeType="replace">
+            <param name="Type"> DummyComponent </param>
+        </struct>
+        <struct name="passiveTracerAdvect" mergeType="replace">
+            <param name="Type"> DummyComponent </param>
+        </struct>
     </struct>
     
 

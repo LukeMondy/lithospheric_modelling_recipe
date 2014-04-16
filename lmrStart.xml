@@ -43,7 +43,7 @@
 
             <experiment_duration_options>
                 <maximum_steps> 4000000000 </maximum_steps>
-                <maximum_time> 1.0E9 </maximum_time>
+                <maximum_time> 1.0e9 </maximum_time>
             </experiment_duration_options>
 
             <checkpointing_options>

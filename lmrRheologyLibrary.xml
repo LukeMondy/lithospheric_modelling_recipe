@@ -358,15 +358,18 @@
                    supersolidus = ( ( T - solidusT ) / ( liquidusT - solidusT ) ) - 0.5
                    meltFraction = 0.5 + supersolidus + ( supersolidus^2 -0.25 ) *
                                                        ( 0.4256 + 2.988 * supersolidus )
-                   As per McKenzie and Bickle, 1988. -->
+                   As per McKenzie and Bickle, 1988. 
+
+                   This has been modified as part of the EarthByte_Additions toolbox, so 
+                   the melt fraction can be artificially limited. -->
         <struct name="melt_fraction">
-            <param name="Type">Ppc_PartialMelt</param>
+            <param name="Type">Ppc_PartialMelt_Limited</param>
             <param name="LiquidusTag"> liquidusProperty </param>
             <param name="SolidusTag">  solidusProperty </param>
             <param name="TemperatureTag"> temperature_ppc_wrapper </param>
-	    <param name="MeltLimitTag"> meltLimitProperty </param>
+            <param name="MeltLimitTag"> meltLimitProperty </param>
         </struct>
-        
+
 
         <!-- === End of Partial Melt Functions ===================================================== -->
         <!-- ======================================================================================= -->
@@ -586,6 +589,8 @@
             <param name="PressureField">PressureField</param>
             <param name="GrainSize"> 10000 </param>
 
+            <param name="GrainSizeExponent"> 0.0 </param>
+            <param name="WaterFugacityExponent"> 0 </param>
             <param name="StressExponent"> 3.5 </param>
             <param name="PreExponentialFactor" units="(MPa)^-3.5*s^-1">1.1e5</param>
             <param name="DefaultStrainRateInvariant" units="s^-1">1.0e-15</param>
@@ -613,6 +618,48 @@
 
             <param name="ActivationEnergy" units="J/mol">375000</param>
             <param name="ActivationVolume" units="m^3/mol">6e-6</param>
+
+            <param name="minViscosity" units="Pa*s">5e18</param>
+            <param name="maxViscosity" units="Pa*s">5e23</param>
+        </struct>
+
+        <struct name="viscSRTdislocation_wet_hk2003">
+            <param name="Type">ViscousCreep</param>
+            <param name="StrainRateInvariantField">StrainRateInvariantField</param>
+            <param name="TemperatureField">TemperatureField</param>
+            <param name="PressureField">PressureField</param>
+            <param name="GrainSize"> 10000 </param>
+            <param name="WaterFugacity"> 1000 </param>
+
+            <param name="GrainSizeExponent"> 0.0 </param>
+            <param name="WaterFugacityExponent"> 1.2 </param>
+            <param name="StressExponent"> 3.5 </param>
+            <param name="PreExponentialFactor" units="(MPa)^-3.5*s^-1"> 1600 </param>
+            <param name="DefaultStrainRateInvariant" units="s^-1">1.0e-15</param>
+
+            <param name="ActivationEnergy" units="J/mol">520000</param>
+            <param name="ActivationVolume" units="m^3/mol">23e-6</param>
+
+            <param name="minViscosity" units="Pa*s">5e18</param>
+            <param name="maxViscosity" units="Pa*s">5e23</param>
+        </struct>
+
+        <struct name="viscSRTdiffusion_wet_hk2003">
+            <param name="Type">ViscousCreep</param>
+            <param name="StrainRateInvariantField">StrainRateInvariantField</param>
+            <param name="TemperatureField">TemperatureField</param>
+            <param name="PressureField">PressureField</param>
+            <param name="GrainSize"> 10000 </param>
+            <param name="WaterFugacity"> 1000 </param>
+
+            <param name="GrainSizeExponent"> 3.0 </param>
+            <param name="WaterFugacityExponent"> 1.0 </param>
+            <param name="StressExponent"> 1.0 </param>
+            <param name="PreExponentialFactor" units="(MPa)^-1*s^-1"> 2.5e7 </param>
+            <param name="DefaultStrainRateInvariant" units="s^-1">1.0e-15</param>
+
+            <param name="ActivationEnergy" units="J/mol">375000</param>
+            <param name="ActivationVolume" units="m^3/mol">10e-6</param>
 
             <param name="minViscosity" units="Pa*s">5e18</param>
             <param name="maxViscosity" units="Pa*s">5e23</param>
