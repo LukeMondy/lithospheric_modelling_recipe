@@ -543,14 +543,14 @@
         
         <list name="MultiRheologies">
             <list>
-                <!-- Viscous law  -->   <param> viscSRTdislocation_dry_hk2003 </param>
+                <!-- Viscous law  -->   <param> viscSRTdislocation_wet_hk2003 </param>
                 <!-- Brittle law  -->   <param> yield_litho_mantle_Rey2010 </param>
                 <!-- Stress limiter --> <param> yield_stressLimiter_Watremez2013 </param> 
                 <!-- Melt modifier -->  <param> viscMelt_mantle_Hirth2003 </param>
                 <!-- Visc limiter -->   <param> viscosityLimiter </param>
             </list>
             <list>
-                <!-- Viscous law  -->   <param> viscSRTdiffusion_dry_hk2003 </param>
+                <!-- Viscous law  -->   <param> viscSRTdiffusion_wet_hk2003 </param>
                 <!-- Brittle law  -->   <param> yield_litho_mantle_Rey2010 </param>
                 <!-- Stress limiter --> <param> yield_stressLimiter_Watremez2013 </param>
                 <!-- Melt modifier -->  <param> viscMelt_mantle_Hirth2003 </param>
@@ -580,14 +580,14 @@
         
         <list name="MultiRheologies">
             <list>
-                <!-- Viscous law  -->   <param> viscSRTdislocation_dry_hk2003 </param>
+                <!-- Viscous law  -->   <param> viscSRTdislocation_wet_hk2003 </param>
                 <!-- Brittle law  -->   <param> yield_litho_mantle_Rey2010 </param>
                 <!-- Stress limiter --> <param> yield_stressLimiter_Watremez2013 </param> 
                 <!-- Melt modifier -->  <param> viscMelt_mantle_Hirth2003 </param>
                 <!-- Visc limiter -->   <param> viscosityLimiter </param>
             </list>
             <list>
-                <!-- Viscous law  -->   <param> viscSRTdiffusion_dry_hk2003 </param>
+                <!-- Viscous law  -->   <param> viscSRTdiffusion_wet_hk2003 </param>
                 <!-- Brittle law  -->   <param> yield_litho_mantle_Rey2010 </param>
                 <!-- Stress limiter --> <param> yield_stressLimiter_Watremez2013 </param>
                 <!-- Melt modifier -->  <param> viscMelt_mantle_Hirth2003 </param>

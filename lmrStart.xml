@@ -23,11 +23,11 @@
         </checkpointing_options>
         
         <output_pictures> false </output_pictures>
-        <write_log_file> true </write_log_file>
+        <write_log_file> false </write_log_file>
     </Output_Controls>
     
     <Thermal_Equilibration>
-        <run_thermal_equilibration_phase> false </run_thermal_equilibration_phase>
+        <run_thermal_equilibration_phase> true </run_thermal_equilibration_phase>
         
         <update_xml_information> true </update_xml_information>
         <preserve_thermal_equilibration_checkpoints> false </preserve_thermal_equilibration_checkpoints>
@@ -36,9 +36,9 @@
             <description> laterally_homog </description>
             
             <thermal_model_resolution>
-                <x> 4 </x>
+                <x> 2 </x>
                 <y> 48 </y>
-                <z> 4 </z>
+                <z> 2 </z>
             </thermal_model_resolution>
 
             <experiment_duration_options>
@@ -64,21 +64,21 @@
 
     <Model_Precision>
         <linear_solver>
-            <tolerance> 1e-7 </tolerance>
-            <min_iterations> 15 </min_iterations>
+            <tolerance> 1e-6 </tolerance>
+            <min_iterations> 2 </min_iterations>
             <max_iterations> 15000 </max_iterations>
         </linear_solver>
 
         <nonLinear_solver>
-            <tolerance> 1e-3 </tolerance>
-            <min_iterations> 5 </min_iterations>
+            <tolerance> 3e-3 </tolerance>
+            <min_iterations> 1 </min_iterations>
             <max_iterations> 500 </max_iterations>
         </nonLinear_solver>
     </Model_Precision>
 
     <Underworld_Execution>
-        <Underworld_binary> /home/luke/Programs/unmodified-uw/build/bin/Underworld </Underworld_binary>
-        <CPUs> 6 </CPUs>
+        <Underworld_binary> /Users/Patrice/Documents/bleedingEdge/build/bin/Underworld </Underworld_binary>
+        <CPUs> 8 </CPUs>
         <supercomputer_mpi_format> false </supercomputer_mpi_format>
     </Underworld_Execution>
 

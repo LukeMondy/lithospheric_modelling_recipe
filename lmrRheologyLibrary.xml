@@ -833,9 +833,10 @@
             <param name="PressureField">PressureField</param>
             <param name="MaterialPointsSwarm"> materialSwarm </param>
             <param name="StrainRateField"> StrainRateField </param>
+	    <param name="StrainWeakening">strainWeakening</param>
 
-            <param name="cohesion" units="MPa"> 150 </param>
-            <param name="cohesionAfterSoftening" units="MPa"> 150 </param>
+            <param name="cohesion" units="MPa"> 300 </param>
+            <param name="cohesionAfterSoftening" units="MPa"> 300 </param>
             <param name="frictionCoefficient"> 0 </param>
             <param name="frictionCoefficientAfterSoftening"> 0 </param>
             <param name="minimumViscosity" units="Pa*s"> 1e+19 </param>
