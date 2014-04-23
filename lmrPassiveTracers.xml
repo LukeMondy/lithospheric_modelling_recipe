@@ -2,43 +2,25 @@
 <StGermainData xmlns="http://www.vpac.org/StGermain/XML_IO_Handler/Jun2003">
     
     <struct name="components" mergeType="merge">  
-    
+
         <!-- === Passive Tracer geometries ==================================================== -->
         
-        <struct name="surfaceTracerLayout">
-            <!-- Generates a line of passive tracers across the surface -->
-            <param name="Type">LineParticleLayout</param>
-            <param name="totalInitialParticles">@elementResI</param> <!-- 1 tracer per element -->
-            <list name="vertices">
-                <asciidata>
-                    <columnDefinition name = "x" type="double" units="km"/>
-                    <columnDefinition name = "y" type="double" units="km"/>
-                    @minX   0 
-                    @maxX   0
-                </asciidata>
-            </list>
+        <struct name="allMarker"> 
+            <param name="Type"> Box </param>
+            <param name="startX"> minX </param>
+            <param name="endX"> maxX </param>
+            <param name="startY" units="km"> -80 </param>
+            <param name="endY"> 0 </param>
+            <param name="startZ"> minZ </param>
+            <param name="endZ"> maxZ </param>
         </struct>
-        
-        <struct name="mohoTracerLayout">               
-            <param name="Type">LineParticleLayout</param>
-            <param name="totalInitialParticles">@elementResI</param>
-            <list name="vertices">
-                <asciidata>
-                    <columnDefinition name = "x" type="double" units="km"/>
-                    <columnDefinition name = "y" type="double" units="km"/>
-                    @minX   -40
-                    @maxX   -40
-                </asciidata>
-            </list>
+
+        <struct name="ptl_all">
+            <param name="Type">WithinShapeParticleLayout</param>
+            <param name="totalInitialParticles">3000000</param>
+            <param name="shape">allMarker</param>
         </struct>
-        
-        <struct name="user_passiveTracerLayout">
-            <param name="Type">UnionParticleLayout</param>
-            <list name="ParticleLayoutList">
-                <param>surfaceTracerLayout</param>	
-                <param>mohoTracerLayout</param>
-            </list>
-        </struct>
+ 
         <!-- ==================================================================================== -->
         
         
@@ -51,34 +33,36 @@
             <param name="Type">ElementCellLayout</param>
             <param name="Mesh">linearMesh</param>
         </struct>
-        <struct name="user_passiveTracerSwarm">
+        
+
+        <struct name="all_passiveTracerSwarm">
             <param name="Type">MaterialPointsSwarm</param>
             <param name="CellLayout">user_ElementCellLayoutTracer</param>
-            <param name="ParticleLayout">user_passiveTracerLayout</param>
+            <param name="ParticleLayout">ptl_all</param>
             <param name="FiniteElement_Mesh">linearMesh</param>
             <param name="FeMesh">elementMesh</param>
             <list name="ParticleCommHandlers">
                 <param>user_passiveSwarmMovementHandler</param>
             </list>
         </struct>
-        
         <struct name="passiveTracerAdvect">
             <param name="Type">SwarmAdvector</param>
-            <param name="Swarm">user_passiveTracerSwarm</param>
+            <param name="Swarm">all_passiveTracerSwarm</param>
             <param name="TimeIntegrator">timeIntegrator</param>
             <param name="VelocityField">VelocityField</param>
         </struct>
+        
         <!-- ==================================================================================== -->
         
         
         
         <!-- === Output controls ================================================================ -->        
         <!-- NOTE: "Output controls" must come *after* the "Numerical implementation" XML -->
-
+       
+        <!-- Generates 1 file per tracer. Each file contains the timesteps
+             and data for that tracer. NOTE: filename is as such:
+             particle<cpu>.<localCPUid>.<struct name>.dat 
         <struct name="passiveswarmOutputs">
-            <!-- Generates 1 file per tracer. Each file contains the timesteps
-                 and data for that tracer. NOTE: filename is as such:
-                 particle<cpu>.<localCPUid>.<struct name>.dat -->
             <param name="Type">Underworld_SwarmOutput</param>
             <param name="Swarm">user_passiveTracerSwarm</param>
             <param name="mode">PARTICLE_TRACE</param>
@@ -89,6 +73,7 @@
                 <param>recoveredDeviatoricStressInvariantField</param>
             </list>
         </struct>
+        -->
         
         <!-- ==================================================================================== -->
         

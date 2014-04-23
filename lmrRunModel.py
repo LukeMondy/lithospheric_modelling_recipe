@@ -260,18 +260,19 @@ def prepare_job(model_dict, command_dict):
 
     command_dict["solver"] = " ".join(solvers)
 
-    # Make the output folders ready for UW.
-    output_dir = model_dict["output_path"]
-    if not os.path.isdir(output_dir):
-        os.mkdir(output_dir)
+    if model_dict["restarting"] is False:
+        # Make the output folders ready for UW.
+        output_dir = model_dict["output_path"]
+        if not os.path.isdir(output_dir):
+            os.mkdir(output_dir)
 
-    xmls_dir = os.path.join(output_dir, "xmls/")
-    if not os.path.isdir(xmls_dir):
-        os.mkdir(xmls_dir)
+        xmls_dir = os.path.join(output_dir, "xmls/")
+        if not os.path.isdir(xmls_dir):
+            os.mkdir(xmls_dir)
 
-    for files in os.listdir("./"):
-        if files.endswith(".xml"):
-            shutil.copy(files, xmls_dir)
+        for files in os.listdir("./"):
+            if files.endswith(".xml"):
+                shutil.copy(files, xmls_dir)
 
     model_dict["input_xmls"] = model_dict["input_xmls"].format(output_path=model_dict["output_path"])
     return model_dict, command_dict
@@ -309,9 +310,11 @@ def run_model(model_dict, command_dict):
         if model_run.returncode != 0:
             sys.exit("\n\nUnderworld did not exit nicely - have a look at its output to try and determine the problem.")
     except KeyboardInterrupt:
-        # This is pretty dangerous...
         model_run.terminate()
-        sys.exit("\nYou have cancelled the job - all instances of Underworld have been killed.")
+        if model_dict["run_thermal_equilibration"] is True:
+            print "\n### Warning! ###\nUnderworld thermal equilibration stopped - will interpolate with the last timestep to be outputted."
+        else:
+            sys.exit("\nYou have cancelled the job - all instances of Underworld have been killed.")
 
 
 def find_last_thermal_timestep(model_dict):
@@ -543,7 +546,9 @@ def main():
 
     model_dict, command_dict = prepare_job(model_dict, command_dict)
 
-    if model_dict["run_thermal_equilibration"] is False and model_dict["update_xml_information"] is True:
+    if model_dict["run_thermal_equilibration"] is False and \
+       model_dict["update_xml_information"] is True and     \
+       model_dict["restarting"] is False:
         last_ts = find_last_thermal_timestep(model_dict)
         modify_initialcondition_xml(last_ts, model_dict)
 

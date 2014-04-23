@@ -117,7 +117,9 @@
          moving mesh to fail. In those cases, it is best to turn off moving mesh
          (by just deleting or commenting out the code between "Moving Mesh" and 
          "End of Moving Mesh".
-    -->     
+    --> 
+    <include>Underworld/ArtDisplacementField.xml</include>
+
     <struct name="EulerDeform">
         <list name="systems">
             <struct>
@@ -133,6 +135,9 @@
                 <param name="staticFront">  True  </param>
                 <param name="staticBack">   True  </param>
                 
+                <!-- WrapTop will make the top boundary conform to topography.
+                     This works well, but can become unstable with strong local
+                     relief. -->
                 <param name="wrapTop"> False </param>
                 <!-- ======================================== -->
                 
@@ -144,6 +149,10 @@
                     <struct>
                         <param name="field"> VelocityField </param>
                         <param name="variable"> velocity </param>
+                    </struct>
+                    <struct>
+                        <param name="field"> PressureField </param>
+                        <param name="variable"> pressure </param>
                     </struct>
                 </list>
             </struct>
@@ -167,9 +176,15 @@
             <param name="Type"> Underworld_EulerDeform </param>
             <param name="Context"> context </param>
         </struct>
+	    <struct>
+            <param name="Type"> Underworld_MeshAdvectionCorrection </param>
+            <param name="Context"> context </param>
+        </struct>
     </list>
     <!-- ======================================== -->
     
+    <param name="MeshAdvectionCorrection_UseArtDisplacementField"> True </param>
+
     <!--=== End of Moving Mesh ============================== -->
     
     
@@ -180,7 +195,7 @@
     <list name="plugins" mergeType="merge">
         <struct>
             <!-- === Commonly modified ================== -->
-            <param name="rhoZeroMaterial">astheno</param>
+            <param name="rhoZeroMaterial">mantle</param>
             <param name="UseAverage">False</param>
             <!-- ======================================== -->
             <param name="Type"> lecode_tools_Isostasy </param>
