@@ -458,7 +458,7 @@
             <param name="PreExponentialFactor" units="(MPa)^-3*s^-1">5e-06</param>
             <param name="DefaultStrainRateInvariant" units="s^-1">1.0e-15</param>
 
-            <param name="ActivationEnergy" units="J/mol">190000</param>
+            <param name="ActivationEnergy" units="kJ/mol">190</param>
             <param name="ActivationVolume">0.0</param>
 
             <param name="minViscosity" units="Pa*s">1e19</param>
@@ -468,9 +468,9 @@
         <struct name="viscSRTdislocation_dry_quartz_Koch1983">
             <!-- Dry quartz: Koch, PhD thesis, 1983-->
             <param name="Type">ViscousCreep</param>
-            <param name="StrainRateInvariantField">recoveredStrainRateInvariantField</param>
+            <param name="StrainRateInvariantField">StrainRateInvariantField</param>
             <param name="TemperatureField">TemperatureField</param>
-            <param name="PressureField">recoveredPressureField</param>
+            <param name="PressureField">PressureField</param>
 
             <param name="StressExponent">3</param>
             <param name="PreExponentialFactor" units="(Pa)^-3*s^-1">5e-25</param>
@@ -486,9 +486,9 @@
         <struct name="viscSRTdislocation_wet_quartz_Kronenberg1984">
             <!-- Wet quartz: Kronenberg and Tullis, JGR, 1984-->
             <param name="Type">ViscousCreep</param>
-            <param name="StrainRateInvariantField">recoveredStrainRateInvariantField</param>
+            <param name="StrainRateInvariantField">StrainRateInvariantField</param>
             <param name="TemperatureField">TemperatureField</param>
-            <param name="PressureField">recoveredPressureField</param>
+            <param name="PressureField">PressureField</param>
 
             <param name="StressExponent">2.4</param>
             <param name="PreExponentialFactor" units="(Pa)^-2.4*s^-1">1.3e-20</param>
@@ -511,10 +511,10 @@
             <param name="PressureField">PressureField</param>
 
             <param name="StressExponent">3.2</param>
-            <param name="PreExponentialFactor" units="(MPa)^-3.2*s^-1">10e-2</param>
+            <param name="PreExponentialFactor" units="(MPa)^-3.2*s^-1">1e-3</param>
             <param name="DefaultStrainRateInvariant" units="s^-1">1.0e-15</param>
 
-            <param name="ActivationEnergy" units="J/mol">244000</param>
+            <param name="ActivationEnergy" units="kJ/mol">244</param>
             <param name="ActivationVolume">0.0</param>
 
             <param name="minViscosity" units="Pa*s">5e18</param>
@@ -532,12 +532,97 @@
             <param name="PreExponentialFactor" units="(MPa)^-4.7*s^-1">8</param>
             <param name="DefaultStrainRateInvariant" units="s^-1">1.0e-15</param>
             
-            <param name="ActivationEnergy" units="J/mol">485000</param>
+            <param name="ActivationEnergy" units="kJ/mol">485</param>
             <param name="ActivationVolume">0.0</param>
             
             <param name="minViscosity" units="Pa*s">1e19</param>
             <param name="maxViscosity" units="Pa*s">5e23</param>
         </struct>
+        
+        <struct name="viscSRTdislocation_dry_anorthite_Rybacki2000">
+            <!--  Dry anorthite dislocation: Rybacki, JGR, 2000-->
+            <param name="Type">ViscousCreep</param>
+            <param name="StrainRateInvariantField">StrainRateInvariantField</param>
+            <param name="TemperatureField">TemperatureField</param>
+            <param name="PressureField">PressureField</param>
+
+            <param name="StressExponent">3.0</param>
+            <param name="PreExponentialFactor" units="(MPa)^-3.0*s^-1">5.0118723e+12</param>
+            <param name="DefaultStrainRateInvariant" units="s^-1">1.0e-15</param>
+
+            <param name="ActivationEnergy" units="kJ/mol">648</param>
+            <param name="ActivationVolume">0.0</param>
+
+            <param name="minViscosity" units="Pa*s">1e19</param>
+            <param name="maxViscosity" units="Pa*s">5e23</param>
+        </struct>
+        
+        <struct name="viscSRTdiffusion_dry_anorthite_Rybacki2000">
+            <!--  Dry anorthite diffusion: Rybacki, JGR, 2000 -->
+            <param name="Type">ViscousCreep</param>
+            <param name="StrainRateInvariantField">StrainRateInvariantField</param>
+            <param name="TemperatureField">TemperatureField</param>
+            <param name="PressureField">PressureField</param>
+
+            <param name="GrainSize"> 3 </param>
+            <param name="WaterFugacity"> 1000 </param>
+
+            <param name="GrainSizeExponent"> 3.0 </param>
+            <param name="WaterFugacityExponent"> 0 </param>
+            <param name="StressExponent"> 1.0 </param>
+            <param name="PreExponentialFactor" units="(MPa)^-1*s^-1"> 1.2589254e12 </param>
+            <param name="DefaultStrainRateInvariant" units="s^-1">1.0e-15</param>
+
+            <param name="ActivationEnergy" units="kJ/mol">467</param>
+            <param name="ActivationVolume" units="m^3/mol">0</param>
+
+            <param name="minViscosity" units="Pa*s">1e19</param>
+            <param name="maxViscosity" units="Pa*s">5e23</param>
+        </struct>
+        
+        
+        <struct name="viscSRTdislocation_wet_anorthite_Rybacki2000">
+            <!--  Wet anorthite dislocation: Rybacki, JGR, 2000 -->
+            <param name="Type">ViscousCreep</param>
+            <param name="StrainRateInvariantField">StrainRateInvariantField</param>
+            <param name="TemperatureField">TemperatureField</param>
+            <param name="PressureField">PressureField</param>
+
+            <param name="StressExponent">3.0</param>
+            <param name="PreExponentialFactor" units="(MPa)^-3.0*s^-1">1e+26</param>
+            <param name="DefaultStrainRateInvariant" units="s^-1">1.0e-15</param>
+
+            <param name="ActivationEnergy" units="kJ/mol">356</param>
+            <param name="ActivationVolume">0.0</param>
+
+            <param name="minViscosity" units="Pa*s">1e19</param>
+            <param name="maxViscosity" units="Pa*s">5e23</param>
+        </struct>
+        
+        <struct name="viscSRTdiffusion_wet_anorthite_Rybacki2000">
+            <!--  Wet anorthite diffusion: Rybacki, JGR, 2000 -->
+            <param name="Type">ViscousCreep</param>
+            <param name="StrainRateInvariantField">StrainRateInvariantField</param>
+            <param name="TemperatureField">TemperatureField</param>
+            <param name="PressureField">PressureField</param>
+
+            <param name="GrainSize"> 3 </param>
+            <param name="WaterFugacity"> 3 </param>
+
+            <param name="GrainSizeExponent"> 3.0 </param>
+            <param name="WaterFugacityExponent"> 0 </param>
+            <param name="StressExponent"> 1.0 </param>
+            <param name="PreExponentialFactor" units="(MPa)^-1*s^-1"> 50.11872336 </param>
+            <param name="DefaultStrainRateInvariant" units="s^-1">1.0e-15</param>
+
+            <param name="ActivationEnergy" units="kJ/mol">170</param>
+            <param name="ActivationVolume" units="m^3/mol">0</param>
+
+            <param name="minViscosity" units="Pa*s">1e19</param>
+            <param name="maxViscosity" units="Pa*s">5e23</param>
+        </struct>
+        
+        
        
 
         <!-- === Lithospheric mantle ====== -->
@@ -552,7 +637,7 @@
             <param name="PreExponentialFactor" units="(MPa)^-3*s^-1">7.0e4</param>
             <param name="DefaultStrainRateInvariant" units="s^-1">1.0e-15</param>
 
-            <param name="ActivationEnergy" units="J/mol">520000</param>
+            <param name="ActivationEnergy" units="kJ/mol">520</param>
             <param name="ActivationVolume">0.0</param>
 
             <param name="minViscosity" units="Pa*s">5e18</param>
@@ -580,9 +665,9 @@
         <struct name="viscSRTdislocation_olivine_Kirby1987">
             <!-- Olivine : Kirby and Kronenberg, Review of Geophysics 1987 -->
             <param name="Type">ViscousCreep</param>
-            <param name="StrainRateInvariantField">recoveredStrainRateInvariantField</param>
+            <param name="StrainRateInvariantField">StrainRateInvariantField</param>
             <param name="TemperatureField">TemperatureField</param>
-            <param name="PressureField">recoveredPressureField</param>
+            <param name="PressureField">PressureField</param>
 
             <param name="StressExponent">3</param>
             <param name="PreExponentialFactor" units="Pa^-3*s^-1">1e-15</param>
@@ -608,32 +693,13 @@
             <param name="PreExponentialFactor" units="(MPa)^-3*s^-1">7.0e6</param>
             <param name="DefaultStrainRateInvariant" units="s^-1">1.0e-15</param>
 
-            <param name="ActivationEnergy" units="J/mol">520000</param>
+            <param name="ActivationEnergy" units="kJ/mol">520</param>
             <param name="ActivationVolume">0.0</param>
 
             <param name="minViscosity" units="Pa*s">5e18</param>
             <param name="maxViscosity" units="Pa*s">5e23</param>
         </struct>
         <!-- ========================================================= -->
-
-
-        <struct name="viscSRTdiffusion_gilly">
-            <!-- Wet Dunite : Brace and Kohlstedt, JGR 1980: PreExponentialFactor*100 => weaker-->
-            <param name="Type">ViscousCreep</param>
-            <param name="StrainRateInvariantField">StrainRateInvariantField</param>
-            <param name="TemperatureField">TemperatureField</param>
-            <param name="PressureField">PressureField</param>
-
-            <param name="StressExponent"> 1 </param>
-            <param name="PreExponentialFactor" units="(Pa)^-1*s^-1"> 1e-11 </param>
-            <param name="DefaultStrainRateInvariant" units="s^-1">1.0e-15</param>
-
-            <param name="ActivationEnergy" units="J/mol"> 22853 </param>
-            <param name="ActivationVolume">0.0</param>
-
-            <param name="minViscosity" units="Pa*s">5e18</param>
-            <param name="maxViscosity" units="Pa*s">5e23</param>
-        </struct>
 
 
         <struct name="viscSRTdislocation_dry_hk2003">
