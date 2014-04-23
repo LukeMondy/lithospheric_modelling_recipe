@@ -400,11 +400,11 @@
         <param name="surface_processes"> erosion_threshold </param>
 
         <list name="Rheology"> 
-        <!-- Viscous law  --> <param> viscSRTdislocation_wet_quartzite_Goetze1978 </param>
-        <!-- Brittle law  --> <param> yield_upper_crust_Rey2010 </param>
-        <!-- Stress limiter -->  <param> yield_stressLimiter_Watremez2013 </param>
-        <!-- Melt modifier --> <param> viscMelt_crustal_Hirth2003 </param>
-        <!-- Visc limiter --> <param> viscosityLimiter </param>
+        <!-- Viscous law  -->   <param> viscSRTdislocation_wet_quartzite_Paterson1990 </param>
+        <!-- Brittle law  -->   <param> yield_upper_crust_Rey2010 </param>
+        <!-- Stress limiter --> <param> yield_stressLimiter_300MPa </param>
+        <!-- Melt modifier -->  <param> viscMelt_crustal_Hirth2003 </param>
+        <!-- Visc limiter -->   <param> viscosityLimiter </param>
         </list>
     </struct>
 
@@ -429,11 +429,11 @@
         <param name="surface_processes"> erosion_threshold </param>
 
         <list name="Rheology"> 
-        <!-- Viscous law  --> <param> viscSRTdislocation_wet_quartzite_Goetze1978 </param>
-        <!-- Brittle law  --> <param> yield_upper_crust_Rey2010 </param>
-        <!-- Stress limiter -->  <param> yield_stressLimiter_Watremez2013 </param>
-        <!-- Melt modifier --> <param> viscMelt_crustal_Hirth2003 </param>
-        <!-- Visc limiter --> <param> viscosityLimiter </param>
+        <!-- Viscous law  -->   <param> viscSRTdislocation_wet_quartzite_Paterson1990 </param>
+        <!-- Brittle law  -->   <param> yield_upper_crust_Rey2010 </param>
+        <!-- Stress limiter --> <param> yield_stressLimiter_300MPa </param>
+        <!-- Melt modifier -->  <param> viscMelt_crustal_Hirth2003 </param>
+        <!-- Visc limiter -->   <param> viscosityLimiter </param>
         </list>
     </struct>
 
@@ -457,17 +457,17 @@
         <param name="surface_processes"> erosion_threshold </param>
 
         <list name="Rheology"> 
-        <!-- Viscous law  --> <param> viscSRTdislocation_wet_quartzite_Goetze1978 </param>
-        <!-- Brittle law  --> <param> yield_upper_crust_Rey2010 </param>
-        <!-- Stress limiter -->  <param> yield_stressLimiter_Watremez2013 </param>
-        <!-- Melt modifier --> <param> viscMelt_crustal_Hirth2003 </param>
-        <!-- Visc limiter --> <param> viscosityLimiter </param>
+        <!-- Viscous law  -->   <param> viscSRTdislocation_wet_quartzite_Paterson1990 </param>
+        <!-- Brittle law  -->   <param> yield_upper_crust_Rey2010 </param>
+        <!-- Stress limiter --> <param> yield_stressLimiter_300MPa </param>
+        <!-- Melt modifier -->  <param> viscMelt_crustal_Hirth2003 </param>
+        <!-- Visc limiter -->   <param> viscosityLimiter </param>
         </list>
     </struct>
 
 
     <struct name="lowercrust"> 
-        <param name="Type"> RheologyMaterial </param>
+        <param name="Type"> MultiRheologyMaterial </param>
         <param name="Shape"> lowercrustShape </param>
         <param name="DensityProperty"> densMelt_continental_lower_crust </param>
 
@@ -485,16 +485,25 @@
 
         <param name="surface_processes"> erosion_threshold </param>
 
-        <list name="Rheology"> 
-        <!-- Viscous law  --> <param> viscSRTdislocation_mafic_granulite_Wang2012 </param>
-        <!-- Brittle law  --> <param> yield_lower_crust_Rey2010 </param>
-        <!-- Stress limiter -->  <param> yield_stressLimiter_Watremez2013 </param>
-        <!-- Melt modifier --> <param> viscMelt_crustal_Hirth2003 </param>
-        <!-- Visc limiter --> <param> viscosityLimiter </param>
+        <list name="MultiRheologies">
+            <list>
+                <!-- Viscous law  -->   <param> viscSRTdislocation_wet_anorthite_Rybacki2000 </param>
+                <!-- Brittle law  -->   <param> yield_lower_crust_Rey2010 </param>
+                <!-- Stress limiter --> <param> yield_stressLimiter_300MPa </param>
+                <!-- Melt modifier -->  <param> viscMelt_crustal_Hirth2003 </param>
+                <!-- Visc limiter -->   <param> viscosityLimiter </param>
+            </list>
+            <list>
+                <!-- Viscous law  -->   <param> viscSRTdiffusion_wet_anorthite_Rybacki2000 </param>
+                <!-- Brittle law  -->   <param> yield_lower_crust_Rey2010 </param>
+                <!-- Stress limiter --> <param> yield_stressLimiter_300MPa </param>
+                <!-- Melt modifier -->  <param> viscMelt_crustal_Hirth2003 </param>
+                <!-- Visc limiter -->   <param> viscosityLimiter </param>
+            </list>
         </list>
     </struct>
     <struct name="lowercrustMarkers"> 
-        <param name="Type"> RheologyMaterial </param>
+        <param name="Type"> MultiRheologyMaterial </param>
         <param name="Shape"> lowercrustMarkersShape </param>
         <param name="DensityProperty"> densMelt_continental_lower_crust </param>
 
@@ -512,18 +521,27 @@
 
         <param name="surface_processes"> erosion_threshold </param>
 
-        <list name="Rheology"> 
-        <!-- Viscous law  --> <param> viscSRTdislocation_mafic_granulite_Wang2012 </param>
-        <!-- Brittle law  --> <param> yield_lower_crust_Rey2010 </param>
-        <!-- Stress limiter -->  <param> yield_stressLimiter_Watremez2013 </param>
-        <!-- Melt modifier --> <param> viscMelt_crustal_Hirth2003 </param>
-        <!-- Visc limiter --> <param> viscosityLimiter </param>
+        <list name="MultiRheologies">
+            <list>
+                <!-- Viscous law  -->   <param> viscSRTdislocation_wet_anorthite_Rybacki2000 </param>
+                <!-- Brittle law  -->   <param> yield_lower_crust_Rey2010 </param>
+                <!-- Stress limiter --> <param> yield_stressLimiter_300MPa </param>
+                <!-- Melt modifier -->  <param> viscMelt_crustal_Hirth2003 </param>
+                <!-- Visc limiter -->   <param> viscosityLimiter </param>
+            </list>
+            <list>
+                <!-- Viscous law  -->   <param> viscSRTdiffusion_wet_anorthite_Rybacki2000 </param>
+                <!-- Brittle law  -->   <param> yield_lower_crust_Rey2010 </param>
+                <!-- Stress limiter --> <param> yield_stressLimiter_300MPa </param>
+                <!-- Melt modifier -->  <param> viscMelt_crustal_Hirth2003 </param>
+                <!-- Visc limiter -->   <param> viscosityLimiter </param>
+            </list>
         </list>
     </struct>
 
 
     <struct name="mantle">
-        <param name="Type">MultiRheologyMaterial</param>
+        <param name="Type"> MultiRheologyMaterial </param>
         <param name="Shape"> mantleShape </param>
         <param name="DensityProperty"> densMelt_continental_litho_mantle </param>
 
@@ -543,16 +561,16 @@
         
         <list name="MultiRheologies">
             <list>
-                <!-- Viscous law  -->   <param> viscSRTdislocation_wet_hk2003 </param>
+                <!-- Viscous law  -->   <param> viscSRTdislocation_wet_olivine_Hirth2003 </param>
                 <!-- Brittle law  -->   <param> yield_litho_mantle_Rey2010 </param>
-                <!-- Stress limiter --> <param> yield_stressLimiter_Watremez2013 </param> 
+                <!-- Stress limiter --> <param> yield_stressLimiter_300MPa </param> 
                 <!-- Melt modifier -->  <param> viscMelt_mantle_Hirth2003 </param>
                 <!-- Visc limiter -->   <param> viscosityLimiter </param>
             </list>
             <list>
-                <!-- Viscous law  -->   <param> viscSRTdiffusion_wet_hk2003 </param>
+                <!-- Viscous law  -->   <param> viscSRTdiffusion_wet_olivine_Faul2007 </param>
                 <!-- Brittle law  -->   <param> yield_litho_mantle_Rey2010 </param>
-                <!-- Stress limiter --> <param> yield_stressLimiter_Watremez2013 </param>
+                <!-- Stress limiter --> <param> yield_stressLimiter_300MPa </param>
                 <!-- Melt modifier -->  <param> viscMelt_mantle_Hirth2003 </param>
                 <!-- Visc limiter -->   <param> viscosityLimiter </param>
             </list>
@@ -560,7 +578,7 @@
     </struct>
 
     <struct name="mantleMarkers">
-        <param name="Type">MultiRheologyMaterial</param>
+        <param name="Type"> MultiRheologyMaterial </param>
         <param name="Shape"> mantleMarkersShape </param>
         <param name="DensityProperty"> densMelt_continental_litho_mantle </param>
 
@@ -580,16 +598,16 @@
         
         <list name="MultiRheologies">
             <list>
-                <!-- Viscous law  -->   <param> viscSRTdislocation_wet_hk2003 </param>
+                <!-- Viscous law  -->   <param> viscSRTdislocation_wet_olivine_Hirth2003 </param>
                 <!-- Brittle law  -->   <param> yield_litho_mantle_Rey2010 </param>
-                <!-- Stress limiter --> <param> yield_stressLimiter_Watremez2013 </param> 
+                <!-- Stress limiter --> <param> yield_stressLimiter_300MPa </param> 
                 <!-- Melt modifier -->  <param> viscMelt_mantle_Hirth2003 </param>
                 <!-- Visc limiter -->   <param> viscosityLimiter </param>
             </list>
             <list>
-                <!-- Viscous law  -->   <param> viscSRTdiffusion_wet_hk2003 </param>
+                <!-- Viscous law  -->   <param> viscSRTdiffusion_wet_olivine_Faul2007 </param>
                 <!-- Brittle law  -->   <param> yield_litho_mantle_Rey2010 </param>
-                <!-- Stress limiter --> <param> yield_stressLimiter_Watremez2013 </param>
+                <!-- Stress limiter --> <param> yield_stressLimiter_300MPa </param>
                 <!-- Melt modifier -->  <param> viscMelt_mantle_Hirth2003 </param>
                 <!-- Visc limiter -->   <param> viscosityLimiter </param>
             </list>

@@ -500,6 +500,24 @@
             <param name="minViscosity" units="Pa*s">1e19</param>
             <param name="maxViscosity" units="Pa*s">5e23</param>
         </struct>
+
+        <struct name="viscSRTdislocation_wet_quartzite_Paterson1990">
+            <!-- Wet quartzite: Paterson and Luan, GeoSoc London SP, 1990-->
+            <param name="Type">ViscousCreep</param>
+            <param name="StrainRateInvariantField">StrainRateInvariantField</param>
+            <param name="TemperatureField">TemperatureField</param>
+            <param name="PressureField">PressureField</param>
+
+            <param name="StressExponent">3.1</param>
+            <param name="PreExponentialFactor" units="(MPa)^-3.1*s^-1">6.60693448e-8</param>
+            <param name="DefaultStrainRateInvariant" units="s^-1">1.0e-15</param>
+
+            <param name="ActivationEnergy" units="kJ/mol">135</param>
+            <param name="ActivationVolume">0.0</param>
+
+            <param name="minViscosity" units="Pa*s">1e19</param>
+            <param name="maxViscosity" units="Pa*s">5e23</param>
+        </struct>
         
         
         <!-- === Lower crustal ====== -->
@@ -679,30 +697,10 @@
             <param name="minViscosity" units="Pa*s">5e18</param>
             <param name="maxViscosity" units="Pa*s">5e23</param>
         </struct>
-        
-
-        <!-- === Asthenospheric ====== -->
-        <struct name="viscSRTdislocation_wet_dunite_weakened_Brace1980">
-            <!-- Wet Dunite : Brace and Kohlstedt, JGR 1980: PreExponentialFactor*100 => weaker-->
-            <param name="Type">ViscousCreep</param>
-            <param name="StrainRateInvariantField">StrainRateInvariantField</param>
-            <param name="TemperatureField">TemperatureField</param>
-            <param name="PressureField">PressureField</param>
-
-            <param name="StressExponent">3</param>
-            <param name="PreExponentialFactor" units="(MPa)^-3*s^-1">7.0e6</param>
-            <param name="DefaultStrainRateInvariant" units="s^-1">1.0e-15</param>
-
-            <param name="ActivationEnergy" units="kJ/mol">520</param>
-            <param name="ActivationVolume">0.0</param>
-
-            <param name="minViscosity" units="Pa*s">5e18</param>
-            <param name="maxViscosity" units="Pa*s">5e23</param>
-        </struct>
-        <!-- ========================================================= -->
 
 
-        <struct name="viscSRTdislocation_dry_hk2003">
+        <struct name="viscSRTdislocation_dry_olivine_Hirth2003">
+            <!-- Hirth and Kohlstedt, Geophysical Monograph 2003 -->
             <param name="Type">ViscousCreep</param>
             <param name="StrainRateInvariantField">StrainRateInvariantField</param>
             <param name="TemperatureField">TemperatureField</param>
@@ -722,7 +720,8 @@
             <param name="maxViscosity" units="Pa*s">5e23</param>
         </struct>
 
-        <struct name="viscSRTdiffusion_dry_hk2003">
+        <struct name="viscSRTdiffusion_dry_olivine_Hirth2003">
+            <!-- Hirth and Kohlstedt, Geophysical Monograph 2003 -->
             <param name="Type">ViscousCreep</param>
             <param name="StrainRateInvariantField">StrainRateInvariantField</param>
             <param name="TemperatureField">TemperatureField</param>
@@ -743,7 +742,8 @@
             <param name="maxViscosity" units="Pa*s">5e23</param>
         </struct>
 
-        <struct name="viscSRTdislocation_wet_hk2003">
+        <struct name="viscSRTdislocation_wet_olivine_Hirth2003">
+            <!-- Hirth and Kohlstedt, Geophysical Monograph 2003 -->
             <param name="Type">ViscousCreep</param>
             <param name="StrainRateInvariantField">StrainRateInvariantField</param>
             <param name="TemperatureField">TemperatureField</param>
@@ -764,7 +764,8 @@
             <param name="maxViscosity" units="Pa*s">5e23</param>
         </struct>
 
-        <struct name="viscSRTdiffusion_wet_hk2003">
+        <struct name="viscSRTdiffusion_wet_olivine_Hirth2003">
+            <!-- Hirth and Kohlstedt, Geophysical Monograph 2003 -->
             <param name="Type">ViscousCreep</param>
             <param name="StrainRateInvariantField">StrainRateInvariantField</param>
             <param name="TemperatureField">TemperatureField</param>
@@ -784,6 +785,30 @@
             <param name="minViscosity" units="Pa*s">5e18</param>
             <param name="maxViscosity" units="Pa*s">5e23</param>
         </struct>
+
+        <struct name="viscSRTdiffusion_wet_olivine_Faul2007">
+            <!-- Faul and Jackson, JGR 2007 -->
+            <param name="Type">ViscousCreep</param>
+            <param name="StrainRateInvariantField">StrainRateInvariantField</param>
+            <param name="TemperatureField">TemperatureField</param>
+            <param name="PressureField">PressureField</param>
+            <param name="GrainSize"> 5 </param>
+            <param name="WaterFugacity"> 1000 </param>
+
+            <param name="GrainSizeExponent"> 3.0 </param>
+            <param name="WaterFugacityExponent"> 0.0 </param>
+            <param name="StressExponent"> 1.3 </param>
+            <param name="PreExponentialFactor" units="(MPa)^-1.3*s^-1"> 2.0e10 </param>
+            <param name="DefaultStrainRateInvariant" units="s^-1">1.0e-15</param>
+
+            <param name="ActivationEnergy" units="kJ/mol">484</param>
+            <param name="ActivationVolume" units="m^3/mol">0</param>
+
+            <param name="minViscosity" units="Pa*s">5e18</param>
+            <param name="maxViscosity" units="Pa*s">5e23</param>
+        </struct>
+
+
 
 
         <!-- === Melts =============================================== -->
@@ -947,13 +972,13 @@
             <param name="minimumViscosity" units="Pa*s">1e+19</param>
         </struct>
 
-        <struct name="yield_stressLimiter_Watremez2013">
-            <!-- Perfect Plastic: Watremex et. al., G^3 2013 -->
+        <struct name="yield_stressLimiter_300MPa">
+            <!-- For example, see Watremex et. al., G^3 2013 -->
             <param name="Type"> MohrCoulomb </param>
             <param name="PressureField">PressureField</param>
             <param name="MaterialPointsSwarm"> materialSwarm </param>
             <param name="StrainRateField"> StrainRateField </param>
-	    <param name="StrainWeakening">strainWeakening</param>
+	        <param name="StrainWeakening">strainWeakening</param>
 
             <param name="cohesion" units="MPa"> 300 </param>
             <param name="cohesionAfterSoftening" units="MPa"> 300 </param>
