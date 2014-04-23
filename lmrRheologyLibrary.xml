@@ -461,6 +461,42 @@
             <param name="maxViscosity" units="Pa*s">5e23</param>
         </struct>
         
+        <struct name="viscSRTdislocation_dry_quartz_Koch1983">
+            <!-- Dry quartz: Koch, PhD thesis, 1983-->
+            <param name="Type">ViscousCreep</param>
+            <param name="StrainRateInvariantField">recoveredStrainRateInvariantField</param>
+            <param name="TemperatureField">TemperatureField</param>
+            <param name="PressureField">recoveredPressureField</param>
+
+            <param name="StressExponent">3</param>
+            <param name="PreExponentialFactor" units="(Pa)^-3*s^-1">5e-25</param>
+            <param name="DefaultStrainRateInvariant" units="s^-1">1.0e-15</param>
+
+            <param name="ActivationEnergy" units="kJ/mol">149</param>
+            <param name="ActivationVolume">0.0</param>
+
+            <param name="minViscosity" units="Pa*s">1e19</param>
+            <param name="maxViscosity" units="Pa*s">5e23</param>
+        </struct>
+        
+        <struct name="viscSRTdislocation_wet_quartz_Kronenberg1984">
+            <!-- Wet quartz: Kronenberg and Tullis, JGR, 1984-->
+            <param name="Type">ViscousCreep</param>
+            <param name="StrainRateInvariantField">recoveredStrainRateInvariantField</param>
+            <param name="TemperatureField">TemperatureField</param>
+            <param name="PressureField">recoveredPressureField</param>
+
+            <param name="StressExponent">2.4</param>
+            <param name="PreExponentialFactor" units="(Pa)^-2.4*s^-1">1.3e-20</param>
+            <param name="DefaultStrainRateInvariant" units="s^-1">1.0e-15</param>
+
+            <param name="ActivationEnergy" units="kJ/mol">134</param>
+            <param name="ActivationVolume">0.0</param>
+
+            <param name="minViscosity" units="Pa*s">1e19</param>
+            <param name="maxViscosity" units="Pa*s">5e23</param>
+        </struct>
+        
         
         <!-- === Lower crustal ====== -->
         <struct name="viscSRTdislocation_mafic_granulite_Wang2012">
@@ -531,6 +567,24 @@
             <param name="DefaultStrainRateInvariant" units="s^-1">1.0e-15</param>
 
             <param name="ActivationEnergy" units="kJ/mol">610</param>
+            <param name="ActivationVolume">0.0</param>
+
+            <param name="minViscosity" units="Pa*s">5e18</param>
+            <param name="maxViscosity" units="Pa*s">5e23</param>
+        </struct>
+        
+        <struct name="viscSRTdislocation_olivine_Kirby1987">
+            <!-- Olivine : Kirby and Kronenberg, Review of Geophysics 1987 -->
+            <param name="Type">ViscousCreep</param>
+            <param name="StrainRateInvariantField">recoveredStrainRateInvariantField</param>
+            <param name="TemperatureField">TemperatureField</param>
+            <param name="PressureField">recoveredPressureField</param>
+
+            <param name="StressExponent">3</param>
+            <param name="PreExponentialFactor" units="Pa^-3*s^-1">1e-15</param>
+            <param name="DefaultStrainRateInvariant" units="s^-1">1.0e-15</param>
+
+            <param name="ActivationEnergy" units="kJ/mol">500</param>
             <param name="ActivationVolume">0.0</param>
 
             <param name="minViscosity" units="Pa*s">5e18</param>
