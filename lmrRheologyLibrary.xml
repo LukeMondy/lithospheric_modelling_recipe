@@ -521,8 +521,8 @@
         
         
         <!-- === Lower crustal ====== -->
-        <struct name="viscSRTdislocation_mafic_granulite_Wang2012">
-            <!-- Mafic granulite: Wang et al., EPSL 2012 -->
+        <struct name="viscSRTdislocation_dry_mafic_granulite_Wang2012">
+            <!-- Dry Mafic granulite: Wang et al., EPSL 2012 -->
             <param name="Type">ViscousCreep</param>
             <param name="StrainRateInvariantField">StrainRateInvariantField</param>
             <param name="TemperatureField">TemperatureField</param>

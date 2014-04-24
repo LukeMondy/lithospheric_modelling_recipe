@@ -29,8 +29,8 @@
     <Thermal_Equilibration>
         <run_thermal_equilibration_phase> false </run_thermal_equilibration_phase>
         
-        <update_xml_information> true </update_xml_information>
-        <preserve_thermal_equilibration_checkpoints> false </preserve_thermal_equilibration_checkpoints>
+        <update_xml_information> false </update_xml_information>
+        <preserve_thermal_equilibration_checkpoints> true </preserve_thermal_equilibration_checkpoints>
 
         <output_controls>
             <description> laterally_homog </description>
@@ -43,7 +43,7 @@
 
             <experiment_duration_options>
                 <maximum_steps> 4000000000 </maximum_steps>
-                <maximum_time> 1.0e9 </maximum_time>
+                <maximum_time> 1.0e8 </maximum_time>
             </experiment_duration_options>
 
             <checkpointing_options>

@@ -315,7 +315,7 @@
              in your model, making it potentially easier to solve. -->
     <struct name="viscosityLimiter"> 
         <param name="Type"> ViscosityLimiter </param>
-        <param name="maxViscosity" units="Pa*s"> 1e24 </param>
+        <param name="maxViscosity" units="Pa*s"> 5e23 </param>
         <param name="minViscosity" units="Pa*s"> 1e19 </param>
     </struct>
 
@@ -487,14 +487,14 @@
 
         <list name="MultiRheologies">
             <list>
-                <!-- Viscous law  -->   <param> viscSRTdislocation_wet_anorthite_Rybacki2000 </param>
+                <!-- Viscous law  -->   <param> viscSRTdislocation_dry_mafic_granulite_Wang2012 </param>
                 <!-- Brittle law  -->   <param> yield_lower_crust_Rey2010 </param>
                 <!-- Stress limiter --> <param> yield_stressLimiter_300MPa </param>
                 <!-- Melt modifier -->  <param> viscMelt_crustal_Hirth2003 </param>
                 <!-- Visc limiter -->   <param> viscosityLimiter </param>
             </list>
             <list>
-                <!-- Viscous law  -->   <param> viscSRTdiffusion_wet_anorthite_Rybacki2000 </param>
+                <!-- Viscous law  -->   <param> viscSRTdiffusion_dry_anorthite_Rybacki2000 </param>
                 <!-- Brittle law  -->   <param> yield_lower_crust_Rey2010 </param>
                 <!-- Stress limiter --> <param> yield_stressLimiter_300MPa </param>
                 <!-- Melt modifier -->  <param> viscMelt_crustal_Hirth2003 </param>
@@ -523,14 +523,14 @@
 
         <list name="MultiRheologies">
             <list>
-                <!-- Viscous law  -->   <param> viscSRTdislocation_wet_anorthite_Rybacki2000 </param>
+                <!-- Viscous law  -->   <param> viscSRTdislocation_dry_mafic_granulite_Wang2012 </param>
                 <!-- Brittle law  -->   <param> yield_lower_crust_Rey2010 </param>
                 <!-- Stress limiter --> <param> yield_stressLimiter_300MPa </param>
                 <!-- Melt modifier -->  <param> viscMelt_crustal_Hirth2003 </param>
                 <!-- Visc limiter -->   <param> viscosityLimiter </param>
             </list>
             <list>
-                <!-- Viscous law  -->   <param> viscSRTdiffusion_wet_anorthite_Rybacki2000 </param>
+                <!-- Viscous law  -->   <param> viscSRTdiffusion_dry_anorthite_Rybacki2000 </param>
                 <!-- Brittle law  -->   <param> yield_lower_crust_Rey2010 </param>
                 <!-- Stress limiter --> <param> yield_stressLimiter_300MPa </param>
                 <!-- Melt modifier -->  <param> viscMelt_crustal_Hirth2003 </param>
@@ -568,7 +568,7 @@
                 <!-- Visc limiter -->   <param> viscosityLimiter </param>
             </list>
             <list>
-                <!-- Viscous law  -->   <param> viscSRTdiffusion_wet_olivine_Faul2007 </param>
+                <!-- Viscous law  -->   <param> viscSRTdiffusion_wet_olivine_Hirth2003 </param>
                 <!-- Brittle law  -->   <param> yield_litho_mantle_Rey2010 </param>
                 <!-- Stress limiter --> <param> yield_stressLimiter_300MPa </param>
                 <!-- Melt modifier -->  <param> viscMelt_mantle_Hirth2003 </param>
@@ -605,7 +605,7 @@
                 <!-- Visc limiter -->   <param> viscosityLimiter </param>
             </list>
             <list>
-                <!-- Viscous law  -->   <param> viscSRTdiffusion_wet_olivine_Faul2007 </param>
+                <!-- Viscous law  -->   <param> viscSRTdiffusion_wet_olivine_Hirth2003 </param>
                 <!-- Brittle law  -->   <param> yield_litho_mantle_Rey2010 </param>
                 <!-- Stress limiter --> <param> yield_stressLimiter_300MPa </param>
                 <!-- Melt modifier -->  <param> viscMelt_mantle_Hirth2003 </param>

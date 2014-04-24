@@ -68,6 +68,7 @@ def load_xml(input_xml='lmrStart.xml', xsd_location='LMR.xsd'):
     except Exception as e:
         sys.exit("Problem with the XSD validation! Computer says:\n%s" % e)
 
+    error_log = ""
     try:
         tree = ElementTree.parse(input_xml)     # Any errors from mismatching tags will be caught
         schema.validate(tree)                   # Validate against xsd.
