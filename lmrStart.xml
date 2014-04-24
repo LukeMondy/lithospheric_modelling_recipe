@@ -27,10 +27,10 @@
     </Output_Controls>
     
     <Thermal_Equilibration>
-        <run_thermal_equilibration_phase> false </run_thermal_equilibration_phase>
+        <run_thermal_equilibration_phase> true </run_thermal_equilibration_phase>
         
-        <update_xml_information> false </update_xml_information>
-        <preserve_thermal_equilibration_checkpoints> true </preserve_thermal_equilibration_checkpoints>
+        <update_xml_information> true </update_xml_information>
+        <preserve_thermal_equilibration_checkpoints> false </preserve_thermal_equilibration_checkpoints>
 
         <output_controls>
             <description> laterally_homog </description>
@@ -77,9 +77,9 @@
     </Model_Precision>
 
     <Underworld_Execution>
-        <Underworld_binary> /home/luke/Programs/unmodified-uw/build/bin/Underworld </Underworld_binary>
+        <Underworld_binary> /group/partner642/Dev/uw-be/build/bin/Underworld </Underworld_binary>
         <CPUs> 6 </CPUs>
-        <supercomputer_mpi_format> false </supercomputer_mpi_format>
+        <supercomputer_mpi_format> true </supercomputer_mpi_format>
     </Underworld_Execution>
 
 </lmr:LMRStarterKit>
