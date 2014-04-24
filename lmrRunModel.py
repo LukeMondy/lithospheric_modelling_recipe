@@ -255,6 +255,14 @@ def prepare_job(model_dict, command_dict):
                    "-fieldsplit_1_ksp_type preonly",
                    "-log_summary",
                    "-options_left"]
+                   
+        solvers = ["-pc_mg_type full -ksp_type richardson -mg_levels_pc_type bjacobi",
+                  "-mg_levels_ksp_type gmres -mg_levels_ksp_max_it 3",
+                  "-mg_coarse_pc_factor_mat_solver_package superlu_dist -mg_coarse_pc_type lu",
+                  "-pc_mg_galerkin -pc_mg_levels 5 -pc_type mg",
+                  "-log_summary  -pc_mg_log -ksp_monitor_true_residual -options_left -ksp_view",
+                  "-ksp_max_it 30",
+                  "-options_left"]
 
         model_dict["input_xmls"] += " {output_path}/xmls/lmrSolvers.xml"
 
