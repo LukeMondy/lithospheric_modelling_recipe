@@ -33,7 +33,9 @@
         <!-- ====== Generate fields for output ===================== -->
         <include>Underworld/MaterialIndexField.xml          </include>
         <include>Underworld/ViscosityField.xml              </include>
-        <include>Underworld/StressField2D.xml               </include>'
+        <include>Underworld/StressField2D.xml               </include>
+        <include>Underworld/DeviatoricStressField.xml       </include>
+        <include>Underworld/CumulativeTotalStrain.xml       </include>
     
     <!-- =============================================================== -->
         
@@ -58,7 +60,7 @@
         <include> lmrVelocityBoundaries.xml </include>
     
         <!-- NOTE: Other lmr files, such as lmrThermalEquilibration and lmrSolvers
-                   are added on the fly by lmrRunModel.sh when needed. They do not
+                   are added on the fly by lmrRunModel.py when needed. They do not
                    need to specified in here. -->
     
     <!-- =============================================================== -->

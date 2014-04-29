@@ -14,22 +14,24 @@
     <!-- === Output controls ================================== -->
     <list name="FieldVariablesToCheckpoint" mergeType="merge">
         <!-- === Must be checkpointed for model restart ===== -->
-        <param>VelocityField</param>
-        <param>PressureField</param>
-        <param>TemperatureField</param>
-        <param>StrainRateField</param>
-        <param>StressField</param>
+        <param> VelocityField </param>
+        <param> PressureField </param>
+        <param> TemperatureField </param>
+        <param> TemperatureField-phiDotField </param>
+        <param> StrainRateField </param>
+        <param> StressField </param>
         <!-- ================================================ -->
-        
-        <param>YieldedField</param>
-        <param>TotalBrittleStrainField</param>
-        <param>BrittleStrainIncrementField</param>
-        <param>ViscosityField</param>
-        <param>MaterialIndexField</param>
          
-        <param>StrainRateInvariantField</param>
-        <param>StressField</param>
-        <param>StressInvariantField</param>    
+        <param> StrainRateInvariantField </param>
+        <param> StressInvariantField </param>   
+        <param> deviatoricStressField </param> 
+        <param> cumulativeTotalStrainField </param>
+
+        <param> YieldedField </param>
+        <param> TotalBrittleStrainField </param>
+        <param> BrittleStrainIncrementField </param>
+        <param> ViscosityField </param>
+        <param> MaterialIndexField </param>
     </list>
     
     <!-- === Basic Visualisation === -->
@@ -215,25 +217,23 @@
                     <param name="StoreNLOnParticles"> True </param>
                 </struct>
                 <struct>
+                    <param name="PropertyName"> MeltFractionLimitProperty </param>
+                </struct>
+                <struct>
                     <param name="PropertyName"> MeltExpansionProperty </param>
                 </struct>
                 <struct>
-                    <param name="PropertyName"> liquidusProperty </param>
+                    <param name="PropertyName"> LiquidusProperty </param>
                     <param name="StoreOnMesh"> True </param>
                     <param name="StoreNLOnParticles"> True </param>
                 </struct>
                 <!-- NOTE: Since both the liquidus and the solidus have a pressure
                            dependency, they must use the StoreNLOnParticles option. -->
                 <struct>
-                    <param name="PropertyName"> solidusProperty </param>
+                    <param name="PropertyName"> SolidusProperty </param>
                     <param name="StoreOnMesh"> True </param>
                     <param name="StoreNLOnParticles"> True </param> 
                 </struct>
-
-                <struct>
-                    <param name="PropertyName"> meltLimitProperty </param>
-                </struct>
-
                 <!-- ====================================== -->
             </list>
         </struct>
@@ -271,6 +271,14 @@
         <struct name="BrittleStrainIncrementField">
             <param name="Type">SwarmVariableField</param>
             <param name="swarmVariable">materialSwarm-PostFailureWeakeningIncrement</param>
+            <param name="Mesh">linearMesh</param>
+            <param name="MaterialSwarm">materialSwarm</param>
+            <param name="Swarm">picIntegrationPoints</param>
+            <param name="Context">context</param>
+        </struct>
+        <struct name="cumulativeTotalStrainField">
+            <param name="Type">SwarmVariableField</param>
+            <param name="swarmVariable">materialSwarm-cumulativeTotalStrain</param>
             <param name="Mesh">linearMesh</param>
             <param name="MaterialSwarm">materialSwarm</param>
             <param name="Swarm">picIntegrationPoints</param>
@@ -388,6 +396,18 @@
     		<param name="Context"> context </param>
     		<param name="UsingTopPressure"> True </param>
     	</struct>
+
+        <!-- The following plugins write a text file into the results
+             folder, which lists all the swarm and field variables
+             respectively available for outputting -->
+        <struct>
+            <param name="Type">StgFEM_SwarmVariableList</param>
+            <param name="Context">context</param>
+        </struct>
+        <struct>
+            <param name="Type">StgFEM_FeVariableList</param>
+            <param name="Context">context</param>
+        </struct>
     </list>
     
     <!-- === Numerical controls (that probably shouldn't be touched) ==== -->

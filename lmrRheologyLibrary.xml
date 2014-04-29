@@ -259,10 +259,21 @@
         <struct name="global_expansivity">
             <!-- Thermal expansivity -->
             <param name="Type">Ppc_Constant</param>
-            <param name="Value">3e-5</param>
+            <param name="Value" units="K^-1">3e-5</param>
         </struct>
-                
         
+        <struct name="latentHeat_crust">
+            <!-- Latent heat of melting -->
+            <param name="Type">Ppc_Constant</param>
+            <param name="Value" units="kJ*kg^-1"> 300.0 </param>
+        </struct>
+        
+        <struct name="latentHeat_mantle">
+            <!-- Latent heat of melting -->
+            <param name="Type">Ppc_Constant</param>
+            <param name="Value" units="kJ*kg^-1"> 300.0 </param>
+        </struct>
+
         <!-- === Radiogenic heat production ============= -->
         <!-- NOTE: This is the value for the actual heat production. It gets divided
                    by rho*cp in the lmrNumerics.xml, to calculate the energy added into
@@ -364,11 +375,24 @@
                    the melt fraction can be artificially limited. -->
         <struct name="melt_fraction">
             <param name="Type">Ppc_PartialMelt_Limited</param>
-            <param name="LiquidusTag"> liquidusProperty </param>
-            <param name="SolidusTag">  solidusProperty </param>
+            <param name="LiquidusTag"> LiquidusProperty </param>
+            <param name="SolidusTag">  SolidusProperty </param>
             <param name="TemperatureTag"> temperature_ppc_wrapper </param>
-            <param name="MeltLimitTag"> meltLimitProperty </param>
+            <param name="MeltLimitTag"> MeltFractionLimitProperty </param>
         </struct>
+
+        <struct name="melt_max_fraction_crust">
+            <!-- The maximum fraction of melt possible -->
+            <param name="Type"> Ppc_Constant </param>
+            <param name="Value"> 0.3 </param>
+        </struct>
+
+        <struct name="melt_max_fraction_mantle">
+            <!-- The maximum fraction of melt possible -->
+            <param name="Type"> Ppc_Constant </param>
+            <param name="Value"> 0.08 </param>
+        </struct>
+
 
 
         <!-- === End of Partial Melt Functions ===================================================== -->
@@ -529,7 +553,7 @@
             <param name="PressureField">PressureField</param>
 
             <param name="StressExponent">3.2</param>
-            <param name="PreExponentialFactor" units="(MPa)^-3.2*s^-1">1e-3</param>
+            <param name="PreExponentialFactor" units="(MPa)^-3.2*s^-1">10e-2</param>
             <param name="DefaultStrainRateInvariant" units="s^-1">1.0e-15</param>
 
             <param name="ActivationEnergy" units="kJ/mol">244</param>
