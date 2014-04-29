@@ -11,7 +11,7 @@
     </Model_Resolution>
     
     <Output_Controls>
-        <description> reference_model_50deg_hotter </description>
+        <description> reference_model </description>
         <experiment_duration_options>
             <maximum_steps> 10000000 </maximum_steps>
             <maximum_time> 1.0E7 </maximum_time>
@@ -33,7 +33,7 @@
         <preserve_thermal_equilibration_checkpoints> true </preserve_thermal_equilibration_checkpoints>
 
         <output_controls>
-            <description> laterally_homog_50deg_hotter </description>
+            <description> laterally_homog </description>
             
             <thermal_model_resolution>
                 <x> 2 </x>
