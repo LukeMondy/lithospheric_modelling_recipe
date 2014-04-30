@@ -28,6 +28,7 @@
                             - Partial melt viscosity modifiers
                         - Brittle laws
                             - Drucker-Prager
+                            - Stress Limiters
                          
                  The document is also grouped into Earth-like layers: upper-crust, lower-crust, mantle, etc.
                  
@@ -71,6 +72,8 @@
             <param name="Temperature"> temperature_ppc_wrapper </param>
             <param name="ReferenceTemperature" units="K">293.15</param>
             <param name="ThermalExpansivity"> global_expansivity </param>            
+            <!-- Pressure dependent densities can be used by adding
+                 the following params. -->
             <!--
             <param name="Pressure"> pressure_ppc_wrapper </param>
             <param name="ReferencePressure" units="MPa"> 0.0 </param>
@@ -243,7 +246,7 @@
         
         <!-- NOTE: Certain parameters are fairly simialr across most materials, so we can approximate
                    that they are all the same. To do this, we just define constants, which are called
-                   "global_<parameter>", and apply them to multiple materials. -->
+                   "global_<parameter>", and apply them to multiple materials in lmrMaterials.xml. -->
         
         <struct name="global_diffusivity">
             <param name="Type">Ppc_Constant</param>
@@ -263,13 +266,13 @@
         </struct>
         
         <struct name="latentHeat_crust">
-            <!-- Latent heat of melting -->
+            <!-- Latent heat of fusion -->
             <param name="Type">Ppc_Constant</param>
             <param name="Value" units="kJ*kg^-1"> 300.0 </param>
         </struct>
         
         <struct name="latentHeat_mantle">
-            <!-- Latent heat of melting -->
+            <!-- Latent heat of fusion -->
             <param name="Type">Ppc_Constant</param>
             <param name="Value" units="kJ*kg^-1"> 300.0 </param>
         </struct>
@@ -317,6 +320,7 @@
         <!-- ======================================================================================= -->
         <!-- === Partial Melt Functions ============================================================ -->
         
+        <!-- The fraction of density decrease due to melting -->
         <struct name="melt_crustal_density_decrease">
             <param name="Type"> Ppc_Constant </param>
             <param name="Value"> 0.13 </param>
@@ -386,11 +390,13 @@
             <param name="Type"> Ppc_Constant </param>
             <param name="Value"> 0.3 </param>
         </struct>
-
         <struct name="melt_max_fraction_mantle">
-            <!-- The maximum fraction of melt possible -->
             <param name="Type"> Ppc_Constant </param>
             <param name="Value"> 0.08 </param>
+        </struct>
+        <struct name="melt_max_no_limit">
+            <param name="Type"> Ppc_Constant </param>
+            <param name="Value"> 1.0 </param>
         </struct>
 
 
@@ -459,11 +465,18 @@
         
         <!-- === Strain-rate/temperature dependent  ================== -->
         <!-- NOTE: Underworld uses this equation for ViscousCreep:
-            viscosity = 0.5 * pow( A, -1.0/ n ) * pow( eII, 1.0/n -1.0 ) * exp( (E + P*V) / ( n * R * T)
+            viscosity = 0.5 * pow( A, -1.0/n ) * 
+                        pow( eII, 1.0/n -1.0 ) * 
+                        pow( d, p/n ) * pow( fH2O, -r/n ) *
+                        exp( (E + P*V) / ( n * R * T)
                 where:
                 A is PreExponentialFactor,
                 n is StressExponent,
                 eII is strain-rate,
+                d is GrainSize,
+                p is GrainSizeExponent,
+                fH2O is WaterFugacity,
+                r is WaterFugacityExponent,
                 E is ActivationEnergy,
                 P is Pressure
                 V is ActivationVolume,
@@ -837,20 +850,6 @@
         </struct>
         <!-- ================================================ -->
 
-        <!-- === Faulted material ==== -->
-        <struct name="yield_weak_faulted">
-            <param name="Type">DruckerPrager</param>
-            <param name="PressureField">PressureField</param>
-            <param name="MaterialPointsSwarm">materialSwarm</param>
-            <param name="StrainRateField">StrainRateField</param>
-            <param name="StrainWeakening">strainWeakening</param>
-            
-            <param name="cohesion" units="MPa">8</param>
-            <param name="cohesionAfterSoftening" units="MPa">0.8</param>
-            <param name="frictionCoefficient">0.04</param>
-            <param name="frictionCoefficientAfterSoftening">0.004</param>
-            <param name="minimumViscosity" units="Pa*s">1e+19</param>
-        </struct>
         
         <!-- === Upper crustal ====== -->
         <struct name="yield_upper_crust_Rey2010">
@@ -868,7 +867,7 @@
             <param name="minimumViscosity" units="Pa*s">1e+19</param>
         </struct>
         
-        <struct name="yield_upper_crust_stroner">
+        <struct name="yield_upper_crust_stronger">
             <param name="Type">DruckerPrager</param>
             <param name="PressureField">PressureField</param>
             <param name="MaterialPointsSwarm">materialSwarm</param>
@@ -942,14 +941,36 @@
             <param name="minimumViscosity" units="Pa*s">1e+19</param>
         </struct>
 
+
+        <!-- === Stress limiters ======= -->
+        <!-- For example see Ord, A and Hobbs, Tectonophysics 1989 -->
         <struct name="yield_stressLimiter_300MPa">
-            <!-- For example see Ord, A and Hobbs, Tectonophysics 1989 -->
             <param name="Type"> VonMises </param>
             <param name="MaterialPointsSwarm"> materialSwarm </param>
             <param name="StrainRateField"> StrainRateField </param>
-	        <param name="strainRateSoftening"> False </param>
+            <param name="strainRateSoftening"> False </param>
 
             <param name="cohesion" units="MPa"> 300 </param>
+            <param name="minimumViscosity" units="Pa*s"> 1e+19 </param>
+        </struct>
+
+        <struct name="yield_stressLimiter_400MPa">
+            <param name="Type"> VonMises </param>
+            <param name="MaterialPointsSwarm"> materialSwarm </param>
+            <param name="StrainRateField"> StrainRateField </param>
+            <param name="strainRateSoftening"> False </param>
+
+            <param name="cohesion" units="MPa"> 400 </param>
+            <param name="minimumViscosity" units="Pa*s"> 1e+19 </param>
+        </struct>
+
+        <struct name="yield_stressLimiter_500MPa">
+            <param name="Type"> VonMises </param>
+            <param name="MaterialPointsSwarm"> materialSwarm </param>
+            <param name="StrainRateField"> StrainRateField </param>
+            <param name="strainRateSoftening"> False </param>
+
+            <param name="cohesion" units="MPa"> 500 </param>
             <param name="minimumViscosity" units="Pa*s"> 1e+19 </param>
         </struct>
 

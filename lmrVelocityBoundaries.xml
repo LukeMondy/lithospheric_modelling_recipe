@@ -71,7 +71,10 @@
     
     <!-- === Example Ppc function for wallVC ============= -->
     <!-- The following structs define a time dependent wall VC, where between
-         t=0 and t=1myr, the wall velocity increases from 0 to -2.0 cm/yr.
+         t=0 and t=1myr, the wall velocity increases from 0 to -2.0 cm/yr. 
+         Note that the speed increase is linearly interpolated between one
+         case to the next (hence the 'l' for linear in the "Interpolate"
+         param).
          
          To use this function, change the left wallVC "type" to be "func", and 
          set the "value" to be "left-wall-VC" (and get rid of any units). -->
@@ -135,9 +138,10 @@
                 <param name="staticFront">  True  </param>
                 <param name="staticBack">   True  </param>
                 
-                <!-- WrapTop will make the top boundary conform to topography.
-                     This works well, but can become unstable with strong local
-                     relief. -->
+                <!-- WrapTop will make the top boundary conform to topography,
+                     giving you a free-surface boundary condition. This works
+                     well, but can become unstable with strong local relief. 
+                 -->
                 <param name="wrapTop"> False </param>
                 <!-- ======================================== -->
                 

@@ -16,9 +16,9 @@
         </struct>
 
         <struct name="ptl_all">
-            <param name="Type">WithinShapeParticleLayout</param>
-            <param name="totalInitialParticles">3000000</param>
-            <param name="shape">allMarker</param>
+            <param name="Type"> WithinShapeParticleLayout </param>
+            <param name="taverageInitialParticlesPerCell"> 120 </param>
+            <param name="shape"> allMarker </param>
         </struct>
  
         <!-- ==================================================================================== -->
@@ -27,29 +27,29 @@
         
         <!-- === Numerical implementation ======================================================= -->
         <struct name="user_passiveSwarmMovementHandler">
-            <param name="Type">ParticleMovementHandler</param>
+            <param name="Type"> ParticleMovementHandler </param>
         </struct>
         <struct name="user_ElementCellLayoutTracer">
-            <param name="Type">ElementCellLayout</param>
-            <param name="Mesh">linearMesh</param>
+            <param name="Type"> ElementCellLayout </param>
+            <param name="Mesh"> linearMesh </param>
         </struct>
         
 
         <struct name="all_passiveTracerSwarm">
-            <param name="Type">MaterialPointsSwarm</param>
-            <param name="CellLayout">user_ElementCellLayoutTracer</param>
-            <param name="ParticleLayout">ptl_all</param>
-            <param name="FiniteElement_Mesh">linearMesh</param>
-            <param name="FeMesh">elementMesh</param>
+            <param name="Type"> MaterialPointsSwarm</param>
+            <param name="CellLayout"> user_ElementCellLayoutTracer</param>
+            <param name="ParticleLayout"> ptl_all</param>
+            <param name="FiniteElement_Mesh"> linearMesh</param>
+            <param name="FeMesh"> elementMesh </param>
             <list name="ParticleCommHandlers">
-                <param>user_passiveSwarmMovementHandler</param>
+                <param> user_passiveSwarmMovementHandler </param>
             </list>
         </struct>
         <struct name="passiveTracerAdvect">
-            <param name="Type">SwarmAdvector</param>
-            <param name="Swarm">all_passiveTracerSwarm</param>
-            <param name="TimeIntegrator">timeIntegrator</param>
-            <param name="VelocityField">VelocityField</param>
+            <param name="Type"> SwarmAdvector </param>
+            <param name="Swarm"> all_passiveTracerSwarm </param>
+            <param name="TimeIntegrator"> timeIntegrator </param>
+            <param name="VelocityField"> VelocityField </param>
         </struct>
         
         <!-- ==================================================================================== -->
@@ -61,16 +61,17 @@
        
         <!-- Generates 1 file per tracer. Each file contains the timesteps
              and data for that tracer. NOTE: filename is as such:
-             particle<cpu>.<localCPUid>.<struct name>.dat 
+             particle<cpu>.<localCPUid>.<struct name>.dat -->
+        <!--
         <struct name="passiveswarmOutputs">
-            <param name="Type">Underworld_SwarmOutput</param>
-            <param name="Swarm">user_passiveTracerSwarm</param>
-            <param name="mode">PARTICLE_TRACE</param>
+            <param name="Type"> Underworld_SwarmOutput </param>
+            <param name="Swarm"> all_passiveTracerSwarm </param>
+            <param name="mode"> PARTICLE_TRACE </param>
             <list name="FeVariables">
-                <param>recoveredPressureField</param>
-                <param>TemperatureField</param>
-                <param>recoveredStrainRateInvariantField</param>
-                <param>recoveredDeviatoricStressInvariantField</param>
+                <param> PressureField </param>
+                <param> TemperatureField </param>
+                <param> StrainRateInvariantField </param>
+                <param> deviatoricStressField </param>
             </list>
         </struct>
         -->

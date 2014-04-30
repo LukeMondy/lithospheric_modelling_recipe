@@ -53,6 +53,8 @@
             </list> 
         </struct>
         
+        <!-- Remove passive tracers, since they won't move 
+             and slow the computation -->
         <struct name="passiveswarmOutputs" mergeType="replace">
             <param name="Type"> DummyComponent </param>
         </struct>
@@ -73,6 +75,8 @@
     </list>
     
     <struct name="velocityBCs" mergeType="replace">
+        <!-- Remove the Isostasy boundary condition from the
+             base of the model -->
         <param name="type">CompositeVC</param>
         <list name="vcList">
             <struct>
@@ -90,6 +94,7 @@
     </struct>
     
     <list name="plugins" mergeType="replace">
+        <!-- Remove all plugins but a few important ones -->
         <struct>
             <param name="Type">StgFEM_SwarmVariableList</param>
             <param name="Context">context</param>
