@@ -423,9 +423,9 @@
             <param name="eta0" units="Pa*s"> 1e+23 </param>
         </struct>
 
-        <struct name="viscIso_asthenosphere_1e19">
+        <struct name="viscIso_asthenosphere_1e20">
             <param name="Type">MaterialViscosity</param>
-            <param name="eta0" units="Pa*s"> 1e+19 </param>
+            <param name="eta0" units="Pa*s"> 1e+20 </param>
         </struct>
         <!-- ========================================================= -->
 
@@ -483,10 +483,7 @@
             <param name="DefaultStrainRateInvariant" units="s^-1">1.0e-15</param>
 
             <param name="ActivationEnergy" units="kJ/mol">190</param>
-            <param name="ActivationVolume">0.0</param>
-
-            <param name="minViscosity" units="Pa*s">1e19</param>
-            <param name="maxViscosity" units="Pa*s">5e23</param>
+            <param name="ActivationVolume" units="m^3/mol"> 0.0</param>
         </struct>
         
         <struct name="viscSRTdislocation_dry_quartz_Koch1983">
@@ -501,10 +498,7 @@
             <param name="DefaultStrainRateInvariant" units="s^-1">1.0e-15</param>
 
             <param name="ActivationEnergy" units="kJ/mol">149</param>
-            <param name="ActivationVolume">0.0</param>
-
-            <param name="minViscosity" units="Pa*s">1e19</param>
-            <param name="maxViscosity" units="Pa*s">5e23</param>
+            <param name="ActivationVolume" units="m^3/mol"> 0.0</param>
         </struct>
         
         <struct name="viscSRTdislocation_wet_quartz_Kronenberg1984">
@@ -519,10 +513,7 @@
             <param name="DefaultStrainRateInvariant" units="s^-1">1.0e-15</param>
 
             <param name="ActivationEnergy" units="kJ/mol">134</param>
-            <param name="ActivationVolume">0.0</param>
-
-            <param name="minViscosity" units="Pa*s">1e19</param>
-            <param name="maxViscosity" units="Pa*s">5e23</param>
+            <param name="ActivationVolume" units="m^3/mol"> 0.0</param>
         </struct>
 
         <struct name="viscSRTdislocation_wet_quartzite_Paterson1990">
@@ -537,10 +528,7 @@
             <param name="DefaultStrainRateInvariant" units="s^-1">1.0e-15</param>
 
             <param name="ActivationEnergy" units="kJ/mol">135</param>
-            <param name="ActivationVolume">0.0</param>
-
-            <param name="minViscosity" units="Pa*s">1e19</param>
-            <param name="maxViscosity" units="Pa*s">5e23</param>
+            <param name="ActivationVolume" units="m^3/mol"> 0.0</param>
         </struct>
         
         
@@ -557,10 +545,7 @@
             <param name="DefaultStrainRateInvariant" units="s^-1">1.0e-15</param>
 
             <param name="ActivationEnergy" units="kJ/mol">244</param>
-            <param name="ActivationVolume">0.0</param>
-
-            <param name="minViscosity" units="Pa*s">5e18</param>
-            <param name="maxViscosity" units="Pa*s">5e23</param>
+            <param name="ActivationVolume" units="m^3/mol"> 0.0</param>
         </struct>
         
         <struct name="viscSRTdislocation_dry_diabase_Mackwell1998">
@@ -575,10 +560,7 @@
             <param name="DefaultStrainRateInvariant" units="s^-1">1.0e-15</param>
             
             <param name="ActivationEnergy" units="kJ/mol">485</param>
-            <param name="ActivationVolume">0.0</param>
-            
-            <param name="minViscosity" units="Pa*s">1e19</param>
-            <param name="maxViscosity" units="Pa*s">5e23</param>
+            <param name="ActivationVolume" units="m^3/mol"> 0.0</param>
         </struct>
         
         <struct name="viscSRTdislocation_dry_anorthite_Rybacki2000">
@@ -593,10 +575,7 @@
             <param name="DefaultStrainRateInvariant" units="s^-1">1.0e-15</param>
 
             <param name="ActivationEnergy" units="kJ/mol">648</param>
-            <param name="ActivationVolume">0.0</param>
-
-            <param name="minViscosity" units="Pa*s">1e19</param>
-            <param name="maxViscosity" units="Pa*s">5e23</param>
+            <param name="ActivationVolume" units="m^3/mol"> 0.0</param>
         </struct>
         
         <struct name="viscSRTdiffusion_dry_anorthite_Rybacki2000">
@@ -617,9 +596,6 @@
 
             <param name="ActivationEnergy" units="kJ/mol">467</param>
             <param name="ActivationVolume" units="m^3/mol">0</param>
-
-            <param name="minViscosity" units="Pa*s">1e19</param>
-            <param name="maxViscosity" units="Pa*s">5e23</param>
         </struct>
         
         
@@ -635,10 +611,7 @@
             <param name="DefaultStrainRateInvariant" units="s^-1">1.0e-15</param>
 
             <param name="ActivationEnergy" units="kJ/mol">356</param>
-            <param name="ActivationVolume">0.0</param>
-
-            <param name="minViscosity" units="Pa*s">1e19</param>
-            <param name="maxViscosity" units="Pa*s">5e23</param>
+            <param name="ActivationVolume" units="m^3/mol"> 0.0</param>
         </struct>
         
         <struct name="viscSRTdiffusion_wet_anorthite_Rybacki2000">
@@ -659,9 +632,6 @@
 
             <param name="ActivationEnergy" units="kJ/mol">170</param>
             <param name="ActivationVolume" units="m^3/mol">0</param>
-
-            <param name="minViscosity" units="Pa*s">1e19</param>
-            <param name="maxViscosity" units="Pa*s">5e23</param>
         </struct>
         
         
@@ -680,10 +650,7 @@
             <param name="DefaultStrainRateInvariant" units="s^-1">1.0e-15</param>
 
             <param name="ActivationEnergy" units="kJ/mol">520</param>
-            <param name="ActivationVolume">0.0</param>
-
-            <param name="minViscosity" units="Pa*s">5e18</param>
-            <param name="maxViscosity" units="Pa*s">5e23</param>
+            <param name="ActivationVolume" units="m^3/mol"> 0.0</param>
         </struct>
         
         <struct name="viscSRTdislocation_dry_olivine_Korenaga2008">
@@ -698,10 +665,7 @@
             <param name="DefaultStrainRateInvariant" units="s^-1">1.0e-15</param>
 
             <param name="ActivationEnergy" units="kJ/mol">610</param>
-            <param name="ActivationVolume">0.0</param>
-
-            <param name="minViscosity" units="Pa*s">5e18</param>
-            <param name="maxViscosity" units="Pa*s">5e23</param>
+            <param name="ActivationVolume" units="m^3/mol"> 0.0</param>
         </struct>
         
         <struct name="viscSRTdislocation_olivine_Kirby1987">
@@ -716,10 +680,7 @@
             <param name="DefaultStrainRateInvariant" units="s^-1">1.0e-15</param>
 
             <param name="ActivationEnergy" units="kJ/mol">500</param>
-            <param name="ActivationVolume">0.0</param>
-
-            <param name="minViscosity" units="Pa*s">5e18</param>
-            <param name="maxViscosity" units="Pa*s">5e23</param>
+            <param name="ActivationVolume" units="m^3/mol"> 0.0</param>
         </struct>
 
 
@@ -737,11 +698,8 @@
             <param name="PreExponentialFactor" units="(MPa)^-3.5*s^-1">1.1e5</param>
             <param name="DefaultStrainRateInvariant" units="s^-1">1.0e-15</param>
 
-            <param name="ActivationEnergy" units="J/mol">530000</param>
+            <param name="ActivationEnergy" units="kJ/mol">530</param>
             <param name="ActivationVolume" units="m^3/mol">6e-6</param>
-
-            <param name="minViscosity" units="Pa*s">5e18</param>
-            <param name="maxViscosity" units="Pa*s">5e23</param>
         </struct>
 
         <struct name="viscSRTdiffusion_dry_olivine_Hirth2003">
@@ -759,11 +717,8 @@
             <param name="PreExponentialFactor" units="(MPa)^-1*s^-1"> 1.5e9 </param>
             <param name="DefaultStrainRateInvariant" units="s^-1">1.0e-15</param>
 
-            <param name="ActivationEnergy" units="J/mol">375000</param>
+            <param name="ActivationEnergy" units="kJ/mol">375</param>
             <param name="ActivationVolume" units="m^3/mol">6e-6</param>
-
-            <param name="minViscosity" units="Pa*s">5e18</param>
-            <param name="maxViscosity" units="Pa*s">5e23</param>
         </struct>
 
         <struct name="viscSRTdislocation_wet_olivine_Hirth2003">
@@ -781,11 +736,8 @@
             <param name="PreExponentialFactor" units="(MPa)^-3.5*s^-1"> 1600 </param>
             <param name="DefaultStrainRateInvariant" units="s^-1">1.0e-15</param>
 
-            <param name="ActivationEnergy" units="J/mol">520000</param>
+            <param name="ActivationEnergy" units="kJ/mol">520</param>
             <param name="ActivationVolume" units="m^3/mol">23e-6</param>
-
-            <param name="minViscosity" units="Pa*s">5e18</param>
-            <param name="maxViscosity" units="Pa*s">5e23</param>
         </struct>
 
         <struct name="viscSRTdiffusion_wet_olivine_Hirth2003">
@@ -803,11 +755,8 @@
             <param name="PreExponentialFactor" units="(MPa)^-1*s^-1"> 2.5e7 </param>
             <param name="DefaultStrainRateInvariant" units="s^-1">1.0e-15</param>
 
-            <param name="ActivationEnergy" units="J/mol">375000</param>
+            <param name="ActivationEnergy" units="kJ/mol">375</param>
             <param name="ActivationVolume" units="m^3/mol">10e-6</param>
-
-            <param name="minViscosity" units="Pa*s">5e18</param>
-            <param name="maxViscosity" units="Pa*s">5e23</param>
         </struct>
 
         <struct name="viscSRTdiffusion_wet_olivine_Faul2007">
@@ -827,9 +776,6 @@
 
             <param name="ActivationEnergy" units="kJ/mol">484</param>
             <param name="ActivationVolume" units="m^3/mol">0</param>
-
-            <param name="minViscosity" units="Pa*s">5e18</param>
-            <param name="maxViscosity" units="Pa*s">5e23</param>
         </struct>
 
 

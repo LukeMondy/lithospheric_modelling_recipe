@@ -86,12 +86,12 @@
             <list name="Properties">
                 <!-- Add or remove sources of thermal energy via this operation.
                      NOTE: having just a single term is OK. -->
-                <param>radiogenicHeating</param>
-                <param>meltFractionHeating</param>
+                <param> radiogenicHeating </param>
+                <param> meltFractionHeating </param>
             </list>
         </struct>
         
-		
+        
         <!-- radiogenicHeating = radiogenic_heat_production / (heat_capacity * density ) -->
         <struct name="radiogenicHeating">
             <param name="Type">Ppc_Operation</param>
@@ -109,7 +109,7 @@
                 <param>CpProperty</param>
             </list>
         </struct>
-		
+        
         
         <!-- meltFractionHeating = -1 * latent_heat_fusion * delta_melt_fraction / (heat_capacity * delta_time ) -->
         <struct name="meltFractionHeating">
@@ -119,23 +119,23 @@
             <param name="MeltFractionLabel">MeltFractionProperty</param>
         </struct> 
         
-		<!-- NOTE: The radiogenic heat was defined using an equation built in XML Ppc_Operations. meltFractionHeating
-		           can be done the same way, but a) it takes up a lot of space, and b) a Ppc function (Ppc_MeltHeating)
-		           has already been built into Underworld to do this for us. -->
-		
-		<struct name="thermalEqn">
+        <!-- NOTE: The radiogenic heat was defined using an equation built in XML Ppc_Operations. meltFractionHeating
+                   can be done the same way, but a) it takes up a lot of space, and b) a Ppc function (Ppc_MeltHeating)
+                   has already been built into Underworld to do this for us. -->
+        
+        <struct name="thermalEqn">
             <!-- This struct allows additional energy sources into the system, for
-				 example: a heat flux boundary, radiogenic heating, etc. 
-				 The sources of energy are incorporated via the sourceTerms_thermalEqn 
-				 struct defined above.-->                 
+                 example: a heat flux boundary, radiogenic heating, etc. 
+                 The sources of energy are incorporated via the sourceTerms_thermalEqn 
+                 struct defined above.-->                 
             <param name="Type">VectorAssemblyTerm_NA__F</param>
             <param name="ForceVector">residual</param>
             <param name="functionLabel">sourceTerms_thermalEqn</param>
             <param name="Swarm">picIntegrationPoints</param>
             <param name="Manager">default_ppcManager</param>
         </struct>
-		<struct name="defaultResidualForceTerm" mergeType="replace">
-			<!-- This struct ensures advection/diffusion is solved (not just diffusion). -->
+        <struct name="defaultResidualForceTerm" mergeType="replace">
+            <!-- This struct ensures advection/diffusion is solved (not just diffusion). -->
             <param name="Type">SUPGAdvDiffTermPpc</param>
             <param name="ForceVector">residual</param>
             <param name="EnergyEqn">EnergyEqn</param>
@@ -146,22 +146,22 @@
         </struct>
         <!-- ====== End of Thermal Energy ======================== -->
         
-	<!-- === End of fundamental forces definitions ========================================== -->
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-	<!-- === The nitty-gritty numerics (best to leave alone if unsure) ====================== -->
+    <!-- === End of fundamental forces definitions ========================================== -->
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    <!-- === The nitty-gritty numerics (best to leave alone if unsure) ====================== -->
         
         <!-- The Ppc Manager-->
         <struct name="default_ppcManager">
@@ -207,9 +207,6 @@
                 
                 <!-- === Melt properties ================= -->
                 <struct>
-                    <param name="PropertyName"> LatentHeatFusionProperty </param>
-                </struct>
-                <struct>
                     <param name="PropertyName"> MeltFractionProperty </param>
                     <param name="StoreOnParticles"> True </param>
                     <param name="StoreOnMesh"> True </param>
@@ -234,6 +231,9 @@
                     <param name="StoreOnMesh"> True </param>
                     <param name="StoreNLOnParticles"> True </param> 
                 </struct>
+                <struct>
+                    <param name="PropertyName"> LatentHeatFusionProperty </param>
+                </struct>
                 <!-- ====================================== -->
             </list>
         </struct>
@@ -247,8 +247,8 @@
             <param name="Type">Ppc_Variable</param>
             <param name="FieldVariable">PressureField</param>
         </struct>
-		
-		
+        
+        
         <!-- === User-defined fields ============================= -->
             <!-- Swarm variables are interpolated to the mesh
                  using SwarmVariableField -->
@@ -336,7 +336,7 @@
         <!-- ============================================== -->
         
         
-		<!-- === Implementation for flux BCs =============== -->
+        <!-- === Implementation for flux BCs =============== -->
         <struct name="borderCellLayout">
             <param name="Type">SingleCellLayout</param>
         </struct>
@@ -383,19 +383,19 @@
     </struct>
     
     <list name="plugins" mergeType="merge">
-    	<struct>
-    		<!-- The pressure calibration plugin is used to ensure
-    			 Underworld uses real-world pressure values (appr-
-    			 oximately). Stokes flow only has a pressure grad-
-    			 iant term, so the calibration plugin is used to 
-    			 ensure it is properly offset. 
-    			 The plugin calculates the average pressure across
-    			 the top of the model, and removes that value from
-    			 everywhere in the model. -->
-    		<param name="Type"> Underworld_PressureCalibration </param>
-    		<param name="Context"> context </param>
-    		<param name="UsingTopPressure"> True </param>
-    	</struct>
+        <struct>
+            <!-- The pressure calibration plugin is used to ensure
+                 Underworld uses real-world pressure values (appr-
+                 oximately). Stokes flow only has a pressure grad-
+                 iant term, so the calibration plugin is used to 
+                 ensure it is properly offset. 
+                 The plugin calculates the average pressure across
+                 the top of the model, and removes that value from
+                 everywhere in the model. -->
+            <param name="Type"> Underworld_PressureCalibration </param>
+            <param name="Context"> context </param>
+            <param name="UsingTopPressure"> True </param>
+        </struct>
 
         <!-- The following plugins write a text file into the results
              folder, which lists all the swarm and field variables
@@ -437,11 +437,11 @@
     
     <!-- === Numerical tolerance values ============ -->
     <!-- These values are always overwritten -->
-    <param name="linearTolerance">5e-3</param>
+    <param name="linearTolerance">1e-5</param>
     <param name="linearMinIterations">10</param>
     <param name="linearMaxIterations">15000</param>
     
-    <param name="nonLinearTolerance">5e-3</param>
+    <param name="nonLinearTolerance">1e-3</param>
     <param name="nonLinearMinIterations">10</param>
     <param name="nonLinearMaxIterations">500</param>
     <!-- =========================================== -->
