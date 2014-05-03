@@ -17,7 +17,7 @@
 
         <struct name="ptl_all">
             <param name="Type"> WithinShapeParticleLayout </param>
-            <param name="taverageInitialParticlesPerCell"> 120 </param>
+            <param name="averageInitialParticlesPerCell"> 120 </param>
             <param name="shape"> allMarker </param>
         </struct>
  
