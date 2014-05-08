@@ -549,7 +549,13 @@ def interpolate_to_full_resolution(model_dict, last_ts):
 
 
 def main():
-    raw_dict = load_xml()
+    # Basic CLI argument parsing - if someone says python lmrRunModel.py <somefilename>, 
+    # it will send that file through to the XML parser. If no argument is given (or too 
+    # many), it will just look for lmrStart.xml
+    if len(sys.argv) > 1 and len(sys.argv) <= 2:
+        raw_dict = load_xml(str(sys.argv[1]))        
+    else:
+        raw_dict = load_xml()
 
     model_dict, command_dict = process_xml(raw_dict)
 

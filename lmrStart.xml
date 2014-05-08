@@ -11,7 +11,7 @@
     </Model_Resolution>
     
     <Output_Controls>
-        <description> reference_model_sptest </description>
+        <description> reference_model </description>
         <experiment_duration_options>
             <maximum_steps> 10000000 </maximum_steps>
             <maximum_time> 1.0E7 </maximum_time>
@@ -23,7 +23,7 @@
         </checkpointing_options>
         
         <output_pictures> false </output_pictures>
-        <write_log_file> true </write_log_file>
+        <write_log_file> false </write_log_file>
     </Output_Controls>
     
     <Thermal_Equilibration>
