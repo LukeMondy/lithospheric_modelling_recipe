@@ -12,7 +12,9 @@
                 <struct>
                     <param name="PropertyName"> SurfaceProcesses </param>
                     <param name="PassiveProperty"> True </param>  
-                    <param name="StorePreviousValue"> True </param>                  
+                    <param name="StorePreviousValue"> True </param>
+                    <param name="StoreOnParticles"> True </param>
+                    <param name="StoreOnMesh"> True </param>          
                 </struct>
             </list>            
         </struct>
@@ -21,11 +23,11 @@
         <!-- === Surface processes ================================================ -->
         <struct name="erosion_height">
             <param name="Type"> Ppc_Constant </param>
-            <param name="Value" units="km"> 0.1 </param>
+            <param name="Value" units="km"> 1.0 </param>
         </struct>
         <struct name="sedimentation_height">
             <param name="Type"> Ppc_Constant </param>
-            <param name="Value" units="km"> -0.1 </param>
+            <param name="Value" units="km"> -1.0 </param>
         </struct>
 
         <struct name="elevation">

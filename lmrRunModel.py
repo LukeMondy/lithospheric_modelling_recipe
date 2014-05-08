@@ -18,11 +18,13 @@ from itertools import chain
 
 
 # Python lXML - http://lxml.de/
+have_lxml = True
 try:
     from lxml import etree as ElementTree
 except ImportError:
-    sys.exit("=== ERROR ===\nThe LMR needs to use the Python library lxml. You can obtain it from: \
-                http://lxml.de/, or from your package manager.")
+    have_lxml = False
+    print "=== WARNING ===\n Unable to find the Python library lxml. The LMR can still run, but will not be able to validate the lmrStart.xml file. You can obtain it from: http://lxml.de/, or from your package manager."
+    from xml.etree import cElementTree as ElementTree 
 
 
 def load_xml(input_xml='lmrStart.xml', xsd_location='LMR.xsd'):
@@ -63,33 +65,35 @@ def load_xml(input_xml='lmrStart.xml', xsd_location='LMR.xsd'):
                 else:
                     self.update({element.tag: element.text.strip()})  # Line modified by LMondy to strip
 
-    try:
-        schema = ElementTree.XMLSchema(file=xsd_location)
-    except Exception as e:
-        sys.exit("Problem with the XSD validation! Computer says:\n%s" % e)
-
     error_log = ""
     try:
         tree = ElementTree.parse(input_xml)     # Any errors from mismatching tags will be caught
-        schema.validate(tree)                   # Validate against xsd.
-        error_log = schema.error_log
-
+        
+        if have_lxml is True:
+            # If we have lxml, get the schema and parse it
+            try:
+                schema = ElementTree.XMLSchema(file=xsd_location)
+            except Exception as e:
+                sys.exit("Problem with the XSD validation! Computer says:\n%s" % e)   
+            
+            schema.validate(tree)                   # Validate against xsd.
+            error_log = schema.error_log
+    
     except ElementTree.XMLSyntaxError as e:
         error_log = e.error_log
+    
+    if len(error_log) > 0:
+        error = "=== Error reading from file %s ===\n" % input_xml
 
-    finally:
-        if len(error_log) > 0:
-            error = "=== Error reading from file %s ===\n" % input_xml
-
-            for num, entry in enumerate(error_log):
-                error += '''
-                Error {num}:\n
-                There was an issue reading in the XML you have used. The code is reporting that on line {line}, this error occured:
-                \n\"{message}\"\n
-                Please have a look at {input_xml} closely, especially around the mentioned line. If you are still having issues, try using an XML validator online to see where the bug is.\n
-                \n'''.format(num=num+1, line=entry.line, message=entry.message, input_xml=input_xml)
-            nice_error = "\n".join([textwrap.fill(e.strip()) for e in error.splitlines()])
-            sys.exit(nice_error)
+        for num, entry in enumerate(error_log):
+            error += '''
+            Error {num}:\n
+            There was an issue reading in the XML you have used. The code is reporting that on line {line}, this error occured:
+            \n\"{message}\"\n
+            Please have a look at {input_xml} closely, especially around the mentioned line. If you are still having issues, try using an XML validator online to see where the bug is.\n
+            \n'''.format(num=num+1, line=entry.line, message=entry.message, input_xml=input_xml)
+        nice_error = "\n".join([textwrap.fill(e.strip()) for e in error.splitlines()])
+        sys.exit(nice_error)
 
     root = tree.getroot()
     return XmlDictConfig(root)
