@@ -106,77 +106,89 @@ def process_xml(raw_dict):
             return True
         return False
 
-    model_dict = {}
-    command_dict = {}
+    # Initialise some standard stuff
+    model_dict = {"input_xmls": "{output_path}/xmls/lmrMain.xml", }
 
-    # <Model_Resolution>
-    model_dict["resolution"] = {}
-    for dim in raw_dict["Model_Resolution"].keys():
-        model_dict["resolution"][dim] = int(raw_dict["Model_Resolution"][dim])
-    command_dict["resolution"] = "--elementResI={resolution[x]} \
-                                  --elementResJ={resolution[y]} \
-                                  --elementResK={resolution[z]}"
-
-    model_dict["dims"] = 2 if model_dict["resolution"]["z"] <= 0 else 3
-    command_dict["dims"] = "--dim={dims}"
-    # </Model_Resolution>
+    command_dict = {"input_xmls":               "{input_xmls}",
+                    "resolution":               "--elementResI={resolution[x]} \
+                                                 --elementResJ={resolution[y]} \
+                                                 --elementResK={resolution[z]}",
+                    "dims":                     "--dim={dims}",
+                    "output_path":              "--outputPath={output_path}",
+                    "output_pictures":          "--components.window.Type=DummyComponent",
+                    "max_time":                 "--end={max_time}",
+                    "max_timesteps":            "--maxTimeSteps={max_timesteps}",
+                    "checkpoint_every_x_years": "--checkpointAtTimeInc={checkpoint_every_x_years}",
+                    "checkpoint_every_x_steps": "--checkpointEvery={checkpoint_every_x_steps}",
+                    "uwbinary":                 "{uwbinary}",
+                    "cpus":                     "mpirun", }
 
     # <Output_Controls>
     def process_output_controls(output_controls, model_dict, command_dict, thermal=False):
-        text_res = "x".join(map(str, (model_dict["resolution"]["x"],
-                                      model_dict["resolution"]["y"],
-                                      model_dict["resolution"]["z"])))
-        model_dict["description"] = {"text_res": text_res,
-                                     "human_desc": output_controls["description"]}
+        resolution_key = "model_resolution" if thermal is False else "thermal_model_resolution"
 
+        # Process the generic stuff
+        #  - Get the resolution
+        resolution = {}
+        try:
+            for dim in output_controls[resolution_key].keys():
+                resolution[dim] = int(output_controls[resolution_key][dim])
+        except Exception as e:
+            print e
+            print output_controls
+            sys.exit()
+
+        text_res = "x".join(map(str, (resolution["x"], resolution["y"], resolution["z"])))
+
+        #  - Time controls
         model_dict["max_time"] = float(output_controls["experiment_duration_options"]["maximum_time"])
-        command_dict["max_time"] = "--end={max_time}"
-        model_dict["max_timesteps"] = int(output_controls["experiment_duration_options"]["maximum_steps"])
-        command_dict["max_timesteps"] = "--maxTimeSteps={max_timesteps}"
+        model_dict["max_timesteps"] = int(output_controls["experiment_duration_options"]["maximum_timesteps"])
+        model_dict["checkpoint_every_x_years"] = float(output_controls["checkpoint_frequency_options"]["every_x_years"])
+        model_dict["checkpoint_every_x_steps"] = int(output_controls["checkpoint_frequency_options"]["every_x_timesteps"])
 
-        model_dict["checkpoint_every_x_years"] = float(output_controls["checkpointing_options"]["years"])
-        command_dict["checkpoint_every_x_years"] = "--checkpointAtTimeInc={checkpoint_every_x_years}"
-        model_dict["checkpoint_every_x_steps"] = int(output_controls["checkpointing_options"]["timesteps"])
-        command_dict["checkpoint_every_x_steps"] = "--checkpointEvery={checkpoint_every_x_steps}"
-
-        model_dict["output_pictures"] = xmlbool(output_controls["output_pictures"])
-        command_dict["output_pictures"] = "--dumpEvery=10" if thermal is False else "--dumpEvery=250"
-        if model_dict["output_pictures"] is False:
-            command_dict["output_pictures"] = "--components.window.Type=DummyComponent"
-
+        # The thermal and thermo-mechanical output_controls have some specialised functions
+        # Handle each differently:
         if thermal is False:
-            model_dict["main_model_resolution"] = copy.deepcopy(model_dict["resolution"])
+            # process output pics, and write_log
             model_dict["write_to_log"] = xmlbool(output_controls["write_log_file"])
+
+            model_dict["output_pictures"] = xmlbool(output_controls["output_pictures"])
+            if model_dict["output_pictures"] is True:
+                command_dict["output_pictures"] = "--dumpEvery=10" if thermal is False else "--dumpEvery=250"
+
+            # Dims is a global - you won't want a 3d thermal initial condition for a 2D model!
+            model_dict["dims"] = 2 if resolution["z"] <= 0 else 3
+
+            model_dict["description"] = "{text_res}_{description}".format(text_res=text_res, description=output_controls["description"])
+            model_dict["output_path"] = "%s/result_%s" % (os.getcwd(), model_dict["description"])
+            model_dict["resolution"] = copy.deepcopy(resolution)
+
         else:
-            for dim in output_controls["thermal_model_resolution"].keys():
-                model_dict["resolution"][dim] = int(output_controls["thermal_model_resolution"][dim])
+            # process run thermal, update xml, and preserve thermal
+            model_dict["run_thermal_equilibration"] = xmlbool(output_controls["run_thermal_equilibration_phase"])
+            model_dict["update_xml_information"] = xmlbool(output_controls["update_xml_information"])
+
+            model_dict["thermal_description"] = "{text_res}_{description}".format(text_res=text_res, description=output_controls["description"])
+            model_dict["thermal_output_path"] = "%s/initial-condition_%s" % (os.getcwd(), model_dict["thermal_description"])
+
+            if model_dict["run_thermal_equilibration"] is True:
+                model_dict["input_xmls"] += " {output_path}/xmls/lmrThermalEquilibration.xml"
+
+                # If we're running a thermal model, use the thermal resolution.
+                model_dict["resolution"] = copy.deepcopy(resolution)
+                model_dict["output_path"] = copy.deepcopy(model_dict["thermal_output_path"])
+                if model_dict["dims"] == 2:
+                    model_dict["resolution"]["z"] = 0  # Just to make sure
 
     output_controls = raw_dict["Output_Controls"]
     process_output_controls(output_controls, model_dict, command_dict)
-
-    model_dict["output_path"] = "%s/result_%s" % (os.getcwd(), "_".join(model_dict["description"].values()))
-    command_dict["output_path"] = "--outputPath={output_path}"
-    model_dict["input_xmls"] = "{output_path}/xmls/lmrMain.xml"
-    command_dict["input_xmls"] = "{input_xmls}"
-
-    model_dict["logfile"] = "log_result_%s.txt" % "_".join(model_dict["description"].values())
     # </Output_Controls>
+
 
     # <Thermal_Equilibration>
     thermal_equilib = raw_dict["Thermal_Equilibration"]
-
-    model_dict["run_thermal_equilibration"] = xmlbool(thermal_equilib["run_thermal_equilibration_phase"])
-    model_dict["update_xml_information"] = xmlbool(thermal_equilib["update_xml_information"])
-
-    if model_dict["run_thermal_equilibration"]:
-        model_dict["preserve_thermal_equilibration_checkpoints"] = xmlbool(thermal_equilib["preserve_thermal_equilibration_checkpoints"])
-
-        output_controls = thermal_equilib["output_controls"]
-        process_output_controls(output_controls, model_dict, command_dict, thermal=True)
-
-        model_dict["output_path"] = "%s/initial-condition_%s" % (os.getcwd(), "_".join(model_dict["description"].values()))
-        model_dict["input_xmls"] += " {output_path}/xmls/lmrThermalEquilibration.xml"
-        model_dict["logfile"] = "log_initial-condition_%s.txt" % "_".join(model_dict["description"].values())
+    process_output_controls(thermal_equilib, model_dict, command_dict, thermal=True)    
+    
     # </Thermal_Equilibration>
 
     # Thermal EQ or not, we need to know where to look for the initial condition files:
@@ -193,12 +205,10 @@ def process_xml(raw_dict):
     # <Underworld_Execution>
     uw_exec = raw_dict["Underworld_Execution"]
     model_dict["uwbinary"] = uw_exec["Underworld_binary"]
-    command_dict["uwbinary"] = "{uwbinary}"
+    
     if xmlbool(uw_exec["supercomputer_mpi_format"]) is False:
         model_dict["cpus"] = uw_exec["CPUs"]
         command_dict["cpus"] = "mpirun -np {cpus}"
-    else:
-        command_dict["cpus"] = "mpirun"
     # </Underworld_Execution>
 
     # <Model_Precision>
@@ -331,10 +341,14 @@ def run_model(model_dict, command_dict):
 
 
 def find_last_thermal_timestep(model_dict):
-    thermal_results_dir = "initial-condition_{main_model_resolution[x]}x{main_model_resolution[y]}x{main_model_resolution[z]}_{initial_condition_desc}".format(**model_dict)
+    thermal_results_dir = "initial-condition_{therm_resolution[x]}x{therm_resolution[y]}x{therm_resolution[z]}_{initial_condition_desc}".format(**model_dict)
     # Look for temp files, which are in the format of: TemperatureField.00000.h5
+
+    print "ThermDir: %s" % thermal_results_dir
+
     try:
         last_ts = max([int(f.split('/')[-1].split('.')[1]) for f in glob.glob("%s/TemperatureField*" % thermal_results_dir)])
+        print last_ts, "\n\n\n"
     except:
         if not os.path.isdir(thermal_results_dir):
             sys.exit("The initial condition folder '%s' does not exist. You must run the thermal equilibration phase \
@@ -346,7 +360,10 @@ def find_last_thermal_timestep(model_dict):
 
 
 def modify_initialcondition_xml(last_ts, model_dict):
-    prefix = "initial-condition_{main_model_resolution[x]}x{main_model_resolution[y]}x{main_model_resolution[z]}_{initial_condition_desc}".format(**model_dict)
+
+    print "\n\n\nLAST TS: %d\n\n\n\n" % last_ts
+
+    prefix = "initial-condition_{resolution[x]}x{resolution[y]}x{resolution[z]}_{initial_condition_desc}".format(**model_dict)
     new_temp_file = "%s/TemperatureField.%05d.h5" % (prefix, last_ts)
     new_mesh_file = "%s/Mesh.linearMesh.%05d.h5" % (prefix, last_ts)
 
@@ -361,191 +378,6 @@ def modify_initialcondition_xml(last_ts, model_dict):
     except IOError as err:
         sys.exit("Problem opening lmrInitials.xml to update the HDF5 initial condition. The computer reported:\n\
                     %s" % err)
-
-
-def interpolate_to_full_resolution(model_dict, last_ts):
-
-    # h5py - http://www.h5py.org/
-    try:
-        import h5py
-    except ImportError:
-        sys.exit("=== ERROR ===\nThe LMR needs to use the Python library h5py. You can obtain it from:\
-                     http://www.h5py.org/, or from your package manager.")
-
-    # NumPy and SciPy - http://www.scipy.org/
-    try:
-        import numpy as np
-        import scipy.ndimage as ndimage
-    except ImportError:
-        sys.exit("=== ERROR ===\nThe LMR needs to use the Python libraries NumPy and SciPy. You can obtain them from:\
-                    http://www.scipy.org/, or from your package manager.")
-
-    def longlist2array(longlist):
-        """
-        Faster implementation of np.array(longlist)
-        Source: http://stackoverflow.com/questions/17973507/why-is-converting-a-long-2d-list-to-numpy-array-so-slow
-        """
-        flat = np.fromiter(chain.from_iterable(longlist), np.array(longlist[0][0]).dtype, -1)
-        return flat.reshape((len(longlist), -1))
-
-    new_x_res = int(model_dict["main_model_resolution"]["x"])
-    new_y_res = int(model_dict["main_model_resolution"]["y"])
-    new_z_res = int(model_dict["main_model_resolution"]["z"])
-
-    # === File loading ====================
-    init_data_path = model_dict["output_path"]
-    temp_file = "TemperatureField.%05.d.h5" % last_ts
-    mesh_file = "Mesh.linearMesh.%05.d.h5" % last_ts
-    out_data_path = init_data_path
-
-    out_temp_file = "TemperatureField.%05.d.h5" % (last_ts + 1)
-    out_mesh_file = "Mesh.linearMesh.%05.d.h5" % (last_ts + 1)
-
-    data_attributes = {}
-
-    try:
-        with h5py.File("%s/%s" % (init_data_path, temp_file), "r") as temp:
-            np_temp = np.array(temp['data'][...], dtype=np.float32)
-    except IOError as err:
-        sys.exit("Unable to open the TemperatureField file from the thermal equilibration phase. lmrRunModel looked for\
-                     the file:\n%s/%s\n\nThe hdf5 reader said this:\n%s\n" % (init_data_path, temp_file, err))
-    try:
-        with h5py.File("%s/%s" % (init_data_path, mesh_file), "r") as mesh:
-            np_min = mesh['min'][...]
-            np_max = mesh['max'][...]
-
-            for key in mesh.attrs:
-                data_attributes[key] = mesh.attrs[key]  # Make-shift deepcopy
-    except IOError as err:
-        sys.exit("Unable to open the Mesh.linearMesh file from the thermal equilibration phase. lmrRunModel looked for \
-                    the file:\n%s/%s\n\nThe hdf5 reader said this:\n%s\n" % (init_data_path, mesh_file, err))
-    # === End of File loading =============
-
-    # === Grid stats ======================
-    dims = data_attributes["dimensions"]
-
-    nx = data_attributes["mesh resolution"][0] + 1
-    ny = data_attributes["mesh resolution"][1] + 1
-    if dims == 3:
-        nz = data_attributes["mesh resolution"][2] + 1
-    # === End of Grid stats ===============
-
-    # === Interpolation ===================
-    new_x_res += 1
-    new_y_res += 1
-    if dims == 3:
-        new_z_res += 1
-
-    # ====== Temperature =============
-    if dims == 2:
-        temp_grid = np_temp.reshape((ny, nx))
-    else:
-        temp_grid = np_temp.reshape((nz, ny, nx))
-
-    x_zoom_factor = new_x_res / nx
-    y_zoom_factor = new_y_res / ny
-    zoom_factors = [x_zoom_factor, y_zoom_factor]
-    if dims == 3:
-        z_zoom_factor = new_z_res / nz
-        zoom_factors.append(z_zoom_factor)
-    zoom_factors = tuple(reversed(zoom_factors))
-
-    temp_zoomed_grid = ndimage.zoom(temp_grid, zoom_factors)
-    temp_zoomed_lin = np.ravel(temp_zoomed_grid)[:, None]    # Need empty dim for writing back
-
-    # ====== End of Temperature ======
-
-    # ====== Mesh ====================
-    # ========= Vertices =============
-    vert_x = np.linspace(np_min[0], np_max[0], new_x_res).astype(np.float64)
-    vert_y = np.linspace(np_min[1], np_max[1], new_y_res).astype(np.float64)
-
-    if dims == 3:
-        vert_z = np.linspace(np_min[2], np_max[2], new_z_res).astype(np.float64)
-    vertices = []
-    vert_append = vertices.append
-    if dims == 2:
-        for y in vert_y:
-            for x in vert_x:
-                vert_append((x, y))
-    else:
-        for z in vert_z:
-            for y in vert_y:
-                for x in vert_x:
-                    vert_append((x, y, z))
-    np_vertices = longlist2array(vertices)
-    # ========= End of Vertices ======
-
-    # ========= Connectivity =========
-    """
-    Element defined:   3D
-         2D          8 --- 7
-       4 --- 3      /|    /|
-       |     |     4 --- 3 6
-       1 --- 2     |     |/
-                   1 --- 2
-    """
-    elements = []
-    elem_append = elements.append
-
-    if dims == 2:
-        for y in xrange(new_y_res-1):
-            nxy = new_x_res * y
-            nxyPone = nxy + 1
-            nxyOne = new_x_res * (y + 1)
-            nxyOnePone = nxyOne + 1
-            for x in xrange(new_x_res-1):
-                elem_append((x+nxy, x+nxyPone, x+nxyOnePone, x+nxyOne))
-    else:
-        for z in xrange(new_z_res-1):
-            nxnyz = new_x_res * new_y_res * z
-            for y in xrange(new_y_res-1):
-                nxy = new_x_res * y
-                nxyPone = nxy + 1
-                nxyOne = new_x_res * (y + 1)
-                nxyOnePone = nxyOne + 1
-                for x in xrange(new_x_res-1):
-                    elem_append((x+nxy,               x+nxyPone,
-                                 x+nxyOnePone,        x+nxyOne,
-                                (x+nxy)*nxnyz,      ((x+nxy)*nxnyz)+1,
-                               ((x+nxyOne)*nxnyz)+1, (x+nxyOne)*nxnyz))
-
-    np_elements = longlist2array(elements)
-    # ========= End of Connectivity ==
-    # ====== End of Mesh =============
-    # === End of Interpolation ============
-
-    # === File writing ====================
-    res = [new_x_res-1, new_y_res-1] if dims == 2 else [new_x_res-1, new_y_res-1, new_z_res-1]
-
-    try:
-        with h5py.File("%s/%s" % (out_data_path, out_temp_file), "w") as out_temp:
-            out_temp.create_dataset("data", data=temp_zoomed_lin)
-
-            for key in ("dimensions", "checkpoint file version"):
-                out_temp.attrs[key] = data_attributes[key]
-            out_temp.attrs["mesh resolution"] = np.array(res)
-    except IOError as err:
-        sys.exit("Unable to write to the new TemperatureField file after interpolating from the thermal equilibration \
-                  phase. lmrRunModel tried to write to file:\n%s/%s\n\nThe hdf5 reader said this:\n%s\n" %
-                 (out_data_path, out_temp_file, err))
-
-    try:
-        with h5py.File("%s/%s" % (out_data_path, out_mesh_file), "w") as out_mesh:
-            out_mesh.create_dataset("max", data=np_max)
-            out_mesh.create_dataset("min", data=np_min)
-            out_mesh.create_dataset("vertices", data=np_vertices)
-            out_mesh.create_dataset("connectivity", data=np_elements)
-
-            for key in ("dimensions", "checkpoint file version"):
-                out_mesh.attrs[key] = data_attributes[key]
-            out_mesh.attrs["mesh resolution"] = np.array(res)
-    except IOError as err:
-        sys.exit("Unable to write to the new Mesh.linearMesh file after interpolating from the thermal equilibration \
-                  phase. lmrRunModel tried to write to file:\n%s/%s\n\nThe hdf5 reader said this:\n%s\n" %
-                 (out_data_path, out_temp_file, err))
-
-    # === End of File writing =============
 
 
 def main():
@@ -575,11 +407,8 @@ def main():
 
     if model_dict["run_thermal_equilibration"] is True:
         last_ts = find_last_thermal_timestep(model_dict)
-        print "\nInterpolating last thermal equilibration checkpoint to {x}x{y}x{z}...".format(**model_dict["main_model_resolution"])
-        interpolate_to_full_resolution(model_dict, last_ts)
-        print "Done."
         if model_dict["preserve_thermal_equilibration_checkpoints"] is False:
-            filelist = [f for f in os.listdir(model_dict["output_path"]) if str(last_ts+1) not in f and "xmls" not in f]
+            filelist = [f for f in os.listdir(model_dict["output_path"]) if str(last_ts) not in f and "xmls" not in f]
             for f in filelist:
                 os.remove("%s/%s" % (model_dict["output_path"], f))
 
