@@ -23,7 +23,7 @@
         <!-- === Surface processes ================================================ -->
         <struct name="erosion_height">
             <param name="Type"> Ppc_Constant </param>
-            <param name="Value" units="km"> 1.0 </param>
+            <param name="Value" units="km"> 2.0 </param>
         </struct>
         <struct name="sedimentation_height">
             <param name="Type"> Ppc_Constant </param>
@@ -34,8 +34,9 @@
             <param name="Type"> Ppc_Coord </param>
             <param name="Axis"> 1 </param>
         </struct>
-        <struct name="current_time" mergeType="replace">
-            <param name="Type"> Ppc_Current_Time </param>
+
+        <struct name="dt_time">
+            <param name="Type"> Ppc_Dt </param>
         </struct>
 
         <struct name="erosion_threshold">
@@ -46,8 +47,8 @@
             <param name="ValueToCompare"> erosion_height </param>
             <param name="MaterialIfTrue"> air </param>
             
-            <param name="CurrentTime"> current_time </param>
-            <param name="StorageProperty"> SurfaceProcesses </param>
+            <param name="TimeDelta"> dt_time </param>
+            <param name="AgeStorageProperty"> SurfaceProcesses </param>
         </struct>
 
         <struct name="sedimentation_threshold">
@@ -58,8 +59,8 @@
             <param name="ValueToCompare"> sedimentation_height </param>
             <param name="MaterialIfTrue"> sediment </param>
 
-            <param name="CurrentTime"> current_time </param>
-            <param name="StorageProperty"> SurfaceProcesses </param>
+            <param name="TimeDelta"> dt_time </param>
+            <param name="AgeStorageProperty"> SurfaceProcesses </param>
         </struct>
         <!-- === End of Surface processes ========================================= -->
     </struct>
