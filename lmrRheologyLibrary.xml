@@ -500,9 +500,9 @@
             <param name="shear_modulus" units="Pa"> 1 </param>
             <param name="burgers_vector" units="m"> 1 </param>
             
-            <param name="enable_diffusion">False</param>
-            <param name="enable_dislocation">True</param>
-            <param name="enable_peierls">False</param>
+            <param name="enable_diffusion"> False </param>
+            <param name="enable_dislocation"> True </param>
+            <param name="enable_peierls"> False </param>
 
             <param name="diffusion_material_constant" units="(MPa)^-3*s^-1"> 0 </param>
             <param name="diffusion_activation_energy" units="kJ*mol^-1"> 0 </param>
@@ -532,9 +532,9 @@
             <param name="shear_modulus" units="Pa"> 1 </param>
             <param name="burgers_vector" units="m"> 1 </param>
             
-            <param name="enable_diffusion">False</param>
-            <param name="enable_dislocation">True</param>
-            <param name="enable_peierls">False</param>
+            <param name="enable_diffusion"> False </param>
+            <param name="enable_dislocation"> True </param>
+            <param name="enable_peierls"> False </param>
 
             <param name="dislocation_stress_exponent"> 3 </param>
             <param name="dislocation_material_constant" units="(Pa)^-3*s^-1"> 5e-25 </param>
@@ -559,9 +559,9 @@
             <param name="shear_modulus" units="Pa"> 1 </param>
             <param name="burgers_vector" units="m"> 1 </param>
             
-            <param name="enable_diffusion">False</param>
-            <param name="enable_dislocation">True</param>
-            <param name="enable_peierls">False</param>
+            <param name="enable_diffusion"> False </param>
+            <param name="enable_dislocation"> True </param>
+            <param name="enable_peierls"> False </param>
 
             <param name="dislocation_stress_exponent"> 2.4 </param>
             <param name="dislocation_material_constant" units="(Pa)^-2.4*s^-1"> 1.3e-20 </param>
@@ -586,9 +586,9 @@
             <param name="shear_modulus" units="Pa"> 1 </param>
             <param name="burgers_vector" units="m"> 1 </param>
             
-            <param name="enable_diffusion">False</param>
-            <param name="enable_dislocation">True</param>
-            <param name="enable_peierls">False</param>
+            <param name="enable_diffusion"> False </param>
+            <param name="enable_dislocation"> True </param>
+            <param name="enable_peierls"> False </param>
 
             <param name="dislocation_stress_exponent"> 3.1 </param>
             <param name="dislocation_material_constant" units="(MPa)^-3.1*s^-1"> 6.60693448e-8 </param>
@@ -615,9 +615,9 @@
             <param name="shear_modulus" units="Pa"> 1 </param>
             <param name="burgers_vector" units="m"> 1 </param>
             
-            <param name="enable_diffusion">False</param>
-            <param name="enable_dislocation">True</param>
-            <param name="enable_peierls">False</param>
+            <param name="enable_diffusion"> False </param>
+            <param name="enable_dislocation"> True </param>
+            <param name="enable_peierls"> False </param>
 
             <param name="dislocation_stress_exponent"> 3.2 </param>
             <param name="dislocation_material_constant" units="(MPa)^-3.2*s^-1"> 10e-2 </param>
@@ -642,9 +642,9 @@
             <param name="shear_modulus" units="Pa"> 1 </param>
             <param name="burgers_vector" units="m"> 1 </param>
             
-            <param name="enable_diffusion">False</param>
-            <param name="enable_dislocation">True</param>
-            <param name="enable_peierls">False</param>
+            <param name="enable_diffusion"> False </param>
+            <param name="enable_dislocation"> True </param>
+            <param name="enable_peierls"> False </param>
 
             <param name="dislocation_stress_exponent"> 4.7 </param>
             <param name="dislocation_material_constant" units="(MPa)^-4.7*s^-1"> 8 </param>
@@ -655,79 +655,71 @@
             <param name="max_limit_eta" units="Pa*s"> 0 </param>
             <param name="min_limit_eta" units="Pa*s"> 0 </param>
         </struct>
-        
-        <struct name="viscSRTdislocation_dry_anorthite_Rybacki2000">
+
+        <struct name="viscSRTdis-diff_dry_anorthite_Rybacki2000">
             <!--  Dry anorthite dislocation: Rybacki, JGR, 2000-->
-            <param name="Type">ViscousCreep</param>
-            <param name="StrainRateInvariantField">StrainRateInvariantField</param>
-            <param name="TemperatureField">TemperatureField</param>
-            <param name="PressureField">PressureField</param>
+            <param name="Type"> ViscousCreep </param>
+            <param name="StrainRateInvariantField"> StrainRateInvariantField </param>
+            <param name="TemperatureField"> TemperatureField </param>
+            <param name="PressureField"> PressureField </param>
+            
+            <param name="DefaultStrainRateInvariant"> 1e-15 </param>
+            
+            <param name="GrainSize" units="m"> 0.003 </param>
+            <param name="shear_modulus" units="Pa"> 1 </param>
+            <param name="burgers_vector" units="m"> 1 </param>
+            
+            <param name="enable_diffusion"> True </param>
+            <param name="enable_dislocation"> True </param>
+            <param name="enable_peierls"> False </param>
 
-            <param name="StressExponent">3.0</param>
-            <param name="PreExponentialFactor" units="(MPa)^-3.0*s^-1">5.0118723e+12</param>
-            <param name="DefaultStrainRateInvariant" units="s^-1">1.0e-15</param>
+            <param name="diffusion_material_constant" units="(MPa)^-1*s^-1"> 1.2589254e12 </param>
+            <param name="diffusion_activation_energy" units="kJ*mol^-1"> 467 </param>
+            <param name="diffusion_activation_volume" units="m^3/mol"> 0.0 </param>
+            <param name="diffusion_grainsize_exponent"> 3.0 </param>
 
-            <param name="ActivationEnergy" units="kJ/mol">648</param>
-            <param name="ActivationVolume" units="m^3/mol"> 0.0</param>
+            <param name="dislocation_stress_exponent"> 3.0 </param>
+            <param name="dislocation_material_constant" units="(MPa)^-3.0*s^-1"> 5.0118723e12 </param>
+            <param name="dislocation_activation_energy" units="kJ*mol^-1"> 648 </param>
+            <param name="dislocation_activation_volume" units="m^3/mol"> 0.0 </param>
+
+            <param name="enable_limit_eta"> False </param>
+            <param name="max_limit_eta" units="Pa*s"> 0 </param>
+            <param name="min_limit_eta" units="Pa*s"> 0 </param>
         </struct>
-        
-        <struct name="viscSRTdiffusion_dry_anorthite_Rybacki2000">
-            <!--  Dry anorthite diffusion: Rybacki, JGR, 2000 -->
-            <param name="Type">ViscousCreep</param>
-            <param name="StrainRateInvariantField">StrainRateInvariantField</param>
-            <param name="TemperatureField">TemperatureField</param>
-            <param name="PressureField">PressureField</param>
 
-            <param name="GrainSize"> 3 </param>
-            <param name="WaterFugacity"> 1000 </param>
 
-            <param name="GrainSizeExponent"> 3.0 </param>
-            <param name="WaterFugacityExponent"> 0 </param>
-            <param name="StressExponent"> 1.0 </param>
-            <param name="PreExponentialFactor" units="(MPa)^-1*s^-1"> 1.2589254e12 </param>
-            <param name="DefaultStrainRateInvariant" units="s^-1">1.0e-15</param>
-
-            <param name="ActivationEnergy" units="kJ/mol">467</param>
-            <param name="ActivationVolume" units="m^3/mol">0</param>
-        </struct>
-        
-        
-        <struct name="viscSRTdislocation_wet_anorthite_Rybacki2000">
+        <struct name="viscSRTdis-diff_wet_anorthite_Rybacki2000">
             <!--  Wet anorthite dislocation: Rybacki, JGR, 2000 -->
-            <param name="Type">ViscousCreep</param>
-            <param name="StrainRateInvariantField">StrainRateInvariantField</param>
-            <param name="TemperatureField">TemperatureField</param>
-            <param name="PressureField">PressureField</param>
+            <param name="Type"> ViscousCreep </param>
+            <param name="StrainRateInvariantField"> StrainRateInvariantField </param>
+            <param name="TemperatureField"> TemperatureField </param>
+            <param name="PressureField"> PressureField </param>
+            
+            <param name="DefaultStrainRateInvariant"> 1e-15 </param>
+            
+            <param name="GrainSize" units="m"> 0.003 </param>
+            <param name="shear_modulus" units="Pa"> 1 </param>
+            <param name="burgers_vector" units="m"> 1 </param>
+            
+            <param name="enable_diffusion"> True </param>
+            <param name="enable_dislocation"> True </param>
+            <param name="enable_peierls"> False </param>
 
-            <param name="StressExponent">3.0</param>
-            <param name="PreExponentialFactor" units="(MPa)^-3.0*s^-1">1e+26</param>
-            <param name="DefaultStrainRateInvariant" units="s^-1">1.0e-15</param>
+            <param name="diffusion_material_constant" units="(MPa)^-1*s^-1"> 50.11872336 </param>
+            <param name="diffusion_activation_energy" units="kJ*mol^-1"> 170 </param>
+            <param name="diffusion_activation_volume" units="m^3/mol"> 0.0 </param>
+            <param name="diffusion_grainsize_exponent"> 3.0 </param>
 
-            <param name="ActivationEnergy" units="kJ/mol">356</param>
-            <param name="ActivationVolume" units="m^3/mol"> 0.0</param>
+            <param name="dislocation_stress_exponent"> 3.0 </param>
+            <param name="dislocation_material_constant" units="(MPa)^-3.0*s^-1"> 1e+26 </param>
+            <param name="dislocation_activation_energy" units="kJ*mol^-1"> 356 </param>
+            <param name="dislocation_activation_volume" units="m^3/mol"> 0.0 </param>
+
+            <param name="enable_limit_eta"> False </param>
+            <param name="max_limit_eta" units="Pa*s"> 0 </param>
+            <param name="min_limit_eta" units="Pa*s"> 0 </param>
         </struct>
-        
-        <struct name="viscSRTdiffusion_wet_anorthite_Rybacki2000">
-            <!--  Wet anorthite diffusion: Rybacki, JGR, 2000 -->
-            <param name="Type">ViscousCreep</param>
-            <param name="StrainRateInvariantField">StrainRateInvariantField</param>
-            <param name="TemperatureField">TemperatureField</param>
-            <param name="PressureField">PressureField</param>
-
-            <param name="GrainSize"> 3 </param>
-            <param name="WaterFugacity"> 3 </param>
-
-            <param name="GrainSizeExponent"> 3.0 </param>
-            <param name="WaterFugacityExponent"> 0 </param>
-            <param name="StressExponent"> 1.0 </param>
-            <param name="PreExponentialFactor" units="(MPa)^-1*s^-1"> 50.11872336 </param>
-            <param name="DefaultStrainRateInvariant" units="s^-1">1.0e-15</param>
-
-            <param name="ActivationEnergy" units="kJ/mol">170</param>
-            <param name="ActivationVolume" units="m^3/mol">0</param>
-        </struct>
-        
-        
        
 
         <!-- === Lithospheric mantle ====== -->
