@@ -504,11 +504,6 @@
             <param name="enable_dislocation"> True </param>
             <param name="enable_peierls"> False </param>
 
-            <param name="diffusion_material_constant" units="(MPa)^-3*s^-1"> 0 </param>
-            <param name="diffusion_activation_energy" units="kJ*mol^-1"> 0 </param>
-            <param name="diffusion_activation_volume" units="m^3/mol"> 0.0 </param>
-            <param name="diffusion_grainsize_exponent"> 0 </param>
-
             <param name="dislocation_stress_exponent"> 3.0 </param>
             <param name="dislocation_material_constant" units="(MPa)^-3*s^-1"> 5e-06 </param>
             <param name="dislocation_activation_energy" units="kJ*mol^-1"> 190 </param>
@@ -725,47 +720,83 @@
         <!-- === Lithospheric mantle ====== -->
         <struct name="viscSRTdislocation_wet_dunite_Brace1980">
             <!-- Wet Dunite : Brace and Kohlstedt, JGR 1980-->
-            <param name="Type">ViscousCreep</param>
-            <param name="StrainRateInvariantField">StrainRateInvariantField</param>
-            <param name="TemperatureField">TemperatureField</param>
-            <param name="PressureField">PressureField</param>
+            <param name="Type"> ViscousCreep </param>
+            <param name="StrainRateInvariantField"> StrainRateInvariantField </param>
+            <param name="TemperatureField"> TemperatureField </param>
+            <param name="PressureField"> PressureField </param>
+            
+            <param name="DefaultStrainRateInvariant"> 1e-15 </param>
+            
+            <param name="GrainSize" units="m"> 1 </param>
+            <param name="shear_modulus" units="Pa"> 1 </param>
+            <param name="burgers_vector" units="m"> 1 </param>
+            
+            <param name="enable_diffusion"> False </param>
+            <param name="enable_dislocation"> True </param>
+            <param name="enable_peierls"> False </param>
 
-            <param name="StressExponent">3</param>
-            <param name="PreExponentialFactor" units="(MPa)^-3*s^-1">7.0e4</param>
-            <param name="DefaultStrainRateInvariant" units="s^-1">1.0e-15</param>
+            <param name="dislocation_stress_exponent"> 3.0  </param>
+            <param name="dislocation_material_constant" units="(MPa)^-3*s^-1"> 7.0e4 </param>
+            <param name="dislocation_activation_energy" units="kJ*mol^-1"> 520 </param>
+            <param name="dislocation_activation_volume" units="m^3/mol"> 0.0 </param>
 
-            <param name="ActivationEnergy" units="kJ/mol">520</param>
-            <param name="ActivationVolume" units="m^3/mol"> 0.0</param>
+            <param name="enable_limit_eta"> False </param>
+            <param name="max_limit_eta" units="Pa*s"> 0 </param>
+            <param name="min_limit_eta" units="Pa*s"> 0 </param>
         </struct>
         
         <struct name="viscSRTdislocation_dry_olivine_Korenaga2008">
             <!-- Dry Olivine : Korenaga and Karato, JGR 2008 -->
-            <param name="Type">ViscousCreep</param>
-            <param name="StrainRateInvariantField">StrainRateInvariantField</param>
-            <param name="TemperatureField">TemperatureField</param>
-            <param name="PressureField">PressureField</param>
+            <param name="Type"> ViscousCreep </param>
+            <param name="StrainRateInvariantField"> StrainRateInvariantField </param>
+            <param name="TemperatureField"> TemperatureField </param>
+            <param name="PressureField"> PressureField </param>
+            
+            <param name="DefaultStrainRateInvariant"> 1e-15 </param>
+            
+            <param name="GrainSize" units="m"> 1 </param>
+            <param name="shear_modulus" units="Pa"> 1 </param>
+            <param name="burgers_vector" units="m"> 1 </param>
+            
+            <param name="enable_diffusion"> False </param>
+            <param name="enable_dislocation"> True </param>
+            <param name="enable_peierls"> False </param>
 
-            <param name="StressExponent">4.94</param>
-            <param name="PreExponentialFactor" units="(MPa)^-4.94*s^-1">10e6.09</param>
-            <param name="DefaultStrainRateInvariant" units="s^-1">1.0e-15</param>
+            <param name="dislocation_stress_exponent"> 4.94  </param>
+            <param name="dislocation_material_constant" units="(MPa)^-4.94*s^-1"> 10e6.09 </param>
+            <param name="dislocation_activation_energy" units="kJ*mol^-1"> 610 </param>
+            <param name="dislocation_activation_volume" units="m^3/mol"> 0.0 </param>
 
-            <param name="ActivationEnergy" units="kJ/mol">610</param>
-            <param name="ActivationVolume" units="m^3/mol"> 0.0</param>
+            <param name="enable_limit_eta"> False </param>
+            <param name="max_limit_eta" units="Pa*s"> 0 </param>
+            <param name="min_limit_eta" units="Pa*s"> 0 </param>
         </struct>
         
         <struct name="viscSRTdislocation_olivine_Kirby1987">
             <!-- Olivine : Kirby and Kronenberg, Review of Geophysics 1987 -->
-            <param name="Type">ViscousCreep</param>
-            <param name="StrainRateInvariantField">StrainRateInvariantField</param>
-            <param name="TemperatureField">TemperatureField</param>
-            <param name="PressureField">PressureField</param>
+            <param name="Type"> ViscousCreep </param>
+            <param name="StrainRateInvariantField"> StrainRateInvariantField </param>
+            <param name="TemperatureField"> TemperatureField </param>
+            <param name="PressureField"> PressureField </param>
+            
+            <param name="DefaultStrainRateInvariant"> 1e-15 </param>
+            
+            <param name="GrainSize" units="m"> 1 </param>
+            <param name="shear_modulus" units="Pa"> 1 </param>
+            <param name="burgers_vector" units="m"> 1 </param>
+            
+            <param name="enable_diffusion"> False </param>
+            <param name="enable_dislocation"> True </param>
+            <param name="enable_peierls"> False </param>
 
-            <param name="StressExponent">3</param>
-            <param name="PreExponentialFactor" units="Pa^-3*s^-1">1e-15</param>
-            <param name="DefaultStrainRateInvariant" units="s^-1">1.0e-15</param>
+            <param name="dislocation_stress_exponent"> 3  </param>
+            <param name="dislocation_material_constant" units="Pa^-3*s^-1"> 1e-15 </param>
+            <param name="dislocation_activation_energy" units="kJ*mol^-1"> 500 </param>
+            <param name="dislocation_activation_volume" units="m^3/mol"> 0.0 </param>
 
-            <param name="ActivationEnergy" units="kJ/mol">500</param>
-            <param name="ActivationVolume" units="m^3/mol"> 0.0</param>
+            <param name="enable_limit_eta"> False </param>
+            <param name="max_limit_eta" units="Pa*s"> 0 </param>
+            <param name="min_limit_eta" units="Pa*s"> 0 </param>
         </struct>
 
 
