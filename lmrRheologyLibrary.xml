@@ -798,100 +798,69 @@
             <param name="max_limit_eta" units="Pa*s"> 0 </param>
             <param name="min_limit_eta" units="Pa*s"> 0 </param>
         </struct>
-
-
-        <struct name="viscSRTdislocation_dry_olivine_Hirth2003">
+        
+        <struct name="viscSRTdis-diff_dry_olivine_Hirth2003">
             <!-- Hirth and Kohlstedt, Geophysical Monograph 2003 -->
-            <param name="Type">ViscousCreep</param>
-            <param name="StrainRateInvariantField">StrainRateInvariantField</param>
-            <param name="TemperatureField">TemperatureField</param>
-            <param name="PressureField">PressureField</param>
-            <param name="GrainSize"> 10000 </param>
+            <param name="Type"> ViscousCreep </param>
+            <param name="StrainRateInvariantField"> StrainRateInvariantField </param>
+            <param name="TemperatureField"> TemperatureField </param>
+            <param name="PressureField"> PressureField </param>
+            
+            <param name="DefaultStrainRateInvariant"> 1e-15 </param>
+            
+            <param name="GrainSize"> 10000 </param> <!-- Special case - need to use units of micrometres -->
+            <param name="shear_modulus" units="Pa"> 1 </param>
+            <param name="burgers_vector" units="m"> 1 </param>
+            
+            <param name="enable_diffusion"> True </param>
+            <param name="enable_dislocation"> True </param>
+            <param name="enable_peierls"> False </param>
 
-            <param name="GrainSizeExponent"> 0.0 </param>
-            <param name="WaterFugacityExponent"> 0 </param>
-            <param name="StressExponent"> 3.5 </param>
-            <param name="PreExponentialFactor" units="(MPa)^-3.5*s^-1">1.1e5</param>
-            <param name="DefaultStrainRateInvariant" units="s^-1">1.0e-15</param>
+            <param name="diffusion_material_constant" units="(MPa)^-1*s^-1"> 1.5e9 </param>
+            <param name="diffusion_activation_energy" units="kJ*mol^-1"> 375 </param>
+            <param name="diffusion_activation_volume" units="m^3/mol"> 6e-6 </param>
+            <param name="diffusion_grainsize_exponent"> 3.0 </param>
 
-            <param name="ActivationEnergy" units="kJ/mol">530</param>
-            <param name="ActivationVolume" units="m^3/mol">6e-6</param>
+            <param name="dislocation_stress_exponent"> 3.5 </param>
+            <param name="dislocation_material_constant" units="(MPa)^-3.5*s^-1"> 1.1e5 </param>
+            <param name="dislocation_activation_energy" units="kJ*mol^-1"> 530 </param>
+            <param name="dislocation_activation_volume" units="m^3/mol"> 6e-6 </param>
+
+            <param name="enable_limit_eta"> False </param>
+            <param name="max_limit_eta" units="Pa*s"> 0 </param>
+            <param name="min_limit_eta" units="Pa*s"> 0 </param>
         </struct>
 
-        <struct name="viscSRTdiffusion_dry_olivine_Hirth2003">
+        <struct name="viscSRTdis-diff_wet_olivine_Hirth2003">
             <!-- Hirth and Kohlstedt, Geophysical Monograph 2003 -->
-            <param name="Type">ViscousCreep</param>
-            <param name="StrainRateInvariantField">StrainRateInvariantField</param>
-            <param name="TemperatureField">TemperatureField</param>
-            <param name="PressureField">PressureField</param>
-            <param name="GrainSize"> 10000 </param>
-            <param name="WaterFugacity"> 1000 </param>
+            <param name="Type"> ViscousCreep </param>
+            <param name="StrainRateInvariantField"> StrainRateInvariantField </param>
+            <param name="TemperatureField"> TemperatureField </param>
+            <param name="PressureField"> PressureField </param>
+            
+            <param name="DefaultStrainRateInvariant"> 1e-15 </param>
+            
+            <param name="GrainSize"> 10000 </param> <!-- Special case - need to use units of micrometres -->
+            <param name="shear_modulus" units="Pa"> 1 </param>
+            <param name="burgers_vector" units="m"> 1 </param>
+            
+            <param name="enable_diffusion"> True </param>
+            <param name="enable_dislocation"> True </param>
+            <param name="enable_peierls"> False </param>
 
-            <param name="GrainSizeExponent"> 3.0 </param>
-            <param name="WaterFugacityExponent"> 0 </param>
-            <param name="StressExponent"> 1.0 </param>
-            <param name="PreExponentialFactor" units="(MPa)^-1*s^-1"> 1.5e9 </param>
-            <param name="DefaultStrainRateInvariant" units="s^-1">1.0e-15</param>
+            <param name="diffusion_material_constant" units="(MPa)^-1*s^-1"> 2.5e7 </param>
+            <param name="diffusion_activation_energy" units="kJ*mol^-1"> 375 </param>
+            <param name="diffusion_activation_volume" units="m^3/mol"> 10e-6 </param>
+            <param name="diffusion_grainsize_exponent"> 3.0 </param>
 
-            <param name="ActivationEnergy" units="kJ/mol">375</param>
-            <param name="ActivationVolume" units="m^3/mol">6e-6</param>
-        </struct>
+            <param name="dislocation_stress_exponent"> 3.5 </param>
+            <param name="dislocation_material_constant" units="(MPa)^-3.5*s^-1"> 6369714.72886 </param> <!-- Water fugacity rolled in to A -->
+            <param name="dislocation_activation_energy" units="kJ*mol^-1"> 520 </param>
+            <param name="dislocation_activation_volume" units="m^3/mol"> 23e-6 </param>
 
-        <struct name="viscSRTdislocation_wet_olivine_Hirth2003">
-            <!-- Hirth and Kohlstedt, Geophysical Monograph 2003 -->
-            <param name="Type">ViscousCreep</param>
-            <param name="StrainRateInvariantField">StrainRateInvariantField</param>
-            <param name="TemperatureField">TemperatureField</param>
-            <param name="PressureField">PressureField</param>
-            <param name="GrainSize"> 10000 </param>
-            <param name="WaterFugacity"> 1000 </param>
-
-            <param name="GrainSizeExponent"> 0.0 </param>
-            <param name="WaterFugacityExponent"> 1.2 </param>
-            <param name="StressExponent"> 3.5 </param>
-            <param name="PreExponentialFactor" units="(MPa)^-3.5*s^-1"> 1600 </param>
-            <param name="DefaultStrainRateInvariant" units="s^-1">1.0e-15</param>
-
-            <param name="ActivationEnergy" units="kJ/mol">520</param>
-            <param name="ActivationVolume" units="m^3/mol">23e-6</param>
-        </struct>
-
-        <struct name="viscSRTdiffusion_wet_olivine_Hirth2003">
-            <!-- Hirth and Kohlstedt, Geophysical Monograph 2003 -->
-            <param name="Type">ViscousCreep</param>
-            <param name="StrainRateInvariantField">StrainRateInvariantField</param>
-            <param name="TemperatureField">TemperatureField</param>
-            <param name="PressureField">PressureField</param>
-            <param name="GrainSize"> 10000 </param>
-            <param name="WaterFugacity"> 1000 </param>
-
-            <param name="GrainSizeExponent"> 3.0 </param>
-            <param name="WaterFugacityExponent"> 1.0 </param>
-            <param name="StressExponent"> 1.0 </param>
-            <param name="PreExponentialFactor" units="(MPa)^-1*s^-1"> 2.5e7 </param>
-            <param name="DefaultStrainRateInvariant" units="s^-1">1.0e-15</param>
-
-            <param name="ActivationEnergy" units="kJ/mol">375</param>
-            <param name="ActivationVolume" units="m^3/mol">10e-6</param>
-        </struct>
-
-        <struct name="viscSRTdiffusion_wet_olivine_Faul2007">
-            <!-- Faul and Jackson, JGR 2007 -->
-            <param name="Type">ViscousCreep</param>
-            <param name="StrainRateInvariantField">StrainRateInvariantField</param>
-            <param name="TemperatureField">TemperatureField</param>
-            <param name="PressureField">PressureField</param>
-            <param name="GrainSize"> 5 </param>
-            <param name="WaterFugacity"> 1000 </param>
-
-            <param name="GrainSizeExponent"> 3.0 </param>
-            <param name="WaterFugacityExponent"> 0.0 </param>
-            <param name="StressExponent"> 1.3 </param>
-            <param name="PreExponentialFactor" units="(MPa)^-1.3*s^-1"> 2.0e10 </param>
-            <param name="DefaultStrainRateInvariant" units="s^-1">1.0e-15</param>
-
-            <param name="ActivationEnergy" units="kJ/mol">484</param>
-            <param name="ActivationVolume" units="m^3/mol">0</param>
+            <param name="enable_limit_eta"> False </param>
+            <param name="max_limit_eta" units="Pa*s"> 0 </param>
+            <param name="min_limit_eta" units="Pa*s"> 0 </param>
         </struct>
 
 
