@@ -401,23 +401,23 @@
              folder, which lists all the swarm and field variables
              respectively available for outputting -->
         <struct>
-            <param name="Type">StgFEM_SwarmVariableList</param>
-            <param name="Context">context</param>
+            <param name="Type"> StgFEM_SwarmVariableList </param>
+            <param name="Context"> context </param>
         </struct>
         <struct>
-            <param name="Type">StgFEM_FeVariableList</param>
-            <param name="Context">context</param>
+            <param name="Type"> StgFEM_FeVariableList </param>
+            <param name="Context"> context </param>
         </struct>
     </list>
     
     <!-- === Numerical controls (that probably shouldn't be touched) ==== -->
-    <param name="shadowDepth">1</param>             
-    <param name="allowUnbalancing">True</param>    
-    <param name="timeIntegratorOrder"> 1 </param>
+    <param name="shadowDepth"> 1 </param>             
+    <param name="allowUnbalancing"> True </param>    
+    <param name="timeIntegratorOrder"> 2 </param>
     <!-- ================================================================ -->
     
     <!-- === Mesh parameters ======================= -->
-    <param name="VerticalAxis">1</param>
+    <param name="VerticalAxis"> 1 </param>
     <!-- =========================================== -->
     
     
@@ -429,35 +429,35 @@
                should never have to be directly modified by any user. -->
     <!-- === Mesh parameters ======================= -->
     <!-- These values are always overwritten -->
-    <param name="dim">2</param>
-    <param name="elementResI">208</param> 
-    <param name="elementResJ">112</param>
-    <param name="elementResK">0</param>
+    <param name="dim"> 2 </param>
+    <param name="elementResI"> 208 </param> 
+    <param name="elementResJ"> 112 </param>
+    <param name="elementResK"> 0 </param>
     <!-- =========================================== -->
     
     <!-- === Numerical tolerance values ============ -->
     <!-- These values are always overwritten -->
-    <param name="linearTolerance">1e-5</param>
-    <param name="linearMinIterations">10</param>
-    <param name="linearMaxIterations">15000</param>
+    <param name="linearTolerance"> 1e-5 </param>
+    <param name="linearMinIterations"> 10 </param>
+    <param name="linearMaxIterations"> 15000 </param>
     
-    <param name="nonLinearTolerance">1e-3</param>
-    <param name="nonLinearMinIterations">10</param>
-    <param name="nonLinearMaxIterations">500</param>
+    <param name="nonLinearTolerance"> 1e-3 </param>
+    <param name="nonLinearMinIterations"> 10 </param>
+    <param name="nonLinearMaxIterations"> 500 </param>
     <!-- =========================================== -->
     
     
     <!-- === Output controls ====================== -->
     <!-- These values are always overwritten -->
-    <param name="outputPath">./model</param>
+    <param name="outputPath"> ./model </param>
     <param name="checkpointEvery"> 1000000000 </param>
     <param name="dumpEvery">       1000000000 </param>
     <param name="checkpointAtTimeInc" units="yr"> 1e10 </param>
     
     <!-- === Model timing  ======================== -->
     <!-- These values are always overwritten -->
-    <param name="maxTimeSteps">2000000</param>
-    <param name="end" units="yr">1e12</param> 
+    <param name="maxTimeSteps"> 2000000 </param>
+    <param name="end" units="yr"> 1e12 </param> 
     <!-- =========================================== -->
     
     

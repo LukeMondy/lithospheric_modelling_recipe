@@ -523,7 +523,7 @@
 
 
     <struct name="mantle">
-        <param name="Type"> MultiRheologyMaterial </param>
+        <param name="Type"> RheologyMaterial </param>
         <param name="Shape"> mantleShape </param>
         <param name="DensityProperty"> densMelt_continental_litho_mantle </param>
 
@@ -541,26 +541,17 @@
 
         <param name="SurfaceProcesses"> erosion_threshold </param>
         
-        <list name="MultiRheologies">
-            <list>
-                <!-- Viscous law  -->   <param> viscSRTdislocation_wet_olivine_Hirth2003 </param>
-                <!-- Brittle law  -->   <param> yield_litho_mantle_Rey2010 </param>
-                <!-- Stress limiter --> <param> yield_stressLimiter_300MPa </param> 
-                <!-- Melt modifier -->  <param> viscMelt_mantle_Hirth2003 </param>
-                <!-- Visc limiter -->   <param> viscosityLimiter </param> 
-            </list>
-            <list>
-                <!-- Viscous law  -->   <param> viscSRTdiffusion_wet_olivine_Hirth2003 </param>
-                <!-- Brittle law  -->   <param> yield_litho_mantle_Rey2010 </param>
-                <!-- Stress limiter --> <param> yield_stressLimiter_300MPa </param>
-                <!-- Melt modifier -->  <param> viscMelt_mantle_Hirth2003 </param>
-                <!-- Visc limiter -->   <param> viscosityLimiter </param> 
-            </list>
+        <list name="Rheology">
+        <!-- Viscous law  -->   <param> viscSRTdis-diff_wet_olivine_Hirth2003 </param>
+        <!-- Brittle law  -->   <param> yield_litho_mantle_Rey2010 </param>
+        <!-- Stress limiter --> <param> yield_stressLimiter_300MPa </param> 
+        <!-- Melt modifier -->  <param> viscMelt_mantle_Hirth2003 </param>
+        <!-- Visc limiter -->   <param> viscosityLimiter </param> 
         </list>
     </struct>
 
     <struct name="mantleMarkers">
-        <param name="Type"> MultiRheologyMaterial </param>
+        <param name="Type"> RheologyMaterial </param>
         <param name="Shape"> mantleMarkersShape </param>
         <param name="DensityProperty"> densMelt_continental_litho_mantle </param>
 
@@ -578,21 +569,12 @@
 
         <param name="SurfaceProcesses"> erosion_threshold </param>
         
-        <list name="MultiRheologies">
-            <list>
-                <!-- Viscous law  -->   <param> viscSRTdislocation_wet_olivine_Hirth2003 </param>
-                <!-- Brittle law  -->   <param> yield_litho_mantle_Rey2010 </param>
-                <!-- Stress limiter --> <param> yield_stressLimiter_300MPa </param> 
-                <!-- Melt modifier -->  <param> viscMelt_mantle_Hirth2003 </param>
-                <!-- Visc limiter -->   <param> viscosityLimiter </param> 
-            </list>
-            <list>
-                <!-- Viscous law  -->   <param> viscSRTdiffusion_wet_olivine_Hirth2003 </param>
-                <!-- Brittle law  -->   <param> yield_litho_mantle_Rey2010 </param>
-                <!-- Stress limiter --> <param> yield_stressLimiter_300MPa </param>
-                <!-- Melt modifier -->  <param> viscMelt_mantle_Hirth2003 </param>
-                <!-- Visc limiter -->   <param> viscosityLimiter </param> 
-            </list>
+        <list name="Rheology">
+        <!-- Viscous law  -->   <param> viscSRTdis-diff_wet_olivine_Hirth2003 </param>
+        <!-- Brittle law  -->   <param> yield_litho_mantle_Rey2010 </param>
+        <!-- Stress limiter --> <param> yield_stressLimiter_300MPa </param> 
+        <!-- Melt modifier -->  <param> viscMelt_mantle_Hirth2003 </param>
+        <!-- Visc limiter -->   <param> viscosityLimiter </param> 
         </list>
     </struct>
 

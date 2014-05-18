@@ -50,6 +50,7 @@
             <param name="Swarm"> all_passiveTracerSwarm </param>
             <param name="TimeIntegrator"> timeIntegrator </param>
             <param name="VelocityField"> VelocityField </param>
+            <param name="allowFallbackToFirstOrder"> True </param>
         </struct>
         
         <!-- ==================================================================================== -->

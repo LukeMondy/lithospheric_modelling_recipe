@@ -23,7 +23,7 @@
         </checkpointing_options>
         
         <output_pictures> false </output_pictures>
-        <write_log_file> false </write_log_file>
+        <write_log_file> true </write_log_file>
     </Output_Controls>
     
     <Thermal_Equilibration>
@@ -58,8 +58,8 @@
 
 
     <Restarting_Controls>
-        <restart> false </restart>
-        <restart_from_step> 50 </restart_from_step>
+        <restart> true </restart>
+        <restart_from_step> 143 </restart_from_step>
     </Restarting_Controls>
 
     <Model_Precision>
