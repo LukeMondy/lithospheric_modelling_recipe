@@ -14,7 +14,7 @@
 
         <experiment_duration_options>
             <maximum_timesteps> 10000000 </maximum_timesteps>
-            <maximum_time> 1.0E7 </maximum_time>
+            <maximum_time_in_years> 1.0E7 </maximum_time_in_years>
         </experiment_duration_options>
         
         <checkpoint_frequency_options>
@@ -43,14 +43,13 @@
 
             <experiment_duration_options>
                 <maximum_timesteps> 500 </maximum_timesteps>
-                <maximum_time> 1.0e9 </maximum_time>
+                <maximum_time_in_years> 1.0e9 </maximum_time_in_years>
             </experiment_duration_options>
 
             <checkpoint_frequency_options>
                 <every_x_years> 1.0E7 </every_x_years>
                 <every_x_timesteps> 100000000 </every_x_timesteps>
             </checkpoint_frequency_options>
-            
         </output_controls>   
     </Thermal_Equilibration>
 

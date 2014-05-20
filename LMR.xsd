@@ -52,7 +52,7 @@
                                                 <xsd:documentation>Use a large number for normal runs, use -1 for checking material geometries. </xsd:documentation>
                                             </xsd:annotation>
                                         </xsd:element>
-                                        <xsd:element maxOccurs="1" minOccurs="1" name="maximum_time" type="xsd:double" default="10e6">
+                                        <xsd:element maxOccurs="1" minOccurs="1" name="maximum_time_in_years" type="xsd:double" default="10e6">
                                             <xsd:annotation>
                                                 <xsd:documentation>The experiment will stop after reaching this time. maximum_time is defined in years.</xsd:documentation>
                                             </xsd:annotation>
@@ -147,7 +147,7 @@
                                                             <xsd:documentation>Use a  very large number for thermal runs.</xsd:documentation>
                                                         </xsd:annotation>
                                                     </xsd:element>
-                                                    <xsd:element maxOccurs="1" minOccurs="1" name="maximum_time" type="xsd:double"
+                                                    <xsd:element maxOccurs="1" minOccurs="1" name="maximum_time_in_years" type="xsd:double"
                                                         default="10e9">
                                                         <xsd:annotation>
                                                             <xsd:documentation>The experiment will stop after reaching this time. maximum_time is defined in years. For thermal equilibration, 1 billion years is a common time.
