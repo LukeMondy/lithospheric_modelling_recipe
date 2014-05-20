@@ -228,7 +228,9 @@ def prepare_job(model_dict, command_dict):
         solvers = ["-Uzawa_velSolver_pc_factor_mat_solver_package mumps",
                    "-mat_mumps_icntl_14 200",
                    "-Uzawa_velSolver_ksp_type preonly",
-                   "-Uzawa_velSolver_pc_type lu"]
+                   "-Uzawa_velSolver_pc_type lu",
+                   "-log_summary",
+                   "-options_left"]
 
     else:
         def multigrid_test(number, count=1):
