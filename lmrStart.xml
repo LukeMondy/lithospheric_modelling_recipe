@@ -2,25 +2,25 @@
 <lmr:LMRStarterKit xmlns:lmr="https://bitbucket.org/lmondy/lithosphericmodellingrecipe" 
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
     xsi:schemaLocation="file:./LMR.xsd">
-
-    
-    <Model_Resolution>
-        <x> 208 </x>
-        <y> 96 </y>
-        <z> 0 </z>
-    </Model_Resolution>
     
     <Output_Controls>
         <description> reference_model </description>
+
+        <model_resolution>
+            <x> 208 </x>
+            <y> 96 </y>
+            <z> 0 </z>
+        </model_resolution>
+
         <experiment_duration_options>
-            <maximum_steps> 10000000 </maximum_steps>
-            <maximum_time> 1.0E7 </maximum_time>
+            <maximum_timesteps> 10000000 </maximum_timesteps>
+            <maximum_time_in_years> 1.0E7 </maximum_time_in_years>
         </experiment_duration_options>
         
-        <checkpointing_options>
-            <years> 50000 </years>
-            <timesteps> 100000 </timesteps>
-        </checkpointing_options>
+        <checkpoint_frequency_options>
+            <every_x_years> 50000 </every_x_years>
+            <every_x_timesteps> 100000 </every_x_timesteps>
+        </checkpoint_frequency_options>
         
         <output_pictures> false </output_pictures>
         <write_log_file> false </write_log_file>
@@ -30,36 +30,33 @@
         <run_thermal_equilibration_phase> false </run_thermal_equilibration_phase>
         
         <update_xml_information> true </update_xml_information>
-        <preserve_thermal_equilibration_checkpoints> true </preserve_thermal_equilibration_checkpoints>
+        <preserve_thermal_equilibration_checkpoints> false </preserve_thermal_equilibration_checkpoints>
 
         <output_controls>
             <description> laterally_homog </description>
             
             <thermal_model_resolution>
-                <x> 2 </x>
+                <x> 4 </x>
                 <y> 48 </y>
                 <z> 2 </z>
             </thermal_model_resolution>
 
             <experiment_duration_options>
-                <maximum_steps> 4000000000 </maximum_steps>
-                <maximum_time> 1.0e9 </maximum_time>
+                <maximum_timesteps> 1000 </maximum_timesteps>
+                <maximum_time_in_years> 1.0e9 </maximum_time_in_years>
             </experiment_duration_options>
 
-            <checkpointing_options>
-                <years> 1.0E7 </years>
-                <timesteps> 100000000 </timesteps>
-            </checkpointing_options>
-
-            <output_pictures> false </output_pictures>
-            
+            <checkpoint_frequency_options>
+                <every_x_years> 1.0E7 </every_x_years>
+                <every_x_timesteps> 100000000 </every_x_timesteps>
+            </checkpoint_frequency_options>
         </output_controls>   
     </Thermal_Equilibration>
 
 
     <Restarting_Controls>
         <restart> false </restart>
-        <restart_from_step> 50 </restart_from_step>
+        <restart_from_step> 19 </restart_from_step>
     </Restarting_Controls>
 
     <Model_Precision>
@@ -71,13 +68,13 @@
 
         <nonLinear_solver>
             <tolerance> 3e-3 </tolerance>
-            <min_iterations> 1 </min_iterations>
+            <min_iterations> 2 </min_iterations>
             <max_iterations> 500 </max_iterations>
         </nonLinear_solver>
     </Model_Precision>
 
     <Underworld_Execution>
-        <Underworld_binary> /home/luke/Programs/unmodified-uw/build/bin/Underworld </Underworld_binary>
+        <Underworld_binary> /home/luke/Programs/uw-be/build/bin/Underworld </Underworld_binary>
         <CPUs> 6 </CPUs>
         <supercomputer_mpi_format> false </supercomputer_mpi_format>
     </Underworld_Execution>

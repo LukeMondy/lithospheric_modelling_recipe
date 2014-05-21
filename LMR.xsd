@@ -8,32 +8,6 @@
     <xsd:element name="LMRStarterKit">
         <xsd:complexType>
             <xsd:sequence>
-                <xsd:element maxOccurs="1" minOccurs="1" name="Model_Resolution">
-                    <xsd:annotation>
-                        <xsd:documentation>This section controls the resolution the model box in the X, Y and Z directions. Note that Y is the vertical direction. The model dimensionality will be automatically changed from 2D to 3D by defining a the resolution in Z to a value different from 0</xsd:documentation>
-                    </xsd:annotation>
-                    <xsd:complexType>
-                        <xsd:sequence>
-                            <xsd:element maxOccurs="1" minOccurs="1" name="x" type="xsd:positiveInteger">
-                                <xsd:annotation>
-                                    <xsd:documentation>Number of cells along the X axis. This is the horizontal axis in Underworld.</xsd:documentation>
-                                </xsd:annotation>
-                            </xsd:element>
-                            <xsd:element maxOccurs="1" minOccurs="1" name="y" type="xsd:positiveInteger">
-                                <xsd:annotation>
-                                    <xsd:documentation>Number of cells along the Y axis. This is the
-                                        vertical axis in Underworld.</xsd:documentation>
-                                </xsd:annotation>
-                            </xsd:element>
-                            <xsd:element maxOccurs="1" minOccurs="1" name="z" type="xsd:nonNegativeInteger" default="0">
-                                <xsd:annotation>
-                                    <xsd:documentation>Number of cells along the Z axis. Changing the value from 0 to any positive integer will switch the model dimensionality from 2D to 3D. This is the second horizontal axis in Underworld, defining the depth dimension in 3D experiments.</xsd:documentation>
-                                </xsd:annotation>
-                            </xsd:element>
-                        </xsd:sequence>
-                    </xsd:complexType>
-                </xsd:element>
-
                 <xsd:element maxOccurs="1" minOccurs="1" name="Output_Controls">
                     <xsd:annotation>
                         <xsd:documentation>This section allows to control the experiment output parameters.</xsd:documentation>
@@ -45,15 +19,40 @@
                                     <xsd:documentation>Defines a subset of the name to be used for the experiment output</xsd:documentation>
                                 </xsd:annotation>
                             </xsd:element>
+                            <xsd:element maxOccurs="1" minOccurs="1" name="model_resolution">
+                                <xsd:annotation>
+                                    <xsd:documentation>This section controls the resolution the model box in the X, Y and Z directions. Note that Y is the vertical direction. The model dimensionality will be automatically changed from 2D to 3D by defining a the resolution in Z to a value different from 0</xsd:documentation>
+                                </xsd:annotation>
+                                <xsd:complexType>
+                                    <xsd:sequence>
+                                        <xsd:element maxOccurs="1" minOccurs="1" name="x" type="xsd:positiveInteger">
+                                            <xsd:annotation>
+                                                <xsd:documentation>Number of cells along the X axis. This is the horizontal axis in Underworld.</xsd:documentation>
+                                            </xsd:annotation>
+                                        </xsd:element>
+                                        <xsd:element maxOccurs="1" minOccurs="1" name="y" type="xsd:positiveInteger">
+                                            <xsd:annotation>
+                                                <xsd:documentation>Number of cells along the Y axis. This is the
+                                                    vertical axis in Underworld.</xsd:documentation>
+                                            </xsd:annotation>
+                                        </xsd:element>
+                                        <xsd:element maxOccurs="1" minOccurs="1" name="z" type="xsd:nonNegativeInteger" default="0">
+                                            <xsd:annotation>
+                                                <xsd:documentation>Number of cells along the Z axis. Changing the value from 0 to any positive integer will switch the model dimensionality from 2D to 3D. This is the second horizontal axis in Underworld, defining the depth dimension in 3D experiments.</xsd:documentation>
+                                            </xsd:annotation>
+                                        </xsd:element>
+                                    </xsd:sequence>
+                                </xsd:complexType>
+                            </xsd:element>
                             <xsd:element maxOccurs="1" minOccurs="1" name="experiment_duration_options">
                                 <xsd:complexType>
                                     <xsd:sequence>
-                                        <xsd:element maxOccurs="1" minOccurs="1" name="maximum_steps" type="xsd:integer">
+                                        <xsd:element maxOccurs="1" minOccurs="1" name="maximum_timesteps" type="xsd:integer">
                                             <xsd:annotation>
                                                 <xsd:documentation>Use a large number for normal runs, use -1 for checking material geometries. </xsd:documentation>
                                             </xsd:annotation>
                                         </xsd:element>
-                                        <xsd:element maxOccurs="1" minOccurs="1" name="maximum_time" type="xsd:double" default="10e6">
+                                        <xsd:element maxOccurs="1" minOccurs="1" name="maximum_time_in_years" type="xsd:double" default="10e6">
                                             <xsd:annotation>
                                                 <xsd:documentation>The experiment will stop after reaching this time. maximum_time is defined in years.</xsd:documentation>
                                             </xsd:annotation>
@@ -61,14 +60,14 @@
                                     </xsd:sequence>
                                 </xsd:complexType>
                             </xsd:element>
-                            <xsd:element maxOccurs="1" minOccurs="1" name="checkpointing_options">
+                            <xsd:element maxOccurs="1" minOccurs="1" name="checkpoint_frequency_options">
                                 <xsd:annotation>
                                     <xsd:documentation>Underworld will output a checkpoint (h5 files) either after it reaches a defined number of years, or after a number of timesteps. It will choose whichever comes first, so make the one you don't want very large.</xsd:documentation>
                                 </xsd:annotation>
                                 <xsd:complexType>
                                     <xsd:sequence>
-                                        <xsd:element maxOccurs="1" minOccurs="1" name="years" type="xsd:double"> </xsd:element>
-                                        <xsd:element maxOccurs="1" minOccurs="1" name="timesteps" type="xsd:positiveInteger"/>
+                                        <xsd:element maxOccurs="1" minOccurs="1" name="every_x_years" type="xsd:double"> </xsd:element>
+                                        <xsd:element maxOccurs="1" minOccurs="1" name="every_x_timesteps" type="xsd:positiveInteger"/>
                                     </xsd:sequence>
                                 </xsd:complexType>
                             </xsd:element>
@@ -143,12 +142,12 @@
                                         <xsd:element maxOccurs="1" minOccurs="1" name="experiment_duration_options">
                                             <xsd:complexType>
                                                 <xsd:sequence>
-                                                    <xsd:element name="maximum_steps" type="xsd:integer">
+                                                    <xsd:element name="maximum_timesteps" type="xsd:integer">
                                                         <xsd:annotation>
                                                             <xsd:documentation>Use a  very large number for thermal runs.</xsd:documentation>
                                                         </xsd:annotation>
                                                     </xsd:element>
-                                                    <xsd:element maxOccurs="1" minOccurs="1" name="maximum_time" type="xsd:double"
+                                                    <xsd:element maxOccurs="1" minOccurs="1" name="maximum_time_in_years" type="xsd:double"
                                                         default="10e9">
                                                         <xsd:annotation>
                                                             <xsd:documentation>The experiment will stop after reaching this time. maximum_time is defined in years. For thermal equilibration, 1 billion years is a common time.
@@ -158,21 +157,16 @@
                                                 </xsd:sequence>
                                             </xsd:complexType>
                                         </xsd:element>
-                                        <xsd:element maxOccurs="1" minOccurs="1" name="checkpointing_options">
+                                        <xsd:element maxOccurs="1" minOccurs="1" name="checkpoint_frequency_options">
                                             <xsd:annotation>
                                                 <xsd:documentation>Underworld will output a checkpoint (h5 files) either after it reaches a defined number of years, or after a number of timesteps. It will choose whichever comes first, so make the one you don't want very large.</xsd:documentation>
                                             </xsd:annotation>
                                             <xsd:complexType>
                                                 <xsd:sequence>
-                                                    <xsd:element maxOccurs="1" minOccurs="1" name="years" type="xsd:double"> </xsd:element>
-                                                    <xsd:element maxOccurs="1" minOccurs="1" name="timesteps" type="xsd:positiveInteger"/>
+                                                    <xsd:element maxOccurs="1" minOccurs="1" name="every_x_years" type="xsd:double"> </xsd:element>
+                                                    <xsd:element maxOccurs="1" minOccurs="1" name="every_x_timesteps" type="xsd:positiveInteger"/>
                                                 </xsd:sequence>
                                             </xsd:complexType>
-                                        </xsd:element>
-                                        <xsd:element maxOccurs="1" minOccurs="1" name="output_pictures" type="xsd:boolean" default="false">
-                                            <xsd:annotation>
-                                                <xsd:documentation>If true, a png output file with a predefined vuew will be created every ??? LUKE WE MIGHT NEED AN OUTPUT EVERY TO CONTROL THE GRANULARITY OF THESE PNG OUTPUTS</xsd:documentation>
-                                            </xsd:annotation>
                                         </xsd:element>
                                     </xsd:sequence>
                                 </xsd:complexType>

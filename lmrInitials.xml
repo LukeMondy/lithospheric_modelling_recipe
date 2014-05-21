@@ -10,7 +10,7 @@
             <param name="FeVariableHDF5Filename"> !!PATH_TO_TEMP_FILE!! </param>
             <param name="MeshHDF5Filename"> !!PATH_TO_MESH_FILE!! </param>            
             <param name="TargetFeVariable"> TemperatureField </param>
-            <param name="Partitioned"> True </param>
+            <param name="Partitioned"> False </param>
         </struct>
     </list>
     
