@@ -186,9 +186,9 @@
                                     <xsd:documentation>Set to be true to enable restart functionality.</xsd:documentation>
                                 </xsd:annotation>
                             </xsd:element>
-                            <xsd:element maxOccurs="1" minOccurs="1" name="restart_from_step" type="xsd:nonNegativeInteger">
+                            <xsd:element maxOccurs="1" minOccurs="0" name="restart_from_step" type="xsd:nonNegativeInteger">
                                 <xsd:annotation>
-                                    <xsd:documentation>Set to be the checkpoint number to restart from.</xsd:documentation>
+                                    <xsd:documentation>Set to be the checkpoint number to restart from. If this tag is not specified, or set to -1, the model will restart from the last checkpoint it can find.</xsd:documentation>
                                 </xsd:annotation>
                             </xsd:element>
                         </xsd:sequence>

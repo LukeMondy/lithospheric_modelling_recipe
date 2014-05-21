@@ -172,7 +172,10 @@ def process_xml(raw_dict):
     restarting = raw_dict["Restarting_Controls"]
     model_dict["restarting"] = xmlbool(restarting["restart"])
     if model_dict["restarting"] is True:
-        model_dict["restart_timestep"] = int(restarting["restart_from_step"])
+        try:
+            model_dict["restart_timestep"] = int(restarting["restart_from_step"])
+        except KeyError:
+            model_dict["restart_timestep"] = -1
         command_dict["restart"] = "--restartTimestep={restart_timestep}"
     # </Restarting_Controls>
 
@@ -247,6 +250,7 @@ def prepare_job(model_dict, command_dict):
         model_dict["output_path"] = copy.deepcopy(model_dict["model_output_path"])
         model_dict["logfile"] = "log_result_{model_description}.txt".format(model_description=model_dict["nice_description"])
 
+
     # Select solvers
     if model_dict["dims"] == 2 or model_dict["run_thermal_equilibration"] is True:
         solvers = ["-Uzawa_velSolver_pc_factor_mat_solver_package mumps",
@@ -298,6 +302,7 @@ def prepare_job(model_dict, command_dict):
 
     command_dict["solver"] = " ".join(solvers)
 
+
     # Prepare file system for UW run.
     output_dir = model_dict["output_path"]
     xmls_dir = os.path.join(output_dir, "xmls/")  # Standard place
@@ -306,6 +311,10 @@ def prepare_job(model_dict, command_dict):
         os.mkdir(output_dir)
 
     if model_dict["restarting"] is True:
+        if model_dict["restart_timestep"] == -1:
+            # If no restart timestep is specified, automatically find the last one.
+            model_dict["restart_timestep"] = find_last_timestep(model_dict["output_path"])
+
         # When we restart, we need to preserve the original XMLs stored in result/xmls.
         # To do so, find the last xmls folder, and increment the number.
         xml_folders = sorted([folder for folder in glob.glob("%s/xmls*" % output_dir)
@@ -324,6 +333,7 @@ def prepare_job(model_dict, command_dict):
             shutil.copy(files, xmls_dir)
 
     model_dict["input_xmls"] = model_dict["input_xmls"].format(output_path=model_dict["output_path"])
+
 
     # Need to modify the XML in the result/xmls/folder, so the main folder is pristine.
     if model_dict["run_thermal_equilibration_phase"] is False and model_dict["update_xml_information"] is True:
@@ -412,7 +422,6 @@ def find_last_timestep(path):
                 '       condition, or when restarting a model.\n'.format(path=path))
             sys.exit(error_msg)
         else:
-            # OUT OF DATE ERROR MESSAGE - be more general
             error_msg = (
                 'Unable to find any files starting with \'Mesh.*.h5\' in the folder \'%s\'\n'
                 'If you are running a thermo-mechanical model from scratch, this may mean that you\n'
