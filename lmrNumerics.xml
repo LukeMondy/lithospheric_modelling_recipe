@@ -284,16 +284,6 @@
             <param name="Swarm">picIntegrationPoints</param>
             <param name="Context">context</param>
         </struct>
-        <struct name="director">
-            <param name="Type"> Director </param>
-            <param name="TimeIntegrator"> timeIntegrator </param>
-            <param name="VelocityGradientsField"> VelocityGradientsField </param>
-            <param name="MaterialPointsSwarm"> materialSwarm </param>
-            <param name="initialDirectionX"> 0.0 </param>
-            <param name="initialDirectionY"> 1.0 </param>
-            <param name="initialDirectionZ"> 0.0 </param>
-            <param name="dontUpdate"> False </param>
-        </struct>
         <!-- ====================================================== -->
         
         

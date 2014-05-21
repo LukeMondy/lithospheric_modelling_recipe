@@ -64,6 +64,11 @@
         <struct name="passiveTracerAdvect" mergeType="replace">
             <param name="Type"> DummyComponent </param>
         </struct>
+
+        <struct name="stokesEqn" mergeType="merge">
+            <param name="makeConvergenceFile" mergeType="replace"> false </param>
+            <param name="killNonConvergent" mergeType="replace"> false </param>
+        </struct>
     </struct>
     
 

@@ -3,18 +3,13 @@ from __future__ import division
 import os
 import shutil
 import sys
-import textwrap
 import subprocess
 import fileinput
 import glob
 import copy
-from itertools import chain
 
-# External Python packages required:
-#  - h5py - http://www.h5py.org/
+# External Python packages:
 #  - Python lXML - http://lxml.de/
-#  - NumPy and SciPy - http://www.scipy.org/
-# Each are imported when required.
 
 
 # Python lXML - http://lxml.de/
@@ -23,8 +18,10 @@ try:
     from lxml import etree as ElementTree
 except ImportError:
     have_lxml = False
-    print "=== WARNING ===\n Unable to find the Python library lxml. The LMR can still run, but will not be able to validate the lmrStart.xml file. You can obtain it from: http://lxml.de/, or from your package manager."
-    from xml.etree import cElementTree as ElementTree 
+    print ('=== WARNING ===\n Unable to find the Python library lxml. The LMR can still run, '
+           'but will not be able to validate the lmrStart.xml file. You can obtain it from: '
+           'http://lxml.de/, or from your package manager.')
+    from xml.etree import cElementTree as ElementTree
 
 
 def load_xml(input_xml='lmrStart.xml', xsd_location='LMR.xsd'):
@@ -68,31 +65,33 @@ def load_xml(input_xml='lmrStart.xml', xsd_location='LMR.xsd'):
     error_log = ""
     try:
         tree = ElementTree.parse(input_xml)     # Any errors from mismatching tags will be caught
-        
+
         if have_lxml is True:
             # If we have lxml, get the schema and parse it
             try:
                 schema = ElementTree.XMLSchema(file=xsd_location)
             except Exception as e:
-                sys.exit("Problem with the XSD validation! Computer says:\n%s" % e)   
-            
+                sys.exit("Problem with the XSD validation! Computer says:\n%s" % e)
+
             schema.validate(tree)                   # Validate against xsd.
             error_log = schema.error_log
-    
+
     except ElementTree.XMLSyntaxError as e:
         error_log = e.error_log
-    
+
     if len(error_log) > 0:
         error = "=== Error reading from file %s ===\n" % input_xml
 
         for num, entry in enumerate(error_log):
-            error += '''
-            Error {num}:\n
-            There was an issue reading in the XML you have used. The code is reporting that on line {line}, this error occured:
-            \n\"{message}\"\n
-            Please have a look at {input_xml} closely, especially around the mentioned line. If you are still having issues, try using an XML validator online to see where the bug is.\n
-            \n'''.format(num=num+1, line=entry.line, message=entry.message, input_xml=input_xml)
-        nice_error = "\n".join([textwrap.fill(e.strip()) for e in error.splitlines()])
+            error += (
+                'Error {num}:\n'
+                'There was an issue reading in the XML you have used. The code is reporting that on line {line},'
+                ' this error occured:'
+                '\n\"{message}\"\n'
+                'Please have a look at {input_xml} closely, especially around the mentioned line.'
+                ' If you are still having issues, try using an XML validator online to see where the bug is.\n'
+                '\n'.format(num=num+1, line=entry.line, message=entry.message, input_xml=input_xml))
+        nice_error = "\n".join(error)
         sys.exit(nice_error)
 
     root = tree.getroot()
@@ -139,7 +138,7 @@ def process_xml(raw_dict):
 
     checkpoint_frequency_options = output_controls["checkpoint_frequency_options"]
     model_dict["checkpoint_every_x_years"] = float(checkpoint_frequency_options["every_x_years"])
-    model_dict["checkpoint_every_x_timesteps"] = int(checkpoint_frequency_options["every_x_timesteps"])
+    model_dict["checkpoint_every_x_steps"] = int(checkpoint_frequency_options["every_x_timesteps"])
 
     model_dict["output_pictures"] = xmlbool(output_controls["output_pictures"])
     model_dict["write_log_file"] = xmlbool(output_controls["write_log_file"])
@@ -166,7 +165,7 @@ def process_xml(raw_dict):
 
     checkpoint_frequency_options = thermal_output_controls["checkpoint_frequency_options"]
     model_dict["thermal_checkpoint_every_x_years"] = float(checkpoint_frequency_options["every_x_years"])
-    model_dict["thermal_checkpoint_every_x_timesteps"] = int(checkpoint_frequency_options["every_x_timesteps"])
+    model_dict["thermal_checkpoint_every_x_steps"] = int(checkpoint_frequency_options["every_x_timesteps"])
     # </Thermal_Equilibration>
 
 
@@ -219,21 +218,37 @@ def prepare_job(model_dict, command_dict):
     else:
         model_dict["dims"] = 3
 
-    if model_dict["run_thermal_equilibration_phase"] is True:
-        model_dict["resolution"] = copy.deepcopy(model_dict["thermal_model_resolution"])
+    text_res = "x".join(map(str, (model_dict["model_resolution"]["x"],
+                                  model_dict["model_resolution"]["y"],
+                                  model_dict["model_resolution"]["z"])))
+    therm_text_res = "x".join(map(str, (model_dict["thermal_model_resolution"]["x"],
+                                        model_dict["thermal_model_resolution"]["y"],
+                                        model_dict["thermal_model_resolution"]["z"])))
 
-        model_dict["input_xmls"] += " {output_path}/xmls/lmrThermalEquilibration.xml"
-        output_prefix = "initial-condition"
-    else:
-        model_dict["resolution"] = copy.deepcopy(model_dict["thermal_model_resolution"])
-        output_prefix = "result"
+    print therm_text_res
 
-    text_res = "x".join(map(str, (model_dict["resolution"]["x"],
-                                  model_dict["resolution"]["y"],
-                                  model_dict["resolution"]["z"])))
     model_dict["nice_description"] = "_".join([text_res, model_dict["description"]])
-    model_dict["output_path"] = "%s/%s" % (os.getcwd(), "_".join([output_prefix, model_dict["nice_description"]]))
+    model_dict["nice_thermal_description"] = "_".join([therm_text_res, model_dict["thermal_description"]])
+
+    model_dict["model_output_path"] = "{cwd}/result_{model_description}".format(cwd=os.getcwd(), model_description=model_dict["nice_description"])
+    model_dict["thermal_output_path"] = "{cwd}/initial-condition_{thermal_description}".format(cwd=os.getcwd(), thermal_description=model_dict["nice_thermal_description"])
+
+    cp = copy.deepcopy
+    if model_dict["run_thermal_equilibration_phase"] is True:
+        model_dict["resolution"] = cp(model_dict["thermal_model_resolution"])
+        model_dict["input_xmls"] += " {output_path}/xmls/lmrThermalEquilibration.xml"
+        model_dict["output_path"] = cp(model_dict["thermal_output_path"])
+
+        model_dict["checkpoint_every_x_steps"] = cp(model_dict["thermal_checkpoint_every_x_steps"])
+        model_dict["checkpoint_every_x_years"] = cp(model_dict["thermal_checkpoint_every_x_years"])
+    else:
+        model_dict["resolution"] = copy.deepcopy(model_dict["model_resolution"])
+        model_dict["output_path"] = copy.deepcopy(model_dict["model_output_path"])
+
     model_dict["logfile"] = "log_%s.txt" % model_dict["output_path"]
+
+    #for m in sorted(model_dict.keys()):
+    #    print m, ":\t", model_dict[m]
 
     # Select solvers
     if model_dict["dims"] == 2 or model_dict["run_thermal_equilibration"] is True:
@@ -316,12 +331,8 @@ def prepare_job(model_dict, command_dict):
 
     # Need to modify the XML in the result/xmls/folder, so the main folder is pristine.
     if model_dict["run_thermal_equilibration_phase"] is False and model_dict["update_xml_information"] is True:
-        therm_text_res = "x".join(map(str, (model_dict["thermal_model_resolution"]["x"],
-                                            model_dict["thermal_model_resolution"]["y"],
-                                            model_dict["thermal_model_resolution"]["z"])))
-        model_dict["thermal_output_path"] = "initial-condition_{text_res}_{thermal_description}".format(text_res=therm_text_res, thermal_description=model_dict["thermal_description"])
         last_ts = find_last_timestep(model_dict["thermal_output_path"])
-        modify_initialcondition_xml(last_ts, xmls_dir)
+        modify_initialcondition_xml(last_ts, xmls_dir, model_dict["thermal_output_path"])
 
     return model_dict, command_dict
 
@@ -356,31 +367,67 @@ def run_model(model_dict, command_dict):
         model_run.wait()
 
         if model_run.returncode != 0:
-            sys.exit("\n\nUnderworld did not exit nicely - have a look at its output to try and determine the problem.")
+            error_msg = '\n\nUnderworld did not exit nicely - have a look at its output to try and determine the problem.'
+            if model_dict["run_thermal_equilibration_phase"] is True:
+                error_msg += ('\n\nSuggestion - if Underworld failed because of an error similar to:\n'
+                              'StGermain/Base/Container/src/ISet.c:205: failed assertion (++self->curSize) <= self->maxSize\n'
+                              'it is generally because Underworld is having trouble decomposing the model accross the number\n'
+                              'of CPUs you are using. Try either:\n'
+                              '  - Using model resolutions that divide nicely (i.e., not prime numbers)\n'
+                              '  - Increasing the model resolution\n'
+                              '  - Using fewer CPUs')
+            sys.exit(error_msg)
     except KeyboardInterrupt:
         model_run.terminate()
-        if model_dict["run_thermal_equilibration"] is True:
-            print "\n### Warning! ###\nUnderworld thermal equilibration stopped - will interpolate with the last timestep to be outputted."
+        if model_dict["run_thermal_equilibration_phase"] is True:
+            print ('\n### Warning! ###\nUnderworld thermal equilibration stopped - will interpolate with the '
+                   'last timestep to be outputted.')
         else:
             sys.exit("\nYou have cancelled the job - all instances of Underworld have been killed.")
 
 
+def post_model_run(model_dict):
+
+    # Clean up thermal equilibration checkpoints if needed.
+    if model_dict["run_thermal_equilibration_phase"] is True:
+        last_ts = find_last_timestep(model_dict["thermal_output_path"])
+        if model_dict["preserve_thermal_checkpoints"] is False:
+            filelist = [f for f in os.listdir(model_dict["output_path"])
+                        if "%05d" % last_ts not in f
+                           and "xml" not in f
+                           and "xdmf" not in f]
+            for f in filelist:
+                print f
+                os.remove("%s/%s" % (model_dict["output_path"], f))
+
+
 def find_last_timestep(path):
     try:
-        # We can use Mesh files because every model will have it.
-        last_ts = max([int(f.split('/')[-1].split('.')[1]) for f in glob.glob("%s/Mesh.*.h5" % path)])
-    except:
+        # The below line does this:
+        #   1) split the path up by '/' to seperate the filesystem structure.
+        #   2) The last chunk (the filename) is taken using [-1]
+        #   3) The filename is then split by '.', as the file we're looking for looks like this: Mesh.linearMesh.00475.h5
+        #   4) The second last chunk of the file name (the timestep number) is taken, and converted to int.
+        last_ts = max([int(f.split('/')[-1].split('.')[-2]) for f in glob.glob("%s/Mesh.*.h5" % path)])
+    except:  # You should really catch explicit exceptions...
         if not os.path.isdir(path):
-            sys.exit("The folder '%s' does not exist. The LMR is either trying to find an initial condition, or restarting." % path)
+            error_msg = (
+                'ERROR: The LMR is looking for folder \'{path}\',\n'
+                '       but it does not exist!\n'
+                '       This can happen either when the LMR is looking for an initial-\n'
+                '       condition, or when restarting a model.\n'.format(path=path))
+            sys.exit(error_msg)
         else:
-            sys.exit("Unable to find any files starting with 'Mesh.*.h5' in the folder '%s'." +
-                     "You may need to re-run the thermal equilibration phase, or run it for longer." % thermal_results_dir)
+            # OUT OF DATE ERROR MESSAGE - be more general
+            sys.exit("Unable to find any files starting with 'Mesh.*.h5' in the folder '%s'. You may need to re-run the thermal equilibration phase, or run it for longer." % path)
     return last_ts
 
 
-def modify_initialcondition_xml(last_ts, xml_path):
-    new_temp_file = "%s/TemperatureField.%05d.h5" % (xml_path, last_ts)
-    new_mesh_file = "%s/Mesh.linearMesh.%05d.h5" % (xml_path, last_ts)
+def modify_initialcondition_xml(last_ts, xml_path, initial_condition_path):
+    new_temp_file = "%s/TemperatureField.%05d.h5" % (initial_condition_path, last_ts)
+    new_mesh_file = "%s/Mesh.linearMesh.%05d.h5" % (initial_condition_path, last_ts)
+
+    # Python doesn't have a great in-line file editing, so here we use the fileinput function
 
     try:
         for line in fileinput.input("{xml_path}/lmrInitials.xml".format(xml_path=xml_path), inplace=True):
@@ -391,8 +438,9 @@ def modify_initialcondition_xml(last_ts, xml_path):
             else:
                 print line,
     except IOError as err:
-        sys.exit("Problem opening lmrInitials.xml to update the HDF5 initial condition. The computer reported:\n\
-                    %s" % err)
+        error_msg = ('Problem opening lmrInitials.xml to update the HDF5 initial condition.'
+                     'The computer reported:\n\%s' % err)
+        sys.exit(error_msg)
 
 
 def main():
@@ -415,14 +463,10 @@ def main():
     model_dict, command_dict = prepare_job(model_dict, command_dict)
 
     # STEP 3
-    # run_model(model_dict, command_dict)
+    run_model(model_dict, command_dict)
 
-    if model_dict["run_thermal_equilibration_phase"] is True:
-        last_ts = find_last_timestep(model_dict["thermal_output_path"])
-        if model_dict["preserve_thermal_equilibration_checkpoints"] is False:
-            filelist = [f for f in os.listdir(model_dict["output_path"]) if str(last_ts) not in f and "xmls" not in f]
-            for f in filelist:
-                os.remove("%s/%s" % (model_dict["output_path"], f))
+    # STEP 4
+    post_model_run(model_dict)
 
     if model_dict["write_log_file"] is True:
         log_file.close()
