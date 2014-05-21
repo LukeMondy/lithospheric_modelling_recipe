@@ -66,14 +66,13 @@ def load_xml(input_xml='lmrStart.xml', xsd_location='LMR.xsd'):
     try:
         tree = ElementTree.parse(input_xml)     # Any errors from mismatching tags will be caught
 
-        if have_lxml is True:
-            # If we have lxml, get the schema and parse it
+        if have_lxml is True:                   # If we have lxml, get the schema and parse it
             try:
                 schema = ElementTree.XMLSchema(file=xsd_location)
             except Exception as e:
                 sys.exit("Problem with the XSD validation! Computer says:\n%s" % e)
 
-            schema.validate(tree)                   # Validate against xsd.
+            schema.validate(tree)               # Validate against xsd.
             error_log = schema.error_log
 
     except ElementTree.XMLSyntaxError as e:
@@ -210,22 +209,22 @@ def process_xml(raw_dict):
     return model_dict, command_dict
 
 
+def get_textual_resolution(res):
+    return "x".join(map(str, (res["x"],
+                              res["y"],
+                              res["z"])))
+
+
 def prepare_job(model_dict, command_dict):
-    # Prepare resolutions, and thermal equil or not
+    # Prepare output paths, resolutions, and special functions for thermal equilibration.
     if model_dict["model_resolution"]["z"] <= 0:
         model_dict["dims"] = 2
         model_dict["thermal_model_resolution"]["z"] = 0  # Just to be sure.
     else:
         model_dict["dims"] = 3
 
-    text_res = "x".join(map(str, (model_dict["model_resolution"]["x"],
-                                  model_dict["model_resolution"]["y"],
-                                  model_dict["model_resolution"]["z"])))
-    therm_text_res = "x".join(map(str, (model_dict["thermal_model_resolution"]["x"],
-                                        model_dict["thermal_model_resolution"]["y"],
-                                        model_dict["thermal_model_resolution"]["z"])))
-
-    print therm_text_res
+    text_res = get_textual_resolution(model_dict["model_resolution"])
+    therm_text_res = get_textual_resolution(model_dict["thermal_model_resolution"])
 
     model_dict["nice_description"] = "_".join([text_res, model_dict["description"]])
     model_dict["nice_thermal_description"] = "_".join([therm_text_res, model_dict["thermal_description"]])
@@ -241,14 +240,12 @@ def prepare_job(model_dict, command_dict):
 
         model_dict["checkpoint_every_x_steps"] = cp(model_dict["thermal_checkpoint_every_x_steps"])
         model_dict["checkpoint_every_x_years"] = cp(model_dict["thermal_checkpoint_every_x_years"])
+
+        model_dict["logfile"] = "log_initial-condition_{thermal_description}.txt".format(thermal_description=model_dict["nice_thermal_description"])
     else:
         model_dict["resolution"] = copy.deepcopy(model_dict["model_resolution"])
         model_dict["output_path"] = copy.deepcopy(model_dict["model_output_path"])
-
-    model_dict["logfile"] = "log_%s.txt" % model_dict["output_path"]
-
-    #for m in sorted(model_dict.keys()):
-    #    print m, ":\t", model_dict[m]
+        model_dict["logfile"] = "log_result_{model_description}.txt".format(model_description=model_dict["nice_description"])
 
     # Select solvers
     if model_dict["dims"] == 2 or model_dict["run_thermal_equilibration"] is True:
@@ -288,7 +285,7 @@ def prepare_job(model_dict, command_dict):
                    "-fieldsplit_1_ksp_type preonly",
                    "-log_summary",
                    "-options_left"]
-                   
+
         solvers = ["-pc_mg_type full -ksp_type richardson -mg_levels_pc_type bjacobi",
                    "-mg_levels_ksp_type gmres -mg_levels_ksp_max_it 3",
                    "-mg_coarse_pc_factor_mat_solver_package superlu_dist -mg_coarse_pc_type lu",
@@ -305,7 +302,6 @@ def prepare_job(model_dict, command_dict):
     output_dir = model_dict["output_path"]
     xmls_dir = os.path.join(output_dir, "xmls/")  # Standard place
 
-    # We should always check to see if the results folder is even there
     if not os.path.isdir(output_dir):
         os.mkdir(output_dir)
 
@@ -358,11 +354,8 @@ def run_model(model_dict, command_dict):
     command = together.format(**model_dict).split(" ")
 
     try:
-        if model_dict["write_log_file"]:
-            with open(model_dict["logfile"], "w") as logfile:
-                model_run = subprocess.Popen(command, shell=False, stdout=logfile, stderr=subprocess.STDOUT)
-        else:
-            model_run = subprocess.Popen(command, shell=False)
+        # The sys.stdout is set in main()
+        model_run = subprocess.Popen(command, shell=False, stdout=sys.stdout, stderr=subprocess.STDOUT)
 
         model_run.wait()
 
@@ -408,6 +401,7 @@ def find_last_timestep(path):
         #   2) The last chunk (the filename) is taken using [-1]
         #   3) The filename is then split by '.', as the file we're looking for looks like this: Mesh.linearMesh.00475.h5
         #   4) The second last chunk of the file name (the timestep number) is taken, and converted to int.
+        #   5) Get the largest timestep
         last_ts = max([int(f.split('/')[-1].split('.')[-2]) for f in glob.glob("%s/Mesh.*.h5" % path)])
     except:  # You should really catch explicit exceptions...
         if not os.path.isdir(path):
@@ -419,7 +413,12 @@ def find_last_timestep(path):
             sys.exit(error_msg)
         else:
             # OUT OF DATE ERROR MESSAGE - be more general
-            sys.exit("Unable to find any files starting with 'Mesh.*.h5' in the folder '%s'. You may need to re-run the thermal equilibration phase, or run it for longer." % path)
+            error_msg = (
+                'Unable to find any files starting with \'Mesh.*.h5\' in the folder \'%s\'\n'
+                'If you are running a thermo-mechanical model from scratch, this may mean that you\n'
+                'need to either run the thermal equilibration phase, or run it for longer.\n'
+                'If you are restarting a job, make sure the <description> matches the previous model' % path)
+            sys.exit(error_msg)
     return last_ts
 
 
@@ -427,8 +426,10 @@ def modify_initialcondition_xml(last_ts, xml_path, initial_condition_path):
     new_temp_file = "%s/TemperatureField.%05d.h5" % (initial_condition_path, last_ts)
     new_mesh_file = "%s/Mesh.linearMesh.%05d.h5" % (initial_condition_path, last_ts)
 
-    # Python doesn't have a great in-line file editing, so here we use the fileinput function
-
+    # Python doesn't have a great in-line file editing, so here we use the fileinput function.
+    # It redirects the print function to the file itself while in the for loop context.
+    # Therefore, we just go through the file line by line, checking if we hit the special text.
+    # If so, replace it with the correct text, and print - else, just print.
     try:
         for line in fileinput.input("{xml_path}/lmrInitials.xml".format(xml_path=xml_path), inplace=True):
             if "!!PATH_TO_TEMP_FILE!!" in line:
@@ -455,12 +456,12 @@ def main():
     # STEP 1
     model_dict, command_dict = process_xml(raw_dict)
 
+    # STEP 2
+    model_dict, command_dict = prepare_job(model_dict, command_dict)
+
     if model_dict["write_log_file"] is True:
         log_file = open(model_dict["logfile"], "a")
         sys.stdout = log_file
-
-    # STEP 2
-    model_dict, command_dict = prepare_job(model_dict, command_dict)
 
     # STEP 3
     run_model(model_dict, command_dict)

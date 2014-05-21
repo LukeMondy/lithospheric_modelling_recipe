@@ -55,7 +55,7 @@
 
 
     <Restarting_Controls>
-        <restart> true </restart>
+        <restart> false </restart>
         <restart_from_step> 19 </restart_from_step>
     </Restarting_Controls>
 
@@ -68,7 +68,7 @@
 
         <nonLinear_solver>
             <tolerance> 3e-3 </tolerance>
-            <min_iterations> 1 </min_iterations>
+            <min_iterations> 2 </min_iterations>
             <max_iterations> 500 </max_iterations>
         </nonLinear_solver>
     </Model_Precision>
