@@ -155,16 +155,9 @@ def process_xml(raw_dict):
 
     model_dict["thermal_description"] = thermal_output_controls["description"]
 
-    for dim in thermal_output_controls["thermal_model_resolution"].keys():
-        model_dict["thermal_model_resolution"][dim] = int(thermal_output_controls["thermal_model_resolution"][dim])
-
-    experiment_duration_options = thermal_output_controls["experiment_duration_options"]
-    model_dict["thermal_max_timesteps"] = int(experiment_duration_options["maximum_timesteps"])
-    model_dict["thermal_max_time"] = float(experiment_duration_options["maximum_time_in_years"])
-
-    checkpoint_frequency_options = thermal_output_controls["checkpoint_frequency_options"]
-    model_dict["thermal_checkpoint_every_x_years"] = float(checkpoint_frequency_options["every_x_years"])
-    model_dict["thermal_checkpoint_every_x_steps"] = int(checkpoint_frequency_options["every_x_timesteps"])
+        model_dict["output_path"] = "%s/initial-condition_%s" % (os.getcwd(), "_".join(model_dict["description"].values()))
+        model_dict["input_xmls"] += " {output_path}/xmls/lmrThermalEquilibration.xml"
+        model_dict["logfile"] = "log_initial-condition_%s.txt" % "_".join(model_dict["description"].values())
     # </Thermal_Equilibration>
 
 
@@ -462,7 +455,6 @@ def main():
     else:
         raw_dict = load_xml()
 
-    # STEP 1
     model_dict, command_dict = process_xml(raw_dict)
 
     # STEP 2
