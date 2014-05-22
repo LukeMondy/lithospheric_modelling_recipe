@@ -244,6 +244,9 @@ def prepare_job(model_dict, command_dict):
         model_dict["checkpoint_every_x_steps"] = cp(model_dict["thermal_checkpoint_every_x_steps"])
         model_dict["checkpoint_every_x_years"] = cp(model_dict["thermal_checkpoint_every_x_years"])
 
+        model_dict["max_timesteps"] = cp(model_dict["thermal_max_timesteps"])
+        model_dict["max_time"] = cp(model_dict["thermal_max_time"])
+
         model_dict["logfile"] = "log_initial-condition_{thermal_description}.txt".format(thermal_description=model_dict["nice_thermal_description"])
     else:
         model_dict["resolution"] = copy.deepcopy(model_dict["model_resolution"])
