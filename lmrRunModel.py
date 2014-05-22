@@ -252,7 +252,7 @@ def prepare_job(model_dict, command_dict):
 
 
     # Select solvers
-    if model_dict["dims"] == 2 or model_dict["run_thermal_equilibration"] is True:
+    if model_dict["dims"] == 2 or model_dict["run_thermal_equilibration_phase"] is True:
         solvers = ["-Uzawa_velSolver_pc_factor_mat_solver_package mumps",
                    "-mat_mumps_icntl_14 200",
                    "-Uzawa_velSolver_ksp_type preonly",
