@@ -395,6 +395,7 @@
             <param name="Type"> Underworld_PressureCalibration </param>
             <param name="Context"> context </param>
             <param name="UsingTopPressure"> True </param>
+            <param name="ReferenceHeight"> topAir </param>
         </struct>
 
         <!-- The following plugins write a text file into the results
