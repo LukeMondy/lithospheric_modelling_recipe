@@ -70,7 +70,7 @@
             <param name="ReferenceDensity" units="kg*m^-3">2500</param>
             
             <param name="Temperature"> temperature_ppc_wrapper </param>
-            <param name="ReferenceTemperature" units="K">293.15</param>
+            <param name="ReferenceTemperature" units="K"> 273.15 </param>
             <param name="ThermalExpansivity"> global_expansivity </param>            
             <!-- Pressure dependent densities can be used by adding
                  the following params. -->
@@ -83,10 +83,10 @@
         
         <struct name="densMelt_sediment">
             <param name="Type">Ppc_LinearDensityMelt</param>
-            <param name="ReferenceDensity" units="kg*m^-3">2500</param>
+            <param name="ReferenceDensity" units="kg*m^-3"> 2500 </param>
             
             <param name="Temperature"> temperature_ppc_wrapper </param>
-            <param name="ReferenceTemperature" units="K">293.15</param>
+            <param name="ReferenceTemperature" units="K"> 273.15 </param>
             <param name="ThermalExpansivity"> global_expansivity </param>
             
             <param name="MeltDensityChange"> MeltExpansionProperty </param>
@@ -95,19 +95,19 @@
         
         <struct name="densTemp_continental_upper_crust">
             <param name="Type">Ppc_LinearDensity</param>
-            <param name="ReferenceDensity" units="kg*m^-3">2800</param>
+            <param name="ReferenceDensity" units="kg*m^-3"> 2800 </param>
             
             <param name="Temperature"> temperature_ppc_wrapper </param>            
-            <param name="ReferenceTemperature" units="K">293.15</param>
+            <param name="ReferenceTemperature" units="K"> 273.15 </param>
             <param name="ThermalExpansivity"> global_expansivity </param>
         </struct>
         
         <struct name="densMelt_continental_upper_crust">
             <param name="Type">Ppc_LinearDensityMelt</param>
-            <param name="ReferenceDensity" units="kg*m^-3">2800</param>
+            <param name="ReferenceDensity" units="kg*m^-3"> 2800 </param>
             
             <param name="Temperature"> temperature_ppc_wrapper </param>
-            <param name="ReferenceTemperature" units="K">293.15</param>
+            <param name="ReferenceTemperature" units="K"> 273.15 </param>
             <param name="ThermalExpansivity"> global_expansivity </param>
             
             <param name="MeltDensityChange"> MeltExpansionProperty </param>
@@ -116,19 +116,19 @@
         
         <struct name="densTemp_oceanic_crust">
             <param name="Type">Ppc_LinearDensity</param>
-            <param name="ReferenceDensity" units="kg*m^-3">2900</param>
+            <param name="ReferenceDensity" units="kg*m^-3"> 2900 </param>
             
             <param name="Temperature"> temperature_ppc_wrapper </param>            
-            <param name="ReferenceTemperature" units="K">293.15</param>
+            <param name="ReferenceTemperature" units="K"> 273.15 </param>
             <param name="ThermalExpansivity"> global_expansivity </param>
         </struct>
         
-        <struct name="densMelt_oceanic_crustt">
+        <struct name="densMelt_oceanic_crust">
             <param name="Type">Ppc_LinearDensityMelt</param>
-            <param name="ReferenceDensity" units="kg*m^-3">2900</param>
+            <param name="ReferenceDensity" units="kg*m^-3"> 2900 </param>
             
             <param name="Temperature"> temperature_ppc_wrapper </param>
-            <param name="ReferenceTemperature" units="K">293.15</param>
+            <param name="ReferenceTemperature" units="K"> 273.15 </param>
             <param name="ThermalExpansivity"> global_expansivity </param>
             
             <param name="MeltDensityChange"> MeltExpansionProperty </param>
@@ -137,19 +137,19 @@
         
         <struct name="densTemp_heavy_oceanic_crust">
             <param name="Type">Ppc_LinearDensity</param>
-            <param name="ReferenceDensity" units="kg*m^-3">3200</param>
+            <param name="ReferenceDensity" units="kg*m^-3"> 3200 </param>
             
             <param name="Temperature"> temperature_ppc_wrapper </param>            
-            <param name="ReferenceTemperature" units="K">293.15</param>
+            <param name="ReferenceTemperature" units="K"> 273.15 </param>
             <param name="ThermalExpansivity"> global_expansivity </param>
         </struct>
         
         <struct name="densMelt_heavy_oceanic_crustt">
             <param name="Type">Ppc_LinearDensityMelt</param>
-            <param name="ReferenceDensity" units="kg*m^-3">3200</param>
+            <param name="ReferenceDensity" units="kg*m^-3"> 3200 </param>
             
             <param name="Temperature"> temperature_ppc_wrapper </param>
-            <param name="ReferenceTemperature" units="K">293.15</param>
+            <param name="ReferenceTemperature" units="K"> 273.15 </param>
             <param name="ThermalExpansivity"> global_expansivity </param>
             
             <param name="MeltDensityChange"> MeltExpansionProperty </param>
@@ -161,19 +161,19 @@
         <!-- === Lower crustal ============== -->              
         <struct name="densTemp_continental_lower_crust">
             <param name="Type">Ppc_LinearDensity</param>
-            <param name="ReferenceDensity" units="kg*m^-3">2900</param>
+            <param name="ReferenceDensity" units="kg*m^-3"> 2900 </param>
             
             <param name="Temperature"> temperature_ppc_wrapper </param>
-            <param name="ReferenceTemperature" units="K">293.15</param>
+            <param name="ReferenceTemperature" units="K"> 273.15 </param>
             <param name="ThermalExpansivity"> global_expansivity </param>
         </struct>
         
         <struct name="densMelt_continental_lower_crust">
             <param name="Type">Ppc_LinearDensityMelt</param>
-            <param name="ReferenceDensity" units="kg*m^-3">2900</param>
+            <param name="ReferenceDensity" units="kg*m^-3"> 2900 </param>
             
             <param name="Temperature"> temperature_ppc_wrapper </param>
-            <param name="ReferenceTemperature" units="K">293.15</param>
+            <param name="ReferenceTemperature" units="K"> 273.15 </param>
             <param name="ThermalExpansivity"> global_expansivity </param>
             
             <param name="MeltDensityChange"> MeltExpansionProperty </param>
@@ -185,19 +185,19 @@
         <!-- === Lithospheric Mantle ======== -->  
         <struct name="densTemp_continental_litho_mantle">
             <param name="Type">Ppc_LinearDensity</param>
-            <param name="ReferenceDensity" units="kg*m^-3">3300</param>
+            <param name="ReferenceDensity" units="kg*m^-3"> 3300 </param>
             
             <param name="Temperature"> temperature_ppc_wrapper </param>
-            <param name="ReferenceTemperature" units="K">293.15</param>
+            <param name="ReferenceTemperature" units="K"> 273.15 </param>
             <param name="ThermalExpansivity"> global_expansivity </param>
         </struct>
         
         <struct name="densMelt_continental_litho_mantle">
             <param name="Type">Ppc_LinearDensityMelt</param>
-            <param name="ReferenceDensity" units="kg*m^-3">3300</param>
+            <param name="ReferenceDensity" units="kg*m^-3"> 3300 </param>
             
             <param name="Temperature"> temperature_ppc_wrapper </param>
-            <param name="ReferenceTemperature" units="K">293.15</param>
+            <param name="ReferenceTemperature" units="K"> 273.15 </param>
             <param name="ThermalExpansivity"> global_expansivity </param>
             
             <param name="MeltDensityChange"> MeltExpansionProperty </param>
@@ -209,19 +209,19 @@
         <!-- === Asthenospheric ============= -->
         <struct name="densTemp_asthenosphere">
             <param name="Type">Ppc_LinearDensity</param>
-            <param name="ReferenceDensity" units="kg*m^-3">3360</param>
+            <param name="ReferenceDensity" units="kg*m^-3"> 3360 </param>
             
             <param name="Temperature"> temperature_ppc_wrapper </param>
-            <param name="ReferenceTemperature" units="K">293.15</param>
+            <param name="ReferenceTemperature" units="K"> 273.15 </param>
             <param name="ThermalExpansivity"> global_expansivity </param>
         </struct>
         
         <struct name="densMelt_asthenosphere">
             <param name="Type">Ppc_LinearDensityMelt</param>
-            <param name="ReferenceDensity" units="kg*m^-3">3360</param>
+            <param name="ReferenceDensity" units="kg*m^-3"> 3360 </param>
             
             <param name="Temperature"> temperature_ppc_wrapper </param>
-            <param name="ReferenceTemperature" units="K">293.15</param>
+            <param name="ReferenceTemperature" units="K"> 273.15 </param>
             <param name="ThermalExpansivity"> global_expansivity </param>
             
             <param name="MeltDensityChange"> MeltExpansionProperty </param>
@@ -250,19 +250,19 @@
         
         <struct name="global_diffusivity">
             <param name="Type">Ppc_Constant</param>
-            <param name="Value" units="m*m/s">1e-6</param>
+            <param name="Value" units="m*m/s"> 1e-6 </param>
         </struct>
         
         <struct name="global_cp">
             <!-- Heat capacity -->
             <param name="Type">Ppc_Constant</param>
-            <param name="Value" units="J/(K*kg)">1000</param>
+            <param name="Value" units="J/(K*kg)"> 1000 </param>
         </struct>
         
         <struct name="global_expansivity">
             <!-- Thermal expansivity -->
             <param name="Type">Ppc_Constant</param>
-            <param name="Value" units="K^-1">3e-5</param>
+            <param name="Value" units="K^-1"> 3e-5 </param>
         </struct>
         
         <struct name="latentHeat_crust">
@@ -284,24 +284,24 @@
         <struct name="radiogenic_upper_crust">
             <!-- Derived from Hasterok and Chapman, EPSL, 2011 -->
             <param name="Type">Ppc_Constant</param>            
-            <param name="Value" units="W/(m*m*m)">1.0e-6</param>
+            <param name="Value" units="W/(m*m*m)"> 1.0e-6 </param>
         </struct>
         
         <struct name="radiogenic_lower_crust">
             <!-- Derived from Hasterok and Chapman, EPSL, 2011 --><!-- Derived from Hasterok and Chapman, EPSL, 2011 -->
             <param name="Type">Ppc_Constant</param>
-            <param name="Value" units="W/(m*m*m)">0.4e-6</param>
+            <param name="Value" units="W/(m*m*m)"> 0.4e-6 </param>
         </struct>
         
         <struct name="radiogenic_lithospheric_mantle">
             <!-- Derived from Hasterok and Chapman, EPSL, 2011 --><!-- Derived from Hasterok and Chapman, EPSL, 2011 -->
             <param name="Type">Ppc_Constant</param>
-            <param name="Value" units="W/(m*m*m)">0.02e-6</param>
+            <param name="Value" units="W/(m*m*m)"> 0.02e-6 </param>
         </struct>
         
         <struct name="radiogenic_no_heating">
             <param name="Type">Ppc_Constant</param>
-            <param name="Value" units="W/(m*m*m)">0.0</param>
+            <param name="Value" units="W/(m*m*m)"> 0.0 </param>
         </struct>
         <!-- ============================================ -->
 

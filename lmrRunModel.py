@@ -398,10 +398,11 @@ def post_model_run(model_dict):
     if model_dict["run_thermal_equilibration_phase"] is True:
         last_ts = find_last_timestep(model_dict["thermal_output_path"])
         if model_dict["preserve_thermal_checkpoints"] is False:
+            filetypes_to_save = ["xml", "xdmf", "dat", "txt", "list"]
+
             filelist = [f for f in os.listdir(model_dict["output_path"])
-                        if "%05d" % last_ts not in f
-                           and "xml" not in f
-                           and "xdmf" not in f]
+                        if "%05d" % last_ts not in f and
+                        not any(ft in f for ft in filetypes_to_save)]
             for f in filelist:
                 os.remove("%s/%s" % (model_dict["output_path"], f))
 
