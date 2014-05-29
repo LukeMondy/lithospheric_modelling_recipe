@@ -71,7 +71,7 @@
             
             <param name="Temperature"> temperature_ppc_wrapper </param>
             <param name="ReferenceTemperature" units="K"> 273.15 </param>
-            <param name="ThermalExpansivity"> global_expansivity </param>            
+            <param name="ThermalExpansivity"> ThermalExpansivityProperty </param>            
             <!-- Pressure dependent densities can be used by adding
                  the following params. -->
             <!--
@@ -87,7 +87,7 @@
             
             <param name="Temperature"> temperature_ppc_wrapper </param>
             <param name="ReferenceTemperature" units="K"> 273.15 </param>
-            <param name="ThermalExpansivity"> global_expansivity </param>
+            <param name="ThermalExpansivity"> ThermalExpansivityProperty </param>
             
             <param name="MeltDensityChange"> MeltExpansionProperty </param>
             <param name="MeltFraction"> MeltFractionProperty </param>
@@ -99,7 +99,7 @@
             
             <param name="Temperature"> temperature_ppc_wrapper </param>            
             <param name="ReferenceTemperature" units="K"> 273.15 </param>
-            <param name="ThermalExpansivity"> global_expansivity </param>
+            <param name="ThermalExpansivity"> ThermalExpansivityProperty </param>
         </struct>
         
         <struct name="densMelt_continental_upper_crust">
@@ -108,7 +108,7 @@
             
             <param name="Temperature"> temperature_ppc_wrapper </param>
             <param name="ReferenceTemperature" units="K"> 273.15 </param>
-            <param name="ThermalExpansivity"> global_expansivity </param>
+            <param name="ThermalExpansivity"> ThermalExpansivityProperty </param>
             
             <param name="MeltDensityChange"> MeltExpansionProperty </param>
             <param name="MeltFraction"> MeltFractionProperty </param>
@@ -120,7 +120,7 @@
             
             <param name="Temperature"> temperature_ppc_wrapper </param>            
             <param name="ReferenceTemperature" units="K"> 273.15 </param>
-            <param name="ThermalExpansivity"> global_expansivity </param>
+            <param name="ThermalExpansivity"> ThermalExpansivityProperty </param>
         </struct>
         
         <struct name="densMelt_oceanic_crust">
@@ -129,7 +129,7 @@
             
             <param name="Temperature"> temperature_ppc_wrapper </param>
             <param name="ReferenceTemperature" units="K"> 273.15 </param>
-            <param name="ThermalExpansivity"> global_expansivity </param>
+            <param name="ThermalExpansivity"> ThermalExpansivityProperty </param>
             
             <param name="MeltDensityChange"> MeltExpansionProperty </param>
             <param name="MeltFraction"> MeltFractionProperty </param>
@@ -141,7 +141,7 @@
             
             <param name="Temperature"> temperature_ppc_wrapper </param>            
             <param name="ReferenceTemperature" units="K"> 273.15 </param>
-            <param name="ThermalExpansivity"> global_expansivity </param>
+            <param name="ThermalExpansivity"> ThermalExpansivityProperty </param>
         </struct>
         
         <struct name="densMelt_heavy_oceanic_crustt">
@@ -150,7 +150,7 @@
             
             <param name="Temperature"> temperature_ppc_wrapper </param>
             <param name="ReferenceTemperature" units="K"> 273.15 </param>
-            <param name="ThermalExpansivity"> global_expansivity </param>
+            <param name="ThermalExpansivity"> ThermalExpansivityProperty </param>
             
             <param name="MeltDensityChange"> MeltExpansionProperty </param>
             <param name="MeltFraction"> MeltFractionProperty </param>
@@ -165,7 +165,7 @@
             
             <param name="Temperature"> temperature_ppc_wrapper </param>
             <param name="ReferenceTemperature" units="K"> 273.15 </param>
-            <param name="ThermalExpansivity"> global_expansivity </param>
+            <param name="ThermalExpansivity"> ThermalExpansivityProperty </param>
         </struct>
         
         <struct name="densMelt_continental_lower_crust">
@@ -174,7 +174,7 @@
             
             <param name="Temperature"> temperature_ppc_wrapper </param>
             <param name="ReferenceTemperature" units="K"> 273.15 </param>
-            <param name="ThermalExpansivity"> global_expansivity </param>
+            <param name="ThermalExpansivity"> ThermalExpansivityProperty </param>
             
             <param name="MeltDensityChange"> MeltExpansionProperty </param>
             <param name="MeltFraction"> MeltFractionProperty </param>
@@ -189,7 +189,7 @@
             
             <param name="Temperature"> temperature_ppc_wrapper </param>
             <param name="ReferenceTemperature" units="K"> 273.15 </param>
-            <param name="ThermalExpansivity"> global_expansivity </param>
+            <param name="ThermalExpansivity"> ThermalExpansivityProperty </param>
         </struct>
         
         <struct name="densMelt_continental_litho_mantle">
@@ -198,7 +198,7 @@
             
             <param name="Temperature"> temperature_ppc_wrapper </param>
             <param name="ReferenceTemperature" units="K"> 273.15 </param>
-            <param name="ThermalExpansivity"> global_expansivity </param>
+            <param name="ThermalExpansivity"> ThermalExpansivityProperty </param>
             
             <param name="MeltDensityChange"> MeltExpansionProperty </param>
             <param name="MeltFraction"> MeltFractionProperty </param>
@@ -213,7 +213,7 @@
             
             <param name="Temperature"> temperature_ppc_wrapper </param>
             <param name="ReferenceTemperature" units="K"> 273.15 </param>
-            <param name="ThermalExpansivity"> global_expansivity </param>
+            <param name="ThermalExpansivity"> ThermalExpansivityProperty </param>
         </struct>
         
         <struct name="densMelt_asthenosphere">
@@ -222,7 +222,7 @@
             
             <param name="Temperature"> temperature_ppc_wrapper </param>
             <param name="ReferenceTemperature" units="K"> 273.15 </param>
-            <param name="ThermalExpansivity"> global_expansivity </param>
+            <param name="ThermalExpansivity"> ThermalExpansivityProperty </param>
             
             <param name="MeltDensityChange"> MeltExpansionProperty </param>
             <param name="MeltFraction"> MeltFractionProperty </param>
