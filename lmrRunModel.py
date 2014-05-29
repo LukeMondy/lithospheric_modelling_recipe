@@ -105,7 +105,7 @@ def process_xml(raw_dict):
         return False
 
     # Initialise some standard stuff
-    model_dict = {"input_xmls":               "{output_path}/{xmls_dir}/lmrMain.xml",
+    model_dict = {"input_xmls":               "{xmls_dir}/lmrMain.xml",
                   "model_resolution":         {},
                   "thermal_model_resolution": {}, }
 
