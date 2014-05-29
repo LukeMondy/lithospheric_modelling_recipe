@@ -105,7 +105,7 @@ def process_xml(raw_dict):
         return False
 
     # Initialise some standard stuff
-    model_dict = {"input_xmls":               "{output_path}/xmls/lmrMain.xml",
+    model_dict = {"input_xmls":               "{output_path}/{xmls_dir}/lmrMain.xml",
                   "model_resolution":         {},
                   "thermal_model_resolution": {}, }
 
@@ -335,7 +335,7 @@ def prepare_job(model_dict, command_dict):
         if files.endswith(".xml"):
             shutil.copy(files, xmls_dir)
 
-    model_dict["input_xmls"] = model_dict["input_xmls"].format(output_path=model_dict["output_path"])
+    model_dict["input_xmls"] = model_dict["input_xmls"].format(output_path=model_dict["output_path"], xmls_dir=xmls_dir)
 
 
     # Need to modify the XML in the result/xmls/folder, so the main folder is pristine.
