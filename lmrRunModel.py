@@ -238,7 +238,7 @@ def prepare_job(model_dict, command_dict):
     cp = copy.deepcopy
     if model_dict["run_thermal_equilibration_phase"] is True:
         model_dict["resolution"] = cp(model_dict["thermal_model_resolution"])
-        model_dict["input_xmls"] += " {output_path}/xmls/lmrThermalEquilibration.xml"
+        model_dict["input_xmls"] += " {xml_dir}/lmrThermalEquilibration.xml"
         model_dict["output_path"] = cp(model_dict["thermal_output_path"])
 
         model_dict["checkpoint_every_x_steps"] = cp(model_dict["thermal_checkpoint_every_x_steps"])
@@ -283,16 +283,6 @@ def prepare_job(model_dict, command_dict):
                    "-log_summary",
                    "-options_left"]
 
-        solvers = ["--mgLevels=4",
-                   "-pc_type fieldsplit",
-                   "-pc_fieldsplit_type multiplicative",
-                   "-fieldsplit_0_pc_type hypre",
-                   "-fieldsplit_0_ksp_type preonly",
-                   "-fieldsplit_1_pc_type jacobi",
-                   "-fieldsplit_1_ksp_type preonly",
-                   "-log_summary",
-                   "-options_left"]
-
         solvers = ["-pc_mg_type full -ksp_type richardson -mg_levels_pc_type bjacobi",
                    "-mg_levels_ksp_type gmres -mg_levels_ksp_max_it 3",
                    "-mg_coarse_pc_factor_mat_solver_package superlu_dist -mg_coarse_pc_type lu",
@@ -301,7 +291,22 @@ def prepare_job(model_dict, command_dict):
                    "-ksp_max_it 30",
                    "-options_left"]
 
-        model_dict["input_xmls"] += " {output_path}/xmls/lmrSolvers.xml"
+        solvers = ["--mgLevels={mg_levels}",
+                   "-mg_coarse_pc_factor_mat_solver_package superlu_dist",
+                   "-mg_coarse_pc_type lu",
+                   "-A11_ksp_type fgmres",
+                   "-A11_ksp_monitor",
+                   "-A11_pc_mg_smoothup 10",
+                   "-A11_pc_mg_smoothdown 10",
+                   "-mg_levels_ksp_rtol 1.0e-15",
+                   #"-mg_levels_ksp_max_it 5",
+                   "-mg_levels_ksp_type minres",
+                   "-mg_levels_pc_type sor",
+                   "-mg_levels_ksp_convergence_test skip",
+                   "-options_left",
+                   "-log_summary"]
+
+        model_dict["input_xmls"] += " {xml_dir}/lmrSolvers.xml"
 
     command_dict["solver"] = " ".join(solvers)
 
@@ -335,7 +340,7 @@ def prepare_job(model_dict, command_dict):
         if files.endswith(".xml"):
             shutil.copy(files, xmls_dir)
 
-    model_dict["input_xmls"] = model_dict["input_xmls"].format(output_path=model_dict["output_path"], xmls_dir=xmls_dir)
+    model_dict["input_xmls"] = model_dict["input_xmls"].format(xmls_dir=xmls_dir)
 
 
     # Need to modify the XML in the result/xmls/folder, so the main folder is pristine.
@@ -398,13 +403,9 @@ def post_model_run(model_dict):
     if model_dict["run_thermal_equilibration_phase"] is True:
         last_ts = find_last_timestep(model_dict["thermal_output_path"])
         if model_dict["preserve_thermal_checkpoints"] is False:
-            filetypes_to_save = ["xml", "xdmf", "dat", "txt", "list"]
-
-            filelist = [f for f in os.listdir(model_dict["output_path"])
-                        if "%05d" % last_ts not in f and
-                        not any(ft in f for ft in filetypes_to_save)]
-            for f in filelist:
-                os.remove("%s/%s" % (model_dict["output_path"], f))
+            for filename in filelist:
+                if not bool(filename.endswith(("xml", "xdmf", "dat", "txt", "list")))  # Don't delete files that end with any of these
+                    os.remove("%s/%s" % (model_dict["output_path"], f))
 
 
 def find_last_timestep(path):
