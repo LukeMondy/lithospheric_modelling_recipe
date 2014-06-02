@@ -403,7 +403,7 @@ def post_model_run(model_dict):
     if model_dict["run_thermal_equilibration_phase"] is True:
         last_ts = find_last_timestep(model_dict["thermal_output_path"])
         if model_dict["preserve_thermal_checkpoints"] is False:
-            for filename in filelist:
+            for filename in os.listdir(model_dict["output_path"]):
                 if not str(last_ts) in filename and not bool(filename.endswith(("xml", "xdmf", "dat", "txt", "list"))):  # Don't delete files that end with any of these
                     try:
                         os.remove("%s/%s" % (model_dict["output_path"], filename))
