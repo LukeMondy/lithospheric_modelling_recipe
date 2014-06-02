@@ -238,7 +238,7 @@ def prepare_job(model_dict, command_dict):
     cp = copy.deepcopy
     if model_dict["run_thermal_equilibration_phase"] is True:
         model_dict["resolution"] = cp(model_dict["thermal_model_resolution"])
-        model_dict["input_xmls"] += " {xml_dir}/lmrThermalEquilibration.xml"
+        model_dict["input_xmls"] += " {xmls_dir}/lmrThermalEquilibration.xml"
         model_dict["output_path"] = cp(model_dict["thermal_output_path"])
 
         model_dict["checkpoint_every_x_steps"] = cp(model_dict["thermal_checkpoint_every_x_steps"])
@@ -306,7 +306,7 @@ def prepare_job(model_dict, command_dict):
                    "-options_left",
                    "-log_summary"]
 
-        model_dict["input_xmls"] += " {xml_dir}/lmrSolvers.xml"
+        model_dict["input_xmls"] += " {xmls_dir}/lmrSolvers.xml"
 
     command_dict["solver"] = " ".join(solvers)
 
