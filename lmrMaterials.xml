@@ -375,6 +375,7 @@
         <!-- Viscous law  -->   <param> viscIso_air_1e18 </param>
         <!-- Brittle law  -->
         <!-- Melt modifier -->
+        <!-- Stress limiter --> 
         <!-- Visc limiter -->
         </list>
     </struct>
@@ -402,8 +403,8 @@
         <list name="Rheology"> 
         <!-- Viscous law  -->   <param> viscSRTdislocation_wet_quartzite_Paterson1990 </param>
         <!-- Brittle law  -->   <param> yield_upper_crust_Rey2010 </param>
-        <!-- Stress limiter --> <param> yield_stressLimiter_300MPa </param>
         <!-- Melt modifier -->  <param> viscMelt_crustal_Hirth2003 </param>
+        <!-- Stress limiter --> <param> yield_stressLimiter_300MPa </param>
         <!-- Visc limiter -->   <param> viscosityLimiter </param> 
         </list>
     </struct>
@@ -431,8 +432,8 @@
         <list name="Rheology"> 
         <!-- Viscous law  -->   <param> viscSRTdislocation_wet_quartzite_Paterson1990 </param>
         <!-- Brittle law  -->   <param> yield_upper_crust_Rey2010 </param>
-        <!-- Stress limiter --> <param> yield_stressLimiter_300MPa </param>
         <!-- Melt modifier -->  <param> viscMelt_crustal_Hirth2003 </param>
+        <!-- Stress limiter --> <param> yield_stressLimiter_300MPa </param>
         <!-- Visc limiter -->   <param> viscosityLimiter </param> 
         </list>
     </struct>
@@ -459,8 +460,8 @@
         <list name="Rheology"> 
         <!-- Viscous law  -->   <param> viscSRTdislocation_wet_quartzite_Paterson1990 </param>
         <!-- Brittle law  -->   <param> yield_upper_crust_Rey2010 </param>
-        <!-- Stress limiter --> <param> yield_stressLimiter_300MPa </param>
         <!-- Melt modifier -->  <param> viscMelt_crustal_Hirth2003 </param>
+        <!-- Stress limiter --> <param> yield_stressLimiter_300MPa </param>
         <!-- Visc limiter -->   <param> viscosityLimiter </param> 
         </list>
     </struct>
@@ -488,8 +489,8 @@
         <list name="Rheology">
         <!-- Viscous law  -->   <param> viscSRTdislocation_dry_mafic_granulite_Wang2012 </param>
         <!-- Brittle law  -->   <param> yield_lower_crust_Rey2010 </param>
-        <!-- Stress limiter --> <param> yield_stressLimiter_300MPa </param>
         <!-- Melt modifier -->  <param> viscMelt_crustal_Hirth2003 </param>
+        <!-- Stress limiter --> <param> yield_stressLimiter_300MPa </param>
         <!-- Visc limiter -->   <param> viscosityLimiter </param> 
         </list>
     </struct>
@@ -515,8 +516,8 @@
         <list name="Rheology">
         <!-- Viscous law  -->   <param> viscSRTdislocation_dry_mafic_granulite_Wang2012 </param>
         <!-- Brittle law  -->   <param> yield_lower_crust_Rey2010 </param>
-        <!-- Stress limiter --> <param> yield_stressLimiter_300MPa </param>
         <!-- Melt modifier -->  <param> viscMelt_crustal_Hirth2003 </param>
+        <!-- Stress limiter --> <param> yield_stressLimiter_300MPa </param>
         <!-- Visc limiter -->   <param> viscosityLimiter </param> 
         </list>
     </struct>
@@ -542,10 +543,11 @@
         <param name="SurfaceProcesses"> erosion_threshold </param>
         
         <list name="Rheology">
-        <!-- Viscous law  -->   <param> viscSRTdis-diff_wet_olivine_Hirth2003 </param>
+        <!-- Viscous law  -->   <param> viscSRTdislocation_wet_olivine_Hirth2003 </param>
+        <!-- Viscous law  -->   <param> viscSRTdiffusion_wet_olivine_Hirth2003 </param>
         <!-- Brittle law  -->   <param> yield_litho_mantle_Rey2010 </param>
-        <!-- Stress limiter --> <param> yield_stressLimiter_300MPa </param> 
         <!-- Melt modifier -->  <param> viscMelt_mantle_Hirth2003 </param>
+        <!-- Stress limiter --> <param> yield_stressLimiter_300MPa </param> 
         <!-- Visc limiter -->   <param> viscosityLimiter </param> 
         </list>
     </struct>
@@ -570,10 +572,11 @@
         <param name="SurfaceProcesses"> erosion_threshold </param>
         
         <list name="Rheology">
-        <!-- Viscous law  -->   <param> viscSRTdis-diff_wet_olivine_Hirth2003 </param>
+        <!-- Viscous law  -->   <param> viscSRTdislocation_wet_olivine_Hirth2003 </param>
+        <!-- Viscous law  -->   <param> viscSRTdiffusion_wet_olivine_Hirth2003 </param>
         <!-- Brittle law  -->   <param> yield_litho_mantle_Rey2010 </param>
-        <!-- Stress limiter --> <param> yield_stressLimiter_300MPa </param> 
         <!-- Melt modifier -->  <param> viscMelt_mantle_Hirth2003 </param>
+        <!-- Stress limiter --> <param> yield_stressLimiter_300MPa </param> 
         <!-- Visc limiter -->   <param> viscosityLimiter </param> 
         </list>
     </struct>
