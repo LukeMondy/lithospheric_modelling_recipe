@@ -953,7 +953,7 @@
             <param name="StrainRateField"> StrainRateField </param>
             <param name="strainRateSoftening"> False </param>
 
-            <param name="cohesion" units="MPa"> 300 </param>
+            <param name="cohesion" units="MPa"> 150 </param>
             <param name="minimumViscosity" units="Pa*s"> 1e+19 </param>
         </struct>
 
@@ -963,7 +963,7 @@
             <param name="StrainRateField"> StrainRateField </param>
             <param name="strainRateSoftening"> False </param>
 
-            <param name="cohesion" units="MPa"> 400 </param>
+            <param name="cohesion" units="MPa"> 200 </param>
             <param name="minimumViscosity" units="Pa*s"> 1e+19 </param>
         </struct>
 
@@ -973,7 +973,7 @@
             <param name="StrainRateField"> StrainRateField </param>
             <param name="strainRateSoftening"> False </param>
 
-            <param name="cohesion" units="MPa"> 500 </param>
+            <param name="cohesion" units="MPa"> 250 </param>
             <param name="minimumViscosity" units="Pa*s"> 1e+19 </param>
         </struct>
 
