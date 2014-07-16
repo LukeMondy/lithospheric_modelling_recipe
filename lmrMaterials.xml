@@ -544,7 +544,6 @@
         
         <list name="Rheology">
         <!-- Viscous law  -->   <param> viscSRTdislocation_wet_olivine_Hirth2003 </param>
-        <!-- Viscous law  -->   <param> viscSRTdiffusion_wet_olivine_Hirth2003 </param>
         <!-- Brittle law  -->   <param> yield_litho_mantle_Rey2010 </param>
         <!-- Melt modifier -->  <param> viscMelt_mantle_Hirth2003 </param>
         <!-- Stress limiter --> <param> yield_stressLimiter_300MPa </param> 
@@ -573,7 +572,6 @@
         
         <list name="Rheology">
         <!-- Viscous law  -->   <param> viscSRTdislocation_wet_olivine_Hirth2003 </param>
-        <!-- Viscous law  -->   <param> viscSRTdiffusion_wet_olivine_Hirth2003 </param>
         <!-- Brittle law  -->   <param> yield_litho_mantle_Rey2010 </param>
         <!-- Melt modifier -->  <param> viscMelt_mantle_Hirth2003 </param>
         <!-- Stress limiter --> <param> yield_stressLimiter_300MPa </param> 
