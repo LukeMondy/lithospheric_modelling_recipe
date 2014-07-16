@@ -14,7 +14,7 @@
 
         <experiment_duration_options>
             <maximum_timesteps> 10000000 </maximum_timesteps>
-            <maximum_time_in_years> 1.0E7 </maximum_time_in_years>
+            <maximum_time_in_years> 10.0e6 </maximum_time_in_years>
         </experiment_duration_options>
         
         <checkpoint_frequency_options>
@@ -38,16 +38,16 @@
             <thermal_model_resolution>
                 <x> 4 </x>
                 <y> 48 </y>
-                <z> 2 </z>
+                <z> 4 </z>
             </thermal_model_resolution>
 
             <experiment_duration_options>
-                <maximum_timesteps> 1000 </maximum_timesteps>
-                <maximum_time_in_years> 1.0e9 </maximum_time_in_years>
+                <maximum_timesteps> 10000000 </maximum_timesteps>
+                <maximum_time_in_years> 1000.0e6 </maximum_time_in_years>
             </experiment_duration_options>
 
             <checkpoint_frequency_options>
-                <every_x_years> 1.0E7 </every_x_years>
+                <every_x_years> 50.0e6 </every_x_years>
                 <every_x_timesteps> 100000000 </every_x_timesteps>
             </checkpoint_frequency_options>
         </output_controls>   
@@ -67,14 +67,14 @@
         </linear_solver>
 
         <nonLinear_solver>
-            <tolerance> 3e-3 </tolerance>
+            <tolerance> 1e-3 </tolerance>
             <min_iterations> 2 </min_iterations>
             <max_iterations> 500 </max_iterations>
         </nonLinear_solver>
     </Model_Precision>
 
     <Underworld_Execution>
-        <Underworld_binary> /home/luke/Programs/uw-be/build/bin/Underworld </Underworld_binary>
+        <Underworld_binary> /home/luke/Programs/uw-be/build/bin/Underworld </Underworld_binary> <!-- Replace with your own path to UW -->
         <CPUs> 6 </CPUs>
         <supercomputer_mpi_format> false </supercomputer_mpi_format>
     </Underworld_Execution>
