@@ -68,9 +68,11 @@
         </struct>
         -->
         <struct name="basal_heat_flow">
-            <!-- Avg heat flow from Rudnick and Nyblade (1999) -->
+            <!-- Heat flow at _moho_ ranges from ~10 to ~20 mW/m^2
+                 See Jaupart and Mareschal, Treatise on Geophysics, 2007 
+                 Adjust for depth to the base of your model. -->
             <param name="Type"> Ppc_Constant </param>
-            <param name="Value" units="mW/(m*m)"> 25 </param>
+            <param name="Value" units="mW/(m*m)"> 10 </param>
         </struct>
             
         <struct name="heat_flux_vector">
