@@ -63,8 +63,9 @@ This workflow preserves the original files, so changes you may implement in one 
 NOTE: The LMR requires the latest version of Underworld, and two additional toolboxes. Please see `this wiki page <https://bitbucket.org/lmondy/lithosphericmodellingrecipe/wiki/Setting%20up%20Underworld%20for%20the%20LMR>`_. for instructions on how to install Underworld for use with the LMR.
 
 Section 3. What do I do now?
-----------------------------
-If you followed the workflow in section 2, you now have a model result, but very little understanding of what went into it. The LMR is made of a number of XML files which define the model behavior. It is worthwhile exploring them all, as there are useful comments within them, but beginners should focus their attention on these files:
+--------------------------------
+If you followed the workflow in section 2, you now have a model result, but limited exposure as to what went into producing it. The LMR is made of a number of XML files which define the model behavior. It is worthwhile exploring them all, as there are useful comments within them, but beginners should focus their attention on these files:
+ 
  - **lmrVelocityBoundaries.xml** - this file defines the mechanical boundary conditions - try multiplying the left and right walls by 0.5 or by 2 to see the resulting impact of rift velocity. Change the signs of the velocities to model convergence.
  - **lmrThermalBoundaries.xml** - this file defines the thermal boundary conditions - try increasing the basal temperature to observe the effects on resulting rift structures.
  - **lmrMaterials.xml** - this files defines two main things: the layout of materials (for example, the layered upper crust), and the rheologies of those materials. The top of the file defines the material layouts, and the bottom defines their rheologies.
