@@ -20,9 +20,11 @@
 
 Section 1. What is the Lithospheric Modelling Recipe?
 -----------------------------------------------------
-The Lithospheric Modelling Recipe (or LMR) is an Underworld input file, designed to make it easy for geologists and numerical modellers to setup and run robust and reproducible geodynamic models of lithospheric scale processes.
+The Lithospheric Modelling Recipe (or LMR) is a set of Underworld input files, designed to make it easy for geologists and numerical modellers to setup and run robust and reproducible geodynamic models of lithospheric scale processes.
 
-ADD MORE!
+The LMR input files are setup (by default) with a 2/3D continental rifting scenario. The model includes stress and temperature dependent rheologies, partial melting, and basic threshold-style surface processes. An example of a high resolution 3D model using (almost) these inputs files can be seen here: http://youtu.be/8TxvBO2UdKg
+
+The LMR also comes with a pre-configured virtual machine (VM), known as the Modelling Environment, which has Underworld and its dependencies installed and ready to run.
 
 Section 2. Ideal workflow
 -------------------------
@@ -57,6 +59,8 @@ Section 2. Ideal workflow
 
 
 This workflow preserves the original files, so changes you may implement in one model are not inadvertently copied across to other models. It also means it is very easy to get updates as the lmr is improved and optimised.
+
+NOTE: The LMR requires the latest version of Underworld, and two additional toolboxes. Please see the wiki page for instructions on how to install Underworld for use with the LMR: link
 
 Section 3. The Wiki
 -------------------------
