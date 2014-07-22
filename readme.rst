@@ -65,10 +65,9 @@ NOTE: The LMR requires the latest version of Underworld, and two additional tool
 Section 3. What do I do now?
 --------------------------------
 If you followed the workflow in section 2, you now have a model result, but limited exposure as to what went into producing it. The LMR is made of a number of XML files which define the model behavior. It is worthwhile exploring them all, as there are useful comments within them, but beginners should focus their attention on these files:
- 
  - **lmrVelocityBoundaries.xml** - this file defines the mechanical boundary conditions - try multiplying the left and right walls by 0.5 or by 2 to see the resulting impact of rift velocity. Change the signs of the velocities to model convergence.
  - **lmrThermalBoundaries.xml** - this file defines the thermal boundary conditions - try increasing the basal temperature to observe the effects on resulting rift structures.
- - **lmrMaterials.xml** - this files defines two main things: the layout of materials (for example, the layered upper crust), and the rheologies of those materials. The top of the file defines the material layouts, and the bottom defines their rheologies.
+ - **lmrMaterials.xml** - this file defines two main things: the **layout of materials** (for example, the layered upper crust), and the **rheologies of those materials**. The top of the file defines the material layouts, and the bottom defines their rheologies.
      - **lmrRheologyLibrary.xml** - we have built up a collection of published rheological parameters that can be used in the lmrMaterials.xml file. Have a browse, try changing some of the rheologies defined at the bottom of lmrMaterials.xml to see their impact on rift evolution.
 
 This is only a very basic overview of how to get started with the LMR, but should provide some idea of the layout and design of both the LMR and Underworld. With further experimentation over time, both the power and limits of Underworld, the LMR, and this particular model setup should hopefully become clear.
