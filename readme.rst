@@ -48,7 +48,7 @@ Section 2. Ideal workflow
    
    ``python ./lmrRunModel.py``
    
-   Ensuring your models are thermally equilibrated is almost always a good idea - it is discussed more `here <https://bitbucket.org/lmondy/lithosphericmodellingrecipe/wiki/Thermal%20Equilibration>`_.
+   Ensuring your models are thermally equilibrated is often a good idea. It means that when the full thermo-mechanical model is run, the geodynamics only respond to the conditions you have imposed - rather than also responding to a relaxing geotherm.
    You can also modify some basic details of how the thermal equilibration model is run within the <Thermal_Equilibration> block, but the defaults usually suffice.
 
 7. Once the thermal equilibration is done, open the lmrStart.xml file again, and set the <run_thermal_equilibration_phase> parameter to false. You can now run the full thermo-mechanical model by typing the same command as before:
