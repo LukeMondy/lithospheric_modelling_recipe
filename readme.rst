@@ -60,7 +60,7 @@ Section 2. Ideal workflow
 
 This workflow preserves the original files, so changes you may implement in one model are not inadvertently copied across to other models. It also means it is very easy to get updates as the lmr is improved and optimised.
 
-NOTE: The LMR requires the latest version of Underworld, and two additional toolboxes. Please see the wiki page for instructions on how to install Underworld for use with the LMR: link
+NOTE: The LMR requires the latest version of Underworld, and two additional toolboxes. Please see `this wiki page <https://bitbucket.org/lmondy/lithosphericmodellingrecipe/wiki/Setting%20up%20Underworld%20for%20the%20LMR>`_. for instructions on how to install Underworld for use with the LMR.
 
 Section 3. The Wiki
 -------------------------
