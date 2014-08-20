@@ -306,6 +306,17 @@ def prepare_job(model_dict, command_dict):
                    "-options_left",
                    "-log_summary"]
 
+        solvers = ["--mgLevels={mg_levels}",
+                   "-mg_coarse_pc_factor_mat_solver_package mumps",
+                   "-mg_coarse_pc_type lu",
+                   "-mg_coarse_ksp_type preonly",
+                   "-A11_pc_mg_smoothup 1",
+                   "-A11_pc_mg_smoothdown 1",
+                   "-A11_ksp_monitor",
+                   "-options_left",
+                   "-log_summary"]
+
+
         model_dict["input_xmls"] += " {xmls_dir}/lmrSolvers.xml"
 
     command_dict["solver"] = " ".join(solvers)
