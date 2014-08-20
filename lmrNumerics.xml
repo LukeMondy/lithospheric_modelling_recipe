@@ -24,10 +24,8 @@
          
         <param> StrainRateInvariantField </param>
         <param> StressInvariantField </param>   
-        <param> deviatoricStressField </param> 
         <param> cumulativeTotalStrainField </param>
 
-        <param> YieldedField </param>
         <param> TotalBrittleStrainField </param>
         <param> BrittleStrainIncrementField </param>
         <param> ViscosityField </param>
@@ -221,14 +219,14 @@
                 </struct>
                 <struct>
                     <param name="PropertyName"> LiquidusProperty </param>
-                    <param name="StoreOnMesh"> True </param>
+                    <param name="StoreOnMesh"> False </param>
                     <param name="StoreNLOnParticles"> True </param>
                 </struct>
                 <!-- NOTE: Since both the liquidus and the solidus have a pressure
                            dependency, they must use the StoreNLOnParticles option. -->
                 <struct>
                     <param name="PropertyName"> SolidusProperty </param>
-                    <param name="StoreOnMesh"> True </param>
+                    <param name="StoreOnMesh"> False </param>
                     <param name="StoreNLOnParticles"> True </param> 
                 </struct>
                 <struct>
@@ -252,14 +250,6 @@
         <!-- === User-defined fields ============================= -->
             <!-- Swarm variables are interpolated to the mesh
                  using SwarmVariableField -->
-        <struct name="YieldedField">
-            <param name="Type">SwarmVariableField</param>
-            <param name="swarmVariable">materialSwarm-HasYielded</param>
-            <param name="Mesh">linearMesh</param>
-            <param name="MaterialSwarm">materialSwarm</param>
-            <param name="Swarm">picIntegrationPoints</param>
-            <param name="Context">context</param>
-        </struct>
         <struct name="TotalBrittleStrainField">
             <param name="Type">SwarmVariableField</param>
             <param name="swarmVariable">materialSwarm-PostFailureWeakening</param>

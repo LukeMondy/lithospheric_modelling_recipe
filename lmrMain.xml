@@ -34,7 +34,6 @@
         <include>Underworld/MaterialIndexField.xml          </include>
         <include>Underworld/ViscosityField.xml              </include>
         <include>Underworld/StressField2D.xml               </include>
-        <include>Underworld/DeviatoricStressField.xml       </include>
         <include>Underworld/CumulativeTotalStrain.xml       </include>
     
     <!-- =============================================================== -->
