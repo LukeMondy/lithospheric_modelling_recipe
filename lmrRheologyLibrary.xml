@@ -284,13 +284,13 @@
         <struct name="radiogenic_upper_crust">
             <!-- Derived from Hasterok and Chapman, EPSL, 2011 -->
             <param name="Type">Ppc_Constant</param>            
-            <param name="Value" units="W/(m*m*m)"> 1.0e-6 </param>
+            <param name="Value" units="W/(m*m*m)"> 1.2e-6 </param>
         </struct>
         
         <struct name="radiogenic_lower_crust">
             <!-- Derived from Hasterok and Chapman, EPSL, 2011 --><!-- Derived from Hasterok and Chapman, EPSL, 2011 -->
             <param name="Type">Ppc_Constant</param>
-            <param name="Value" units="W/(m*m*m)"> 0.4e-6 </param>
+            <param name="Value" units="W/(m*m*m)"> 0.6e-6 </param>
         </struct>
         
         <struct name="radiogenic_lithospheric_mantle">
@@ -338,7 +338,7 @@
         <struct name="melt_crustal_solidus">
             <param name="Type"> Ppc_Melt_Polynomial </param>
             <param name="Pressure"> pressure_ppc_wrapper </param>
-            <param name="term0" units="K"> 850.0 </param>
+            <param name="term0" units="K"> 993.0 </param>
             <param name="term1"> -1.2e-7 </param>
             <param name="term2"> 1.2e-16 </param>
             <param name="term3"> 0.0 </param>
@@ -870,6 +870,22 @@
             <param name="minimumViscosity" units="Pa*s">1e+19</param>
         </struct>
         
+        <struct name="yield_upper_crust_Rey2014">
+            <!-- Upper-crust : Rey, Coltice, and Flament;, Nature 2014 -->
+            <param name="Type">DruckerPrager</param>
+            <param name="PressureField">PressureField</param>
+            <param name="MaterialPointsSwarm">materialSwarm</param>
+            <param name="StrainRateField">StrainRateField</param>
+            <param name="StrainWeakening">strainWeakening</param>
+
+            <param name="cohesion" units="MPa"> 10 </param>
+            <param name="cohesionAfterSoftening" units="MPa"> 0.4 </param>
+            <param name="frictionCoefficient"> 0.577 </param>
+            <param name="frictionCoefficientAfterSoftening"> 0.02308 </param>
+            <param name="minimumViscosity" units="Pa*s">1e+19</param>
+        </struct>
+
+
         <struct name="yield_upper_crust_stronger">
             <param name="Type">DruckerPrager</param>
             <param name="PressureField">PressureField</param>
@@ -901,6 +917,22 @@
             <param name="minimumViscosity" units="Pa*s">1e+19</param>
         </struct>
 
+        <struct name="yield_lower_crust_Rey2014">
+            <!-- Lower-crust : Rey, Coltice and Flament, Nature 2014 -->
+            <param name="Type">DruckerPrager</param>
+            <param name="PressureField">PressureField</param>
+            <param name="MaterialPointsSwarm">materialSwarm</param>
+            <param name="StrainRateField">StrainRateField</param>
+            <param name="StrainWeakening">strainWeakening</param>
+
+            <param name="cohesion" units="MPa"> 20 </param>
+            <param name="cohesionAfterSoftening" units="MPa"> 0.8 </param>
+            <param name="frictionCoefficient"> 0.577 </param>
+            <param name="frictionCoefficientAfterSoftening"> 0.02308 </param>
+            <param name="minimumViscosity" units="Pa*s">1e+19</param>
+        </struct>
+
+
         <struct name="yield_lower_crust_stronger">
             <param name="Type">DruckerPrager</param>
             <param name="PressureField">PressureField</param>
@@ -929,6 +961,21 @@
             <param name="cohesionAfterSoftening" units="MPa">2</param>
             <param name="frictionCoefficient">0.577</param>
             <param name="frictionCoefficientAfterSoftening">0.1154</param>
+            <param name="minimumViscosity" units="Pa*s">1e+19</param>
+        </struct>
+
+        <struct name="yield_litho_mantle_Rey2014">
+            <!-- Lithospheric mantle : Rey, Coltice, and Flament, Nature 2014 -->
+            <param name="Type">DruckerPrager</param>
+            <param name="PressureField">PressureField</param>
+            <param name="MaterialPointsSwarm">materialSwarm</param>
+            <param name="StrainRateField">StrainRateField</param>
+            <param name="StrainWeakening">strainWeakening</param>
+
+            <param name="cohesion" units="MPa">10</param>
+            <param name="cohesionAfterSoftening" units="MPa"> 0.4 </param>
+            <param name="frictionCoefficient"> 0.577 </param>
+            <param name="frictionCoefficientAfterSoftening"> 0.02308 </param>
             <param name="minimumViscosity" units="Pa*s">1e+19</param>
         </struct>
 
