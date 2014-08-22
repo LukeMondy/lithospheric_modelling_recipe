@@ -36,6 +36,19 @@
     <!-- ======================================================== -->
 
 
+    <!-- === Important note! ==================================== -->
+    <!--     Underworld requires that when shapes are defined with the 'startX'
+             and 'endX' notation, that the numerical value of endX MUST be larger
+             than startX. 
+             Therefore, if you make the air-crust interface y = 0 (as is done in
+             the LMR), then you need to make sure that the smallest number is 
+             startX. 
+             For example, if you wanted a box that was 10 km thick, and starts at
+             the moho, you would define it as such:
+                startY = -50000
+                endY   = -40000  # the moho
+    -->
+
     <struct name="components" mergeType="merge"> 
     <!-- ==== Geometries ============================================================================== -->
     <!-- === Air layer =============================== -->
