@@ -427,10 +427,10 @@ def find_last_timestep(path):
         # The below line does this:
         #   1) split the path up by '/' to seperate the filesystem structure.
         #   2) The last chunk (the filename) is taken using [-1]
-        #   3) The filename is then split by '.', as the file we're looking for looks like this: Mesh.linearMesh.00475.h5
+        #   3) The filename is then split by '.', as the file we're looking for looks like this: VelocityField.00475.h5
         #   4) The second last chunk of the file name (the timestep number) is taken, and converted to int.
         #   5) Get the largest timestep
-        last_ts = max([int(f.split('/')[-1].split('.')[-2]) for f in glob.glob("%s/Mesh.*.h5" % path)])
+        last_ts = max([int(f.split('/')[-1].split('.')[-2]) for f in glob.glob("%s/VelocityField.*.h5" % path)])
     except:  # You should really catch explicit exceptions...
         if not os.path.isdir(path):
             error_msg = (
