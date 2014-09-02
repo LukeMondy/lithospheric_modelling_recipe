@@ -47,7 +47,7 @@
             </experiment_duration_options>
 
             <checkpoint_frequency_options>
-                <every_x_years> 50.0e6 </every_x_years>
+                <every_x_years> 10.0e6 </every_x_years>
                 <every_x_timesteps> 100000000 </every_x_timesteps>
             </checkpoint_frequency_options>
         </output_controls>   
@@ -74,7 +74,7 @@
     </Model_Precision>
 
     <Underworld_Execution>
-        <Underworld_binary> /home/luke/Programs/uw-be/build/bin/Underworld </Underworld_binary> <!-- Replace with your own path to UW -->
+        <Underworld_binary> /home/luke/Programs/uw-be-petsc3.5/build/bin/Underworld </Underworld_binary> <!-- Replace with your own path to UW -->
         <CPUs> 6 </CPUs>
         <supercomputer_mpi_format> false </supercomputer_mpi_format>
     </Underworld_Execution>
