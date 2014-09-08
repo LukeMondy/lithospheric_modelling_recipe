@@ -74,7 +74,7 @@
     </Model_Precision>
 
     <Underworld_Execution>
-        <Underworld_binary> /home/luke/Programs/uw-be-petsc3.5/build/bin/Underworld </Underworld_binary> <!-- Replace with your own path to UW -->
+        <Underworld_binary> /home/luke/Programs/underworld2/libUnderworld/build/bin/Underworld </Underworld_binary> <!-- Replace with your own path to UW -->
         <CPUs> 6 </CPUs>
         <supercomputer_mpi_format> false </supercomputer_mpi_format>
     </Underworld_Execution>

@@ -63,18 +63,6 @@
     </struct>
 
 
-    <!-- === Fault ===================================== -->
-    <struct name="damagedShape"> 
-        <param name="Type"> Box </param>
-        <param name="startX" units="km"> -100 </param>
-        <param name="endX" units="km"> 100 </param>
-        <param name="startY"> botUpperCrust </param>
-        <param name="endY"> topUpperCrust </param>
-        <param name="startZ"> minZ </param>
-        <param name="endZ"> maxZ </param>
-    </struct>
-
-
     <!-- === Upper Crust ============================= -->
     <struct name="uppercrustShape"> 
         <param name="Type"> Box </param>
@@ -340,6 +328,17 @@
              the damage is limited to the central 200 km of the domain (as defined
              by the "damagedShape"), and is most pronounced around x = 0 (as we use 
              the Cos function in the wavenumber calculation). -->
+
+    <struct name="damagedShape"> 
+        <param name="Type"> Box </param>
+        <param name="startX" units="km"> -100 </param>
+        <param name="endX" units="km">    100 </param>
+        <param name="startY"> botUpperCrust </param>
+        <param name="endY">   topUpperCrust </param>
+        <param name="startZ"> minZ </param>
+        <param name="endZ">   maxZ </param>
+    </struct>
+
     <struct name="strainWeakening" mergeType="merge">
         <param name="initialDamageFraction" mergeType="replace"> 1.0 </param>
         <param name="initialDamageWavenumberCosI" mergeType="replace"> 5e-6 </param>
