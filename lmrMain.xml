@@ -46,7 +46,7 @@
         
         <include> lmrRheologyLibrary.xml    </include>
         
-        <include> lmrAuxiliary.xml          </include>  <!-- Remove if not required -->
+        <include> lmrOtherProcesses.xml     </include>  <!-- Remove if not required -->
         
         <include> lmrMaterials.xml          </include>
         
