@@ -72,7 +72,7 @@
                  See Jaupart and Mareschal, Treatise on Geophysics, 2007 
                  Adjust for depth to the base of your model. -->
             <param name="Type"> Ppc_Constant </param>
-            <param name="Value" units="mW/(m*m)"> 10 </param>
+            <param name="Value" units="mW/(m*m)"> 20 </param>
         </struct>
             
         <struct name="heat_flux_vector">
@@ -94,8 +94,8 @@
             <param name="Type"> Ppc_Operation </param>
             <param name="Operation"> * </param>
             <list name="Properties">
-                <param> 3360 </param>   <!-- Note this is an approximation -->
-                <param> CpProperty </param>
+                <param units="kg/m^3">   3360 </param>   <!-- Note this is an approximation -->
+                <param units="J/(K*kg)"> 1000 </param>
             </list>
         </struct>
     </struct>
