@@ -186,6 +186,7 @@
                     <param name="PropertyName"> DensityProperty </param>
                     <param name="StoreOnParticles"> True </param>
                     <param name="StoreOnMesh"> True </param>
+                    <param name="StoreNLOnParticles"> True </param>
                 </struct>
                 
                 <!-- === Thermal properties ============== -->
