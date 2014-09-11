@@ -46,6 +46,32 @@
     
     
     <!-- === Optimisations for thermal equilibration phase ======================== -->
+
+     <!-- By setting the air to be a fixed temperature, and changing it's thermal
+          diffusivity, we can make the timestep 1 order of magnitude larger. -->
+    <struct name="temperatureBCs" mergeType="merge">
+        <list name="vcList" mergeType="merge">
+            <struct>
+                <param name="type"> MeshShapeVC </param>
+                <param name="Shape"> airShape </param>
+                <list name="variables">
+                    <struct>
+                        <param name="name">temperature</param>
+                        <param name="type">double</param>
+                        <param name="value" units="K">  293.15 </param>
+                    </struct>
+                </list>
+            </struct>
+        </list>
+    </struct>
+    <struct name="components" mergeType="merge">
+        <struct name="air" mergeType="merge"> 
+            <!-- Setting air diffusivity to be as small as rock will increase timestep length -->
+            <param name="DiffusivityProperty" units="m*m/s" mergeType="replace"> 1e-6 </param>
+        </struct>
+    </struct>
+
+    
     <struct name="components" mergeType="merge">
         <struct name="window" mergeType="merge">
             <list name="Viewport" mergeType="replace">
@@ -58,7 +84,7 @@
         <struct name="passiveswarmOutputs" mergeType="replace">
             <param name="Type"> DummyComponent </param>
         </struct>
-        <struct name="all_passiveTracerSwarm" mergeType="replace">
+        <struct name="uppercrust_marker_PTSwarm" mergeType="replace">
             <param name="Type"> DummyComponent </param>
         </struct>
         <struct name="passiveTracerAdvect" mergeType="replace">

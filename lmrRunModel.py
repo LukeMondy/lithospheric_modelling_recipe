@@ -415,7 +415,7 @@ def post_model_run(model_dict):
         last_ts = find_last_timestep(model_dict["thermal_output_path"])
         if model_dict["preserve_thermal_checkpoints"] is False:
             for filename in os.listdir(model_dict["output_path"]):
-                if not str(last_ts) in filename and not bool(filename.endswith(("xml", "xdmf", "dat", "txt", "list"))):  # Don't delete files that end with any of these
+                if not str(last_ts) in filename and not bool(filename.endswith(("xml", "xdmf", "dat", "txt", "list", "Mesh.linearMesh.00000.h5"))):  # Don't delete files that end with any of these
                     try:
                         os.remove("%s/%s" % (model_dict["output_path"], filename))
                     except:
@@ -451,7 +451,7 @@ def find_last_timestep(path):
 
 def modify_initialcondition_xml(last_ts, xml_path, initial_condition_path):
     new_temp_file = "%s/TemperatureField.%05d.h5" % (initial_condition_path, last_ts)
-    new_mesh_file = "%s/Mesh.linearMesh.%05d.h5" % (initial_condition_path, last_ts)
+    new_mesh_file = "%s/Mesh.linearMesh.%05d.h5" % (initial_condition_path, 0) # UW2.0 will only produce Meshfile 0
 
     # Python doesn't have a great in-line file editing, so here we use the fileinput function.
     # It redirects the print function to the file itself while in the for loop context.
