@@ -11,7 +11,7 @@
                     <struct>
                         <param name="name"> vx </param>
                         <param name="type"> double </param>
-                        <param name="value" units="cm/yr"> -2.0 </param>
+                        <param name="value" units="cm/yr"> -1.0 </param>
                     </struct>
                 </list>
             </struct>
@@ -23,7 +23,7 @@
                     <struct>
                         <param name="name"> vx </param>
                         <param name="type"> double </param>
-                        <param name="value" units="cm/yr"> 2.0 </param>
+                        <param name="value" units="cm/yr"> 1.0 </param>
                     </struct>
                 </list>
             </struct>

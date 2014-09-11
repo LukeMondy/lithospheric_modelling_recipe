@@ -5,20 +5,20 @@
 
         <!-- === Passive Tracer geometries ==================================================== -->
         
-        <struct name="allMarker"> 
+        <struct name="uppercrust_marker_shape"> 
             <param name="Type"> Box </param>
             <param name="startX"> minX </param>
             <param name="endX"> maxX </param>
-            <param name="startY" units="km"> -80 </param>
+            <param name="startY" units="km"> -20 </param>
             <param name="endY"> 0 </param>
             <param name="startZ"> minZ </param>
             <param name="endZ"> maxZ </param>
         </struct>
 
-        <struct name="ptl_all">
+        <struct name="uppercrust_marker_PTL">
             <param name="Type"> WithinShapeParticleLayout </param>
             <param name="averageInitialParticlesPerCell"> 80 </param>
-            <param name="shape"> allMarker </param>
+            <param name="shape"> uppercrust_marker_shape </param>
         </struct>
  
         <!-- ==================================================================================== -->
@@ -35,10 +35,10 @@
         </struct>
         
 
-        <struct name="all_passiveTracerSwarm">
+        <struct name="uppercrust_marker_PTSwarm">
             <param name="Type"> MaterialPointsSwarm</param>
             <param name="CellLayout"> user_ElementCellLayoutTracer</param>
-            <param name="ParticleLayout"> ptl_all</param>
+            <param name="ParticleLayout"> uppercrust_marker_PTL </param>
             <param name="FiniteElement_Mesh"> linearMesh</param>
             <param name="FeMesh"> elementMesh </param>
             <list name="ParticleCommHandlers">
@@ -47,7 +47,7 @@
         </struct>
         <struct name="passiveTracerAdvect">
             <param name="Type"> SwarmAdvector </param>
-            <param name="Swarm"> all_passiveTracerSwarm </param>
+            <param name="Swarm"> uppercrust_marker_PTSwarm </param>
             <param name="TimeIntegrator"> timeIntegrator </param>
             <param name="VelocityField"> VelocityField </param>
             <param name="allowFallbackToFirstOrder"> True </param>
@@ -66,7 +66,7 @@
         <!--
         <struct name="passiveswarmOutputs">
             <param name="Type"> Underworld_SwarmOutput </param>
-            <param name="Swarm"> all_passiveTracerSwarm </param>
+            <param name="Swarm"> uppercrust_marker_PTSwarm </param>
             <param name="mode"> PARTICLE_TRACE </param>
             <list name="FeVariables">
                 <param> PressureField </param>

@@ -993,8 +993,7 @@
 
 
         <!-- === Stress limiters ======= -->
-        <!-- For example see Ord, A and Hobbs, Tectonophysics 1989 -->
-        <struct name="yield_stressLimiter_300MPa">
+        <struct name="stressLimiter_vonmises_300MPa">
             <param name="Type"> VonMises </param>
             <param name="MaterialPointsSwarm"> materialSwarm </param>
             <param name="StrainRateField"> StrainRateField </param>
@@ -1004,7 +1003,7 @@
             <param name="minimumViscosity" units="Pa*s"> 1e+19 </param>
         </struct>
 
-        <struct name="yield_stressLimiter_400MPa">
+        <struct name="stressLimiter_vonmises_400MPa">
             <param name="Type"> VonMises </param>
             <param name="MaterialPointsSwarm"> materialSwarm </param>
             <param name="StrainRateField"> StrainRateField </param>
@@ -1014,7 +1013,7 @@
             <param name="minimumViscosity" units="Pa*s"> 1e+19 </param>
         </struct>
 
-        <struct name="yield_stressLimiter_500MPa">
+        <struct name="stressLimiter_vonmises_500MPa">
             <param name="Type"> VonMises </param>
             <param name="MaterialPointsSwarm"> materialSwarm </param>
             <param name="StrainRateField"> StrainRateField </param>
@@ -1022,6 +1021,19 @@
 
             <param name="cohesion" units="MPa"> 250 </param>
             <param name="minimumViscosity" units="Pa*s"> 1e+19 </param>
+        </struct>
+
+        <struct name="stresslimiter_vanHunen_300MPa">
+            <!-- van Hunen et. al., Tectonophysics, 2002
+                 max viscosity = yieldStress * 
+                                 referenceStrainRate^(-1/powerlawIndex) * 
+                                 eII^((1/powerlawIndex)-1)
+             -->
+            <param name="Type"> vanHunenStressLimiter </param>
+            <param name="StrainRateInvariantField"> StrainRateInvariantField </param>
+            <param name="yieldStress" units="MPa"> 300 </param>
+            <param name="powerlawIndex"> 5.0 </param>
+            <param name="referenceStrainRate" units="s^-1"> 1e-15 </param>
         </struct>
 
         <!-- === End of Yielding Rheologies ======================================================== -->
