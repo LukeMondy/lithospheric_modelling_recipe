@@ -8,6 +8,14 @@
     <param name="courantFactor"> 0.5 </param>
     <!-- ====================================================== -->
     
+    <!-- === Timestep controls ================================ -->
+        <!-- timestepFactor = scales the timestep (best not to go >1)
+             maxTimeStepSize = if the dt is > than this, cut it back 
+             DtGranularity = cut the dt back to the nearest factor of this -->
+    <param name="timestepFactor"> 1.0 </param> 
+    <param name="maxTimeStepSize" units="yr"> 1e7 </param>
+    <param name="DtGranularity" units="yr"> 1000 </param>
+    <!-- ===<=================================================== -->
     
     
     
