@@ -255,24 +255,28 @@ def prepare_job(model_dict, command_dict):
 
 
     # Select solvers
-    if model_dict["dims"] == 2 or model_dict["run_thermal_equilibration_phase"] is True:
+    if (model_dict["dims"] == 2 and model_dict["resolution"]["x"] * model_dict["resolution"]["y"] < 1e6) \
+       or model_dict["run_thermal_equilibration_phase"] is True:
         solvers = ["-Uzawa_velSolver_pc_factor_mat_solver_package mumps",
                    "-mat_mumps_icntl_14 200",
                    "-Uzawa_velSolver_ksp_type preonly",
                    "-Uzawa_velSolver_pc_type lu",
                    "-log_summary",
                    "-options_left"]
+        print "SOLVERS: using MUMPS"
     else:
-        def multigrid_test(number, count=1):
-            if number % 2 == 0:
-                return multigrid_test(number / 2, count + 1)
-            else:
-                return count
+        def multigrid_test(number):
+            if number == 0:
+                return 1e10  # Bit of a hack, but if one of the numbers is 0, then return a really big number.
+            count = 1
+            while number % 2.0 == 0:
+                number = number / 2.0
+                count += 1
+            return count
 
         model_dict["mg_levels"] = min(multigrid_test(model_dict["resolution"]["x"]),
                                       multigrid_test(model_dict["resolution"]["y"]),
                                       multigrid_test(model_dict["resolution"]["z"]))
-
         solvers = ["--mgLevels=4",
                    "-ksp_type fgmres",
                    "-mg_levels_pc_type bjacobi",
@@ -318,6 +322,7 @@ def prepare_job(model_dict, command_dict):
 
 
         model_dict["input_xmls"] += " {xmls_dir}/lmrSolvers.xml"
+        print "SOLVERS: using Multigrid"
 
     command_dict["solver"] = " ".join(solvers)
 
