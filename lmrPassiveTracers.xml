@@ -60,7 +60,7 @@
                 <param> user_passiveSwarmMovementHandler </param>
             </list>
         </struct>
-        <struct name="passiveTracerAdvect">
+        <struct name="surface_marker_passiveTracerAdvect">
             <param name="Type"> SwarmAdvector </param>
             <param name="Swarm"> surface_marker_PTSwarm </param>
             <param name="TimeIntegrator"> timeIntegrator </param>
@@ -78,7 +78,7 @@
                 <param> user_passiveSwarmMovementHandler </param>
             </list>
         </struct>
-        <struct name="passiveTracerAdvect">
+        <struct name="moho_marker_passiveTracerAdvect">
             <param name="Type"> SwarmAdvector </param>
             <param name="Swarm"> moho_marker_PTSwarm </param>
             <param name="TimeIntegrator"> timeIntegrator </param>
