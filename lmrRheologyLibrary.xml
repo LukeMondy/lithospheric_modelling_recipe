@@ -643,6 +643,38 @@
             <param name="ActivationVolume" units="m^3/mol"> 0.0</param>
         </struct>
 
+        <struct name="viscSRTdislocation_diffusion_dry_olivine_Hirth2003">
+            <!-- Hirth and Kohlstedt, Geophysical Monograph 2003 
+                 as per Brune, Nat. Commun. 2014 -->
+            <param name="Type"> ViscousCreep </param>
+            <param name="StrainRateInvariantField"> StrainRateInvariantField </param>
+            <param name="TemperatureField"> TemperatureField </param>
+            <param name="PressureField"> PressureField </param>
+            
+            <param name="enable_limit_eta"> False </param>
+            <param name="max_limit_eta" units="Pa*s"> 0 </param>
+            <param name="min_limit_eta" units="Pa*s"> 0 </param>
+
+            <param name="GrainSize"> 10000 </param>
+            <param name="shear_modulus" units="Pa"> 1 </param>
+            <param name="burgers_vector" units="m"> 1 </param>
+            <param name="DefaultStrainRateInvariant" units="s^-1"> 5.370318e-16 </param>
+
+            <param name="enable_diffusion"> True </param>
+            <param name="diffusion_material_constant" units="s^-1"> 2.23872114e-9 </param>
+            <param name="diffusion_activation_energy" units="kJ*mol^-1"> 375 </param>
+            <param name="diffusion_activation_volume" units="m^3*mol^-1"> 6e-6 </param>
+            <param name="diffusion_grainsize_exponent"> 0 </param>
+
+            <param name="enable_dislocation"> True </param>
+            <param name="dislocation_material_constant" units="s^-1"> 2.7542287e-16 </param>
+            <param name="dislocation_activation_energy" units="kJ*mol^-1"> 530 </param>
+            <param name="dislocation_activation_volume" units="m^3*mol^-1"> 13e-6 </param>
+            <param name="dislocation_stress_exponent">3.5</param>
+            <param name="dislocation_grainsize_exponent">0</param>
+
+            <param name="enable_peierls">False</param>
+        </struct>
 
         <struct name="viscSRTdislocation_dry_olivine_Hirth2003">
             <!-- Hirth and Kohlstedt, Geophysical Monograph 2003 -->
