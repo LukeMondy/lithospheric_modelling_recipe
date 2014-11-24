@@ -263,7 +263,7 @@
                     </xsd:annotation>
                     <xsd:complexType>
                         <xsd:sequence>
-                            <xsd:element maxOccurs="1" minOccurs="1" name="Underworld_binary" type="xsd:anyURI" default="/home/luke/Programs/unmodified-uw/build/bin/Underworld">
+                            <xsd:element maxOccurs="1" minOccurs="1" name="Underworld_binary" type="xsd:anyURI" default="/path/to/your/underworld/install/build/bin/Underworld">
                                 <xsd:annotation>
                                     <xsd:documentation>Absolute or relative path to Underworld binary. </xsd:documentation>
                                 </xsd:annotation>
@@ -276,6 +276,26 @@
                             <xsd:element maxOccurs="1" minOccurs="1" name="supercomputer_mpi_format" type="xsd:boolean" default="false">
                                 <xsd:annotation>
                                     <xsd:documentation>When false, the command is run: 'mpirun -np CPUs Underworld...'. When true, the command is run 'mpirun Underworld...'. </xsd:documentation>
+                                </xsd:annotation>
+                            </xsd:element>
+                            <xsd:element maxOccurs="1" minOccurs="0" name="extra_command_line_flags" type="xsd:anyURI" default="">
+                                <xsd:annotation>
+                                    <xsd:documentation>You can add any additional commandline flags to pass straight to Underworld here. They will be added last. </xsd:documentation>
+                                </xsd:annotation>
+                            </xsd:element>
+                            <xsd:element maxOccurs="1" minOccurs="0" name="parallel_command" type="xsd:anyURI" default="mpirun">
+                                <xsd:annotation>
+                                    <xsd:documentation>Some computers may use different commands to run parallel jobs. The default is mpirun, but some Cray computers use aprun -B. </xsd:documentation>
+                                </xsd:annotation>
+                            </xsd:element>
+                            <xsd:element maxOccurs="1" minOccurs="0" name="parallel_command_cpu_flag" type="xsd:anyURI" default="-np">
+                                <xsd:annotation>
+                                    <xsd:documentation>In conjunction with parrallel_command. When running on normal machines, mpirun specifics how many CPUs you want with the -np flag, to give "mpirun -np x command". This flag allows you to change this. Switching "supercomputer_mpi_format" removes this flag. </xsd:documentation>
+                                </xsd:annotation>
+                            </xsd:element>
+                            <xsd:element maxOccurs="1" minOccurs="0" name="verbose_run" type="xsd:boolean" default="false">
+                                <xsd:annotation>
+                                    <xsd:documentation>When true, the LMR prints out the command it is about to try and run. </xsd:documentation>
                                 </xsd:annotation>
                             </xsd:element>
                         </xsd:sequence>

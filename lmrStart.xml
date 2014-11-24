@@ -77,6 +77,10 @@
         <Underworld_binary> /home/luke/Programs/underworld2_dev/libUnderworld/build/bin/Underworld </Underworld_binary> <!-- Replace with your own path to UW -->
         <CPUs> 1 </CPUs>
         <supercomputer_mpi_format> false </supercomputer_mpi_format>
+        <!-- <extra_command_line_flags> interpolate=1 </extra_command_line_flags> -->
+        <!--parallel_command> aprun -B </parallel_command>
+        <parallel_command_cpu_flag> -np </parallel_command_cpu_flag-->
+        <verbose_run> true </verbose_run> 
     </Underworld_Execution>
 
 </lmr:LMRStarterKit>

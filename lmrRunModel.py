@@ -8,10 +8,6 @@ import fileinput
 import glob
 import copy
 
-# External Python packages:
-#  - Python lXML - http://lxml.de/
-
-
 # Python lXML - http://lxml.de/
 have_lxml = True
 try:
@@ -113,12 +109,12 @@ def process_xml(raw_dict):
     # Initialise some standard stuff
     model_dict = {"input_xmls":               "{xmls_dir}/lmrMain.xml",
                   "model_resolution":         {},
-                  "thermal_model_resolution": {}, }
+                  "thermal_model_resolution": {}}
 
     command_dict = {"input_xmls":               "{input_xmls}",
-                    "resolution":               "--elementResI={resolution[x]} \
-                                                 --elementResJ={resolution[y]} \
-                                                 --elementResK={resolution[z]}",
+                    "resolution":               ("--elementResI={resolution[x]} "
+                                                 "--elementResJ={resolution[y]} "
+                                                 "--elementResK={resolution[z]}"),
                     "dims":                     "--dim={dims}",
                     "output_path":              "--outputPath={output_path}",
                     "output_pictures":          "--components.window.Type=DummyComponent",
@@ -127,7 +123,7 @@ def process_xml(raw_dict):
                     "checkpoint_every_x_years": "--checkpointAtTimeInc={checkpoint_every_x_years}",
                     "checkpoint_every_x_steps": "--checkpointEvery={checkpoint_every_x_steps}",
                     "uwbinary":                 "{uwbinary}",
-                    "cpus":                     "mpirun", }
+                    "parallel_runner":          "{parallel_command}", }
 
     # <Output_Controls>
     output_controls = raw_dict["Output_Controls"]
@@ -190,9 +186,30 @@ def process_xml(raw_dict):
     uw_exec = raw_dict["Underworld_Execution"]
     model_dict["uwbinary"] = uw_exec["Underworld_binary"]
 
+    try:
+        model_dict["parallel_command"] = uw_exec["parallel_command"]
+    except:
+        model_dict["parallel_command"] = "mpirun"
+
+    try:
+        model_dict["parallel_command_cpu_flag"] = uw_exec["parallel_command_cpu_flag"]
+    except:
+        model_dict["parallel_command_cpu_flag"] = "-np"
+
     if xmlbool(uw_exec["supercomputer_mpi_format"]) is False:
         model_dict["cpus"] = uw_exec["CPUs"]
-        command_dict["cpus"] = "mpirun -np {cpus}"
+        command_dict["parallel_runner"] = "{parallel_command} {parallel_command_cpu_flag} {cpus}"
+    
+    try:
+        model_dict["extra_command_line_flags"] = uw_exec["extra_command_line_flags"]
+    except:
+        model_dict["extra_command_line_flags"] = ""
+    command_dict["extra_command_line_flags"] = "{extra_command_line_flags}"
+
+    try:
+        model_dict["verbose_run"] = xmlbool(uw_exec["verbose_run"])
+    except:
+        model_dict["verbose_run"] = False
     # </Underworld_Execution>
 
 
@@ -206,13 +223,13 @@ def process_xml(raw_dict):
         if model_dict["run_thermal_equilibration_phase"] is True and prefix == "nonLinear":
             model_dict[solver]["max_iterations"] = 1   # So UW doesn't try to nonLinearly solve pure diffusion
 
-        command_dict[solver] = "--{solver}Tolerance={tolerance} \
-                                --{solver}MinIterations={min_iterations} \
-                                --{solver}MaxIterations={max_iterations}"\
+        command_dict[solver] = ("--{solver}Tolerance={tolerance} "
+                                "--{solver}MinIterations={min_iterations} "
+                                "--{solver}MaxIterations={max_iterations}"
                                 .format(solver=prefix,
                                         tolerance=model_dict[solver]["tolerance"],
                                         min_iterations=model_dict[solver]["min_iterations"],
-                                        max_iterations=model_dict[solver]["max_iterations"])
+                                        max_iterations=model_dict[solver]["max_iterations"]))
     # </Model_Precision>
 
     return model_dict, command_dict
@@ -375,8 +392,8 @@ def prepare_job(model_dict, command_dict):
 
 def run_model(model_dict, command_dict):
 
-    first = command_dict["cpus"]
-    del(command_dict["cpus"])
+    first = command_dict["parallel_runner"]
+    del(command_dict["parallel_runner"])
 
     second = command_dict["uwbinary"]
     del(command_dict["uwbinary"])
@@ -384,14 +401,20 @@ def run_model(model_dict, command_dict):
     third = command_dict["input_xmls"]
     del(command_dict["input_xmls"])
 
+    last = command_dict["extra_command_line_flags"]
+    del(command_dict["extra_command_line_flags"])
+
     # Some commmands NEED to come first (mpirun, for example)
     prioritised = " ".join((first, second, third))
 
     remainder = " ".join(command_dict.values())
 
-    together = " ".join((prioritised, remainder))
+    together = " ".join((prioritised, remainder, last))
 
     command = together.format(**model_dict).split(" ")
+
+    if model_dict["verbose_run"]:
+        print "LMR will now run the following command:\n{com}".format(com=together.format(**model_dict))
 
     try:
         # The sys.stdout is set in main()
@@ -413,11 +436,14 @@ def run_model(model_dict, command_dict):
     except KeyboardInterrupt:
         model_run.terminate()
         if model_dict["run_thermal_equilibration_phase"] is True:
-            print ('\n### Warning! ###\nUnderworld thermal equilibration stopped - will interpolate with the '
+            print ('\n=== WARNING ===\nUnderworld thermal equilibration stopped - will interpolate with the '
                    'last timestep to be outputted.')
         else:
             sys.exit("\nYou have cancelled the job - all instances of Underworld have been killed.")
-
+    except OSError as oserr:
+        sys.exit(("\n=== ERROR ===\nIssue finding a file. Computer says:\n\t{oserr}\nThe LMR is trying to run this command:\n"
+                  "\t {first} {uwbinary} {input_xmls} ...\n\nMake sure all the commands (e.g. {first}) are correct, and all"
+                  " the files exist (e.g. {uwbinary}).".format(oserr=oserr, first=first.format(**model_dict), **model_dict)))
 
 def post_model_run(model_dict):
 
@@ -445,14 +471,14 @@ def find_last_timestep(path):
     except:  # You should really catch explicit exceptions...
         if not os.path.isdir(path):
             error_msg = (
-                'ERROR: The LMR is looking for folder \'{path}\',\n'
-                '       but it does not exist!\n'
-                '       This can happen either when the LMR is looking for an initial-\n'
-                '       condition, or when restarting a model.\n'.format(path=path))
+                '\n=== ERROR ===\nThe LMR is looking for folder \'{path}\',\n'
+                'but it does not exist!\n'
+                'This can happen either when the LMR is looking for an initial-\n'
+                'condition, or when restarting a model.\n'.format(path=path))
             sys.exit(error_msg)
         else:
             error_msg = (
-                'Unable to find any files starting with \'Mesh.*.h5\' in the folder \'%s\'\n'
+                '\n=== ERROR ===\nUnable to find any files starting with \'Mesh.*.h5\' in the folder \'%s\'\n'
                 'If you are running a thermo-mechanical model from scratch, this may mean that you\n'
                 'need to either run the thermal equilibration phase, or run it for longer.\n'
                 'If you are restarting a job, make sure the <description> matches the previous model' % path)
