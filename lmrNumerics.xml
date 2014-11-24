@@ -56,12 +56,7 @@
     <!-- ====================================================== -->
     
     
-    <list name="plugins" mergeType="merge">
-        <struct>
-            <param name="Type"> earthbyte_additions_LithostaticPressure </param>
-            <param name="SomeParameter"> False </param> 
-        </struct>
-    </list> 
+    
     
     
     <struct name="components" mergeType="merge">

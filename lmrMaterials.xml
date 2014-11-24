@@ -415,10 +415,14 @@
         <param name="LiquidusProperty"> melt_crustal_liquidus </param>
         <param name="LatentHeatFusionProperty"> latentHeat_crust </param>
 
-        <param name="SurfaceProcesses"> lithoPressure </param>
+        <param name="SurfaceProcesses"> erosion_threshold </param>
 
         <list name="Rheology"> 
-        <!-- Viscous law  -->   <param> viscIso_upper_crust_1e23 </param>
+        <!-- Viscous law  -->   <param> viscSRTdislocation_wet_quartzite_Paterson1990 </param>
+        <!-- Melt modifier -->  <param> viscMelt_crustal_Hirth2003 </param>
+        <!-- Brittle law  -->   <param> yield_upper_crust_Rey2010 </param>
+        <!-- Stress limiter --> <param> stressLimiter_vonmises_300MPa </param>
+        <!-- Visc limiter -->   <param> viscosityLimiter </param> 
         </list>
     </struct>
 
@@ -443,7 +447,11 @@
         <param name="SurfaceProcesses"> erosion_threshold </param>
 
         <list name="Rheology"> 
-        <!-- Viscous law  -->   <param> viscIso_upper_crust_1e23 </param>
+        <!-- Viscous law  -->   <param> viscSRTdislocation_wet_quartzite_Paterson1990 </param>
+        <!-- Melt modifier -->  <param> viscMelt_crustal_Hirth2003 </param>
+        <!-- Brittle law  -->   <param> yield_upper_crust_Rey2010 </param>
+        <!-- Stress limiter --> <param> stressLimiter_vonmises_300MPa </param>
+        <!-- Visc limiter -->   <param> viscosityLimiter </param> 
         </list>
     </struct>
 
@@ -467,7 +475,11 @@
         <param name="SurfaceProcesses"> erosion_threshold </param>
 
         <list name="Rheology"> 
-        <!-- Viscous law  -->   <param> viscIso_upper_crust_1e23 </param>
+        <!-- Viscous law  -->   <param> viscSRTdislocation_wet_quartzite_Paterson1990 </param>
+        <!-- Melt modifier -->  <param> viscMelt_crustal_Hirth2003 </param>
+        <!-- Brittle law  -->   <param> yield_upper_crust_Rey2010 </param>
+        <!-- Stress limiter --> <param> stressLimiter_vonmises_300MPa </param>
+        <!-- Visc limiter -->   <param> viscosityLimiter </param> 
         </list>
     </struct>
 
@@ -492,7 +504,11 @@
         <param name="SurfaceProcesses"> erosion_threshold </param>
 
         <list name="Rheology">
-        <!-- Viscous law  -->   <param> viscIso_upper_crust_1e23 </param>
+        <!-- Viscous law  -->   <param> viscSRTdislocation_dry_mafic_granulite_Wang2012 </param>
+        <!-- Melt modifier -->  <param> viscMelt_crustal_Hirth2003 </param>
+        <!-- Brittle law  -->   <param> yield_lower_crust_Rey2010 </param>
+        <!-- Stress limiter --> <param> stressLimiter_vonmises_300MPa </param>
+        <!-- Visc limiter -->   <param> viscosityLimiter </param> 
         </list>
     </struct>
     <struct name="lowercrustMarkers"> 
@@ -515,7 +531,11 @@
         <param name="SurfaceProcesses"> erosion_threshold </param>
 
         <list name="Rheology">
-        <!-- Viscous law  -->   <param> viscIso_upper_crust_1e23 </param>
+        <!-- Viscous law  -->   <param> viscSRTdislocation_dry_mafic_granulite_Wang2012 </param>
+        <!-- Melt modifier -->  <param> viscMelt_crustal_Hirth2003 </param>
+        <!-- Brittle law  -->   <param> yield_lower_crust_Rey2010 </param>
+        <!-- Stress limiter --> <param> stressLimiter_vonmises_300MPa </param>
+        <!-- Visc limiter -->   <param> viscosityLimiter </param> 
         </list>
     </struct>
 
@@ -540,7 +560,11 @@
         <param name="SurfaceProcesses"> erosion_threshold </param>
         
         <list name="Rheology">
-        <!-- Viscous law  -->   <param> viscIso_asthenosphere_1e20 </param>
+        <!-- Viscous law  -->   <param> viscSRTdislocation_wet_olivine_Hirth2003 </param>
+        <!-- Melt modifier -->  <param> viscMelt_mantle_Hirth2003 </param>
+        <!-- Brittle law  -->   <param> yield_litho_mantle_Rey2010 </param>
+        <!-- Stress limiter --> <param> stressLimiter_vonmises_300MPa </param> 
+        <!-- Visc limiter -->   <param> viscosityLimiter </param> 
         </list>
     </struct>
 
@@ -564,7 +588,11 @@
         <param name="SurfaceProcesses"> erosion_threshold </param>
         
         <list name="Rheology">
-        <!-- Viscous law  -->   <param> viscIso_asthenosphere_1e20 </param>
+        <!-- Viscous law  -->   <param> viscSRTdislocation_wet_olivine_Hirth2003 </param>
+        <!-- Melt modifier -->  <param> viscMelt_mantle_Hirth2003 </param>
+        <!-- Brittle law  -->   <param> yield_litho_mantle_Rey2010 </param>
+        <!-- Stress limiter --> <param> stressLimiter_vonmises_300MPa </param> 
+        <!-- Visc limiter -->   <param> viscosityLimiter </param> 
         </list>
     </struct>
 
