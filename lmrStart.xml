@@ -7,8 +7,8 @@
         <description> reference_model </description>
 
         <model_resolution>
-            <x> 104 </x>
-            <y> 48 </y>
+            <x> 208 </x>
+            <y> 96 </y>
             <z> 0 </z>
         </model_resolution>
 
@@ -27,7 +27,7 @@
     </Output_Controls>
     
     <Thermal_Equilibration>
-        <run_thermal_equilibration_phase> true </run_thermal_equilibration_phase>
+        <run_thermal_equilibration_phase> false </run_thermal_equilibration_phase>
         
         <update_xml_information> true </update_xml_information>
         <preserve_thermal_equilibration_checkpoints> false </preserve_thermal_equilibration_checkpoints>
@@ -59,28 +59,29 @@
         <restart_from_step> 19 </restart_from_step> <!-- Remove this line for auto restart -->
     </Restarting_Controls>
 
-    <Model_Precision>
+    <Solver_Details>
         <linear_solver>
-            <tolerance> 1e-5 </tolerance>
+            <tolerance> 1e-6 </tolerance>
             <min_iterations> 2 </min_iterations>
             <max_iterations> 15000 </max_iterations>
         </linear_solver>
 
         <nonLinear_solver>
-            <tolerance> 5e-3 </tolerance>
+            <tolerance> 1e-3 </tolerance>
             <min_iterations> 2 </min_iterations>
             <max_iterations> 500 </max_iterations>
         </nonLinear_solver>
-    </Model_Precision>
+
+        <force_multigrid_level_to_be> -1 </force_multigrid_level_to_be> <!-- Set this to be >0 for effect -->
+
+        <force_multigrid_solve> false </force_multigrid_solve>
+        <force_direct_solve> false </force_direct_solve>
+    </Solver_Details>
 
     <Underworld_Execution>
         <Underworld_binary> /home/luke/Programs/underworld2_dev/libUnderworld/build/bin/Underworld </Underworld_binary> <!-- Replace with your own path to UW -->
         <CPUs> 1 </CPUs>
         <supercomputer_mpi_format> false </supercomputer_mpi_format>
-        <!-- <extra_command_line_flags> interpolate=1 </extra_command_line_flags> -->
-        <!--parallel_command> aprun -B </parallel_command>
-        <parallel_command_cpu_flag> -np </parallel_command_cpu_flag-->
-        <verbose_run> true </verbose_run> 
     </Underworld_Execution>
 
 </lmr:LMRStarterKit>

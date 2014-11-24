@@ -195,10 +195,10 @@
                     </xsd:complexType>
                 </xsd:element>
             
-                <xsd:element maxOccurs="1" minOccurs="1" name="Model_Precision">
+                <xsd:element maxOccurs="1" minOccurs="1" name="Solver_Details">
                     <xsd:annotation>
-                        <xsd:documentation>This section controls the precision of the solvers. There two solvers to control - the linear solver, and the non-linear. The linear solver is solving stokes-flow (finding pressure and velocity). The non-linear solver sits on top of this, and forces the linear solver to solve again, in the case that there are strain-rate dependent viscosities. This is required because the linear solver solves with viscosity at a given strain-rate. Once it has a solution for P and V, the viscosity solution is now out of date, so the non-linear solver forces another linear solve. This continues until the model
-                            converges. </xsd:documentation>
+                        <xsd:documentation>This section controls the precision of the solvers, and which method should be used to solve. There two solvers to control - the linear solver, and the non-linear. The linear solver is solving stokes-flow (finding pressure and velocity). The non-linear solver sits on top of this, and forces the linear solver to solve again, in the case that there are strain-rate dependent viscosities. This is required because the linear solver solves with viscosity at a given strain-rate. Once it has a solution for P and V, the viscosity solution is now out of date, so the non-linear solver forces another linear solve. This continues until the model converges. You then have the option to force either a direct solve, or to use multigrid. Please read the documentation for each option to understand more.
+                        </xsd:documentation>
                     </xsd:annotation>
                     <xsd:complexType>
                         <xsd:sequence>
@@ -252,6 +252,24 @@
                                         </xsd:element>
                                     </xsd:sequence>
                                 </xsd:complexType>
+                            </xsd:element>
+                            <xsd:element maxOccurs="1" minOccurs="1" name="force_multigrid_level_to_be" type="xsd:integer" default="-1">
+                                <xsd:annotation>
+                                    <xsd:documentation>Multigrid works by repeatedly coarsening the element grid, and solving on the rougher grid. Underworld roughens the grid by a factor of two (so x = 48 becomes x = 24, becomes x = 12, becomes x = 6, becomes x = 3; which is 5 multigrid levels). If this flag is set to -1, the LMR will automatically determine the max number of multigrid levels your model resolution can take. If it is set to any positive number, the multigrid level will be set to that number. The job will fail if the model cannot support the multigrid level supplied.
+                                    </xsd:documentation>
+                                </xsd:annotation>
+                            </xsd:element>
+                            <xsd:element maxOccurs="1" minOccurs="1" name="force_multigrid_solve" type="xsd:boolean" default="false">
+                                <xsd:annotation>
+                                    <xsd:documentation>Multigrid is a numerical technique for reducing errors. While it is generally slower than a direct solve, it works well on really large problems. The LMR automatically uses multigrid on 3D problems, or 2D problems with more than 1e6 elements. If you switch this flag to true, the LMR will force Underworld to use multigrid.
+                                    </xsd:documentation>
+                                </xsd:annotation>
+                            </xsd:element>
+                            <xsd:element maxOccurs="1" minOccurs="1" name="force_direct_solve" type="xsd:boolean" default="false">
+                                <xsd:annotation>
+                                    <xsd:documentation>Using a direct solver can work very efficiently on problems that are not too large. The LMR automatically uses a direct solver on 2D problems that are less than 1e6 elements. However, by switching this flag to true, you can force Underworld to use the direct solver - warning, it may use up a LOT of memory.
+                                    </xsd:documentation>
+                                </xsd:annotation>
                             </xsd:element>
                         </xsd:sequence>
                     </xsd:complexType>

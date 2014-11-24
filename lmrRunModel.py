@@ -182,6 +182,32 @@ def process_xml(raw_dict):
     # </Restarting_Controls>
 
 
+    # <Solver_Details>
+    solverdetails = raw_dict["Solver_Details"]
+    for solver in ["linear_solver", "nonLinear_solver"]:
+        prefix = solver.split("_")[0]
+        model_dict[solver] = {"tolerance":    float(solverdetails[solver]["tolerance"]),
+                              "min_iterations": int(solverdetails[solver]["min_iterations"]),
+                              "max_iterations": int(solverdetails[solver]["max_iterations"])}
+        if model_dict["run_thermal_equilibration_phase"] is True and prefix == "nonLinear":
+            model_dict[solver]["max_iterations"] = 1   # So UW doesn't try to nonLinearly solve pure diffusion
+
+        command_dict[solver] = ("--{solver}Tolerance={tolerance} "
+                                "--{solver}MinIterations={min_iterations} "
+                                "--{solver}MaxIterations={max_iterations}"
+                                .format(solver=prefix,
+                                        tolerance=model_dict[solver]["tolerance"],
+                                        min_iterations=model_dict[solver]["min_iterations"],
+                                        max_iterations=model_dict[solver]["max_iterations"]))
+    model_dict["force_multigrid_level_to_be"] = int(solverdetails["force_multigrid_level_to_be"])
+    model_dict["force_direct_solve"] = xmlbool(solverdetails["force_direct_solve"])
+    model_dict["force_multigrid_solve"] = xmlbool(solverdetails["force_multigrid_solve"])
+    if model_dict["force_multigrid_solve"] == model_dict["force_direct_solve"]:
+        sys.exit("=== ERROR ===\nYou cannot force a direct solve and also force a multigrid solve. Please check the <Solver"
+                 "_Details> part of your lmrStart.xml.")
+    # </Solver_Details>
+
+
     # <Underworld_Execution>
     uw_exec = raw_dict["Underworld_Execution"]
     model_dict["uwbinary"] = uw_exec["Underworld_binary"]
@@ -213,24 +239,6 @@ def process_xml(raw_dict):
     # </Underworld_Execution>
 
 
-    # <Model_Precision>
-    precision = raw_dict["Model_Precision"]
-    for solver in precision.keys():
-        prefix = solver.split("_")[0]
-        model_dict[solver] = {"tolerance":    float(precision[solver]["tolerance"]),
-                              "min_iterations": int(precision[solver]["min_iterations"]),
-                              "max_iterations": int(precision[solver]["max_iterations"])}
-        if model_dict["run_thermal_equilibration_phase"] is True and prefix == "nonLinear":
-            model_dict[solver]["max_iterations"] = 1   # So UW doesn't try to nonLinearly solve pure diffusion
-
-        command_dict[solver] = ("--{solver}Tolerance={tolerance} "
-                                "--{solver}MinIterations={min_iterations} "
-                                "--{solver}MaxIterations={max_iterations}"
-                                .format(solver=prefix,
-                                        tolerance=model_dict[solver]["tolerance"],
-                                        min_iterations=model_dict[solver]["min_iterations"],
-                                        max_iterations=model_dict[solver]["max_iterations"]))
-    # </Model_Precision>
 
     return model_dict, command_dict
 
@@ -278,16 +286,22 @@ def prepare_job(model_dict, command_dict):
 
 
     # Select solvers
-    if (model_dict["dims"] == 2 and model_dict["resolution"]["x"] * model_dict["resolution"]["y"] < 1e6) \
-       or model_dict["run_thermal_equilibration_phase"] is True:
+    smaller_model = model_dict["resolution"]["x"] * model_dict["resolution"]["y"] < 1e6
+
+    if (((model_dict["dims"] == 2 and smaller_model) or model_dict["force_direct_solve"])
+         and not model_dict["force_multigrid_solve"] or model_dict["run_thermal_equilibration_phase"]):
+        print "SOLVERS: using MUMPS"
+        
         solvers = ["-Uzawa_velSolver_pc_factor_mat_solver_package mumps",
                    "-mat_mumps_icntl_14 200",
                    "-Uzawa_velSolver_ksp_type preonly",
                    "-Uzawa_velSolver_pc_type lu",
                    "-log_summary",
                    "-options_left"]
-        print "SOLVERS: using MUMPS"
+        
     else:
+        print "SOLVERS: using Multigrid"
+        
         def multigrid_test(number):
             if number == 0:
                 return 1e10  # Bit of a hack, but if one of the numbers is 0, then return a really big number.
@@ -297,9 +311,20 @@ def prepare_job(model_dict, command_dict):
                 count += 1
             return count
 
-        model_dict["mg_levels"] = min(multigrid_test(model_dict["resolution"]["x"]),
-                                      multigrid_test(model_dict["resolution"]["y"]),
-                                      multigrid_test(model_dict["resolution"]["z"]))
+        max_mg_level = min(multigrid_test(model_dict["resolution"]["x"]),
+                           multigrid_test(model_dict["resolution"]["y"]),
+                           multigrid_test(model_dict["resolution"]["z"]))
+
+        if model_dict["force_multigrid_level_to_be"] > 0:
+            if max_mg_level >= model_dict["force_multigrid_level_to_be"]:
+                model_dict["mg_levels"] = model_dict["force_multigrid_level_to_be"]
+            else:
+                sys.exit("=== ERROR ===\nYou have forced the multigrid level to be too high. The max calculated is {maxmg}.".format(maxmg=max_mg_level))
+        else:
+            model_dict["mg_levels"] = max_mg_level 
+        
+        """
+         # Old solver setups
         solvers = ["--mgLevels=4",
                    "-ksp_type fgmres",
                    "-mg_levels_pc_type bjacobi",
@@ -332,20 +357,19 @@ def prepare_job(model_dict, command_dict):
                    "-mg_levels_ksp_convergence_test skip",
                    "-options_left",
                    "-log_summary"]
-
+        """
         solvers = ["--mgLevels={mg_levels}",
                    "-mg_coarse_pc_factor_mat_solver_package mumps",
                    "-mg_coarse_pc_type lu",
                    "-mg_coarse_ksp_type preonly",
-                   "-A11_pc_mg_smoothup 1",
-                   "-A11_pc_mg_smoothdown 1",
+                   "-A11_pc_mg_smoothup 2",
+                   "-A11_pc_mg_smoothdown 2",
                    "-A11_ksp_monitor",
                    "-options_left",
                    "-log_summary"]
 
 
         model_dict["input_xmls"] += " {xmls_dir}/lmrSolvers.xml"
-        print "SOLVERS: using Multigrid"
 
     command_dict["solver"] = " ".join(solvers)
 
