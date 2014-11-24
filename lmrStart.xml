@@ -22,8 +22,8 @@
             <every_x_timesteps> 100000 </every_x_timesteps>
         </checkpoint_frequency_options>
         
-        <output_picturres> false </output_pictures>
-        <write_log_ile> false </write_log_file>
+        <output_pictures> false </output_pictures>
+        <write_log_file> false </write_log_file>
     </Output_Controls>
     
     <Thermal_Equilibration>

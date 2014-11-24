@@ -87,6 +87,8 @@ def load_xml(input_xml='lmrStart.xml', xsd_location='LMR.xsd'):
                    "The LMR will still try to run, but will be unable to check that {input_xml} is all"
                    " OK. If you are having problems, try to download the LMR.xsd file again and put it "
                    "in this folder, or use an online XML validator on the {input_xml} file.").format(schema_error=e, input_xml=input_xml)
+        except Exception as e:
+            sys.exit("=== ERROR ===\nA serious and unexpected error has occured. Perhaps try getting a fresh copy of the LMR, and try again.")
     else:
         try:
             tree = ElementTree.parse(input_xml)     # Any errors from mismatching tags will be caught 
