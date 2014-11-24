@@ -16,6 +16,7 @@ import copy
 have_lxml = True
 try:
     from lxml import etree as ElementTree
+    import lxml
 except ImportError:
     have_lxml = False
     print ('=== WARNING ===\n Unable to find the Python library lxml. The LMR can still run, '
@@ -61,37 +62,40 @@ def load_xml(input_xml='lmrStart.xml', xsd_location='LMR.xsd'):
                     self.update({element.tag: dict(element.items())})
                 else:
                     self.update({element.tag: element.text.strip()})  # Line modified by LMondy to strip
+    """
+    ===== end of xml2dict =================
+    """
 
-    error_log = ""
-    try:
-        tree = ElementTree.parse(input_xml)     # Any errors from mismatching tags will be caught
-
-        if have_lxml is True:                   # If we have lxml, get the schema and parse it
-            try:
-                schema = ElementTree.XMLSchema(file=xsd_location)
-            except Exception as e:
-                sys.exit("Problem with the XSD validation! Computer says:\n%s" % e)
-
+    if have_lxml:
+        try:
+            tree = ElementTree.parse(input_xml)
+            schema = ElementTree.XMLSchema(file=xsd_location)
             schema.validate(tree)               # Validate against xsd.
             error_log = schema.error_log
-
-    except ElementTree.XMLSyntaxError as e:
-        error_log = e.error_log
-
-    if len(error_log) > 0:
-        error = "=== Error reading from file %s ===\n" % input_xml
-
-        for num, entry in enumerate(error_log):
-            error += (
-                'Error {num}:\n'
-                'There was an issue reading in the XML you have used. The code is reporting that on line {line},'
-                ' this error occured:'
-                '\n\"{message}\"\n'
-                'Please have a look at {input_xml} closely, especially around the mentioned line.'
-                ' If you are still having issues, try using an XML validator online to see where the bug is.\n'
-                '\n'.format(num=num+1, line=entry.line, message=entry.message, input_xml=input_xml))
-        nice_error = "\n".join(error)
-        sys.exit(nice_error)
+        except lxml.etree.XMLSyntaxError as e:
+            error_log = "=== ERROR ===\nThere was an issue reading in the XML file {input_xml}.\n".format(input_xml=input_xml)
+            for i, r in enumerate(e.error_log):
+                error_log = '\n'.join([error_log, 
+                                    ('Problem {errornum}:\nThe code is reporting that on line {line} this error occured:'
+                                     '\n\t\"{message}\"\n'.format(errornum=i+1, line=r.line, message=r.message))])
+            error_log = '\n'.join([error_log, 
+                                ('Please have a look at {input_xml} closely, especially around the mentioned lines. '
+                                 'If you are still having issues, try using an XML validator online to see where the bug is.\n'.format(input_xml=input_xml))])
+            sys.exit(error_log)
+        except lxml.etree.XMLSchemaParseError as e:
+            print ("=== WARNING ===\nProblem with the XSD validation! Computer says: \n\t{schema_error}\n"
+                   "The LMR will still try to run, but will be unable to check that {input_xml} is all"
+                   " OK. If you are having problems, try to download the LMR.xsd file again and put it "
+                   "in this folder, or use an online XML validator on the {input_xml} file.").format(schema_error=e, input_xml=input_xml)
+    else:
+        try:
+            tree = ElementTree.parse(input_xml)     # Any errors from mismatching tags will be caught 
+        except Exception as e:
+            error_log = ("=== ERROR ===\nThere was an issue reading in the XML file {input_xml}.\n"
+                         "The code is reporting that:\n\t{xmlerror}\n"
+                         "Please have a look at {input_xml} closely, especially around the mentioned lines. "
+                         "If you are still having issues, try using an XML validator online to see where the bug is.\n").format(input_xml=input_xml, xmlerror=e)
+            sys.exit(error_log)
 
     root = tree.getroot()
     return XmlDictConfig(root)

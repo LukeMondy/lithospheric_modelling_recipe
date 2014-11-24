@@ -11,7 +11,7 @@
                     <struct>
                         <param name="name"> vx </param>
                         <param name="type"> double </param>
-                        <param name="value" units="cm/yr"> -1.0 </param>
+                        <param name="value" units="cm/yr"> 1.0 </param>
                     </struct>
                 </list>
             </struct>
@@ -23,7 +23,7 @@
                     <struct>
                         <param name="name"> vx </param>
                         <param name="type"> double </param>
-                        <param name="value" units="cm/yr"> 1.0 </param>
+                        <param name="value" units="cm/yr"> -1.0 </param>
                     </struct>
                 </list>
             </struct>
@@ -60,8 +60,8 @@
                 <list name="variables">
                     <struct>
                         <param name="name"> vy </param>
-                        <param name="type"> func </param>
-                        <param name="value"> lecode_tools_Isostasy </param>
+                        <param name="type"> double </param>
+                        <param name="value"> 0.0 </param>
                     </struct>
                 </list>
             </struct>
@@ -99,118 +99,23 @@
                 </struct>
             </list>
         </struct>
-        
+
+        <struct name="lithoPressure">
+            <param name="Type"> Ppc_LithostaticPressure </param>
+        </struct> 
     </struct>
     
     
     
     
     <!--=== Moving mesh ==================================== -->
-    <!-- This section of XML controls whether the model domain moves with the
-         boundary conditions applied. By default this is turned on, and you will
-         notice that the left and right walls of the model move with the boundary
-         conditions applied to them.
-         If the code is turned off (commented out), then the material will flow
-         through the left and right walls, but the walls will stay fixed.
-         
-         Using a moving mesh is good, because no material is lost out the sides
-         of the model. However, given enough movement, the mesh looses it's ideal
-         square shape, and can lead to errors. 
-         Furthermore, complex spatial velocity boundary conditions can cause the 
-         moving mesh to fail. In those cases, it is best to turn off moving mesh
-         (by just deleting or commenting out the code between "Moving Mesh" and 
-         "End of Moving Mesh".
-    --> 
-    <include>Underworld/ArtDisplacementField.xml</include>
-
-    <struct name="EulerDeform">
-        <list name="systems">
-            <struct>
-                <!-- === Commonly modified ================== -->
-                <!-- Walls that are set to "False" will move with the 
-                     velocity BC. Walls set to "True" will remain fixed. -->
-                <param name="staticTop">    True  </param>
-                <param name="staticBottom"> True  </param>
-                
-                <param name="staticLeft">   False </param>
-                <param name="staticRight">  False </param>
-                
-                <param name="staticFront">  True  </param>
-                <param name="staticBack">   True  </param>
-                
-                <!-- WrapTop will make the top boundary conform to topography,
-                     giving you a free-surface boundary condition. This works
-                     well, but can become unstable with strong local relief. 
-                 -->
-                <param name="wrapTop"> False </param>
-                <!-- ======================================== -->
-                
-                <!-- === Technical implementation =========== -->
-                <param name="mesh"> velocityMesh </param>
-                <param name="remesher"> velocityRemesher </param>
-                <param name="velocityField"> VelocityField </param>
-                <list name="fields">
-                    <struct>
-                        <param name="field"> VelocityField </param>
-                        <param name="variable"> velocity </param>
-                    </struct>
-                </list>
-            </struct>
-        </list>
-    </struct>
-    <!-- === Technical implementation =========== -->
-    <struct name="components" mergeType="merge">
-        <struct name="velocityRemesher">
-            <param name="Type"> RegularRemesherCmpt </param>
-            <param name="mesh"> velocityMesh </param>
-            <list name="remeshDims">
-                <param> 0 </param>
-                <param> 1 </param>
-                <param> 2 </param>
-            </list>
-        </struct>
-    </struct>
     
-    <list name="plugins" mergeType="merge">
-        <struct>
-            <param name="Type"> Underworld_EulerDeform </param>
-            <param name="Context"> context </param>
-        </struct>
-	    <struct>
-            <param name="Type"> Underworld_MeshAdvectionCorrection </param>
-            <param name="Context"> context </param>
-        </struct>
-    </list>
-    <!-- ======================================== -->
-    
-    <param name="MeshAdvectionCorrection_UseArtDisplacementField"> True </param>
-
     <!--=== End of Moving Mesh ============================== -->
     
     
     
     
     
-    <!--=== Isostasy functionality ========================== -->
-    <list name="plugins" mergeType="merge">
-        <struct>
-            <!-- === Commonly modified ================== -->
-            <param name="rhoZeroMaterial">mantle</param>
-            <param name="UseAverage">False</param>
-            <!-- ======================================== -->
-            <param name="Type"> lecode_tools_Isostasy </param>
-            <param name="Context">context</param>
-            <param name="mesh">linearMesh</param>
-            <param name="VerticalAxis">@VerticalAxis</param>
-            <param name="SurfaceIndex">@elementResJ</param>
-            <param name="swarm">picIntegrationPoints</param>
-            <param name="velocityField">VelocityField</param>
-            <param name="sle">stokesEqn</param>
-            <param name="Manager">default_ppcManager</param>
-            <param name="DensityLabel">DensityProperty</param>
-            <param name="MaxIterations">-1</param>
-        </struct>
-    </list>
     <!--===================================================== -->
     
 </StGermainData>

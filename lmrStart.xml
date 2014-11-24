@@ -7,8 +7,8 @@
         <description> reference_model </description>
 
         <model_resolution>
-            <x> 208 </x>
-            <y> 96 </y>
+            <x> 104 </x>
+            <y> 48 </y>
             <z> 0 </z>
         </model_resolution>
 
@@ -22,8 +22,8 @@
             <every_x_timesteps> 100000 </every_x_timesteps>
         </checkpoint_frequency_options>
         
-        <output_pictures> false </output_pictures>
-        <write_log_file> false </write_log_file>
+        <output_picturres> false </output_pictures>
+        <write_log_ile> false </write_log_file>
     </Output_Controls>
     
     <Thermal_Equilibration>
@@ -61,21 +61,21 @@
 
     <Model_Precision>
         <linear_solver>
-            <tolerance> 1e-6 </tolerance>
+            <tolerance> 1e-5 </tolerance>
             <min_iterations> 2 </min_iterations>
             <max_iterations> 15000 </max_iterations>
         </linear_solver>
 
         <nonLinear_solver>
-            <tolerance> 1e-3 </tolerance>
+            <tolerance> 5e-3 </tolerance>
             <min_iterations> 2 </min_iterations>
             <max_iterations> 500 </max_iterations>
         </nonLinear_solver>
     </Model_Precision>
 
     <Underworld_Execution>
-        <Underworld_binary> /home/luke/Programs/underworld2/libUnderworld/build/bin/Underworld </Underworld_binary> <!-- Replace with your own path to UW -->
-        <CPUs> 6 </CPUs>
+        <Underworld_binary> /home/luke/Programs/underworld2_dev/libUnderworld/build/bin/Underworld </Underworld_binary> <!-- Replace with your own path to UW -->
+        <CPUs> 1 </CPUs>
         <supercomputer_mpi_format> false </supercomputer_mpi_format>
     </Underworld_Execution>
 
