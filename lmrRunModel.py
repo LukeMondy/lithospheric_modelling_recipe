@@ -202,7 +202,7 @@ def process_xml(raw_dict):
     model_dict["force_multigrid_level_to_be"] = int(solverdetails["force_multigrid_level_to_be"])
     model_dict["force_direct_solve"] = xmlbool(solverdetails["force_direct_solve"])
     model_dict["force_multigrid_solve"] = xmlbool(solverdetails["force_multigrid_solve"])
-    if model_dict["force_multigrid_solve"] == model_dict["force_direct_solve"]:
+    if model_dict["force_multigrid_solve"] and model_dict["force_direct_solve"]:
         sys.exit("=== ERROR ===\nYou cannot force a direct solve and also force a multigrid solve. Please check the <Solver"
                  "_Details> part of your lmrStart.xml.")
     # </Solver_Details>
