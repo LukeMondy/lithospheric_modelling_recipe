@@ -876,7 +876,6 @@
             <param name="cohesionAfterSoftening" units="MPa">2</param>
             <param name="frictionCoefficient">0.577</param>
             <param name="frictionCoefficientAfterSoftening">0.1154</param>
-            <param name="minimumViscosity" units="Pa*s">1e+19</param>
         </struct>
         
         <struct name="yield_upper_crust_Rey2014">
@@ -891,7 +890,6 @@
             <param name="cohesionAfterSoftening" units="MPa"> 0.4 </param>
             <param name="frictionCoefficient"> 0.577 </param>
             <param name="frictionCoefficientAfterSoftening"> 0.02308 </param>
-            <param name="minimumViscosity" units="Pa*s">1e+19</param>
         </struct>
 
 
@@ -906,7 +904,6 @@
             <param name="cohesionAfterSoftening" units="MPa">4</param>
             <param name="frictionCoefficient">0.577</param>
             <param name="frictionCoefficientAfterSoftening">0.0577</param>
-            <param name="minimumViscosity" units="Pa*s">1e+19</param>
         </struct>
         
         
@@ -923,7 +920,6 @@
             <param name="cohesionAfterSoftening" units="MPa">4</param>
             <param name="frictionCoefficient">0.577</param>
             <param name="frictionCoefficientAfterSoftening">0.1154</param>
-            <param name="minimumViscosity" units="Pa*s">1e+19</param>
         </struct>
 
         <struct name="yield_lower_crust_Rey2014">
@@ -938,7 +934,6 @@
             <param name="cohesionAfterSoftening" units="MPa"> 0.8 </param>
             <param name="frictionCoefficient"> 0.577 </param>
             <param name="frictionCoefficientAfterSoftening"> 0.02308 </param>
-            <param name="minimumViscosity" units="Pa*s">1e+19</param>
         </struct>
 
 
@@ -953,7 +948,6 @@
             <param name="cohesionAfterSoftening" units="MPa">6</param>
             <param name="frictionCoefficient">0.288</param>
             <param name="frictionCoefficientAfterSoftening">0.0288</param>
-            <param name="minimumViscosity" units="Pa*s">1e+19</param>
         </struct>
         
         
@@ -970,7 +964,6 @@
             <param name="cohesionAfterSoftening" units="MPa">2</param>
             <param name="frictionCoefficient">0.577</param>
             <param name="frictionCoefficientAfterSoftening">0.1154</param>
-            <param name="minimumViscosity" units="Pa*s">1e+19</param>
         </struct>
 
         <struct name="yield_litho_mantle_Rey2014">
@@ -985,7 +978,6 @@
             <param name="cohesionAfterSoftening" units="MPa"> 0.4 </param>
             <param name="frictionCoefficient"> 0.577 </param>
             <param name="frictionCoefficientAfterSoftening"> 0.02308 </param>
-            <param name="minimumViscosity" units="Pa*s">1e+19</param>
         </struct>
 
         <struct name="yield_litho_mantle_Watremez2013">
@@ -997,7 +989,6 @@
 
             <param name="cohesion" units="MPa">300</param>
             <param name="frictionCoefficient">0.0349</param>
-            <param name="minimumViscosity" units="Pa*s">1e+19</param>
         </struct>
 
 
@@ -1009,7 +1000,6 @@
             <param name="strainRateSoftening"> False </param>
 
             <param name="cohesion" units="MPa"> 150 </param>
-            <param name="minimumViscosity" units="Pa*s"> 1e+19 </param>
         </struct>
 
         <struct name="stressLimiter_vonmises_400MPa">
@@ -1019,7 +1009,6 @@
             <param name="strainRateSoftening"> False </param>
 
             <param name="cohesion" units="MPa"> 200 </param>
-            <param name="minimumViscosity" units="Pa*s"> 1e+19 </param>
         </struct>
 
         <struct name="stressLimiter_vonmises_500MPa">
@@ -1029,7 +1018,6 @@
             <param name="strainRateSoftening"> False </param>
 
             <param name="cohesion" units="MPa"> 250 </param>
-            <param name="minimumViscosity" units="Pa*s"> 1e+19 </param>
         </struct>
 
         <struct name="stresslimiter_vanHunen_300MPa">

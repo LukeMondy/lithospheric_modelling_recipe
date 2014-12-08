@@ -375,7 +375,7 @@
         <!-- === Mesh parameters ========================== -->
         <struct name="linearMeshGenerator" mergeType="merge">
             <!-- Forces the mesh to be regular -->
-            <param name="regular" mergeType="replace">True</param>            
+            <param name="regular" mergeType="replace">False</param>            
         </struct>
         <!-- ============================================== -->
         
