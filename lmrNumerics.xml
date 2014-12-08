@@ -313,7 +313,7 @@
             <param name="resolutionZ"> 10 </param>
             <param name="lowerT"> 0.6 </param>
             <param name="upperT"> 5 </param>
-            <param name="Threshold"> 0.8 </param>
+            <param name="Threshold"> 0.95 </param>
             <param name="CentPosRatio"> 0.01 </param>
             <param name="MaterialPointsSwarm"> materialSwarm </param>
             <param name="splitInInterfaceCells"> False </param>
