@@ -115,20 +115,28 @@
          
          Using a moving mesh is good, because no material is lost out the sides
          of the model. However, given enough movement, the mesh looses it's ideal
-         square shape, and can lead to errors. 
-         Furthermore, complex spatial velocity boundary conditions can cause the 
-         moving mesh to fail. In those cases, it is best to turn off moving mesh
-         (by just deleting or commenting out the code between "Moving Mesh" and 
-         "End of Moving Mesh".
-    --> 
+         square shape, and can lead to errors. Additionally, the size of shear 
+         zones is dependent on mesh resolution, so as the mesh changes, fault 
+         patterns may also change in behavior. Therefore, the mesh deformation
+         is turned off by default.
+         To turn it back on, simply uncomment the code below this documentation.
+
+         === Commonly modified sections ===
+         The "static<wall>" params tell Underworld whether the wall will remain
+         fixed (as a flux boundary condition), or whether the wall will move with
+         the kinematic boundary conditions.
+
+         "wrapTop" will give the model a free-surface BC on the top wall. If this
+         is on, then the linearMeshGenerator (in lmrNumerics.xml) needs to have
+         "regular" set to False.
+    -->
+
+    <!--    
     <include>Underworld/ArtDisplacementField.xml</include>
 
     <struct name="EulerDeform">
         <list name="systems">
             <struct>
-                <!-- === Commonly modified ================== -->
-                <!-- Walls that are set to "False" will move with the 
-                     velocity BC. Walls set to "True" will remain fixed. -->
                 <param name="staticTop">    True  </param>
                 <param name="staticBottom"> True  </param>
                 
@@ -138,14 +146,8 @@
                 <param name="staticFront">  True  </param>
                 <param name="staticBack">   True  </param>
                 
-                <!-- WrapTop will make the top boundary conform to topography,
-                     giving you a free-surface boundary condition. This works
-                     well, but can become unstable with strong local relief. 
-                 -->
                 <param name="wrapTop"> False </param>
-                <!-- ======================================== -->
                 
-                <!-- === Technical implementation =========== -->
                 <param name="mesh"> velocityMesh </param>
                 <param name="remesher"> velocityRemesher </param>
                 <param name="velocityField"> VelocityField </param>
@@ -158,7 +160,6 @@
             </struct>
         </list>
     </struct>
-    <!-- === Technical implementation =========== -->
     <struct name="components" mergeType="merge">
         <struct name="velocityRemesher">
             <param name="Type"> RegularRemesherCmpt </param>
@@ -181,10 +182,9 @@
             <param name="Context"> context </param>
         </struct>
     </list>
-    <!-- ======================================== -->
     
     <param name="MeshAdvectionCorrection_UseArtDisplacementField"> True </param>
-
+    -->
     <!--=== End of Moving Mesh ============================== -->
     
     
