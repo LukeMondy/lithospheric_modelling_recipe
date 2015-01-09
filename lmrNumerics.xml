@@ -375,7 +375,7 @@
         <!-- === Mesh parameters ========================== -->
         <struct name="linearMeshGenerator" mergeType="merge">
             <!-- Forces the mesh to be regular -->
-            <param name="regular" mergeType="replace">False</param>            
+            <param name="regular" mergeType="replace">True</param>            
         </struct>
         <!-- ============================================== -->
         
@@ -406,6 +406,10 @@
         </struct>
         <struct>
             <param name="Type"> StgFEM_FeVariableList </param>
+            <param name="Context"> context </param>
+        </struct>
+        <struct>
+            <param name="Type"> StgFEM_PeakMemory </param>
             <param name="Context"> context </param>
         </struct>
     </list>

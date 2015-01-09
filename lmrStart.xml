@@ -27,7 +27,7 @@
     </Output_Controls>
     
     <Thermal_Equilibration>
-        <run_thermal_equilibration_phase> true </run_thermal_equilibration_phase>
+        <run_thermal_equilibration_phase> false </run_thermal_equilibration_phase>
         
         <update_xml_information> true </update_xml_information>
         <preserve_thermal_equilibration_checkpoints> false </preserve_thermal_equilibration_checkpoints>
@@ -79,8 +79,8 @@
     </Solver_Details>
 
     <Underworld_Execution>
-        <Underworld_binary> /home/luke/Programs/underworld2_dev/libUnderworld/build/bin/Underworld </Underworld_binary> <!-- Replace with your own path to UW -->
-        <CPUs> 2 </CPUs>
+        <Underworld_binary> /home/luke/Programs/underworld2/libUnderworld/build/bin/Underworld </Underworld_binary> <!-- Replace with your own path to UW -->
+        <CPUs> 6 </CPUs>
         <supercomputer_mpi_format> false </supercomputer_mpi_format>
     </Underworld_Execution>
 
