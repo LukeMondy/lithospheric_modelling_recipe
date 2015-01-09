@@ -374,7 +374,7 @@
         <param name="DensityProperty" units="kg*m^-3"> 1 </param>
 
         <!-- Setting air diffusivity to be as small as rock will increase timestep length -->
-        <param name="DiffusivityProperty" units="m*m/s"> 1e-5 </param>
+        <param name="DiffusivityProperty" units="m*m/s"> 1e-6 </param>
         <param name="CpProperty" units="J/(K*kg)"> 100 </param>
         <param name="ThermalExpansivityProperty"> 0 </param>
         <param name="RadiogenicHeatProductionProperty"> radiogenic_no_heating </param>

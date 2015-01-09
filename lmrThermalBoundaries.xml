@@ -31,7 +31,6 @@
             <!-- Note: you can force a temperature (or any VC) to be set
                        within a particular area of the model by using a 
                        MeshShapeVC. For example:                    -->
-            <!--
             <struct>
                 <param name="type"> MeshShapeVC </param>
                 <param name="Shape"> airShape </param>
@@ -43,7 +42,6 @@
                     </struct>
                 </list>
             </struct>
-            -->
         </list>
     </struct>
     

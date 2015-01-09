@@ -69,10 +69,14 @@
             <!-- Setting air diffusivity to be as small as rock will increase timestep length -->
             <param name="DiffusivityProperty" units="m*m/s" mergeType="replace"> 1e-6 </param>
         </struct>
-    </struct>
 
+        <!-- === Mesh parameters ========================== -->
+        <struct name="linearMeshGenerator" mergeType="merge">
+            <!-- Forces the mesh to be regular -->
+            <param name="regular" mergeType="replace">True</param>            
+        </struct>
+        <!-- ============================================== -->
     
-    <struct name="components" mergeType="merge">
         <struct name="window" mergeType="merge">
             <list name="Viewport" mergeType="replace">
                 <param>TemperatureVP</param>

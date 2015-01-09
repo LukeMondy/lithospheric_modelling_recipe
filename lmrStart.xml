@@ -61,13 +61,13 @@
 
     <Solver_Details>
         <linear_solver>
-            <tolerance> 1e-6 </tolerance>
+            <tolerance> 1e-5 </tolerance>
             <min_iterations> 2 </min_iterations>
             <max_iterations> 15000 </max_iterations>
         </linear_solver>
 
         <nonLinear_solver>
-            <tolerance> 1e-3 </tolerance>
+            <tolerance> 5e-3 </tolerance>
             <min_iterations> 2 </min_iterations>
             <max_iterations> 500 </max_iterations>
         </nonLinear_solver>

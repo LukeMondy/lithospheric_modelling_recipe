@@ -128,10 +128,11 @@
         <!-- NOTE: The radiogenic heat was defined using an equation built in XML Ppc_Operations. meltFractionHeating
                    can be done the same way, but a) it takes up a lot of space, and b) a Ppc function (Ppc_MeltHeating)
                    has already been built into Underworld to do this for us. -->
-        
+
+
         <struct name="thermalEqn">
             <!-- This struct allows additional energy sources into the system, for
-                 example: a heat flux boundary, radiogenic heating, etc. 
+                 example: radiogenic heating, or some other user computed function, etc. 
                  The sources of energy are incorporated via the sourceTerms_thermalEqn 
                  struct defined above.-->                 
             <param name="Type">VectorAssemblyTerm_NA__F</param>
@@ -140,6 +141,29 @@
             <param name="Swarm">picIntegrationPoints</param>
             <param name="Manager">default_ppcManager</param>
         </struct>
+
+        <struct name="viscousHeating">
+            <param name="Type"> ViscousHeatingTermPpc </param>
+            <param name="ForceVector">residual</param>
+            <param name="EnergyEqn">EnergyEqn</param>
+            <param name="Swarm">picIntegrationPoints</param>
+            <param name="DeviatoricStressField"> StressField </param>
+            <param name="StrainRateField"> StrainRateField </param>
+            <param name="DensityLabel"> DensityProperty </param>
+            <param name="CpLabel"> CpProperty </param>
+        </struct>
+
+        <struct name="adiabaticHeating">
+            <param name="Type"> AdiabaticHeatingTermPpc </param>
+            <param name="ForceVector"> residual </param>
+            <param name="EnergyEqn"> EnergyEqn </param>
+            <param name="Swarm"> picIntegrationPoints </param>
+            <param name="VelocityField"> VelocityField </param>
+            <param name="TemperatureField"> TemperatureField </param>
+            <param name="CpLabel"> CpProperty </param>
+            <param name="ThermalExpansivityLabel"> ThermalExpansivityProperty </param>
+        </struct>
+
         <struct name="defaultResidualForceTerm" mergeType="replace">
             <!-- This struct ensures advection/diffusion is solved (not just diffusion). -->
             <param name="Type">SUPGAdvDiffTermPpc</param>
