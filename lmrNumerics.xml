@@ -142,7 +142,8 @@
             <param name="Manager">default_ppcManager</param>
         </struct>
 
-        <struct name="viscousHeating">
+        <!-- === Following structs disabled until further testing! === -->
+        <!--struct name="viscousHeating">
             <param name="Type"> ViscousHeatingTermPpc </param>
             <param name="ForceVector">residual</param>
             <param name="EnergyEqn">EnergyEqn</param>
@@ -151,9 +152,9 @@
             <param name="StrainRateField"> StrainRateField </param>
             <param name="DensityLabel"> DensityProperty </param>
             <param name="CpLabel"> CpProperty </param>
-        </struct>
+        </struct-->
 
-        <struct name="adiabaticHeating">
+        <!--struct name="adiabaticHeating">
             <param name="Type"> AdiabaticHeatingTermPpc </param>
             <param name="ForceVector"> residual </param>
             <param name="EnergyEqn"> EnergyEqn </param>
@@ -162,10 +163,10 @@
             <param name="TemperatureField"> TemperatureField </param>
             <param name="CpLabel"> CpProperty </param>
             <param name="ThermalExpansivityLabel"> ThermalExpansivityProperty </param>
-        </struct>
+        </struct-->
 
         <struct name="defaultResidualForceTerm" mergeType="replace">
-            <!-- This struct ensures advection/diffusion is solved (not just diffusion). -->
+            <!-- This struct ensures advection/diffusion is solved. -->
             <param name="Type">SUPGAdvDiffTermPpc</param>
             <param name="ForceVector">residual</param>
             <param name="EnergyEqn">EnergyEqn</param>

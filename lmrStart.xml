@@ -14,7 +14,7 @@
 
         <experiment_duration_options>
             <maximum_timesteps> 10000000 </maximum_timesteps>
-            <maximum_time_in_years> 10.0e6 </maximum_time_in_years>
+            <maximum_time_in_years> 20.0e6 </maximum_time_in_years>
         </experiment_duration_options>
         
         <checkpoint_frequency_options>
@@ -23,11 +23,11 @@
         </checkpoint_frequency_options>
         
         <output_pictures> false </output_pictures>
-        <write_log_file> false </write_log_file>
+        <write_log_file> true </write_log_file>
     </Output_Controls>
     
     <Thermal_Equilibration>
-        <run_thermal_equilibration_phase> false </run_thermal_equilibration_phase>
+        <run_thermal_equilibration_phase> true </run_thermal_equilibration_phase>
         
         <update_xml_information> true </update_xml_information>
         <preserve_thermal_equilibration_checkpoints> false </preserve_thermal_equilibration_checkpoints>
@@ -56,18 +56,18 @@
 
     <Restarting_Controls>
         <restart> false </restart>
-        <restart_from_step> 19 </restart_from_step> <!-- Remove this line for auto restart -->
+        <!--restart_from_step> 19 </restart_from_step--> <!-- Remove this line for auto restart -->
     </Restarting_Controls>
 
     <Solver_Details>
         <linear_solver>
-            <tolerance> 1e-5 </tolerance>
-            <min_iterations> 2 </min_iterations>
+            <tolerance> 1e-6 </tolerance>
+            <min_iterations> 10 </min_iterations>
             <max_iterations> 15000 </max_iterations>
         </linear_solver>
 
         <nonLinear_solver>
-            <tolerance> 5e-3 </tolerance>
+            <tolerance> 1e-3 </tolerance>
             <min_iterations> 2 </min_iterations>
             <max_iterations> 500 </max_iterations>
         </nonLinear_solver>
