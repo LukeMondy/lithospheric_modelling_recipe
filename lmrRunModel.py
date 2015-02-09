@@ -439,6 +439,7 @@ def run_model(model_dict, command_dict):
 
     if model_dict["verbose_run"]:
         print "LMR will now run the following command:\n{com}".format(com=together.format(**model_dict))
+        sys.stdout.flush()
 
     try:
         # The sys.stdout is set in main()
