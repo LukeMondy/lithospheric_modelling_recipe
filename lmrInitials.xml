@@ -7,7 +7,7 @@
              to find the thermal information using the following struct -->
         <struct>
             <param name="Type">Underworld_HDF5ConditionFunction</param>
-            <param name="FeVariableHDF5Filename"> !!PATH_TO_TEMP_FILE!! </param>
+            <param name="FeVariableHDF5Filename"> _TO_TEMP_FILE!! </param>
             <param name="MeshHDF5Filename"> !!PATH_TO_MESH_FILE!! </param>            
             <param name="TargetFeVariable"> TemperatureField </param>
             <param name="Partitioned"> False </param>

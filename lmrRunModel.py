@@ -519,11 +519,15 @@ def modify_initialcondition_xml(last_ts, xml_path, initial_condition_path):
     # It redirects the print function to the file itself while in the for loop context.
     # Therefore, we just go through the file line by line, checking if we hit the special text.
     # If so, replace it with the correct text, and print - else, just print.
+    triggered_temp = False
+    triggered_mesh = False
     try:
         for line in fileinput.input("{xml_path}/lmrInitials.xml".format(xml_path=xml_path), inplace=True):
             if "!!PATH_TO_TEMP_FILE!!" in line:
+                triggered_temp = True
                 print line.replace("!!PATH_TO_TEMP_FILE!!", new_temp_file),
             elif "!!PATH_TO_MESH_FILE!!" in line:
+                triggered_mesh = True
                 print line.replace("!!PATH_TO_MESH_FILE!!", new_mesh_file),
             else:
                 print line,
@@ -531,6 +535,21 @@ def modify_initialcondition_xml(last_ts, xml_path, initial_condition_path):
         error_msg = ('Problem opening lmrInitials.xml to update the HDF5 initial condition.'
                      'The computer reported:\n\%s' % err)
         sys.exit(error_msg)
+
+    if not triggered_temp or not triggered_mesh:
+        sys.exit(("ERROR - Problem loading initial conditions.\nThe LMR tries to tell Underworld which initial condition files to use by modifying the lmrInitials.xml file - but one of the flags in the file was missing! The start of the lmrInitials.xml should look similar to this:\n"
+                  "<list name=\"plugins\" mergeType=\"merge\">\n"
+                  "    <!-- If you have thermally equilibrated your model, you need to tell Underworld where\n"
+                  "         to find the thermal information using the following struct -->\n"
+                  "    <struct>\n"
+                  "        <param name=\"Type\">Underworld_HDF5ConditionFunction</param>\n"
+                  "        <param name=\"FeVariableHDF5Filename\"> !!PATH_TO_TEMP_FILE!! </param>\n"
+                  "        <param name=\"MeshHDF5Filename\"> !!PATH_TO_MESH_FILE!! </param>\n"
+                  "        <param name=\"TargetFeVariable\"> TemperatureField </param>\n"
+                  "        <param name=\"Partitioned\"> False </param>\n"
+                  "    </struct>\n"
+                  "</list>\n"
+                  "If it doesn't, try copying and pasting the above into the lmrInitials.xml, or refer to the LMR bitbucket. If you actually want to specify an explicit initial condition, then in lmrStart.xml you need to set the <update_xml_information> tag in the <Thermal_Equilibration> section to be false."))
 
 
 def main():
