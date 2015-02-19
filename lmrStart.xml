@@ -27,7 +27,7 @@
     </Output_Controls>
     
     <Thermal_Equilibration>
-        <run_thermal_equilibration_phase> false </run_thermal_equilibration_phase>
+        <run_thermal_equilibration_phase> true </run_thermal_equilibration_phase>
         
         <update_xml_information> true </update_xml_information>
         <preserve_thermal_equilibration_checkpoints> false </preserve_thermal_equilibration_checkpoints>
