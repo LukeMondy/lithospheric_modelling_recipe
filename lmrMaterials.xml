@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<StGermainData xmlns="http://www.vpac.org/StGermain/XML_IO_Handler/Jun2003"> 
+<StGermainData xmlns="http://www.vpac.org/StGermain/XML_IO_Handler/Jun2003">
 
     <!-- === Domain size ======================================= -->
     <!-- Axis 0: x -->
@@ -19,7 +19,7 @@
 
     <!-- === User-defined Variables for ease of use ============ -->
     <!--     These variables are simple defined to make it easier to quickly
-             change things like crustal thickness. More can be made by using 
+             change things like crustal thickness. More can be made by using
              the same format, or they can be ignored. -->
     <param name="topAir" units="km"> 15 </param>
     <param name="botAir" units="km"> 0 </param>
@@ -39,20 +39,20 @@
     <!-- === Important note! ==================================== -->
     <!--     Underworld requires that when shapes are defined with the 'startX'
              and 'endX' notation, that the numerical value of endX MUST be larger
-             than startX. 
+             than startX.
              Therefore, if you make the air-crust interface y = 0 (as is done in
-             the LMR), then you need to make sure that the smallest number is 
-             startX. 
+             the LMR), then you need to make sure that the smallest number is
+             startX.
              For example, if you wanted a box that was 10 km thick, and starts at
              the moho, you would define it as such:
                 startY = -50000
                 endY   = -40000  # the moho
     -->
 
-    <struct name="components" mergeType="merge"> 
+    <struct name="components" mergeType="merge">
     <!-- ==== Geometries ============================================================================== -->
     <!-- === Air layer =============================== -->
-    <struct name="airShape"> 
+    <struct name="airShape">
         <param name="Type"> Box </param>
         <param name="startX"> minX </param>
         <param name="endX"> maxX </param>
@@ -64,7 +64,7 @@
 
 
     <!-- === Upper Crust ============================= -->
-    <struct name="uppercrustShape"> 
+    <struct name="uppercrustShape">
         <param name="Type"> Box </param>
         <param name="startX"> minX </param>
         <param name="endX"> maxX </param>
@@ -74,7 +74,7 @@
         <param name="endZ"> maxZ </param>
     </struct>
 
-    <struct name="uppercrustMarker1"> 
+    <struct name="uppercrustMarker1">
         <param name="Type"> Box </param>
         <param name="startX"> minX </param>
         <param name="endX"> maxX </param>
@@ -86,7 +86,7 @@
         <param name="startZ"> minZ </param>
         <param name="endZ"> maxZ </param>
     </struct>
-    <struct name="uppercrustMarker2"> 
+    <struct name="uppercrustMarker2">
         <param name="Type"> Box </param>
         <param name="startX"> minX </param>
         <param name="endX"> maxX </param>
@@ -96,9 +96,9 @@
         <param name="endZ"> maxZ </param>
     </struct>
 
-    <struct name="uppercrustMarkersShape"> 
+    <struct name="uppercrustMarkersShape">
         <param name="Type"> Union </param>
-        <list name="shapes"> 
+        <list name="shapes">
             <param>uppercrustMarker1 </param>
             <param>uppercrustMarker2 </param>
         </list>
@@ -106,7 +106,7 @@
 
 
     <!-- === Lower Crust =============================== -->
-    <struct name="lowercrustShape"> 
+    <struct name="lowercrustShape">
         <param name="Type"> Box </param>
         <param name="startX"> minX </param>
         <param name="endX"> maxX </param>
@@ -116,7 +116,7 @@
         <param name="endZ"> maxZ </param>
     </struct>
 
-    <struct name="lowercrustMarker0"> 
+    <struct name="lowercrustMarker0">
         <param name="Type"> Box </param>
         <param name="startX" units="km"> -200 </param>
         <param name="endX" units="km"> -190 </param>
@@ -125,7 +125,7 @@
         <param name="startZ"> minZ </param>
         <param name="endZ"> maxZ </param>
     </struct>
-    <struct name="lowercrustMarker1"> 
+    <struct name="lowercrustMarker1">
         <param name="Type"> Box</param>
         <param name="startX" units="km"> -170 </param>
         <param name="endX" units="km"> -160 </param>
@@ -134,7 +134,7 @@
         <param name="startZ"> minZ </param>
         <param name="endZ"> maxZ </param>
     </struct>
-    <struct name="lowercrustMarker2"> 
+    <struct name="lowercrustMarker2">
         <param name="Type"> Box </param>
         <param name="startX" units="km"> -140 </param>
         <param name="endX" units="km"> -130 </param>
@@ -143,7 +143,7 @@
         <param name="startZ"> minZ </param>
         <param name="endZ"> maxZ </param>
     </struct>
-    <struct name="lowercrustMarker3"> 
+    <struct name="lowercrustMarker3">
         <param name="Type"> Box </param>
         <param name="startX" units="km"> -110 </param>
         <param name="endX" units="km"> -100 </param>
@@ -152,7 +152,7 @@
         <param name="startZ"> minZ </param>
         <param name="endZ"> maxZ </param>
     </struct>
-    <struct name="lowercrustMarker4"> 
+    <struct name="lowercrustMarker4">
         <param name="Type"> Box </param>
         <param name="startX" units="km"> -80 </param>
         <param name="endX" units="km"> -70 </param>
@@ -161,7 +161,7 @@
         <param name="startZ"> minZ </param>
         <param name="endZ"> maxZ </param>
     </struct>
-    <struct name="lowercrustMarker5"> 
+    <struct name="lowercrustMarker5">
         <param name="Type"> Box </param>
         <param name="startX" units="km"> -50 </param>
         <param name="endX" units="km"> -40 </param>
@@ -170,7 +170,7 @@
         <param name="startZ"> minZ </param>
         <param name="endZ"> maxZ </param>
     </struct>
-    <struct name="lowercrustMarker6"> 
+    <struct name="lowercrustMarker6">
         <param name="Type"> Box </param>
         <param name="startX" units="km"> -20 </param>
         <param name="endX" units="km"> -10 </param>
@@ -179,7 +179,7 @@
         <param name="startZ"> minZ </param>
         <param name="endZ"> maxZ </param>
     </struct>
-    <struct name="lowercrustMarker7"> 
+    <struct name="lowercrustMarker7">
         <param name="Type"> Box </param>
         <param name="startX" units="km"> 10 </param>
         <param name="endX" units="km"> 20 </param>
@@ -188,7 +188,7 @@
         <param name="startZ"> minZ </param>
         <param name="endZ"> maxZ </param>
     </struct>
-    <struct name="lowercrustMarker8"> 
+    <struct name="lowercrustMarker8">
         <param name="Type"> Box </param>
         <param name="startX" units="km"> 40 </param>
         <param name="endX" units="km"> 50 </param>
@@ -197,7 +197,7 @@
         <param name="startZ"> minZ </param>
         <param name="endZ"> maxZ </param>
     </struct>
-    <struct name="lowercrustMarker9"> 
+    <struct name="lowercrustMarker9">
         <param name="Type"> Box </param>
         <param name="startX" units="km"> 70 </param>
         <param name="endX" units="km"> 80 </param>
@@ -206,7 +206,7 @@
         <param name="startZ"> minZ </param>
         <param name="endZ"> maxZ </param>
     </struct>
-    <struct name="lowercrustMarker10"> 
+    <struct name="lowercrustMarker10">
         <param name="Type"> Box </param>
         <param name="startX" units="km"> 100 </param>
         <param name="endX" units="km"> 110 </param>
@@ -215,7 +215,7 @@
         <param name="startZ"> minZ </param>
         <param name="endZ"> maxZ </param>
     </struct>
-    <struct name="lowercrustMarker11"> 
+    <struct name="lowercrustMarker11">
         <param name="Type"> Box </param>
         <param name="startX" units="km"> 130 </param>
         <param name="endX" units="km"> 140 </param>
@@ -224,7 +224,7 @@
         <param name="startZ"> minZ </param>
         <param name="endZ"> maxZ </param>
     </struct>
-    <struct name="lowercrustMarker12"> 
+    <struct name="lowercrustMarker12">
         <param name="Type"> Box </param>
         <param name="startX" units="km"> 160 </param>
         <param name="endX" units="km"> 170 </param>
@@ -233,7 +233,7 @@
         <param name="startZ"> minZ </param>
         <param name="endZ"> maxZ </param>
     </struct>
-    <struct name="lowercrustMarker13"> 
+    <struct name="lowercrustMarker13">
         <param name="Type"> Box </param>
         <param name="startX" units="km"> 190 </param>
         <param name="endX" units="km"> 200 </param>
@@ -244,9 +244,9 @@
     </struct>
 
     <!-- All the lower crust markers are now merged into a single shape -->
-    <struct name="lowercrustMarkersShape"> 
+    <struct name="lowercrustMarkersShape">
         <param name="Type"> Union </param>
-        <list name="shapes"> 
+        <list name="shapes">
             <param>lowercrustMarker0 </param>
             <param>lowercrustMarker1 </param>
             <param>lowercrustMarker2 </param>
@@ -266,7 +266,7 @@
 
 
     <!-- === Mantle ===================================== -->
-    <struct name="mantleShape"> 
+    <struct name="mantleShape">
         <param name="Type"> Box </param>
         <param name="startX"> minX </param>
         <param name="endX"> maxX </param>
@@ -276,7 +276,7 @@
         <param name="endZ"> maxZ </param>
     </struct>
 
-    <struct name="mantleMarker1"> 
+    <struct name="mantleMarker1">
         <param name="Type"> Box </param>
         <param name="startX"> minX </param>
         <param name="endX"> maxX </param>
@@ -285,7 +285,7 @@
         <param name="startZ"> minZ </param>
         <param name="endZ"> maxZ </param>
     </struct>
-    <struct name="mantleMarker2"> 
+    <struct name="mantleMarker2">
         <param name="Type"> Box </param>
         <param name="startX"> minX </param>
         <param name="endX"> maxX </param>
@@ -295,9 +295,9 @@
         <param name="endZ"> maxZ </param>
     </struct>
 
-    <struct name="mantleMarkersShape"> 
+    <struct name="mantleMarkersShape">
         <param name="Type"> Union </param>
-        <list name="shapes"> 
+        <list name="shapes">
             <param>mantleMarker1 </param>
             <param>mantleMarker2 </param>
         </list>
@@ -309,12 +309,12 @@
 
 
 
-    <!-- === Viscosity limiter =================================== -->  
+    <!-- === Viscosity limiter =================================== -->
     <!--     If your model is not converging nicely, it can be helpful to
-             reduce the viscosity gradients in your model. The viscosity limiter 
-             allows you to artificially limit the min and max viscosity allowed 
+             reduce the viscosity gradients in your model. The viscosity limiter
+             allows you to artificially limit the min and max viscosity allowed
              in your model, making it potentially easier to solve. -->
-    <struct name="viscosityLimiter"> 
+    <struct name="viscosityLimiter">
         <param name="Type"> ViscosityLimiter </param>
         <param name="maxViscosity" units="Pa*s"> 5e23 </param>
         <param name="minViscosity" units="Pa*s"> 1e19 </param>
@@ -324,17 +324,17 @@
 
     <!-- === Random damage ======================================= -->
     <!--     To get the model to localise in the centre of the model domain, we can
-             impose a distribution of random damage across an area. In this case, 
+             impose a distribution of random damage across an area. In this case,
              the damage is limited to the central 200 km of the domain (as defined
-             by the "damagedShape"), and is most pronounced around x = 0 (as we use 
-             the Cos function in the wavenumber calculation). 
+             by the "damagedShape"), and is most pronounced around x = 0 (as we use
+             the Cos function in the wavenumber calculation).
 
-             To turn off random damage, simply remove or comment out the 
-             "strainWeakening" struct. If you want random damage everywhere in the 
-             model, delete or comment out the "initialStrainShape" param. 
+             To turn off random damage, simply remove or comment out the
+             "strainWeakening" struct. If you want random damage everywhere in the
+             model, delete or comment out the "initialStrainShape" param.
     -->
 
-    <struct name="damagedShape"> 
+    <struct name="damagedShape">
         <param name="Type"> Box </param>
         <param name="startX" units="km"> -100 </param>
         <param name="endX" units="km">    100 </param>
@@ -355,16 +355,16 @@
 
 
     <!-- === Material definitions ===================================================================== -->
-    <!--     Materials are assigned their "materialIndex" by the order in which you define them 
-             here. Furthermore, materials will overprint each other, which can be useful, but 
+    <!--     Materials are assigned their "materialIndex" by the order in which you define them
+             here. Furthermore, materials will overprint each other, which can be useful, but
              also be a trip up.
-             For example, we could define an "air" material first which covers the entire 
-             domain. We can then define a "crust" material second, which will overprint the air 
-             material. If we defined them the other way around ("crust" first, "air" second), 
+             For example, we could define an "air" material first which covers the entire
+             domain. We can then define a "crust" material second, which will overprint the air
+             material. If we defined them the other way around ("crust" first, "air" second),
              the model domain would be entirely "air", because it will overprint the crust. -->
 
 
-    <struct name="air"> 
+    <struct name="air">
         <!-- NOTE: air is a special case, because it does NOT share a lot of common properties
              such as thermal expansivity or diffusivity, and it certainly does not melt.
              In this case, we simply supply constant values for the thermal stuff, and
@@ -388,17 +388,17 @@
 
         <param name="SurfaceProcesses"> sedimentation_threshold </param>
 
-        <list name="Rheology"> 
+        <list name="Rheology">
         <!-- Viscous law  -->   <param> viscIso_air_1e18 </param>
         <!-- Brittle law  -->
         <!-- Melt modifier -->
-        <!-- Stress limiter --> 
+        <!-- Stress limiter -->
         <!-- Visc limiter -->
         </list>
     </struct>
 
 
-    <struct name="sediment"> 
+    <struct name="sediment">
         <param name="Type"> RheologyMaterial </param>
         <param name="Shape"> uppercrustShape </param> <!-- Taking advantage of the overprinting by defining this first -->
         <param name="DensityProperty"> densMelt_sediment </param>
@@ -417,17 +417,17 @@
 
         <param name="SurfaceProcesses"> erosion_threshold </param>
 
-        <list name="Rheology"> 
+        <list name="Rheology">
         <!-- Viscous law  -->   <param> viscSRTdislocation_wet_quartzite_Paterson1990 </param>
         <!-- Melt modifier -->  <param> viscMelt_crustal_Hirth2003 </param>
         <!-- Brittle law  -->   <param> yield_upper_crust_Rey2010 </param>
-        <!-- Stress limiter --> <param> stressLimiter_vonmises_300MPa </param>
-        <!-- Visc limiter -->   <param> viscosityLimiter </param> 
+        <!-- Stress limiter --> <param> stressLimiter_simple_300MPa </param>
+        <!-- Visc limiter -->   <param> viscosityLimiter </param>
         </list>
     </struct>
 
 
-    <struct name="uppercrust"> 
+    <struct name="uppercrust">
         <param name="Type"> RheologyMaterial </param>
         <param name="Shape"> uppercrustShape </param>
         <param name="DensityProperty"> densMelt_continental_upper_crust </param>
@@ -446,16 +446,16 @@
 
         <param name="SurfaceProcesses"> erosion_threshold </param>
 
-        <list name="Rheology"> 
+        <list name="Rheology">
         <!-- Viscous law  -->   <param> viscSRTdislocation_wet_quartzite_Paterson1990 </param>
         <!-- Melt modifier -->  <param> viscMelt_crustal_Hirth2003 </param>
         <!-- Brittle law  -->   <param> yield_upper_crust_Rey2010 </param>
-        <!-- Stress limiter --> <param> stressLimiter_vonmises_300MPa </param>
-        <!-- Visc limiter -->   <param> viscosityLimiter </param> 
+        <!-- Stress limiter --> <param> stressLimiter_simple_300MPa </param>
+        <!-- Visc limiter -->   <param> viscosityLimiter </param>
         </list>
     </struct>
 
-    <struct name="uppercrustMarkers"> 
+    <struct name="uppercrustMarkers">
         <param name="Type"> RheologyMaterial </param>
         <param name="Shape"> uppercrustMarkersShape </param>
         <param name="DensityProperty"> densMelt_continental_upper_crust </param>
@@ -474,17 +474,17 @@
 
         <param name="SurfaceProcesses"> erosion_threshold </param>
 
-        <list name="Rheology"> 
+        <list name="Rheology">
         <!-- Viscous law  -->   <param> viscSRTdislocation_wet_quartzite_Paterson1990 </param>
         <!-- Melt modifier -->  <param> viscMelt_crustal_Hirth2003 </param>
         <!-- Brittle law  -->   <param> yield_upper_crust_Rey2010 </param>
-        <!-- Stress limiter --> <param> stressLimiter_vonmises_300MPa </param>
-        <!-- Visc limiter -->   <param> viscosityLimiter </param> 
+        <!-- Stress limiter --> <param> stressLimiter_simple_300MPa </param>
+        <!-- Visc limiter -->   <param> viscosityLimiter </param>
         </list>
     </struct>
 
 
-    <struct name="lowercrust"> 
+    <struct name="lowercrust">
         <param name="Type"> RheologyMaterial </param>
         <param name="Shape"> lowercrustShape </param>
         <param name="DensityProperty"> densMelt_continental_lower_crust </param>
@@ -507,11 +507,11 @@
         <!-- Viscous law  -->   <param> viscSRTdislocation_dry_mafic_granulite_Wang2012 </param>
         <!-- Melt modifier -->  <param> viscMelt_crustal_Hirth2003 </param>
         <!-- Brittle law  -->   <param> yield_lower_crust_Rey2010 </param>
-        <!-- Stress limiter --> <param> stressLimiter_vonmises_300MPa </param>
-        <!-- Visc limiter -->   <param> viscosityLimiter </param> 
+        <!-- Stress limiter --> <param> stressLimiter_simple_300MPa </param>
+        <!-- Visc limiter -->   <param> viscosityLimiter </param>
         </list>
     </struct>
-    <struct name="lowercrustMarkers"> 
+    <struct name="lowercrustMarkers">
         <param name="Type"> RheologyMaterial </param>
         <param name="Shape"> lowercrustMarkersShape </param>
         <param name="DensityProperty"> densMelt_continental_lower_crust </param>
@@ -534,8 +534,8 @@
         <!-- Viscous law  -->   <param> viscSRTdislocation_dry_mafic_granulite_Wang2012 </param>
         <!-- Melt modifier -->  <param> viscMelt_crustal_Hirth2003 </param>
         <!-- Brittle law  -->   <param> yield_lower_crust_Rey2010 </param>
-        <!-- Stress limiter --> <param> stressLimiter_vonmises_300MPa </param>
-        <!-- Visc limiter -->   <param> viscosityLimiter </param> 
+        <!-- Stress limiter --> <param> stressLimiter_simple_300MPa </param>
+        <!-- Visc limiter -->   <param> viscosityLimiter </param>
         </list>
     </struct>
 
@@ -558,13 +558,13 @@
         <param name="LatentHeatFusionProperty"> latentHeat_mantle </param>
 
         <param name="SurfaceProcesses"> erosion_threshold </param>
-        
+
         <list name="Rheology">
         <!-- Viscous law  -->   <param> viscSRTdislocation_wet_olivine_Hirth2003 </param>
         <!-- Melt modifier -->  <param> viscMelt_mantle_Hirth2003 </param>
         <!-- Brittle law  -->   <param> yield_litho_mantle_Rey2010 </param>
-        <!-- Stress limiter --> <param> stressLimiter_vonmises_300MPa </param> 
-        <!-- Visc limiter -->   <param> viscosityLimiter </param> 
+        <!-- Stress limiter --> <param> stressLimiter_simple_300MPa </param>
+        <!-- Visc limiter -->   <param> viscosityLimiter </param>
         </list>
     </struct>
 
@@ -586,40 +586,40 @@
         <param name="LatentHeatFusionProperty"> latentHeat_mantle </param>
 
         <param name="SurfaceProcesses"> erosion_threshold </param>
-        
+
         <list name="Rheology">
         <!-- Viscous law  -->   <param> viscSRTdislocation_wet_olivine_Hirth2003 </param>
         <!-- Melt modifier -->  <param> viscMelt_mantle_Hirth2003 </param>
         <!-- Brittle law  -->   <param> yield_litho_mantle_Rey2010 </param>
-        <!-- Stress limiter --> <param> stressLimiter_vonmises_300MPa </param> 
-        <!-- Visc limiter -->   <param> viscosityLimiter </param> 
+        <!-- Stress limiter --> <param> stressLimiter_simple_300MPa </param>
+        <!-- Visc limiter -->   <param> viscosityLimiter </param>
         </list>
     </struct>
 
-    
+
 
     <!-- IMPORTANT NOTE: If you are using the Isostasy function (which is ON by default)
        then a few rules apply:
        - There can only be ONE material across the entire base of the model.
        - You must let the Isostasy function know which material that is. To
-        do so, goto the bottom of the lmrVelocityBoundaries.xml file, and 
+        do so, goto the bottom of the lmrVelocityBoundaries.xml file, and
         put the material name into the "rhoZeroMaterial" param.
-        
+
        For example, say you have a model that includes the asthenosphere as a seperate
        material:
        ___________________________________________
        |                                         |
-       |                Upper Crust              |       
+       |                Upper Crust              |
        |_________________________________________|
        |                                         |
-       |                Lower Crust              |       
+       |                Lower Crust              |
        |_________________________________________|
        |                                         |
        |                Litho Mantle             |
        |                                         |
-       |                                         |                    
+       |                                         |
        |_________________________________________|
-       |                Asthenosphere            |                    
+       |                Asthenosphere            |
        |_________________________________________|
 
        Then you will need to go to lmrVelocityBoundaries.xml, and change

@@ -1,27 +1,27 @@
 <?xml version="1.0"?>
 <StGermainData xmlns="http://www.vpac.org/StGermain/XML_IO_Handler/Jun2003">
-    
-    <param name="gravity" units="m*s^-2"> 9.81 </param>    
-    
+
+    <param name="gravity" units="m*s^-2"> 9.81 </param>
+
     <!-- === Basic numerical controls ========================= -->
     <param name="particlesPerCell"> 40 </param>
     <param name="courantFactor"> 0.5 </param>
     <!-- ====================================================== -->
-    
+
     <!-- === Timestep controls ================================ -->
         <!-- timestepFactor = scales the timestep (best not to go >1). If your model "wobbles" or
                               has flickering in strain-rate or viscosity, try reducing this value.
              maxTimeStepSize = if the dt is > than this, cut it back.
-             DtGranularity = cut the dt back to the nearest factor of this 
+             DtGranularity = cut the dt back to the nearest factor of this
                              WARNING! Using a high DtGranularity can result in timesteps of 0!
                              If this happens, try reducing or removing this number -->
-    <param name="timestepFactor"> 0.5 </param> 
+    <param name="timestepFactor"> 0.5 </param>
     <param name="maxTimeStepSize" units="yr"> 1e7 </param>
     <!--param name="DtGranularity" units="yr"> 1000 </param-->
     <!-- ===<=================================================== -->
-    
-    
-    
+
+
+
     <!-- === Output controls ================================== -->
     <list name="FieldVariablesToCheckpoint" mergeType="merge">
         <!-- === Must be checkpointed for model restart ===== -->
@@ -32,17 +32,17 @@
         <param> StrainRateField </param>
         <param> StressField </param>
         <!-- ================================================ -->
-         
-        <param> StrainRateInvariantField </param>
-        <param> StressInvariantField </param>   
-        <param> cumulativeTotalStrainField </param>
 
-        <param> TotalBrittleStrainField </param>
-        <param> BrittleStrainIncrementField </param>
+        <param> StrainRateInvariantField </param>
+        <param> StressInvariantField </param>
+
+        <param> isBrittle </param>
+        <param> BrittleTotalStrainField </param>
+        <param> BrittleStrainRateField </param>
         <param> ViscosityField </param>
         <param> MaterialIndexField </param>
     </list>
-    
+
     <!-- === Basic Visualisation === -->
     <include>Underworld/Viewports/ParticleMaterialVP.xml</include>
     <include>Underworld/Viewports/TemperatureVP.xml</include>
@@ -52,22 +52,22 @@
             <list name="Viewport">
                 <param>TemperatureVP</param>
                 <param>ParticleMaterialVP </param>
-            </list> 
+            </list>
         </struct>
     </struct>
     <!-- =========================== -->
     <!-- ====================================================== -->
-    
-    
-    
-    
-    
+
+
+
+
+
     <struct name="components" mergeType="merge">
     <!-- === Defining fundamental forces ========================================== -->
-        
+
         <!-- ====== Buoyancy forces ============================== -->
         <struct name="buoyancyFunc">
-            <!-- buoyancyFunc calculates the force (F = ma) of all the materials in the model domain. 
+            <!-- buoyancyFunc calculates the force (F = ma) of all the materials in the model domain.
                  Every particle will be processed as such, using it's value for DensityProperty. -->
             <param name="Type">Ppc_a_Vector</param>
             <param name="Alpha">DensityProperty</param>
@@ -75,7 +75,7 @@
             <param name="vj" units="m*s^-2">-9.81</param>
             <param name="vk">0</param>
         </struct>
-        
+
         <struct name="buoyancyForceTerm" mergeType="replace">
             <!-- Hook in our defined buoyancyFunc into the fundamental UW equations,
                  with buoyancy being defined as a body force (mom_force). -->
@@ -86,9 +86,9 @@
             <param name="Manager">default_ppcManager</param>
         </struct>
         <!-- ====== End of Buoyancy forces ======================= -->
-        
-        
-        <!-- ====== Thermal Energy =============================== -->   
+
+
+        <!-- ====== Thermal Energy =============================== -->
         <struct name="sourceTerms_thermalEqn">
             <param name="Type">Ppc_Operation</param>
             <param name="Operation"> + </param>
@@ -96,11 +96,9 @@
                 <!-- Add or remove sources of thermal energy via this operation.
                      NOTE: having just a single term is OK. -->
                 <param> radiogenicHeating </param>
-                <param> meltFractionHeating </param>
             </list>
         </struct>
-        
-        
+
         <!-- radiogenicHeating = radiogenic_heat_production / (heat_capacity * density ) -->
         <struct name="radiogenicHeating">
             <param name="Type">Ppc_Operation</param>
@@ -118,26 +116,12 @@
                 <param>CpProperty</param>
             </list>
         </struct>
-        
-        
-        <!-- meltFractionHeating = -1 * latent_heat_fusion * delta_melt_fraction / (heat_capacity * delta_time ) -->
-        <struct name="meltFractionHeating">
-            <param name="Type">Ppc_MeltHeating</param>
-            <param name="CpLabel">CpProperty</param>
-            <param name="LatentHeatFusionLabel">LatentHeatFusionProperty</param>
-            <param name="MeltFractionLabel">MeltFractionProperty</param>
-        </struct> 
-        
-        <!-- NOTE: The radiogenic heat was defined using an equation built in XML Ppc_Operations. meltFractionHeating
-                   can be done the same way, but a) it takes up a lot of space, and b) a Ppc function (Ppc_MeltHeating)
-                   has already been built into Underworld to do this for us. -->
-
 
         <struct name="thermalEqn">
             <!-- This struct allows additional energy sources into the system, for
-                 example: radiogenic heating, or some other user computed function, etc. 
-                 The sources of energy are incorporated via the sourceTerms_thermalEqn 
-                 struct defined above.-->                 
+                 example: radiogenic heating, or some other user computed function, etc.
+                 The sources of energy are incorporated via the sourceTerms_thermalEqn
+                 struct defined above.-->
             <param name="Type">VectorAssemblyTerm_NA__F</param>
             <param name="ForceVector">residual</param>
             <param name="functionLabel">sourceTerms_thermalEqn</param>
@@ -179,24 +163,24 @@
             <param name="DiffusivityLabel">DiffusivityProperty</param>
         </struct>
         <!-- ====== End of Thermal Energy ======================== -->
-        
+
     <!-- === End of fundamental forces definitions ========================================== -->
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <!-- === The nitty-gritty numerics (best to leave alone if unsure) ====================== -->
-        
+
         <!-- The Ppc Manager-->
         <struct name="default_ppcManager">
             <param name="Type">PpcManager</param>
@@ -205,7 +189,7 @@
             <param name="Scaling">default_scaling</param>
             <param name="Mesh"> linearMesh </param>
             <param name="Gravity"> gravity </param>
-            
+
             <!-- The "Properties" list defines what MaterialExtensions the model has.
                  Each property must have a name, and every material defined must reference it.
                  MaterialExtensions also have a number of optional storage and calculation options:
@@ -224,7 +208,7 @@
                     <param name="StoreOnMesh"> True </param>
                     <param name="StoreNLOnParticles"> True </param>
                 </struct>
-                
+
                 <!-- === Thermal properties ============== -->
                 <struct>
                     <param name="PropertyName"> DiffusivityProperty </param>
@@ -239,40 +223,9 @@
                     <param name="PropertyName"> RadiogenicHeatProductionProperty </param>
                 </struct>
                 <!-- ===================================== -->
-                
-                <!-- === Melt properties ================= -->
-                <struct>
-                    <param name="PropertyName"> MeltFractionProperty </param>
-                    <param name="StoreOnParticles"> True </param>
-                    <param name="StoreOnMesh"> True </param>
-                    <param name="StorePreviousValue"> True </param>
-                    <param name="StoreNLOnParticles"> True </param>
-                </struct>
-                <struct>
-                    <param name="PropertyName"> MeltFractionLimitProperty </param>
-                </struct>
-                <struct>
-                    <param name="PropertyName"> MeltExpansionProperty </param>
-                </struct>
-                <struct>
-                    <param name="PropertyName"> LiquidusProperty </param>
-                    <param name="StoreOnMesh"> False </param>
-                    <param name="StoreNLOnParticles"> True </param>
-                </struct>
-                <!-- NOTE: Since both the liquidus and the solidus have a pressure
-                           dependency, they must use the StoreNLOnParticles option. -->
-                <struct>
-                    <param name="PropertyName"> SolidusProperty </param>
-                    <param name="StoreOnMesh"> False </param>
-                    <param name="StoreNLOnParticles"> True </param> 
-                </struct>
-                <struct>
-                    <param name="PropertyName"> LatentHeatFusionProperty </param>
-                </struct>
-                <!-- ====================================== -->
             </list>
         </struct>
-        
+
         <!-- Allow PPC to access variables -->
         <struct name="temperature_ppc_wrapper">
             <param name="Type">Ppc_Variable</param>
@@ -282,12 +235,20 @@
             <param name="Type">Ppc_Variable</param>
             <param name="FieldVariable">PressureField</param>
         </struct>
-        
-        
+
+
         <!-- === User-defined fields ============================= -->
             <!-- Swarm variables are interpolated to the mesh
                  using SwarmVariableField -->
-        <struct name="TotalBrittleStrainField">
+        <struct name="isBrittle">
+            <param name="Type">SwarmVariableField</param>
+            <param name="swarmVariable">materialSwarm-HasYielded</param>
+            <param name="Mesh">linearMesh</param>
+            <param name="MaterialSwarm">materialSwarm</param>
+            <param name="Swarm">picIntegrationPoints</param>
+            <param name="Context">context</param>
+        </struct>
+        <struct name="BrittleTotalStrainField">
             <param name="Type">SwarmVariableField</param>
             <param name="swarmVariable">materialSwarm-PostFailureWeakening</param>
             <param name="Mesh">linearMesh</param>
@@ -295,7 +256,7 @@
             <param name="Swarm">picIntegrationPoints</param>
             <param name="Context">context</param>
         </struct>
-        <struct name="BrittleStrainIncrementField">
+        <struct name="BrittleStrainRateField">
             <param name="Type">SwarmVariableField</param>
             <param name="swarmVariable">materialSwarm-PostFailureWeakeningIncrement</param>
             <param name="Mesh">linearMesh</param>
@@ -303,6 +264,8 @@
             <param name="Swarm">picIntegrationPoints</param>
             <param name="Context">context</param>
         </struct>
+        <!-- Disabled due to bugs -->
+        <!--
         <struct name="cumulativeTotalStrainField">
             <param name="Type">SwarmVariableField</param>
             <param name="swarmVariable">materialSwarm-cumulativeTotalStrain</param>
@@ -311,11 +274,12 @@
             <param name="Swarm">picIntegrationPoints</param>
             <param name="Context">context</param>
         </struct>
+        -->
         <!-- ====================================================== -->
-        
-        
+
+
         <!-- === Scaling options ============================= -->
-            <!-- If any of these coefficients are not equal to 1.0, then you must 
+            <!-- If any of these coefficients are not equal to 1.0, then you must
                  ensure all your values have units assigned.-->
         <struct name="default_scaling">
             <param name="Type">Scaling</param>
@@ -326,8 +290,8 @@
             <param name="electricCurrentCoefficient_amperes">1</param>
         </struct>
         <!-- ================================================ -->
-        
-        
+
+
         <!-- === Solver details ============================= -->
         <struct name="weights" mergeType="replace">
             <!-- === Most modified ============== -->
@@ -346,23 +310,23 @@
             <param name="MaterialPointsSwarm"> materialSwarm </param>
             <param name="splitInInterfaceCells"> False </param>
         </struct>
-        
+
         <struct name="uzawa" mergeType="merge">
             <param name="monitor" mergeType="replace">True</param>
             <param name="tolerance" mergeType="replace">@linearTolerance</param>
             <param name="maxIterations" mergeType="replace">@linearMaxIterations</param>
             <param name="minIterations" mergeType="replace">@linearMinIterations</param>
         </struct>
-        
+
         <struct name="stokesEqn" mergeType="merge">
             <param name="nonLinearMinIterations" mergeType="replace">@nonLinearMinIterations</param>
             <param name="makeConvergenceFile" mergeType="replace"> true </param>
             <param name="killNonConvergent" mergeType="replace"> true </param>
         </struct>
-        
+
         <!-- ============================================== -->
-        
-        
+
+
         <!-- === Implementation for flux BCs =============== -->
         <struct name="borderCellLayout">
             <param name="Type">SingleCellLayout</param>
@@ -399,23 +363,23 @@
             </list>
         </struct>
         <!-- ============================================== -->
-        
+
         <!-- === Mesh parameters ========================== -->
         <struct name="linearMeshGenerator" mergeType="merge">
             <!-- Forces the mesh to be regular -->
-            <param name="regular" mergeType="replace">True</param>            
+            <param name="regular" mergeType="replace">True</param>
         </struct>
         <!-- ============================================== -->
-        
+
     </struct>
-    
+
     <list name="plugins" mergeType="merge">
         <struct>
             <!-- The pressure calibration plugin is used to ensure
                  Underworld uses real-world pressure values (appr-
                  oximately). Stokes flow only has a pressure grad-
-                 iant term, so the calibration plugin is used to 
-                 ensure it is properly offset. 
+                 iant term, so the calibration plugin is used to
+                 ensure it is properly offset.
                  The plugin calculates the average pressure across
                  the top of the model, and removes that value from
                  everywhere in the model. -->
@@ -441,56 +405,56 @@
             <param name="Context"> context </param>
         </struct>
     </list>
-    
+
     <!-- === Numerical controls (that probably shouldn't be touched) ==== -->
-    <param name="shadowDepth"> 1 </param>             
-    <param name="allowUnbalancing"> True </param>    
+    <param name="shadowDepth"> 1 </param>
+    <param name="allowUnbalancing"> True </param>
     <param name="timeIntegratorOrder"> 2 </param>
     <!-- ================================================================ -->
-    
+
     <!-- === Mesh parameters ======================= -->
     <param name="VerticalAxis"> 1 </param>
     <!-- =========================================== -->
-    
-    
-    
-    
-    
+
+
+
+
+
     <!-- NOTE: All of the following values are ALWAYS overwritten by lmrRunModel.py
                They have been relegated to the bottom of this file because they are
                should never have to be directly modified by any user. -->
     <!-- === Mesh parameters ======================= -->
     <!-- These values are always overwritten -->
     <param name="dim"> 2 </param>
-    <param name="elementResI"> 208 </param> 
+    <param name="elementResI"> 208 </param>
     <param name="elementResJ"> 112 </param>
     <param name="elementResK"> 0 </param>
     <!-- =========================================== -->
-    
+
     <!-- === Numerical tolerance values ============ -->
     <!-- These values are always overwritten -->
     <param name="linearTolerance"> 1e-5 </param>
     <param name="linearMinIterations"> 10 </param>
     <param name="linearMaxIterations"> 15000 </param>
-    
+
     <param name="nonLinearTolerance"> 1e-3 </param>
     <param name="nonLinearMinIterations"> 10 </param>
     <param name="nonLinearMaxIterations"> 500 </param>
     <!-- =========================================== -->
-    
-    
+
+
     <!-- === Output controls ====================== -->
     <!-- These values are always overwritten -->
     <param name="outputPath"> ./model </param>
     <param name="checkpointEvery"> 1000000000 </param>
     <param name="dumpEvery">       1000000000 </param>
     <param name="checkpointAtTimeInc" units="yr"> 1e10 </param>
-    
+
     <!-- === Model timing  ======================== -->
     <!-- These values are always overwritten -->
     <param name="maxTimeSteps"> 2000000 </param>
-    <param name="end" units="yr"> 1e12 </param> 
+    <param name="end" units="yr"> 1e12 </param>
     <!-- =========================================== -->
-    
-    
+
+
 </StGermainData>

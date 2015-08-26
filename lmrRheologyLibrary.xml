@@ -3,19 +3,19 @@
     <struct name="components" mergeType="merge">
         <!-- ========================================================================= -->
         <!-- === Rheology library ==================================================== -->
-        <!-- 
+        <!--
                 The rheology library is a collection of pre-defined rheological parameters, including:
                     - viscous and brittle flow laws,
                     - densities,
                     - thermal properties (radiogenic heating, diffusivity, etc.),
-                 
+
                 The best way to use this document is to:
                    1) Browse through the rheological parameters listed here, and pick the one you want to use,
                    2) Copy the name of the property,
                    3) Open your lmrMaterials.xml file, and find the material you are working on (for example, "lower_crust"),
                    4) Replace or create the name of the rheological property in the material definition.
-                Looking through the default lmrMaterials.xml that comes with the LMR should make this obvious. 
-                
+                Looking through the default lmrMaterials.xml that comes with the LMR should make this obvious.
+
                 The structure of the library is as such:
                     - Densities,
                     - Thermal properties,
@@ -29,49 +29,49 @@
                         - Brittle laws
                             - Drucker-Prager
                             - Stress Limiters
-                         
+
                  The document is also grouped into Earth-like layers: upper-crust, lower-crust, mantle, etc.
-                 
+
                  The naming format attempts to follow this style:
                         <category>_<description>_<author and year>
                  E.g. Dry Olivine dislocation creep viscous flow law from Korenaga and Karato, 2008 becomes
                         viscSRTdislocation_dry_olivine_Korenaga2008
-                        
-                 Clearly this is not always an option, but names are generally as descriptive and concise as 
+
+                 Clearly this is not always an option, but names are generally as descriptive and concise as
                  possible. Rheologies with no references are derived from the authors.
-                 
+
                  These rheologies are purely meant to provide a collection of commonly used rheologies from the
                  literature - they are not the only option available. Please feel free to add or build your own
                  and add it to the collection.
         -->
-        
-        
-        
-        
-        
-        
+
+
+
+
+
+
         <!-- ======================================================================================= -->
         <!-- === Densities ========================================================================= -->
         <!-- NOTE: The LinearDensity function calculates:
                    rho = rhoRef * (1 + (beta * deltaP) - (alpha * deltaT))
                    where deltaP is the difference between P and the reference P, and deltaT
-                   is the difference between T and the reference T. If either one is not 
+                   is the difference between T and the reference T. If either one is not
                    specified, it's term is ignored.
-                   
-                   The Ppc_LinearDensityMelt function calculates the same as above, with an 
+
+                   The Ppc_LinearDensityMelt function calculates the same as above, with an
                    extra term:
-                   rho = rhoRef * (1 + (beta * deltaP) - (alpha * deltaT)  
+                   rho = rhoRef * (1 + (beta * deltaP) - (alpha * deltaT)
                                   - ( meltFraction * meltDensityChange ) )
         -->
-        
+
         <!-- === Upper crustal ============== -->
-        <struct name="densTemp_sediment">            
+        <struct name="densTemp_sediment">
             <param name="Type">Ppc_LinearDensity</param>
             <param name="ReferenceDensity" units="kg*m^-3">2500</param>
-            
+
             <param name="Temperature"> temperature_ppc_wrapper </param>
             <param name="ReferenceTemperature" units="K"> 273.15 </param>
-            <param name="ThermalExpansivity"> ThermalExpansivityProperty </param>            
+            <param name="ThermalExpansivity"> ThermalExpansivityProperty </param>
             <!-- Pressure dependent densities can be used by adding
                  the following params. -->
             <!--
@@ -80,150 +80,150 @@
             <param name="Compressibility"> <fill in your pressure property> </param>
             -->
         </struct>
-        
+
         <struct name="densMelt_sediment">
             <param name="Type">Ppc_LinearDensityMelt</param>
             <param name="ReferenceDensity" units="kg*m^-3"> 2500 </param>
-            
+
             <param name="Temperature"> temperature_ppc_wrapper </param>
             <param name="ReferenceTemperature" units="K"> 273.15 </param>
             <param name="ThermalExpansivity"> ThermalExpansivityProperty </param>
-            
+
             <param name="MeltDensityChange"> MeltExpansionProperty </param>
             <param name="MeltFraction"> MeltFractionProperty </param>
         </struct>
-        
+
         <struct name="densTemp_continental_upper_crust">
             <param name="Type">Ppc_LinearDensity</param>
             <param name="ReferenceDensity" units="kg*m^-3"> 2800 </param>
-            
-            <param name="Temperature"> temperature_ppc_wrapper </param>            
+
+            <param name="Temperature"> temperature_ppc_wrapper </param>
             <param name="ReferenceTemperature" units="K"> 273.15 </param>
             <param name="ThermalExpansivity"> ThermalExpansivityProperty </param>
         </struct>
-        
+
         <struct name="densMelt_continental_upper_crust">
             <param name="Type">Ppc_LinearDensityMelt</param>
             <param name="ReferenceDensity" units="kg*m^-3"> 2800 </param>
-            
+
             <param name="Temperature"> temperature_ppc_wrapper </param>
             <param name="ReferenceTemperature" units="K"> 273.15 </param>
             <param name="ThermalExpansivity"> ThermalExpansivityProperty </param>
-            
+
             <param name="MeltDensityChange"> MeltExpansionProperty </param>
             <param name="MeltFraction"> MeltFractionProperty </param>
         </struct>
-        
+
         <struct name="densTemp_oceanic_crust">
             <param name="Type">Ppc_LinearDensity</param>
             <param name="ReferenceDensity" units="kg*m^-3"> 2900 </param>
-            
-            <param name="Temperature"> temperature_ppc_wrapper </param>            
+
+            <param name="Temperature"> temperature_ppc_wrapper </param>
             <param name="ReferenceTemperature" units="K"> 273.15 </param>
             <param name="ThermalExpansivity"> ThermalExpansivityProperty </param>
         </struct>
-        
+
         <struct name="densMelt_oceanic_crust">
             <param name="Type">Ppc_LinearDensityMelt</param>
             <param name="ReferenceDensity" units="kg*m^-3"> 2900 </param>
-            
+
             <param name="Temperature"> temperature_ppc_wrapper </param>
             <param name="ReferenceTemperature" units="K"> 273.15 </param>
             <param name="ThermalExpansivity"> ThermalExpansivityProperty </param>
-            
+
             <param name="MeltDensityChange"> MeltExpansionProperty </param>
             <param name="MeltFraction"> MeltFractionProperty </param>
         </struct>
-        
+
         <struct name="densTemp_heavy_oceanic_crust">
             <param name="Type">Ppc_LinearDensity</param>
             <param name="ReferenceDensity" units="kg*m^-3"> 3200 </param>
-            
-            <param name="Temperature"> temperature_ppc_wrapper </param>            
+
+            <param name="Temperature"> temperature_ppc_wrapper </param>
             <param name="ReferenceTemperature" units="K"> 273.15 </param>
             <param name="ThermalExpansivity"> ThermalExpansivityProperty </param>
         </struct>
-        
+
         <struct name="densMelt_heavy_oceanic_crustt">
             <param name="Type">Ppc_LinearDensityMelt</param>
             <param name="ReferenceDensity" units="kg*m^-3"> 3200 </param>
-            
+
             <param name="Temperature"> temperature_ppc_wrapper </param>
             <param name="ReferenceTemperature" units="K"> 273.15 </param>
             <param name="ThermalExpansivity"> ThermalExpansivityProperty </param>
-            
+
             <param name="MeltDensityChange"> MeltExpansionProperty </param>
             <param name="MeltFraction"> MeltFractionProperty </param>
         </struct>
         <!-- ================================ -->
-        
-        
-        <!-- === Lower crustal ============== -->              
+
+
+        <!-- === Lower crustal ============== -->
         <struct name="densTemp_continental_lower_crust">
             <param name="Type">Ppc_LinearDensity</param>
             <param name="ReferenceDensity" units="kg*m^-3"> 2900 </param>
-            
+
             <param name="Temperature"> temperature_ppc_wrapper </param>
             <param name="ReferenceTemperature" units="K"> 273.15 </param>
             <param name="ThermalExpansivity"> ThermalExpansivityProperty </param>
         </struct>
-        
+
         <struct name="densMelt_continental_lower_crust">
             <param name="Type">Ppc_LinearDensityMelt</param>
             <param name="ReferenceDensity" units="kg*m^-3"> 2900 </param>
-            
+
             <param name="Temperature"> temperature_ppc_wrapper </param>
             <param name="ReferenceTemperature" units="K"> 273.15 </param>
             <param name="ThermalExpansivity"> ThermalExpansivityProperty </param>
-            
+
             <param name="MeltDensityChange"> MeltExpansionProperty </param>
             <param name="MeltFraction"> MeltFractionProperty </param>
         </struct>
         <!-- ================================ -->
-        
-        
-        <!-- === Lithospheric Mantle ======== -->  
+
+
+        <!-- === Lithospheric Mantle ======== -->
         <struct name="densTemp_continental_litho_mantle">
             <param name="Type">Ppc_LinearDensity</param>
             <param name="ReferenceDensity" units="kg*m^-3"> 3300 </param>
-            
+
             <param name="Temperature"> temperature_ppc_wrapper </param>
             <param name="ReferenceTemperature" units="K"> 273.15 </param>
             <param name="ThermalExpansivity"> ThermalExpansivityProperty </param>
         </struct>
-        
+
         <struct name="densMelt_continental_litho_mantle">
             <param name="Type">Ppc_LinearDensityMelt</param>
             <param name="ReferenceDensity" units="kg*m^-3"> 3300 </param>
-            
+
             <param name="Temperature"> temperature_ppc_wrapper </param>
             <param name="ReferenceTemperature" units="K"> 273.15 </param>
             <param name="ThermalExpansivity"> ThermalExpansivityProperty </param>
-            
+
             <param name="MeltDensityChange"> MeltExpansionProperty </param>
             <param name="MeltFraction"> MeltFractionProperty </param>
         </struct>
         <!-- ================================ -->
-        
-        
+
+
         <!-- === Asthenospheric ============= -->
         <struct name="densTemp_asthenosphere">
             <param name="Type">Ppc_LinearDensity</param>
             <param name="ReferenceDensity" units="kg*m^-3"> 3360 </param>
-            
+
             <param name="Temperature"> temperature_ppc_wrapper </param>
             <param name="ReferenceTemperature" units="K"> 273.15 </param>
             <param name="ThermalExpansivity"> ThermalExpansivityProperty </param>
         </struct>
-        
+
         <struct name="densMelt_asthenosphere">
             <param name="Type">Ppc_LinearDensityMelt</param>
             <param name="ReferenceDensity" units="kg*m^-3"> 3360 </param>
-            
+
             <param name="Temperature"> temperature_ppc_wrapper </param>
             <param name="ReferenceTemperature" units="K"> 273.15 </param>
             <param name="ThermalExpansivity"> ThermalExpansivityProperty </param>
-            
+
             <param name="MeltDensityChange"> MeltExpansionProperty </param>
             <param name="MeltFraction"> MeltFractionProperty </param>
         </struct>
@@ -243,34 +243,34 @@
 
         <!-- ======================================================================================= -->
         <!-- === Thermal Properties ================================================================ -->
-        
+
         <!-- NOTE: Certain parameters are fairly simialr across most materials, so we can approximate
                    that they are all the same. To do this, we just define constants, which are called
                    "global_<parameter>", and apply them to multiple materials in lmrMaterials.xml. -->
-        
+
         <struct name="global_diffusivity">
             <param name="Type">Ppc_Constant</param>
             <param name="Value" units="m*m/s"> 1e-6 </param>
         </struct>
-        
+
         <struct name="global_cp">
             <!-- Heat capacity -->
             <param name="Type">Ppc_Constant</param>
             <param name="Value" units="J/(K*kg)"> 1000 </param>
         </struct>
-        
+
         <struct name="global_expansivity">
             <!-- Thermal expansivity -->
             <param name="Type">Ppc_Constant</param>
             <param name="Value" units="K^-1"> 3e-5 </param>
         </struct>
-        
+
         <struct name="latentHeat_crust">
             <!-- Latent heat of fusion -->
             <param name="Type">Ppc_Constant</param>
             <param name="Value" units="kJ*kg^-1"> 300.0 </param>
         </struct>
-        
+
         <struct name="latentHeat_mantle">
             <!-- Latent heat of fusion -->
             <param name="Type">Ppc_Constant</param>
@@ -283,22 +283,22 @@
                    the system. -->
         <struct name="radiogenic_upper_crust">
             <!-- Derived from Hasterok and Chapman, EPSL, 2011 -->
-            <param name="Type">Ppc_Constant</param>            
+            <param name="Type">Ppc_Constant</param>
             <param name="Value" units="W/(m*m*m)"> 1.2e-6 </param>
         </struct>
-        
+
         <struct name="radiogenic_lower_crust">
             <!-- Derived from Hasterok and Chapman, EPSL, 2011 --><!-- Derived from Hasterok and Chapman, EPSL, 2011 -->
             <param name="Type">Ppc_Constant</param>
             <param name="Value" units="W/(m*m*m)"> 0.6e-6 </param>
         </struct>
-        
+
         <struct name="radiogenic_lithospheric_mantle">
             <!-- Derived from Hasterok and Chapman, EPSL, 2011 --><!-- Derived from Hasterok and Chapman, EPSL, 2011 -->
             <param name="Type">Ppc_Constant</param>
             <param name="Value" units="W/(m*m*m)"> 0.02e-6 </param>
         </struct>
-        
+
         <struct name="radiogenic_no_heating">
             <param name="Type">Ppc_Constant</param>
             <param name="Value" units="W/(m*m*m)"> 0.0 </param>
@@ -307,7 +307,6 @@
 
         <!-- === End of Thermal Properties ========================================================= -->
         <!-- ======================================================================================= -->
-        
 
 
 
@@ -315,23 +314,24 @@
 
 
 
-    
+
+
 
         <!-- ======================================================================================= -->
         <!-- === Partial Melt Functions ============================================================ -->
-        
+
         <!-- The fraction of density decrease due to melting -->
         <struct name="melt_crustal_density_decrease">
             <param name="Type"> Ppc_Constant </param>
             <param name="Value"> 0.13 </param>
         </struct>
-        
+
         <struct name="melt_mantle_density_decrease">
             <param name="Type"> Ppc_Constant </param>
             <param name="Value"> 0.13 </param>
         </struct>
-        
-        
+
+
         <!-- NOTE: The following solidus/liquidus functions are defined as:
                    T = term0 + term1*p + term2*p^2 + term3*p^3
                    Where p is Pressure. -->
@@ -351,7 +351,7 @@
             <param name="term2"> 1.6e-16 </param>
             <param name="term3"> 0.0 </param>
         </struct>
-        
+
         <struct name="melt_mantle_solidus">
             <param name="Type"> Ppc_Melt_Polynomial </param>
             <param name="Pressure"> pressure_ppc_wrapper </param>
@@ -368,14 +368,14 @@
             <param name="term2"> -3.12e-18 </param>
             <param name="term3"> 0.0 </param>
         </struct>
-        
+
         <!-- NOTE: The meltFraction functions are defined as:
                    supersolidus = ( ( T - solidusT ) / ( liquidusT - solidusT ) ) - 0.5
                    meltFraction = 0.5 + supersolidus + ( supersolidus^2 -0.25 ) *
                                                        ( 0.4256 + 2.988 * supersolidus )
-                   As per McKenzie and Bickle, 1988. 
+                   As per McKenzie and Bickle, 1988.
 
-                   This has been modified as part of the EarthByte_Additions toolbox, so 
+                   This has been modified as part of the EarthByte_Additions toolbox, so
                    the melt fraction can be artificially limited. -->
         <struct name="melt_fraction">
             <param name="Type">Ppc_PartialMelt_Limited</param>
@@ -438,7 +438,7 @@
 
         <!-- === Temperature dependent =============================== -->
         <!-- NOTE: Underworld uses this equation for FrankKamenetskii:
-                viscosity = eta0 * exp( -theta * temperature ) 
+                viscosity = eta0 * exp( -theta * temperature )
             -->
         <struct name="viscTemp_upper_crust">
             <param name="Type">FrankKamenetskii</param>
@@ -446,14 +446,14 @@
             <param name="eta0" units="Pa*s">5.35e23</param>
             <param name="theta">0.00632</param>
         </struct>
-        
+
         <struct name="viscTemp_weak_lower_crust">
             <param name="Type">FrankKamenetskii</param>
             <param name="TemperatureField">TemperatureField</param>
             <param name="eta0" units="Pa*s">5.35e22</param>
             <param name="theta">0.00632</param>
         </struct>
-        
+
         <struct name="viscTemp_strong_litho_mantle">
             <param name="Type">FrankKamenetskii</param>
             <param name="TemperatureField">TemperatureField</param>
@@ -461,15 +461,15 @@
             <param name="theta">0.0045</param>
         </struct>
         <!-- ========================================================= -->
-        
-        
+
+
         <!-- === Strain-rate/temperature dependent  ================== -->
         <!-- NOTE: Underworld uses this equation for HKViscousCreep:
 
             OUT OF DATE!
 
-            viscosity = 0.5 * pow( A, -1.0/n ) * 
-                        pow( eII, 1.0/n -1.0 ) * 
+            viscosity = 0.5 * pow( A, -1.0/n ) *
+                        pow( eII, 1.0/n -1.0 ) *
                         pow( d, p/n ) * pow( fH2O, -r/n ) *
                         exp( (E + P*V) / ( n * R * T)
                 where:
@@ -501,7 +501,7 @@
             <param name="ActivationEnergy" units="kJ/mol">190</param>
             <param name="ActivationVolume" units="m^3/mol"> 0.0</param>
         </struct>
-        
+
         <struct name="viscSRTdislocation_dry_quartz_Koch1983">
             <!-- Dry quartz: Koch, PhD thesis, 1983-->
             <param name="Type">HKViscousCreep</param>
@@ -516,7 +516,7 @@
             <param name="ActivationEnergy" units="kJ/mol">149</param>
             <param name="ActivationVolume" units="m^3/mol"> 0.0</param>
         </struct>
-        
+
         <struct name="viscSRTdislocation_wet_quartz_Kronenberg1984">
             <!-- Wet quartz: Kronenberg and Tullis, JGR, 1984-->
             <param name="Type">HKViscousCreep</param>
@@ -546,8 +546,8 @@
             <param name="ActivationEnergy" units="kJ/mol">135</param>
             <param name="ActivationVolume" units="m^3/mol"> 0.0</param>
         </struct>
-        
-        
+
+
         <!-- === Lower crustal ====== -->
         <struct name="viscSRTdislocation_dry_mafic_granulite_Wang2012">
             <!-- Dry Mafic granulite: Wang et al., EPSL 2012 -->
@@ -563,22 +563,22 @@
             <param name="ActivationEnergy" units="kJ/mol">244</param>
             <param name="ActivationVolume" units="m^3/mol"> 0.0</param>
         </struct>
-        
+
         <struct name="viscSRTdislocation_dry_diabase_Mackwell1998">
             <!-- Dry diabase : Mackwell et al., JGR 1998 -->
             <param name="Type">HKViscousCreep</param>
             <param name="StrainRateInvariantField">StrainRateInvariantField</param>
             <param name="TemperatureField">TemperatureField</param>
             <param name="PressureField">PressureField</param>
-            
+
             <param name="StressExponent">4.7</param>
             <param name="PreExponentialFactor" units="(MPa)^-4.7*s^-1">8</param>
             <param name="DefaultStrainRateInvariant" units="s^-1">1.0e-15</param>
-            
+
             <param name="ActivationEnergy" units="kJ/mol">485</param>
             <param name="ActivationVolume" units="m^3/mol"> 0.0</param>
-        </struct>    
-        
+        </struct>
+
         <struct name="viscSRTdislocation_wet_anorthite_Rybacki2000">
             <!--  Wet anorthite dislocation: Rybacki, JGR, 2000 -->
             <param name="Type">HKViscousCreep</param>
@@ -593,9 +593,9 @@
             <param name="ActivationEnergy" units="kJ/mol">356</param>
             <param name="ActivationVolume" units="m^3/mol"> 0.0</param>
         </struct>
-        
-        
-       
+
+
+
 
         <!-- === Lithospheric mantle ====== -->
         <struct name="viscSRTdislocation_wet_dunite_Brace1980">
@@ -612,7 +612,7 @@
             <param name="ActivationEnergy" units="kJ/mol">520</param>
             <param name="ActivationVolume" units="m^3/mol"> 0.0</param>
         </struct>
-        
+
         <struct name="viscSRTdislocation_dry_olivine_Korenaga2008">
             <!-- Dry Olivine : Korenaga and Karato, JGR 2008 -->
             <param name="Type">HKViscousCreep</param>
@@ -627,7 +627,7 @@
             <param name="ActivationEnergy" units="kJ/mol">610</param>
             <param name="ActivationVolume" units="m^3/mol"> 0.0</param>
         </struct>
-        
+
         <struct name="viscSRTdislocation_olivine_Kirby1987">
             <!-- Olivine : Kirby and Kronenberg, Review of Geophysics 1987 -->
             <param name="Type">HKViscousCreep</param>
@@ -644,13 +644,13 @@
         </struct>
 
         <struct name="viscSRTdislocation_diffusion_dry_olivine_Hirth2003">
-            <!-- Hirth and Kohlstedt, Geophysical Monograph 2003 
+            <!-- Hirth and Kohlstedt, Geophysical Monograph 2003
                  as per Brune, Nat. Commun. 2014 -->
             <param name="Type"> ViscousCreep </param>
             <param name="StrainRateInvariantField"> StrainRateInvariantField </param>
             <param name="TemperatureField"> TemperatureField </param>
             <param name="PressureField"> PressureField </param>
-            
+
             <param name="enable_limit_eta"> False </param>
             <param name="max_limit_eta" units="Pa*s"> 0 </param>
             <param name="min_limit_eta" units="Pa*s"> 0 </param>
@@ -714,13 +714,13 @@
         </struct>
 
         <struct name="viscSRTdislocation_diffusion_wet_olivine_Hirth2003">
-            <!-- Hirth and Kohlstedt, Geophysical Monograph 2003 
+            <!-- Hirth and Kohlstedt, Geophysical Monograph 2003
                  as per Brune, Nat. Commun. 2014 -->
             <param name="Type"> ViscousCreep </param>
             <param name="StrainRateInvariantField"> StrainRateInvariantField </param>
             <param name="TemperatureField"> TemperatureField </param>
             <param name="PressureField"> PressureField </param>
-            
+
             <param name="enable_limit_eta"> False </param>
             <param name="max_limit_eta" units="Pa*s"> 0 </param>
             <param name="min_limit_eta" units="Pa*s"> 0 </param>
@@ -803,6 +803,36 @@
             <param name="ActivationVolume" units="m^3/mol">0</param>
         </struct>
 
+        <struct name="viscSRTdislocation_dry_olivine_Petersen2010">
+            <!--Petersen et al., Science 2010 -->
+            <param name="Type">HKViscousCreep</param>
+            <param name="StrainRateInvariantField">StrainRateInvariantField</param>
+            <param name="TemperatureField">TemperatureField</param>
+            <param name="PressureField">PressureField</param>
+
+            <param name="StressExponent"> 3.5 </param>
+            <param name="PreExponentialFactor" units="Pa^-3.5*s^-1"> 2.41e-16 </param>
+            <param name="DefaultStrainRateInvariant" units="s^-1">1.0e-15</param>
+
+            <param name="ActivationEnergy" units="kJ/mol">540</param>
+            <param name="ActivationVolume" units="m^3/mol">15e-6</param>
+        </struct>
+
+        <struct name="viscSRTdiffusion_dry_olivine_Petersen2010">
+            <!--Petersen et al., Science 2010 -->
+            <param name="Type">HKViscousCreep</param>
+            <param name="StrainRateInvariantField">StrainRateInvariantField</param>
+            <param name="TemperatureField">TemperatureField</param>
+            <param name="PressureField">PressureField</param>
+
+            <param name="StressExponent"> 1.0 </param>
+            <param name="PreExponentialFactor" units="Pa^-1.0*s^-1"> 1.49e-9 </param>
+            <param name="DefaultStrainRateInvariant" units="s^-1">1.0e-15</param>
+
+            <param name="ActivationEnergy" units="kJ/mol">300</param>
+            <param name="ActivationVolume" units="m^3/mol">6e-6</param>
+        </struct>
+
 
 
 
@@ -819,7 +849,7 @@
             <param name="MeltFraction_UpperLimit">0.30</param>
             <param name="max_linear_decrease">1e-3</param>
         </struct>
-        
+
         <struct name="viscMelt_mantle_Hirth2003">
             <!-- Mantle melt : Hirth and Kohlstedt, Geophysical Monograph 2003 -->
             <param name="Type">MeltViscosity</param>
@@ -827,7 +857,7 @@
             <param name="MeltFraction_LowerLimit">0.03</param>
             <param name="MeltFraction_UpperLimit">0.08</param>
             <param name="max_linear_decrease">1e-2</param>
-        </struct>        
+        </struct>
         <!-- ========================================================= -->
 
         <!-- === End of Viscous Rheologies ========================================================= -->
@@ -862,7 +892,7 @@
         </struct>
         <!-- ================================================ -->
 
-        
+
         <!-- === Upper crustal ====== -->
         <struct name="yield_upper_crust_Rey2010">
             <!-- Upper-crust : Rey and Muller, Nature 2010 -->
@@ -877,7 +907,7 @@
             <param name="frictionCoefficient">0.577</param>
             <param name="frictionCoefficientAfterSoftening">0.1154</param>
         </struct>
-        
+
         <struct name="yield_upper_crust_Rey2014">
             <!-- Upper-crust : Rey, Coltice, and Flament;, Nature 2014 -->
             <param name="Type">DruckerPrager</param>
@@ -899,14 +929,14 @@
             <param name="MaterialPointsSwarm">materialSwarm</param>
             <param name="StrainRateField">StrainRateField</param>
             <param name="StrainWeakening">strainWeakening</param>
-            
+
             <param name="cohesion" units="MPa">40</param>
             <param name="cohesionAfterSoftening" units="MPa">4</param>
             <param name="frictionCoefficient">0.577</param>
             <param name="frictionCoefficientAfterSoftening">0.0577</param>
         </struct>
-        
-        
+
+
         <!-- === Lower crustal ====== -->
         <struct name="yield_lower_crust_Rey2010">
             <!-- Lower-crust : Rey and Muller, Nature 2010 -->
@@ -915,7 +945,7 @@
             <param name="MaterialPointsSwarm">materialSwarm</param>
             <param name="StrainRateField">StrainRateField</param>
             <param name="StrainWeakening">strainWeakening</param>
-            
+
             <param name="cohesion" units="MPa">20</param>
             <param name="cohesionAfterSoftening" units="MPa">4</param>
             <param name="frictionCoefficient">0.577</param>
@@ -949,8 +979,8 @@
             <param name="frictionCoefficient">0.288</param>
             <param name="frictionCoefficientAfterSoftening">0.0288</param>
         </struct>
-        
-        
+
+
         <!-- === Lithospheric ======= -->
         <struct name="yield_litho_mantle_Rey2010">
             <!-- Lithospheric mantle : Rey and Muller, Nature 2010 -->
@@ -993,6 +1023,18 @@
 
 
         <!-- === Stress limiters ======= -->
+        <struct name="stressLimiter_simple_300MPa">
+            <!-- Simple stress limiter
+                 Calculates sigma = 2*eta*epsilon,
+                 where sigma = stress, eta = visc, and epsilon = strain-rate.
+                 If sigma is > maxYieldStress, then the viscosity is set
+                 to maxYieldStress/(2*epsilon) -->
+            <param name="Type"> SimpleStressLimiter </param>
+            <param name="StrainRateInvariantField"> StrainRateInvariantField </param>
+            <param name="maxYieldStress" units="MPa"> 150 </param>
+            <param name="referenceStrainRate" units="s^-1"> 1e-15 </param>
+        </struct>
+
         <struct name="stressLimiter_vonmises_300MPa">
             <param name="Type"> VonMises </param>
             <param name="MaterialPointsSwarm"> materialSwarm </param>
@@ -1020,27 +1062,26 @@
             <param name="cohesion" units="MPa"> 250 </param>
         </struct>
 
-        <struct name="stresslimiter_vanHunen_300MPa">
+        <struct name="stressLimiter_vonmises_600MPa">
+            <param name="Type"> VonMises </param>
+            <param name="MaterialPointsSwarm"> materialSwarm </param>
+            <param name="StrainRateField"> StrainRateField </param>
+            <param name="strainRateSoftening"> False </param>
+
+            <param name="cohesion" units="MPa"> 300 </param>
+            <param name="minimumViscosity" units="Pa*s"> 1e+19 </param>
+        </struct>
+
+        <struct name="stressLimiter_vanHunen_300MPa">
             <!-- van Hunen et. al., Tectonophysics, 2002
-                 max viscosity = yieldStress * 
-                                 referenceStrainRate^(-1/powerlawIndex) * 
+                 max viscosity = yieldStress *
+                                 referenceStrainRate^(-1/powerlawIndex) *
                                  eII^((1/powerlawIndex)-1)
              -->
             <param name="Type"> vanHunenStressLimiter </param>
             <param name="StrainRateInvariantField"> StrainRateInvariantField </param>
             <param name="yieldStress" units="MPa"> 300 </param>
             <param name="powerlawIndex"> 5.0 </param>
-            <param name="referenceStrainRate" units="s^-1"> 1e-15 </param>
-        </struct>
-
-        <struct name="stresslimiter_simple_300MPa">
-            <!-- Simple stress limiter
-                 Calculates sigma = 2*eta*epsilon 
-                 If sigma is > maxYieldStress, then the viscosity is set
-                 to maxYieldStress/(2*epsilon) -->
-            <param name="Type"> SimpleStressLimiter </param>
-            <param name="StrainRateInvariantField"> StrainRateInvariantField </param>
-            <param name="maxYieldStress" units="MPa"> 150 </param>
             <param name="referenceStrainRate" units="s^-1"> 1e-15 </param>
         </struct>
 

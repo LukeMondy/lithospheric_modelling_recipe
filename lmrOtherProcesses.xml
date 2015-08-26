@@ -1,26 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <StGermainData xmlns="http://www.vpac.org/StGermain/XML_IO_Handler/Jun2003">
-
     <struct name="components" mergeType="merge">
-        <struct name="default_ppcManager" mergeType="merge">
-            <list name="Properties" mergeType="merge">
-                <!-- NOTE: If your extra property has a dependence on something Underworld
-                           calculates (e.g., pressure, strain-rate), and you have non-linear
-                           rheologies (e.g., you use yielding, or strain-dependent viscosities),
-                           then your property must have StoreNLOnParticle = True. 
-                           To see more information, see lmrNumerics.xml -->
-                <struct>
-                    <param name="PropertyName"> SurfaceProcesses </param>
-                    <param name="PassiveProperty"> True </param>  
-                    <param name="StorePreviousValue"> True </param>
-                    <param name="StoreOnParticles"> True </param>
-                    <param name="StoreOnMesh"> True </param>          
-                </struct>
-            </list>            
-        </struct>
-        
-        
-        <!-- === Surface processes ================================================ -->
+
+      <!-- NOTE: If your extra property has a dependence on something Underworld
+                 calculates (e.g., pressure, strain-rate), and you have non-linear
+                 rheologies (e.g., you use yielding, or strain-dependent viscosities),
+                 then your property must have StoreNLOnParticle = True.
+                 To see more information, see lmrNumerics.xml -->
+
+      <!-- TODO: Add more info here -->
+
+
+
+      <!-- ====================================================================== -->
+      <!-- === Surface processes ================================================ -->
         <struct name="erosion_height">
             <param name="Type"> Ppc_Constant </param>
             <param name="Value" units="km"> 2.0 </param>
@@ -46,7 +39,7 @@
             <param name="Field"> elevation </param>
             <param name="ValueToCompare"> erosion_height </param>
             <param name="MaterialIfTrue"> air </param>
-            
+
             <param name="CurrentTime"> current_time </param>
             <param name="StorageProperty"> SurfaceProcesses </param>
         </struct>
@@ -62,6 +55,71 @@
             <param name="CurrentTime"> current_time </param>
             <param name="StorageProperty"> SurfaceProcesses </param>
         </struct>
-        <!-- === End of Surface processes ========================================= -->
+
+        <struct name="default_ppcManager" mergeType="merge">
+            <list name="Properties" mergeType="merge">
+                <struct>
+                    <param name="PropertyName"> SurfaceProcesses </param>
+                    <param name="PassiveProperty"> True </param>
+                    <param name="StorePreviousValue"> True </param>
+                    <param name="StoreOnParticles"> True </param>
+                    <param name="StoreOnMesh"> True </param>
+                </struct>
+            </list>
+        </struct>
+
+      <!-- === End of Surface processes ========================================= -->
+
+
+      <!-- ====================================================================== -->
+      <!-- === Partial Melting ================================================ -->
+        <!-- meltFractionHeating = -1 * latent_heat_fusion * delta_melt_fraction / (heat_capacity * delta_time ) -->
+        <struct name="meltFractionHeating">
+            <param name="Type">Ppc_MeltHeating</param>
+            <param name="CpLabel">CpProperty</param>
+            <param name="LatentHeatFusionLabel">LatentHeatFusionProperty</param>
+            <param name="MeltFractionLabel">MeltFractionProperty</param>
+        </struct>
+
+        <struct name="sourceTerms_thermalEqn" mergeType="merge">
+            <list name="Properties" mergeType="merge">
+                <param> meltFractionHeating </param>
+            </list>
+        </struct>
+
+        <struct name="default_ppcManager" mergeType="merge">
+            <list name="Properties" mergeType="merge">
+                <struct>
+                    <param name="PropertyName"> MeltFractionProperty </param>
+                    <param name="StoreOnParticles"> True </param>
+                    <param name="StoreOnMesh"> True </param>
+                    <param name="StorePreviousValue"> True </param>
+                    <param name="StoreNLOnParticles"> True </param>
+                </struct>
+                <struct>
+                    <param name="PropertyName"> MeltFractionLimitProperty </param>
+                </struct>
+                <struct>
+                    <param name="PropertyName"> MeltExpansionProperty </param>
+                </struct>
+                <struct>
+                    <param name="PropertyName"> LiquidusProperty </param>
+                    <param name="StoreOnMesh"> False </param>
+                    <param name="StoreNLOnParticles"> True </param>
+                </struct>
+                <!-- NOTE: Since both the liquidus and the solidus have a pressure
+                    dependency, they must use the StoreNLOnParticles option. -->
+                <struct>
+                    <param name="PropertyName"> SolidusProperty </param>
+                    <param name="StoreOnMesh"> False </param>
+                    <param name="StoreNLOnParticles"> True </param>
+                </struct>
+                <struct>
+                    <param name="PropertyName"> LatentHeatFusionProperty </param>
+                </struct>
+            </list>
+        </struct>
+      <!-- === End of Partial Melting ========================================= -->
+
     </struct>
 </StGermainData>

@@ -71,10 +71,10 @@ def load_xml(input_xml='lmrStart.xml', xsd_location='LMR.xsd'):
         except lxml.etree.XMLSyntaxError as e:
             error_log = "=== ERROR ===\nThere was an issue reading in the XML file {input_xml}.\n".format(input_xml=input_xml)
             for i, r in enumerate(e.error_log):
-                error_log = '\n'.join([error_log, 
+                error_log = '\n'.join([error_log,
                                     ('Problem {errornum}:\nThe code is reporting that on line {line} this error occured:'
                                      '\n\t\"{message}\"\n'.format(errornum=i+1, line=r.line, message=r.message))])
-            error_log = '\n'.join([error_log, 
+            error_log = '\n'.join([error_log,
                                 ('Please have a look at {input_xml} closely, especially around the mentioned lines. '
                                  'If you are still having issues, try using an XML validator online to see where the bug is.\n'.format(input_xml=input_xml))])
             sys.exit(error_log)
@@ -87,7 +87,7 @@ def load_xml(input_xml='lmrStart.xml', xsd_location='LMR.xsd'):
             sys.exit("=== ERROR ===\nA serious and unexpected error has occured. Perhaps try getting a fresh copy of the LMR, and try again.")
     else:
         try:
-            tree = ElementTree.parse(input_xml)     # Any errors from mismatching tags will be caught 
+            tree = ElementTree.parse(input_xml)     # Any errors from mismatching tags will be caught
         except Exception as e:
             error_log = ("=== ERROR ===\nThere was an issue reading in the XML file {input_xml}.\n"
                          "The code is reporting that:\n\t{xmlerror}\n"
@@ -210,7 +210,14 @@ def process_xml(raw_dict):
 
     # <Underworld_Execution>
     uw_exec = raw_dict["Underworld_Execution"]
-    model_dict["uwbinary"] = uw_exec["Underworld_binary"]
+    if os.path.exists(uw_exec["Underworld_binary"]):
+        model_dict["uwbinary"] = uw_exec["Underworld_binary"]
+    else:
+        sys.exit("=== ERROR ===\nThe path to the Underworld binary doesn't exist. You specified:{}".format(uw_exec["Underworld_binary"]))
+
+    model_dict["uw_root"] = os.path.split(os.path.split(os.path.dirname(uw_exec["Underworld_binary"]))[0])[0]
+    # The worst command ever - essentially, go up 2 directories.
+
 
     try:
         model_dict["parallel_command"] = uw_exec["parallel_command"]
@@ -225,7 +232,7 @@ def process_xml(raw_dict):
     if xmlbool(uw_exec["supercomputer_mpi_format"]) is False:
         model_dict["cpus"] = uw_exec["CPUs"]
         command_dict["parallel_runner"] = "{parallel_command} {parallel_command_cpu_flag} {cpus}"
-    
+
     try:
         model_dict["extra_command_line_flags"] = uw_exec["extra_command_line_flags"]
     except:
@@ -291,17 +298,17 @@ def prepare_job(model_dict, command_dict):
     if (((model_dict["dims"] == 2 and smaller_model) or model_dict["force_direct_solve"])
          and not model_dict["force_multigrid_solve"] or model_dict["run_thermal_equilibration_phase"]):
         print "SOLVERS: using MUMPS"
-        
+
         solvers = ["-Uzawa_velSolver_pc_factor_mat_solver_package mumps",
                    "-mat_mumps_icntl_14 200",
                    "-Uzawa_velSolver_ksp_type preonly",
                    "-Uzawa_velSolver_pc_type lu",
                    "-log_summary",
                    "-options_left"]
-        
+
     else:
         print "SOLVERS: using Multigrid"
-        
+
         def multigrid_test(number):
             if number == 0:
                 return 1e10  # Bit of a hack, but if one of the numbers is 0, then return a really big number.
@@ -321,8 +328,8 @@ def prepare_job(model_dict, command_dict):
             else:
                 sys.exit("=== ERROR ===\nYou have forced the multigrid level to be too high. The max calculated is {maxmg}.".format(maxmg=max_mg_level))
         else:
-            model_dict["mg_levels"] = max_mg_level 
-        
+            model_dict["mg_levels"] = max_mg_level
+
         """
          # Old solver setups
         solvers = ["--mgLevels=4",
@@ -369,7 +376,7 @@ def prepare_job(model_dict, command_dict):
                    "-log_summary"]
 
 
-        model_dict["input_xmls"] += " {xmls_dir}/lmrSolvers.xml"
+        model_dict["input_xmls"] += " {uw_root}/StgFEM/Apps/src/MultigridForRegular.xml"
 
     command_dict["solver"] = " ".join(solvers)
 
@@ -403,7 +410,7 @@ def prepare_job(model_dict, command_dict):
         if files.endswith(".xml"):
             shutil.copy(files, xmls_dir)
 
-    model_dict["input_xmls"] = model_dict["input_xmls"].format(xmls_dir=xmls_dir)
+    model_dict["input_xmls"] = model_dict["input_xmls"].format(xmls_dir=xmls_dir, uw_root=model_dict["uw_root"])
 
 
     # Need to modify the XML in the result/xmls/folder, so the main folder is pristine.

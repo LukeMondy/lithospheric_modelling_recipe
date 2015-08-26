@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<lmr:LMRStarterKit xmlns:lmr="https://bitbucket.org/lmondy/lithosphericmodellingrecipe" 
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+<lmr:LMRStarterKit xmlns:lmr="https://bitbucket.org/lmondy/lithosphericmodellingrecipe"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="file:./LMR.xsd">
-    
+
     <Output_Controls>
         <description> reference_model </description>
 
@@ -16,25 +16,25 @@
             <maximum_timesteps> 10000000 </maximum_timesteps>
             <maximum_time_in_years> 20.0e6 </maximum_time_in_years>
         </experiment_duration_options>
-        
+
         <checkpoint_frequency_options>
             <every_x_years> 50000 </every_x_years>
             <every_x_timesteps> 100000 </every_x_timesteps>
         </checkpoint_frequency_options>
-        
+
         <output_pictures> false </output_pictures>
         <write_log_file> true </write_log_file>
     </Output_Controls>
-    
+
     <Thermal_Equilibration>
         <run_thermal_equilibration_phase> true </run_thermal_equilibration_phase>
-        
+
         <update_xml_information> true </update_xml_information>
         <preserve_thermal_equilibration_checkpoints> false </preserve_thermal_equilibration_checkpoints>
 
         <output_controls>
             <description> laterally_homog </description>
-            
+
             <thermal_model_resolution>
                 <x> 4 </x>
                 <y> 48 </y>
@@ -50,7 +50,7 @@
                 <every_x_years> 10.0e6 </every_x_years>
                 <every_x_timesteps> 100000000 </every_x_timesteps>
             </checkpoint_frequency_options>
-        </output_controls>   
+        </output_controls>
     </Thermal_Equilibration>
 
 
@@ -79,7 +79,7 @@
     </Solver_Details>
 
     <Underworld_Execution>
-        <Underworld_binary> /home/luke/Programs/underworld2_clean/libUnderworld/build/bin/Underworld </Underworld_binary> <!-- Replace with your own path to UW -->
+        <Underworld_binary> /home/luke/Programs/underworld2/libUnderworld/build/bin/Underworld </Underworld_binary> <!-- Replace with your own path to UW -->
         <CPUs> 6 </CPUs>
         <supercomputer_mpi_format> false </supercomputer_mpi_format>
     </Underworld_Execution>
