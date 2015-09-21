@@ -141,7 +141,7 @@
             <param name="CpLabel"> CpProperty </param>
         </struct-->
 
-        <!--struct name="adiabaticHeating">
+        <struct name="adiabaticHeating">
             <param name="Type"> AdiabaticHeatingTermPpc </param>
             <param name="ForceVector"> residual </param>
             <param name="EnergyEqn"> EnergyEqn </param>
@@ -150,7 +150,7 @@
             <param name="TemperatureField"> TemperatureField </param>
             <param name="CpLabel"> CpProperty </param>
             <param name="ThermalExpansivityLabel"> ThermalExpansivityProperty </param>
-        </struct-->
+        </struct>
 
         <struct name="defaultResidualForceTerm" mergeType="replace">
             <!-- This struct ensures advection/diffusion is solved. -->
@@ -225,6 +225,33 @@
                 <!-- ===================================== -->
             </list>
         </struct>
+
+        <!-- === Need these Ppc_Constants if you DON'T use melt ============== -->
+        <struct name="MeltFractionProperty">
+            <param name="Type"> Ppc_Constant </param>
+            <param name="Value"> 0 </param>
+        </struct>
+        <struct name="MeltFractionLimitProperty">
+            <param name="Type"> Ppc_Constant </param>
+            <param name="Value"> 0 </param>
+        </struct>
+        <struct name="MeltExpansionProperty">
+            <param name="Type"> Ppc_Constant </param>
+            <param name="Value"> 0 </param>
+        </struct>
+        <struct name="LiquidusProperty">
+            <param name="Type"> Ppc_Constant </param>
+            <param name="Value"> 0 </param>
+        </struct>
+        <struct name="SolidusProperty">
+            <param name="Type"> Ppc_Constant </param>
+            <param name="Value"> 0 </param>
+        </struct>
+        <struct name="LatentHeatFusionProperty">
+            <param name="Type"> Ppc_Constant </param>
+            <param name="Value"> 0 </param>
+        </struct>
+        <!-- ===================================== -->
 
         <!-- Allow PPC to access variables -->
         <struct name="temperature_ppc_wrapper">
