@@ -77,3 +77,9 @@ Section 4. The Wiki
 -------------------------
 Please visit the wiki for information on a much more indepth look into the LMR, what some of the components do, some additional examples that can be implemented, and guides on good modelling practices and methods. The wiki can be found `here <https://bitbucket.org/lmondy/lithosphericmodellingrecipe/wiki>`_
 
+Section 5. Helping out
+-------------------------
+.. image:: https://www.quantifiedcode.com/api/v1/project/d5dbd79d68574bb78a2a85070b9b9679/badge.svg
+  :target: https://www.quantifiedcode.com/app/project/d5dbd79d68574bb78a2a85070b9b9679
+  :alt: Code issues
+  
