@@ -48,12 +48,12 @@ def load_xml(input_xml='lmrStart.xml', xsd_location='LMR.xsd'):
             for element in parent_element:
                 if len(element):
                     if len(element) == 1 or element[0].tag != element[1].tag:
-                        aDict = XmlDictConfig(element)
+                        new_dict = XmlDictConfig(element)
                     else:
-                        aDict = {element[0].tag: XmlListConfig(element)}
+                        new_dict = {element[0].tag: XmlListConfig(element)}
                     if element.items():
-                        aDict.update(dict(element.items()))
-                    self.update({element.tag: aDict})
+                        new_dict.update(dict(element.items()))
+                    self.update({element.tag: new_dict})
                 elif element.items():
                     self.update({element.tag: dict(element.items())})
                 else:
@@ -77,14 +77,14 @@ def load_xml(input_xml='lmrStart.xml', xsd_location='LMR.xsd'):
             error_log = '\n'.join([error_log,
                                 ('Please have a look at {input_xml} closely, especially around the mentioned lines. '
                                  'If you are still having issues, try using an XML validator online to see where the bug is.\n'.format(input_xml=input_xml))])
-            sys.exit(error_log)
+            raise ValueError(error_log)  # Make this an LMR exception
         except lxml.etree.XMLSchemaParseError as e:
             print ("=== WARNING ===\nProblem with the XSD validation! Computer says: \n\t{schema_error}\n"
                    "The LMR will still try to run, but will be unable to check that {input_xml} is all"
                    " OK. If you are having problems, try to download the LMR.xsd file again and put it "
                    "in this folder, or use an online XML validator on the {input_xml} file.").format(schema_error=e, input_xml=input_xml)
         except Exception as e:
-            sys.exit("=== ERROR ===\nA serious and unexpected error has occured. Perhaps try getting a fresh copy of the LMR, and try again.")
+            raise Exception("=== ERROR ===\nA serious and unexpected error has occured. Perhaps try getting a fresh copy of the LMR, and try again.")
     else:
         try:
             tree = ElementTree.parse(input_xml)     # Any errors from mismatching tags will be caught
@@ -93,7 +93,7 @@ def load_xml(input_xml='lmrStart.xml', xsd_location='LMR.xsd'):
                          "The code is reporting that:\n\t{xmlerror}\n"
                          "Please have a look at {input_xml} closely, especially around the mentioned lines. "
                          "If you are still having issues, try using an XML validator online to see where the bug is.\n").format(input_xml=input_xml, xmlerror=e)
-            sys.exit(error_log)
+            raise ValueError(error_log)
 
     root = tree.getroot()
     return XmlDictConfig(root)
@@ -102,9 +102,7 @@ def load_xml(input_xml='lmrStart.xml', xsd_location='LMR.xsd'):
 def process_xml(raw_dict):
 
     def xmlbool(xml_bool_string):
-        if xml_bool_string == "true":
-            return True
-        return False
+        return xml_bool_string == "true"  # Don't need to worry about capitals - XML parser would catch it before now
 
     # Initialise some standard stuff
     model_dict = {"input_xmls":               "{xmls_dir}/lmrMain.xml",
@@ -173,8 +171,9 @@ def process_xml(raw_dict):
     # <Restarting_Controls>
     restarting = raw_dict["Restarting_Controls"]
     model_dict["restarting"] = xmlbool(restarting["restart"])
-    if model_dict["restarting"] is True:
+    if model_dict["restarting"]:
         try:
+            # This is an optional keyword, so if it's not there, use -1
             model_dict["restart_timestep"] = int(restarting["restart_from_step"])
         except KeyError:
             model_dict["restart_timestep"] = -1
@@ -189,7 +188,8 @@ def process_xml(raw_dict):
         model_dict[solver] = {"tolerance":    float(solverdetails[solver]["tolerance"]),
                               "min_iterations": int(solverdetails[solver]["min_iterations"]),
                               "max_iterations": int(solverdetails[solver]["max_iterations"])}
-        if model_dict["run_thermal_equilibration_phase"] is True and prefix == "nonLinear":
+
+        if model_dict["run_thermal_equilibration_phase"] and prefix == "nonLinear":
             model_dict[solver]["max_iterations"] = 1   # So UW doesn't try to nonLinearly solve pure diffusion
 
         command_dict[solver] = ("--{solver}Tolerance={tolerance} "
@@ -199,12 +199,14 @@ def process_xml(raw_dict):
                                         tolerance=model_dict[solver]["tolerance"],
                                         min_iterations=model_dict[solver]["min_iterations"],
                                         max_iterations=model_dict[solver]["max_iterations"]))
+
     model_dict["force_multigrid_level_to_be"] = int(solverdetails["force_multigrid_level_to_be"])
     model_dict["force_direct_solve"] = xmlbool(solverdetails["force_direct_solve"])
     model_dict["force_multigrid_solve"] = xmlbool(solverdetails["force_multigrid_solve"])
+
     if model_dict["force_multigrid_solve"] and model_dict["force_direct_solve"]:
-        sys.exit("=== ERROR ===\nYou cannot force a direct solve and also force a multigrid solve. Please check the <Solver"
-                 "_Details> part of your lmrStart.xml.")
+        raise ValueError("=== ERROR ===\nYou cannot force a direct solve and also force a multigrid solve. Please check the <Solver"
+                         "_Details> part of your lmrStart.xml.")
     # </Solver_Details>
 
 
@@ -213,20 +215,19 @@ def process_xml(raw_dict):
     if os.path.exists(uw_exec["Underworld_binary"]):
         model_dict["uwbinary"] = uw_exec["Underworld_binary"]
     else:
-        sys.exit("=== ERROR ===\nThe path to the Underworld binary doesn't exist. You specified:{}".format(uw_exec["Underworld_binary"]))
+        raise ValueError("=== ERROR ===\nThe path to the Underworld binary doesn't exist. You specified: {}".format(uw_exec["Underworld_binary"]))
 
     model_dict["uw_root"] = os.path.split(os.path.split(os.path.dirname(uw_exec["Underworld_binary"]))[0])[0]
     # The worst command ever - essentially, go up 2 directories.
 
-
     try:
         model_dict["parallel_command"] = uw_exec["parallel_command"]
-    except:
+    except KeyError:
         model_dict["parallel_command"] = "mpirun"
 
     try:
         model_dict["parallel_command_cpu_flag"] = uw_exec["parallel_command_cpu_flag"]
-    except:
+    except KeyError:
         model_dict["parallel_command_cpu_flag"] = "-np"
 
     if xmlbool(uw_exec["supercomputer_mpi_format"]) is False:
@@ -235,33 +236,39 @@ def process_xml(raw_dict):
 
     try:
         model_dict["extra_command_line_flags"] = uw_exec["extra_command_line_flags"]
-    except:
+    except KeyError:
         model_dict["extra_command_line_flags"] = ""
     command_dict["extra_command_line_flags"] = "{extra_command_line_flags}"
 
     try:
         model_dict["verbose_run"] = xmlbool(uw_exec["verbose_run"])
-    except:
+    except KeyError:
         model_dict["verbose_run"] = False
     # </Underworld_Execution>
-
-
 
     return model_dict, command_dict
 
 
 def get_textual_resolution(res):
+    """
+    Return a string of the resolution with x's between.
+    """
     return "x".join(map(str, (res["x"],
                               res["y"],
                               res["z"])))
 
 
 def prepare_job(model_dict, command_dict):
-    # Prepare output paths, resolutions, and special functions for thermal equilibration.
+    """
+    Prepare output paths, resolutions, and special functions for thermal equilibration.
+    """
     if model_dict["model_resolution"]["z"] <= 0:
         model_dict["dims"] = 2
         model_dict["thermal_model_resolution"]["z"] = 0  # Just to be sure.
     else:
+        if model_dict["thermal_model_resolution"]["z"] <= 0:
+            raise ValueError("You have asked for a 3D model in <model_resolution>, but only a 2D model"
+                             " in the <thermal_equilibration> section.")
         model_dict["dims"] = 3
 
     text_res = get_textual_resolution(model_dict["model_resolution"])
@@ -270,11 +277,11 @@ def prepare_job(model_dict, command_dict):
     model_dict["nice_description"] = "_".join([text_res, model_dict["description"]])
     model_dict["nice_thermal_description"] = "_".join([therm_text_res, model_dict["thermal_description"]])
 
-    model_dict["model_output_path"] = "{cwd}/result_{model_description}".format(cwd=os.getcwd(), model_description=model_dict["nice_description"])
-    model_dict["thermal_output_path"] = "{cwd}/initial-condition_{thermal_description}".format(cwd=os.getcwd(), thermal_description=model_dict["nice_thermal_description"])
+    model_dict["model_output_path"] = os.path.join(os.getcwd(), "result_{model_description}".format(model_description=model_dict["nice_description"]))
+    model_dict["thermal_output_path"] = os.path.join(os.getcwd(), "initial-condition_{thermal_description}".format(thermal_description=model_dict["nice_thermal_description"]))
 
     cp = copy.deepcopy
-    if model_dict["run_thermal_equilibration_phase"] is True:
+    if model_dict["run_thermal_equilibration_phase"]:
         model_dict["resolution"] = cp(model_dict["thermal_model_resolution"])
         model_dict["input_xmls"] += " {xmls_dir}/lmrThermalEquilibration.xml"
         model_dict["output_path"] = cp(model_dict["thermal_output_path"])
@@ -326,7 +333,7 @@ def prepare_job(model_dict, command_dict):
             if max_mg_level >= model_dict["force_multigrid_level_to_be"]:
                 model_dict["mg_levels"] = model_dict["force_multigrid_level_to_be"]
             else:
-                sys.exit("=== ERROR ===\nYou have forced the multigrid level to be too high. The max calculated is {maxmg}.".format(maxmg=max_mg_level))
+                ValueError("=== ERROR ===\nYou have forced the multigrid level to be too high. The max calculated is {maxmg}.".format(maxmg=max_mg_level))
         else:
             model_dict["mg_levels"] = max_mg_level
 
@@ -388,21 +395,28 @@ def prepare_job(model_dict, command_dict):
     if not os.path.isdir(output_dir):
         os.mkdir(output_dir)
 
-    if model_dict["restarting"] is True:
+    if model_dict["restarting"]:
         if model_dict["restart_timestep"] == -1:
             # If no restart timestep is specified, automatically find the last one.
             model_dict["restart_timestep"] = find_last_timestep(model_dict["output_path"])
 
         # When we restart, we need to preserve the original XMLs stored in result/xmls.
         # To do so, find the last xmls folder, and increment the number.
-        xml_folders = sorted([folder for folder in glob.glob("%s/xmls*" % output_dir)
+        xml_folders = sorted([folder for folder in glob.glob(os.join(output_dir, "xmls*"))
                              if os.path.isdir(os.path.join(output_dir, folder))])
         if len(xml_folders) > 1:
             last_restart_num = int(xml_folders[-1].split("_")[-1])
-            xmls_dir = os.path.join(output_dir, "xmls_restart_%d" % (last_restart_num + 1))
+            xmls_dir = os.path.join(output_dir, "xmls_restart_{}".format(last_restart_num + 1))
         elif len(xml_folders) == 1:
             xmls_dir = os.path.join(output_dir, "xmls_restart_1")
-        # There is no 'else' - if no xmls folder is found, it will just make one now.
+        else:
+            # We've been asked to restart, but there is no "xmls" folders, which would indicate
+            # a previous model run. We'll just do a quick check to make sure UW has a chance of
+            # actually restarting, by looking for a Mesh.* file
+            try:
+                find_last_timestep(model_dict["output_path"])
+            except ValueError:
+                raise ValueError("Unable to restart model - no previous model run files found in {path}".format(model_dict["output_path"]))
 
     if not os.path.isdir(xmls_dir):
         os.mkdir(xmls_dir)
@@ -456,7 +470,7 @@ def run_model(model_dict, command_dict):
 
         if model_run.returncode != 0:
             error_msg = '\n\nUnderworld did not exit nicely - have a look at its output to try and determine the problem.'
-            if model_dict["run_thermal_equilibration_phase"] is True:
+            if model_dict["run_thermal_equilibration_phase"]:
                 error_msg += ('\n\nSuggestion - if Underworld failed because of an error similar to:\n'
                               'StGermain/Base/Container/src/ISet.c:205: failed assertion (++self->curSize) <= self->maxSize\n'
                               'it is generally because Underworld is having trouble decomposing the model accross the number\n'
@@ -464,63 +478,64 @@ def run_model(model_dict, command_dict):
                               '  - Using model resolutions that divide nicely (i.e., not prime numbers)\n'
                               '  - Increasing the model resolution\n'
                               '  - Using fewer CPUs')
-            sys.exit(error_msg)
+            raise IOError(error_msg)
     except KeyboardInterrupt:
         model_run.terminate()
-        if model_dict["run_thermal_equilibration_phase"] is True:
+        if model_dict["run_thermal_equilibration_phase"]:
             print ('\n=== WARNING ===\nUnderworld thermal equilibration stopped - will interpolate with the '
                    'last timestep to be outputted.')
         else:
             sys.exit("\nYou have cancelled the job - all instances of Underworld have been killed.")
     except OSError as oserr:
-        sys.exit(("\n=== ERROR ===\nIssue finding a file. Computer says:\n\t{oserr}\nThe LMR is trying to run this command:\n"
-                  "\t {first} {uwbinary} {input_xmls} ...\n\nMake sure all the commands (e.g. {first}) are correct, and all"
-                  " the files exist (e.g. {uwbinary}).".format(oserr=oserr, first=first.format(**model_dict), **model_dict)))
+        raise OSError(("\n=== ERROR ===\nIssue finding a file. Computer says:\n\t{oserr}\nThe LMR is trying to run this command:\n"
+                       "\t {first} {uwbinary} {input_xmls} ...\n\nMake sure all the commands (e.g. {first}) are correct, and all"
+                       " the files exist (e.g. {uwbinary}).".format(oserr=oserr, first=first.format(**model_dict), **model_dict)))
 
 def post_model_run(model_dict):
-
-    # Clean up thermal equilibration checkpoints if needed.
-    if model_dict["run_thermal_equilibration_phase"] is True:
+    """
+    Clean up thermal equilibration checkpoints if needed.
+    """
+    if model_dict["run_thermal_equilibration_phase"]:
         last_ts = find_last_timestep(model_dict["thermal_output_path"])
         if model_dict["preserve_thermal_checkpoints"] is False:
             for filename in os.listdir(model_dict["output_path"]):
                 if not str(last_ts) in filename and not bool(filename.endswith(("xml", "xdmf", "dat", "txt", "list", "Mesh.linearMesh.00000.h5"))):  # Don't delete files that end with any of these
                     try:
-                        os.remove("%s/%s" % (model_dict["output_path"], filename))
-                    except:
+                        os.remove(os.path.join(model_dict["output_path"], filename))
+                    except IOError:  # We don't really care much if it can't delete some files
+                        pass
+                    except OSError:
                         pass
 
 
 def find_last_timestep(path):
     try:
         # The below line does this:
-        #   1) split the path up by '/' to seperate the filesystem structure.
-        #   2) The last chunk (the filename) is taken using [-1]
-        #   3) The filename is then split by '.', as the file we're looking for looks like this: VelocityField.00475.h5
-        #   4) The second last chunk of the file name (the timestep number) is taken, and converted to int.
-        #   5) Get the largest timestep
-        last_ts = max([int(f.split('/')[-1].split('.')[-2]) for f in glob.glob("%s/VelocityField.*.h5" % path)])
-    except:  # You should really catch explicit exceptions...
+        #   1) Get the base filename
+        #   2) The filename is then split by '.', as the file we're looking for looks like this: VelocityField.00475.h5
+        #   3) The second last chunk of the file name (the timestep number) is taken, and converted to int.
+        #   4) Get the largest timestep
+        last_ts = max( [int(os.path.basename(filename).split(".")[-2]) for filename in glob.glob(os.path.join(path, "VelocityField.*.h5"))] )
+    except ValueError:  # You should really catch explicit exceptions...
         if not os.path.isdir(path):
             error_msg = (
                 '\n=== ERROR ===\nThe LMR is looking for folder \'{path}\',\n'
                 'but it does not exist!\n'
-                'This can happen either when the LMR is looking for an initial-\n'
+                'This can happen either when the LMR is looking for an initial-'
                 'condition, or when restarting a model.\n'.format(path=path))
-            sys.exit(error_msg)
         else:
             error_msg = (
-                '\n=== ERROR ===\nUnable to find any files starting with \'Mesh.*.h5\' in the folder \'%s\'\n'
+                '\n=== ERROR ===\nUnable to find any files starting with \'Mesh.*.h5\' in the folder \'{}\'\n'
                 'If you are running a thermo-mechanical model from scratch, this may mean that you\n'
                 'need to either run the thermal equilibration phase, or run it for longer.\n'
-                'If you are restarting a job, make sure the <description> matches the previous model' % path)
-            sys.exit(error_msg)
+                'If you are restarting a job, make sure the <description> matches the previous model'.format(path))
+        raise ValueError(error_msg)
     return last_ts
 
 
 def modify_initialcondition_xml(last_ts, xml_path, initial_condition_path):
-    new_temp_file = "%s/TemperatureField.%05d.h5" % (initial_condition_path, last_ts)
-    new_mesh_file = "%s/Mesh.linearMesh.%05d.h5" % (initial_condition_path, 0) # UW2.0 will only produce Meshfile 0
+    new_temp_file = os.path.join(initial_condition_path, "TemperatureField.{:05d}.h5".format(last_ts))
+    new_mesh_file = os.path.join(initial_condition_path, "Mesh.linearMesh.{:05d}.h5".format(0)) # UW2.0 will only produce Meshfile 0
 
     # Python doesn't have a great in-line file editing, so here we use the fileinput function.
     # It redirects the print function to the file itself while in the for loop context.
@@ -529,7 +544,7 @@ def modify_initialcondition_xml(last_ts, xml_path, initial_condition_path):
     triggered_temp = False
     triggered_mesh = False
     try:
-        for line in fileinput.input("{xml_path}/lmrInitials.xml".format(xml_path=xml_path), inplace=True):
+        for line in fileinput.input(os.path.join(xml_path, "lmrInitials.xml"), inplace=True):
             if "!!PATH_TO_TEMP_FILE!!" in line:
                 triggered_temp = True
                 print line.replace("!!PATH_TO_TEMP_FILE!!", new_temp_file),
@@ -540,11 +555,13 @@ def modify_initialcondition_xml(last_ts, xml_path, initial_condition_path):
                 print line,
     except IOError as err:
         error_msg = ('Problem opening lmrInitials.xml to update the HDF5 initial condition.'
-                     'The computer reported:\n\%s' % err)
-        sys.exit(error_msg)
+                     'The computer reported:\n\{err}'.format(err = err))
+        raise IOError(error_msg)
 
     if not triggered_temp or not triggered_mesh:
-        sys.exit(("ERROR - Problem loading initial conditions.\nThe LMR tries to tell Underworld which initial condition files to use by modifying the lmrInitials.xml file - but one of the flags in the file was missing! The start of the lmrInitials.xml should look similar to this:\n"
+        raise IOError(("ERROR - Problem loading initial conditions.\nThe LMR tries to tell Underworld which initial condition "
+                  "files to use by modifying the lmrInitials.xml file - but one of the flags in the file was missing! "
+                  "The start of the lmrInitials.xml should look similar to this:\n"
                   "<list name=\"plugins\" mergeType=\"merge\">\n"
                   "    <!-- If you have thermally equilibrated your model, you need to tell Underworld where\n"
                   "         to find the thermal information using the following struct -->\n"
@@ -556,7 +573,9 @@ def modify_initialcondition_xml(last_ts, xml_path, initial_condition_path):
                   "        <param name=\"Partitioned\"> False </param>\n"
                   "    </struct>\n"
                   "</list>\n"
-                  "If it doesn't, try copying and pasting the above into the lmrInitials.xml, or refer to the LMR bitbucket. If you actually want to specify an explicit initial condition, then in lmrStart.xml you need to set the <update_xml_information> tag in the <Thermal_Equilibration> section to be false."))
+                  "If it doesn't, try copying and pasting the above into the lmrInitials.xml, or refer to the LMR bitbucket. "
+                  "If you actually want to specify an explicit initial condition, then in lmrStart.xml you need to set the "
+                  "<update_xml_information> tag in the <Thermal_Equilibration> section to be false."))
 
 
 def main():
@@ -574,9 +593,12 @@ def main():
     # STEP 2
     model_dict, command_dict = prepare_job(model_dict, command_dict)
 
-    if model_dict["write_log_file"] is True:
-        log_file = open(model_dict["logfile"], "a")
-        sys.stdout = log_file
+    if model_dict["write_log_file"]:
+        try:
+            log_file = open(model_dict["logfile"], "a")
+            sys.stdout = log_file
+        except IOError as err:
+            raise IOErrr("Problem writing to log file {log_file}! Computer says:\n{err}".format(log_file = model_dict["logfile"], err = err))
 
     # STEP 3
     run_model(model_dict, command_dict)
@@ -584,7 +606,7 @@ def main():
     # STEP 4
     post_model_run(model_dict)
 
-    if model_dict["write_log_file"] is True:
+    if model_dict["write_log_file"]:
         log_file.close()
 
 
