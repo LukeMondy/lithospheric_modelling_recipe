@@ -399,24 +399,21 @@ def prepare_job(model_dict, command_dict):
         if model_dict["restart_timestep"] == -1:
             # If no restart timestep is specified, automatically find the last one.
             model_dict["restart_timestep"] = find_last_timestep(model_dict["output_path"])
+        else:
+            last_timestep = find_last_timestep(model_dict["output_path"])
+            if last_timestep != model_dict["restart_timestep"]:
+                raise ValueError("You have asked to restart the model at timestep {}, but "
+                                 "there is no checkpoint of that number".format(model_dict["restart_timestep"]))
 
         # When we restart, we need to preserve the original XMLs stored in result/xmls.
         # To do so, find the last xmls folder, and increment the number.
-        xml_folders = sorted([folder for folder in glob.glob(os.join(output_dir, "xmls*"))
+        xml_folders = sorted([folder for folder in glob.glob(os.path.join(output_dir, "xmls*"))
                              if os.path.isdir(os.path.join(output_dir, folder))])
         if len(xml_folders) > 1:
             last_restart_num = int(xml_folders[-1].split("_")[-1])
             xmls_dir = os.path.join(output_dir, "xmls_restart_{}".format(last_restart_num + 1))
         elif len(xml_folders) == 1:
             xmls_dir = os.path.join(output_dir, "xmls_restart_1")
-        else:
-            # We've been asked to restart, but there is no "xmls" folders, which would indicate
-            # a previous model run. We'll just do a quick check to make sure UW has a chance of
-            # actually restarting, by looking for a Mesh.* file
-            try:
-                find_last_timestep(model_dict["output_path"])
-            except ValueError:
-                raise ValueError("Unable to restart model - no previous model run files found in {path}".format(model_dict["output_path"]))
 
     if not os.path.isdir(xmls_dir):
         os.mkdir(xmls_dir)
