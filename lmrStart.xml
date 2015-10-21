@@ -9,7 +9,7 @@
         <model_resolution>
             <x> 208 </x>
             <y> 96 </y>
-            <z> 4 </z>
+            <z> 0 </z>
         </model_resolution>
 
         <experiment_duration_options>
@@ -27,7 +27,7 @@
     </Output_Controls>
 
     <Thermal_Equilibration>
-        <run_thermal_equilibration_phase> false </run_thermal_equilibration_phase>
+        <run_thermal_equilibration_phase> true </run_thermal_equilibration_phase>
 
         <update_xml_information> true </update_xml_information>
         <preserve_thermal_equilibration_checkpoints> false </preserve_thermal_equilibration_checkpoints>
@@ -38,7 +38,7 @@
             <thermal_model_resolution>
                 <x> 4 </x>
                 <y> 48 </y>
-                <z> 4 </z>
+                <z> 0 </z>
             </thermal_model_resolution>
 
             <experiment_duration_options>
