@@ -43,19 +43,6 @@
         <param> MaterialIndexField </param>
     </list>
 
-    <!-- === Basic Visualisation === -->
-    <include>Underworld/Viewports/ParticleMaterialVP.xml</include>
-    <include>Underworld/Viewports/TemperatureVP.xml</include>
-    <include>gLucifer/window.xml</include>
-    <struct name="components" mergeType="merge">
-        <struct name="window" mergeType="merge">
-            <list name="Viewport">
-                <param>TemperatureVP</param>
-                <param>ParticleMaterialVP </param>
-            </list>
-        </struct>
-    </struct>
-    <!-- =========================== -->
     <!-- ====================================================== -->
 
 

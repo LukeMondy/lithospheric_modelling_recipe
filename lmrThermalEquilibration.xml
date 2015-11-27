@@ -77,12 +77,6 @@
         </struct>
         <!-- ============================================== -->
     
-        <struct name="window" mergeType="merge">
-            <list name="Viewport" mergeType="replace">
-                <param>TemperatureVP</param>
-            </list> 
-        </struct>
-        
         <!-- Remove passive tracers, since they won't move 
              and slow the computation -->
         <struct name="passiveswarmOutputs" mergeType="replace">
