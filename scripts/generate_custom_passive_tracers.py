@@ -30,7 +30,7 @@ try:
     import h5py
     import numpy as np
 except ImportError as e:
-    sys.exit("ERROR - You need to have h5py and numpy. Please install the one you are lacking. The computer says:\n%s" % e)
+    sys.exit("ERROR - You need to have h5py and numpy. Please install the one you are lacking. The computer says:\n{0!s}".format(e))
 
 
 def write_points_to_h5(points, filename):
@@ -49,7 +49,7 @@ def write_points_to_h5(points, filename):
         dpos[...] = pos
         dmi[...] = mi
     except Exception as e:
-        sys.exit("\nERROR\nComputer says:\n%s\n" % e)
+        sys.exit("\nERROR\nComputer says:\n{0!s}\n".format(e))
     finally:
         f.close()
 
@@ -161,7 +161,7 @@ def main():
         with open("3D_paraview.xmf", 'w') as f:
             f.write(xmf)
     except Exception as e:
-        sys.exit("ERROR with writing 3D_paraview.xmf. Computer says:\n%s" % e)
+        sys.exit("ERROR with writing 3D_paraview.xmf. Computer says:\n{0!s}".format(e))
 
 if __name__ == "__main__":
     sys.exit(main())
