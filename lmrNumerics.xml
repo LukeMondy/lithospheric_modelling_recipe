@@ -323,6 +323,7 @@
             <param name="CentPosRatio"> 0.01 </param>
             <param name="MaterialPointsSwarm"> materialSwarm </param>
             <param name="splitInInterfaceCells"> False </param>
+            <!--param name="allowSplittingInBoundaryInterfaceCells"> False </param-->
         </struct>
 
         <struct name="uzawa" mergeType="merge">
