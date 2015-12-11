@@ -75,11 +75,11 @@ fields_xmf_files_list = [fields_line_string.format(filename=fi.split("/")[-1])
                          for fi in fields_xmf_files]
 
 try:
-    with open("{}/{}".format(args.data_path, args.output_file), 'w') as new_file:
+    with open("{0}/{1}".format(args.data_path, args.output_file), 'w') as new_file:
         new_file.write(xdmf_fields_header)
         new_file.write("\n".join(fields_xmf_files_list))
         new_file.write(xdmf_fields_footer)
 except Exception as e:
     sys.exit(e)
 
-print "Created file {}/{}".format(args.data_path, args.output_file)
+print "Created file {0}/{1}".format(args.data_path, args.output_file)
