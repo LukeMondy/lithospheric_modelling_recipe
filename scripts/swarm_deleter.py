@@ -88,16 +88,16 @@ def main():
         dont_delete.append(last_available_chpt)
 
     for saved in dont_delete:
-        print "Not deleting materialSwarm.%05d.*" % saved
+        print "Not deleting materialSwarm.{0:05d}.*".format(saved)
 
     for chkpt in checkpoints:
         if chkpt in dont_delete:
             continue
         if test_run:
             print "TEST -",
-        print "Deleting materialSwarm.%05d.*" % chkpt,
+        print "Deleting materialSwarm.{0:05d}.*".format(chkpt),
         if not test_run:
-            dead_files = glob.glob("%s/materialSwarm.%05d.*" % (folder, chkpt))
+            dead_files = glob.glob("{0!s}/materialSwarm.{1:05d}.*".format(folder, chkpt))
             if len(dead_files) == 0:
                 print "- already deleted",
             else:
