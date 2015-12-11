@@ -114,7 +114,7 @@ def main():
     print("""
         <struct name="customParticleLayout"> 
              <param name="Type"> FileParticleLayout </param>
-             <param name="filename"> {} </param>
+             <param name="filename"> {0} </param>
         </struct>
 
         <struct name="custom_marker_PTSwarm">

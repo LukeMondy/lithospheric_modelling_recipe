@@ -215,7 +215,7 @@ def process_xml(raw_dict):
     if os.path.exists(uw_exec["Underworld_binary"]):
         model_dict["uwbinary"] = uw_exec["Underworld_binary"]
     else:
-        raise ValueError("=== ERROR ===\nThe path to the Underworld binary doesn't exist. You specified: {}".format(uw_exec["Underworld_binary"]))
+        raise ValueError("=== ERROR ===\nThe path to the Underworld binary doesn't exist. You specified: {0}".format(uw_exec["Underworld_binary"]))
 
     model_dict["uw_root"] = os.path.split(os.path.split(os.path.dirname(uw_exec["Underworld_binary"]))[0])[0]
     # The worst command ever - essentially, go up 2 directories.
@@ -411,7 +411,7 @@ def prepare_job(model_dict, command_dict):
                              if os.path.isdir(os.path.join(output_dir, folder))])
         if len(xml_folders) > 1:
             last_restart_num = int(xml_folders[-1].split("_")[-1])
-            xmls_dir = os.path.join(output_dir, "xmls_restart_{}".format(last_restart_num + 1))
+            xmls_dir = os.path.join(output_dir, "xmls_restart_{0}".format(last_restart_num + 1))
         elif len(xml_folders) == 1:
             xmls_dir = os.path.join(output_dir, "xmls_restart_1")
 
@@ -531,8 +531,8 @@ def find_last_timestep(path):
 
 
 def modify_initialcondition_xml(last_ts, xml_path, initial_condition_path):
-    new_temp_file = os.path.join(initial_condition_path, "TemperatureField.{:05d}.h5".format(last_ts))
-    new_mesh_file = os.path.join(initial_condition_path, "Mesh.linearMesh.{:05d}.h5".format(0)) # UW2.0 will only produce Meshfile 0
+    new_temp_file = os.path.join(initial_condition_path, "TemperatureField.{0:05d}.h5".format(last_ts))
+    new_mesh_file = os.path.join(initial_condition_path, "Mesh.linearMesh.{0:05d}.h5".format(0)) # UW2.0 will only produce Meshfile 0
 
     # Python doesn't have a great in-line file editing, so here we use the fileinput function.
     # It redirects the print function to the file itself while in the for loop context.

@@ -58,7 +58,7 @@ def main():
     try:
         timing_data = np.loadtxt("{folder}/FrequentOutput.dat".format(folder=folder))
     except IOError as ioe:
-        sys.exit("Unable to find the FrequentOutput.dat file. Here is what the computer says:\n{}".format(ioe))
+        sys.exit("Unable to find the FrequentOutput.dat file. Here is what the computer says:\n{0}".format(ioe))
 
     reference_files = sorted(glob.glob("{folder}/{ref_pattern}".format(folder=folder, ref_pattern=reference_files_pattern)))
     if len(reference_files) == 0:

@@ -69,9 +69,9 @@ def main():
     args = parser.parse_args()
 
     if not os.path.isfile(args.xml_file_1):
-        sys.exit("ERROR - Can't find first XML file: {}".format(args.xml_file_1))
+        sys.exit("ERROR - Can't find first XML file: {0}".format(args.xml_file_1))
     if not os.path.isfile(args.xml_file_2):
-        sys.exit("ERROR - Can't find second XML file: {}".format(args.xml_file_2))
+        sys.exit("ERROR - Can't find second XML file: {0}".format(args.xml_file_2))
 
     tree1 = ElementTree.parse(args.xml_file_1)
     tree2 = ElementTree.parse(args.xml_file_2)
