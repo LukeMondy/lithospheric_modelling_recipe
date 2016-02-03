@@ -401,7 +401,7 @@
     <struct name="sediment">
         <param name="Type"> RheologyMaterial </param>
         <param name="Shape"> uppercrustShape </param> <!-- Taking advantage of the overprinting by defining this first -->
-        <param name="DensityProperty"> densMelt_sediment </param>
+        <param name="DensityProperty"> densTemp_sediment </param>
 
         <param name="DiffusivityProperty"> global_diffusivity </param>
         <param name="CpProperty"> global_cp </param>
@@ -409,7 +409,7 @@
         <param name="RadiogenicHeatProductionProperty"> radiogenic_upper_crust </param>
 
         <param name="MeltFractionProperty"> melt_fraction </param>
-        <param name="MeltFractionLimitProperty"> melt_max_fraction_crust </param>
+        <param name="MeltFractionLimitProperty"> melt_max_no_limit </param>
         <param name="MeltExpansionProperty"> melt_crustal_density_decrease </param>
         <param name="SolidusProperty"> melt_crustal_solidus </param>
         <param name="LiquidusProperty"> melt_crustal_liquidus </param>
@@ -430,7 +430,7 @@
     <struct name="uppercrust">
         <param name="Type"> RheologyMaterial </param>
         <param name="Shape"> uppercrustShape </param>
-        <param name="DensityProperty"> densMelt_continental_upper_crust </param>
+        <param name="DensityProperty"> densTemp_continental_upper_crust </param>
 
         <param name="DiffusivityProperty"> global_diffusivity </param>
         <param name="CpProperty"> global_cp </param>
@@ -438,7 +438,7 @@
         <param name="RadiogenicHeatProductionProperty"> radiogenic_upper_crust </param>
 
         <param name="MeltFractionProperty"> melt_fraction </param>
-        <param name="MeltFractionLimitProperty"> melt_max_fraction_crust </param>
+        <param name="MeltFractionLimitProperty"> melt_max_no_limit </param>
         <param name="MeltExpansionProperty"> melt_crustal_density_decrease </param>
         <param name="SolidusProperty"> melt_crustal_solidus </param>
         <param name="LiquidusProperty"> melt_crustal_liquidus </param>
@@ -458,7 +458,7 @@
     <struct name="uppercrustMarkers">
         <param name="Type"> RheologyMaterial </param>
         <param name="Shape"> uppercrustMarkersShape </param>
-        <param name="DensityProperty"> densMelt_continental_upper_crust </param>
+        <param name="DensityProperty"> densTemp_continental_upper_crust </param>
 
         <param name="DiffusivityProperty"> global_diffusivity </param>
         <param name="CpProperty"> global_cp </param>
@@ -466,7 +466,7 @@
         <param name="RadiogenicHeatProductionProperty"> radiogenic_upper_crust </param>
 
         <param name="MeltFractionProperty"> melt_fraction </param>
-        <param name="MeltFractionLimitProperty"> melt_max_fraction_crust </param>
+        <param name="MeltFractionLimitProperty"> melt_max_no_limit </param>
         <param name="MeltExpansionProperty"> melt_crustal_density_decrease </param>
         <param name="SolidusProperty"> melt_crustal_solidus </param>
         <param name="LiquidusProperty"> melt_crustal_liquidus </param>
@@ -487,7 +487,7 @@
     <struct name="lowercrust">
         <param name="Type"> RheologyMaterial </param>
         <param name="Shape"> lowercrustShape </param>
-        <param name="DensityProperty"> densMelt_continental_lower_crust </param>
+        <param name="DensityProperty"> densTemp_continental_lower_crust </param>
 
         <param name="DiffusivityProperty"> global_diffusivity </param>
         <param name="CpProperty"> global_cp </param>
@@ -495,7 +495,7 @@
         <param name="RadiogenicHeatProductionProperty"> radiogenic_lower_crust </param>
 
         <param name="MeltFractionProperty"> melt_fraction </param>
-        <param name="MeltFractionLimitProperty"> melt_max_fraction_crust </param>
+        <param name="MeltFractionLimitProperty"> melt_max_no_limit </param>
         <param name="MeltExpansionProperty"> melt_crustal_density_decrease </param>
         <param name="SolidusProperty"> melt_crustal_solidus </param>
         <param name="LiquidusProperty"> melt_crustal_liquidus </param>
@@ -514,7 +514,7 @@
     <struct name="lowercrustMarkers">
         <param name="Type"> RheologyMaterial </param>
         <param name="Shape"> lowercrustMarkersShape </param>
-        <param name="DensityProperty"> densMelt_continental_lower_crust </param>
+        <param name="DensityProperty"> densTemp_continental_lower_crust </param>
 
         <param name="DiffusivityProperty"> global_diffusivity </param>
         <param name="CpProperty"> global_cp </param>
@@ -522,7 +522,7 @@
         <param name="RadiogenicHeatProductionProperty"> radiogenic_lower_crust </param>
 
         <param name="MeltFractionProperty"> melt_fraction </param>
-        <param name="MeltFractionLimitProperty"> melt_max_fraction_crust </param>
+        <param name="MeltFractionLimitProperty"> melt_max_no_limit </param>
         <param name="MeltExpansionProperty"> melt_crustal_density_decrease </param>
         <param name="SolidusProperty"> melt_crustal_solidus </param>
         <param name="LiquidusProperty"> melt_crustal_liquidus </param>
@@ -543,7 +543,7 @@
     <struct name="mantle">
         <param name="Type"> RheologyMaterial </param>
         <param name="Shape"> mantleShape </param>
-        <param name="DensityProperty"> densMelt_continental_litho_mantle </param>
+        <param name="DensityProperty"> densTemp_continental_litho_mantle </param>
 
         <param name="DiffusivityProperty"> global_diffusivity </param>
         <param name="CpProperty"> global_cp </param>
@@ -551,7 +551,7 @@
         <param name="RadiogenicHeatProductionProperty"> radiogenic_lithospheric_mantle </param>
 
         <param name="MeltFractionProperty"> melt_fraction </param>
-        <param name="MeltFractionLimitProperty"> melt_max_fraction_mantle </param>
+        <param name="MeltFractionLimitProperty"> melt_max_no_limit </param>
         <param name="MeltExpansionProperty"> melt_mantle_density_decrease </param>
         <param name="SolidusProperty"> melt_mantle_solidus </param>
         <param name="LiquidusProperty"> melt_mantle_liquidus </param>
@@ -571,7 +571,7 @@
     <struct name="mantleMarkers">
         <param name="Type"> RheologyMaterial </param>
         <param name="Shape"> mantleMarkersShape </param>
-        <param name="DensityProperty"> densMelt_continental_litho_mantle </param>
+        <param name="DensityProperty"> densTemp_continental_litho_mantle </param>
 
         <param name="DiffusivityProperty"> global_diffusivity </param>
         <param name="CpProperty"> global_cp </param>
@@ -579,7 +579,7 @@
         <param name="RadiogenicHeatProductionProperty"> radiogenic_lithospheric_mantle </param>
 
         <param name="MeltFractionProperty"> melt_fraction </param>
-        <param name="MeltFractionLimitProperty"> melt_max_fraction_mantle </param>
+        <param name="MeltFractionLimitProperty"> melt_max_no_limit </param>
         <param name="MeltExpansionProperty"> melt_mantle_density_decrease </param>
         <param name="SolidusProperty"> melt_mantle_solidus </param>
         <param name="LiquidusProperty"> melt_mantle_liquidus </param>
