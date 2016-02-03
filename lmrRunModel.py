@@ -515,17 +515,15 @@ def find_last_timestep(path):
         last_ts = max( [int(os.path.basename(filename).split(".")[-2]) for filename in glob.glob(os.path.join(path, "VelocityField.*.h5"))] )
     except ValueError:  # You should really catch explicit exceptions...
         if not os.path.isdir(path):
-            error_msg = (
-                '\n=== ERROR ===\nThe LMR is looking for folder \'{path}\',\n'
-                'but it does not exist!\n'
-                'This can happen either when the LMR is looking for an initial-'
-                'condition, or when restarting a model.\n'.format(path=path))
+            error_msg = ("\n=== ERROR ===\nThe LMR is looking for folder:\n'{path}'\n"
+                    "but it does not exist!\n"
+                    "This can happen either when the LMR is looking for an initial-"
+                    "condition, or when restarting a model.\n").format(path=path)
         else:
-            error_msg = (
-                '\n=== ERROR ===\nUnable to find any files starting with \'Mesh.*.h5\' in the folder \'{}\'\n'
-                'If you are running a thermo-mechanical model from scratch, this may mean that you\n'
-                'need to either run the thermal equilibration phase, or run it for longer.\n'
-                'If you are restarting a job, make sure the <description> matches the previous model'.format(path))
+            error_msg = ("\n=== ERROR ===\nUnable to find any files that look like 'VelocityField.*.h5' in the folder:\n'{path}'\n"
+                "If you are running a thermo-mechanical model from scratch, this may mean that you\n"
+                "need to either run the thermal equilibration phase, or run it for longer.\n"
+                "If you are restarting a job, make sure the <description> matches the previous model").format(path=path)
         raise ValueError(error_msg)
     return last_ts
 
