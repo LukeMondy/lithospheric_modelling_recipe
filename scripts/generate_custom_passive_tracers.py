@@ -114,7 +114,7 @@ def main():
     print("""
         <struct name="customParticleLayout"> 
              <param name="Type"> FileParticleLayout </param>
-             <param name="filename"> {0} </param>
+             <param name="filename"> {0} </param> <!-- note there is NO .h5 -->
         </struct>
 
         <struct name="custom_marker_PTSwarm">
@@ -127,14 +127,14 @@ def main():
                 <param> user_passiveSwarmMovementHandler </param>
             </list>
         </struct>
-        <struct name="moho_marker_passiveTracerAdvect">
+        <struct name="custom_marker_passiveTracerAdvect">
             <param name="Type"> SwarmAdvector </param>
-            <param name="Swarm"> moho_marker_PTSwarm </param>
+            <param name="Swarm"> custom_marker_PTSwarm </param>
             <param name="TimeIntegrator"> timeIntegrator </param>
             <param name="VelocityField"> VelocityField </param>
             <param name="allowFallbackToFirstOrder"> True </param>
         </struct>
-    """.format(filename))
+    """.format(filename[:-3]))
 
 
     xmf = """<?xml version="1.0" ?>
