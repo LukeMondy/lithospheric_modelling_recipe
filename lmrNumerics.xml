@@ -386,6 +386,12 @@
         </struct>
         <!-- ============================================== -->
 
+	<!-- === Use multiple thermal timestpes if needed = -->
+	<struct name="EnergyEqn" mergeType="merge">
+		<param name="multiThermalSteps"> True </param>
+	</struct>
+        <!-- ============================================== -->
+
     </struct>
 
     <list name="plugins" mergeType="merge">
