@@ -23,7 +23,7 @@
         </checkpoint_frequency_options>
 
         <output_pictures> false </output_pictures>
-        <write_log_file> true </write_log_file>
+        <write_log_file> false </write_log_file>
     </Output_Controls>
 
     <Thermal_Equilibration>
@@ -79,8 +79,8 @@
     </Solver_Details>
 
     <Underworld_Execution>
-        <Underworld_binary> /home/luke/Programs/underworld2/libUnderworld/build/bin/Underworld </Underworld_binary> <!-- Replace with your own path to UW -->
-        <CPUs> 6 </CPUs>
+        <Underworld_binary> /EarthByte_Underworld/build/bin/Underworld </Underworld_binary> <!-- Replace with your own path to UW -->
+        <CPUs> 4 </CPUs>
         <supercomputer_mpi_format> false </supercomputer_mpi_format>
     </Underworld_Execution>
 
