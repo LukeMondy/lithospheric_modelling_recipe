@@ -288,13 +288,13 @@
         </struct>
 
         <struct name="radiogenic_lower_crust">
-            <!-- Derived from Hasterok and Chapman, EPSL, 2011 --><!-- Derived from Hasterok and Chapman, EPSL, 2011 -->
+            <!-- Derived from Hasterok and Chapman, EPSL, 2011 -->
             <param name="Type">Ppc_Constant</param>
             <param name="Value" units="W/(m*m*m)"> 0.6e-6 </param>
         </struct>
 
         <struct name="radiogenic_lithospheric_mantle">
-            <!-- Derived from Hasterok and Chapman, EPSL, 2011 --><!-- Derived from Hasterok and Chapman, EPSL, 2011 -->
+            <!-- Derived from Hasterok and Chapman, EPSL, 2011 -->
             <param name="Type">Ppc_Constant</param>
             <param name="Value" units="W/(m*m*m)"> 0.02e-6 </param>
         </struct>
@@ -465,8 +465,6 @@
 
         <!-- === Strain-rate/temperature dependent  ================== -->
         <!-- NOTE: Underworld uses this equation for HKViscousCreep:
-
-            OUT OF DATE!
 
             viscosity = 0.5 * pow( A, -1.0/n ) *
                         pow( eII, 1.0/n -1.0 ) *
