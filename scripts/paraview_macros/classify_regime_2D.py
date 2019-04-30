@@ -24,34 +24,31 @@ mags = []
 
 a = np.array([0, 1])
 
-for s1, s3 in zip(sigma1, sigma3):
-    # Get the angle from horizontal
-    s1p = np.degrees(np.arccos(np.dot(np.absolute(s1), a)))
-    s3p = np.degrees(np.arccos(np.dot(np.absolute(s3), a)))
-   
-    # Get the plunge
-    s1p = 90 - s1p
-    s3p = 90 - s3p
-    
-    regime = np.NAN
-    mag = np.NAN
-    
-    if 60 < s1p <= 90:
-        regime = 0 # "E"
-        mag = 1 - ((90 - s1p)/30)
-    if 60 < s3p <= 90:
-        regime = 2 # "C"
-        mag = 1 - ((90 - s3p)/30)
-    dirs.append(regime)
-    try:
-        mags.append(mag)
-    except:
-        mags.append(np.NAN)
+# Get the angle from horizontal
+s1p = np.degrees(np.arccos(np.einsum('ij,j->i', np.absolute(sigma1), a  )))
+s3p = np.degrees(np.arccos(np.einsum('ij,j->i', np.absolute(sigma3), a  )))
 
-npdirs = np.array(dirs)
-npmags = np.array(mags)
-output.PointData.append(npdirs, "SigDir")
-output.PointData.append(npmags, "Mags")
+# Get the plunge
+s1p = 90 - s1p
+s3p = 90 - s3p
+
+# Setup storage for results
+dirs = np.empty_like(s1p)
+mags = np.empty_like(s1p)
+dirs[::] = np.NAN
+mags[::] = np.NAN
+
+# Select the regions in extension and compression
+extension_regime = (60 < s1p) & (s1p <=90)
+compression_regime = (60 < s3p) & (s3p <=90)
+
+dirs[extension_regime] = -1  # -1 means extension
+mags[extension_regime] = 1 - ((90 - s1p[extension_regime])/30)
+dirs[compression_regime] = 1 # 1 means extension
+mags[compression_regime] = 1 - ((90 - s3p[compression_regime])/30)
+
+output.PointData.append(dirs, "SigDir")
+output.PointData.append(mags, "Mags")
 """
 SetActiveSource(ProgrammableFilter1)
 
