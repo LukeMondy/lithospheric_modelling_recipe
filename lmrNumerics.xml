@@ -403,7 +403,7 @@
                  ensure that the pressure at the surface is appro-
                  ximately 0 Pa. This is important for rheologies 
                  that rely on the lithostatic pressure (e.g., 
-                 Druger-Prager brittle faulting).
+                 Drucker-Prager brittle faulting).
                  The plugin calculates the average pressure across
                  the top of the model, and removes that value from
                  everywhere in the model. -->
